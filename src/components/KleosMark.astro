@@ -1,0 +1,29 @@
+---
+/**
+ * The Kleos house mark. Two rules and the record between them; the centre
+ * square is the atom it shares with the Kaleidoscope mark, and that shared
+ * square is the whole relationship between parent and product, so it is drawn,
+ * never omitted.
+ *
+ * TWO CUTS, PICKED BY SIZE, NOT ONE DRAWING SCALED. brand/README.md: "Optical
+ * sizes are not the same drawing scaled ... Pick by the tile you are drawing
+ * into, not by scaling one file." The base cut's 7-unit bars land at 1.75
+ * device pixels in a 16px tile and go to mush; kleos-mark-16.svg thickens them
+ * to 12 units and lengthens them to 56 for exactly that tile. Geometry below is
+ * verbatim from brand/kleos/kleos-mark-16.svg and brand/kleos/kleos-mark.svg.
+ */
+interface Props { size?: number }
+const { size = 16 } = Astro.props;
+const small = size <= 20;
+---
+{small ? (
+  <svg class="kleos-mark" viewBox="0 0 64 64" width={size} height={size} aria-hidden="true"><g fill="currentColor">
+  <rect x="4" y="11" width="56" height="12"/>
+  <rect x="26" y="26" width="12" height="12"/>
+  <rect x="4" y="41" width="56" height="12"/></g></svg>
+) : (
+  <svg class="kleos-mark" viewBox="0 0 64 64" width={size} height={size} aria-hidden="true"><g fill="currentColor">
+  <rect x="8" y="15" width="48" height="7"/>
+  <rect x="28.5" y="28.5" width="7" height="7"/>
+  <rect x="8" y="42" width="48" height="7"/></g></svg>
+)}

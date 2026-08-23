@@ -1,0 +1,122 @@
+---
+title: Give your agent the skill
+description: How an agent is told Kaleidoscope exists — the skill file, the marked block, and the four files, offered for download.
+---
+import DownloadCard from '../../../components/DownloadCard.astro';
+
+An agent only uses memory if something told it to. Kaleidoscope ships one skill
+file and a short pointer for whichever instruction file your project already has,
+and it installs them as a block it owns, so it can take them out again exactly.
+
+Nothing is written to `CLAUDE.md` or `AGENTS.md` as a side effect of installing,
+running or connecting anything. It is a command a human runs, it previews before
+it writes, and it has an exact inverse.
+
+## The four files
+
+Every one is published here, byte for byte, as the manager would install it.
+
+<DownloadCard href="/SKILL.md" name="SKILL.md">
+
+The skill itself — about 600 words telling an agent how to use `search` and
+`remember`, when to retrieve, what is worth persisting, and what never to store.
+Goes to `.agents/skills/use-kaleidoscope/SKILL.md`.
+
+</DownloadCard>
+
+<DownloadCard href="/snippets/AGENTS.md" name="AGENTS.md snippet">
+
+One paragraph pointing at the skill, wrapped in its markers. Appended to your
+project's `AGENTS.md`.
+
+</DownloadCard>
+
+<DownloadCard href="/snippets/CLAUDE.md" name="CLAUDE.md snippet">
+
+The same paragraph for `CLAUDE.md`.
+
+</DownloadCard>
+
+<DownloadCard href="/snippets/cursor-kaleidoscope.mdc" name="Cursor rule">
+
+The same paragraph as a Cursor project rule, with `alwaysApply: true`.
+
+</DownloadCard>
+
+## What gets added to your file
+
+This is the whole of it. The two comments are the point: they mark where
+Kaleidoscope's text starts and stops.
+
+```md title="CLAUDE.md" wrap
+<!-- >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+## Kaleidoscope memory
+
+For nontrivial tasks, read and follow `.agents/skills/use-kaleidoscope/SKILL.md` before using Kaleidoscope. Use only the public `search` and `remember` tools for agent work. Retrieve at task start, persist only verified durable semantic deltas, never store secrets or transcripts, and leave the required exposure record. If the skill or authenticated tools are unavailable, continue without inventing memory operations.
+<!-- <<< kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+```
+
+Nothing else in your file is touched, and nothing is added a second time if you
+run it twice.
+
+The block is a pointer, not the skill. It tells the agent to read the skill
+file, to use only `search` and `remember`, to retrieve at task start, to persist
+only verified durable changes, never to store secrets or transcripts, and to
+carry on normally if the tools are not there.
+
+## The four targets
+
+| target | lands at | form |
+|---|---|---|
+| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| `agents` | `AGENTS.md` in the project | one marked block, appended |
+| `claude` | `CLAUDE.md` in the project | one marked block, appended |
+| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+
+In `AGENTS.md` and `CLAUDE.md` the block is delimited by an HTML comment pair.
+In `SKILL.md` and the Cursor rule the file *is* Kaleidoscope's, so the pair
+wraps the whole of it: the opening marker sits in the frontmatter as a `#`
+comment and the closing marker is the last line of the file. That marked pair is
+what makes a second install idempotent instead of duplicating, what makes
+removal exact, and what the manager checks before touching a file at all.
+
+Six guarantees govern every one of those writes: it previews before writing; it
+asks you to confirm unless you explicitly bypass that; it leaves unrelated
+content alone; it writes atomically with a bounded backup; running it again
+changes nothing; and removal takes out only what it owns. A target that is
+unknown, conflicting, symlinked, hand-edited inside the markers, or changed
+underneath it is refused, not overwritten.
+
+## Doing it by hand, which is what you can do today
+
+There is no build to install yet, so the commands below are the reference for
+what they will do rather than something you can run. In the meantime the files
+above are the whole mechanism, and pasting them by hand works:
+
+1. Save `SKILL.md` to `.agents/skills/use-kaleidoscope/SKILL.md` in your project.
+2. Paste the matching snippet into `AGENTS.md`, `CLAUDE.md`, or your Cursor rules
+   — **keep the two marker comments**. They are what lets Kaleidoscope adopt the
+   block later, and remove it exactly, instead of treating it as your own text.
+
+## The commands, for when there is a build
+
+```bash
+kaleidoscope instructions install skill  --project "$PWD"
+kaleidoscope instructions install agents --project "$PWD" --dry-run
+kaleidoscope instructions install agents --project "$PWD"
+kaleidoscope instructions install claude --project "$PWD"
+kaleidoscope instructions install cursor --project "$PWD"
+
+kaleidoscope instructions remove cursor --project "$PWD" --dry-run
+kaleidoscope instructions remove cursor --project "$PWD"
+```
+
+`--dry-run` prints the plan and changes nothing. Without `--yes` you are asked to
+confirm. `instructions remove` is the exact inverse of `instructions install`:
+it takes out the marked block and leaves the rest of the file as it was. If you
+edited inside the markers, it stops and hands the file back rather than
+overwriting your work.
+
+Full command reference: [the instructions commands](/docs/cli/instructions/).
+What the two tools actually do: [MCP reference](/docs/mcp/).
+The same text as a single file: [agent-instructions.md](/agent-instructions.md).

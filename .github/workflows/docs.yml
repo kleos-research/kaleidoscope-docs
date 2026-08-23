@@ -8,28 +8,127 @@ on:
 permissions:
   contents: read
 
+# What this job protects, in one place, because the answer changed with the
+# migration and a silent weakening is worse than a stated one.
+#
+#   1. Served equals committed. GitHub Pages serves main:/docs, unconditionally.
+#      UNCHANGED by this migration, and enforced by GitHub rather than by us.
+#   2. Committed equals reviewable. A human can read, in the PR diff, what will
+#      be served. THIS WEAKENS FOR HALF THE CHANGES, AND THE HALF WAS MEASURED.
+#      A one-sentence content edit touches exactly three artifact paths — the
+#      page, llms-full.txt, site-manifest.json — and that diff is as readable as
+#      it ever was. A one-rule CSS edit touches 42, because the content-hashed
+#      stylesheet is renamed in all 41 HTML files; THAT is the churn nobody
+#      reads. So .gitattributes collapses docs/_astro/** and nothing else, and
+#      the reviewable content diff stays visible. For CSS, JS and component
+#      changes review moves to the source plus a reproducible build, and step 7
+#      below still compares every collapsed file in full. The formal property
+#      survives everywhere. The human one survives for content and does not
+#      survive for presentation, and that is the cost of the migration.
+#   3. Committed equals a fresh build of the reviewed source. UNCHANGED IN
+#      FORCE, but its precondition is new: reproducibility used to be a property
+#      of a stdlib-only Python emitter, and is now a property of a pinned
+#      toolchain. That is why Node is pinned exactly in .nvmrc, why `npm ci` is
+#      mandatory and `npm install` is forbidden here, why package-lock.json is
+#      committed, why the build clears its caches first, and why astro:assets
+#      and sourcemaps are forbidden. Step 7 is load-bearing, not ceremonial.
+#
+# One thing that is already weaker than it looks and is NOT caused by this
+# migration: `main` has no required status checks and requires zero approving
+# reviews, so a pull request can merge with this job red or never run, and Pages
+# will serve the committed bytes anyway. Until `docs` is a required status check
+# and approvals are raised to 1, claim 3 is advisory. Fix that in the repository
+# settings; no file in this repository can do it.
+
 jobs:
   public-docs-artifact:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python -m unittest discover -s tests -v
-      - run: python build_site.py --output .site --public-docs --release-metadata public-docs-release.json
-      - run: python verify_site.py .site --mode public_docs
-      - name: Check in the exact reviewed Pages artifact
-        run: diff --brief --recursive .site docs
-      - name: Production must require immutable release metadata
+
+      # npm ci, never npm install. `npm install` may resolve a different tree
+      # than package-lock.json pins, and a different tree can emit different
+      # bytes, which turns step 7 from a check into a coin toss.
+      - name: Install the pinned toolchain
+        run: npm ci
+
+      # clean -> astro build -> site-manifest.json -> verify_site.py.
+      # The clean is not tidiness: a stale .astro/Vite cache silently ignored an
+      # expressiveCode change across a full rebuild during prototyping, and on a
+      # repository whose guarantee is "what deploys is what was reviewed", a
+      # stale cache is precisely the failure the guarantee exists to prevent.
+      - name: Build and verify the public documentation artifact
+        run: npm run build
+
+      - name: Run the gate tests
+        run: python -m unittest discover -s tests -v
+
+      # A gate that has never been made to fail has not been shown to be able
+      # to fail. These break exactly one thing at a time and check that the
+      # refusal arrives — and both refuse to pass unless the UNMODIFIED control
+      # is accepted, because a verifier that refuses everything catches every
+      # violation and is worthless.
+      - name: Every gate can be driven to a known positive
         run: |
-          if python build_site.py --output .production-without-release --production; then
-            echo "production build unexpectedly accepted missing release metadata" >&2
-            exit 1
-          fi
-      - name: Public docs must require immutable release metadata
+          python3 tests/gates/plant_violations.py
+          node tests/gates/gate_c_refusals.mjs
+
+      # Gate (d), claim 3. A fresh build of the reviewed source must equal the
+      # committed artifact byte for byte, generated bundles included.
+      - name: The committed artifact is a fresh build of the reviewed source
+        run: diff --brief --recursive dist docs
+
+      # Gate (c), negative test 1. The old form of this step passed on ANY
+      # nonzero exit, so an ImportError, a typo in the command, or a renamed
+      # flag all read as "correctly refused" — a pass condition that is
+      # satisfied hardest when the check itself is broken. Assert the exit
+      # status AND the message.
+      - name: A public-docs build must refuse to run without immutable release metadata
         run: |
-          if python build_site.py --output .public-docs-without-release --public-docs; then
-            echo "public docs build unexpectedly accepted missing release metadata" >&2
-            exit 1
-          fi
+          set +e
+          out=$(KALEIDOSCOPE_DOCS_RELEASE=/nonexistent/release.json DOCS_MODE=public_docs npx astro build --outDir ./dist-no-release 2>&1)
+          rc=$?
+          set -e
+          rm -rf dist-no-release
+          test "$rc" -ne 0 || { echo "build accepted missing release metadata" >&2; exit 1; }
+          echo "$out" | grep -q "public_docs build requires immutable release metadata" \
+            || { echo "build failed for the wrong reason:" >&2; echo "$out" >&2; exit 1; }
+
+      - name: A production build must refuse to run without immutable release metadata
+        run: |
+          set +e
+          out=$(KALEIDOSCOPE_DOCS_RELEASE=/nonexistent/release.json DOCS_MODE=production npx astro build --outDir ./dist-no-release 2>&1)
+          rc=$?
+          set -e
+          rm -rf dist-no-release
+          test "$rc" -ne 0 || { echo "build accepted missing release metadata" >&2; exit 1; }
+          echo "$out" | grep -q "production build requires immutable release metadata" \
+            || { echo "build failed for the wrong reason:" >&2; echo "$out" >&2; exit 1; }
+
+      # Gate (e) is the one gate that can only be proved by breaking something,
+      # because its whole subject is a build that succeeds while emitting
+      # nothing. `astro build` exits 0 in that state. Prove here, on every run,
+      # that the verifier can still tell the difference — a gate nobody has seen
+      # fail is not known to work.
+      - name: The content-presence gate can still see an empty page
+        run: |
+          set -eu
+          rm -rf dist-empty && cp -R dist dist-empty
+          python3 -c 'import re,sys,pathlib; p=pathlib.Path(sys.argv[1]); p.write_text(re.sub(r"(<div class=\"sl-markdown-content\">).*?(</div>)", r"\1\2", p.read_text(encoding="utf-8"), count=1, flags=re.S), encoding="utf-8")' dist-empty/docs/concepts/index.html
+          set +e
+          out=$(python3 verify_site.py dist-empty --mode public_docs 2>&1)
+          rc=$?
+          set -e
+          rm -rf dist-empty
+          test "$rc" -ne 0 || { echo "the content-presence gate did not fire on an emptied page" >&2; exit 1; }
+          echo "$out" | grep -q "a page can build clean and ship empty" \
+            || { echo "the verifier failed for the wrong reason:" >&2; echo "$out" >&2; exit 1; }

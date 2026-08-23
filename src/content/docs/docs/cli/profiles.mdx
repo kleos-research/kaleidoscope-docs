@@ -1,0 +1,63 @@
+---
+title: Profiles and vaults
+description: init and the profile commands — creating a vault at a path you own, listing profiles, and choosing which one is active.
+---
+
+A profile is one memory store on your machine: a vault directory at a path you
+chose, plus the settings needed to open it. Everything else in Kaleidoscope
+points at a profile by name.
+
+## Create a profile
+
+```bash
+kaleidoscope init --root /absolute/path/to/your/kaleidoscope-memory --profile default
+kaleidoscope init --root /absolute/path --profile work --durability durable-local
+```
+
+`--root` is the vault directory. It must be an absolute path; a missing or
+invalid root is refused rather than created for you, so nothing is silently
+written to the wrong place. `--profile` names the profile, and `default` is the
+name every other command assumes if you do not say otherwise.
+
+`--durability` chooses how hard the engine works to get writes onto the disk.
+`process-local` is the ordinary choice. `durable-local` asks for the stronger
+guarantee and is refused unless the engine can prove the platform supports it,
+rather than being accepted and quietly downgraded.
+
+## List, inspect, switch, remove
+
+```bash
+kaleidoscope profile list
+kaleidoscope profile show default
+kaleidoscope profile use work
+kaleidoscope profile remove work
+```
+
+`profile list` shows the profiles this machine knows and which one is active.
+`profile show` prints one of them. `profile use` changes which profile is active
+for commands that do not name one.
+
+`profile remove` forgets a profile. It does not delete the vault the profile
+pointed at — your memory is a directory on your disk and it stays there. Getting
+rid of the memory itself is a separate, deliberate act; see
+[Operations](/docs/operations/).
+
+## Bind a profile to an account
+
+```bash
+kaleidoscope profile account show [NAME]
+kaleidoscope profile account bind ACCOUNT_UUID [NAME]
+kaleidoscope profile account unbind [NAME]
+```
+
+These write a local, non-secret account reference into a profile and nothing
+more. They do not start the engine, contact any service, touch a vault, or store
+a credential. They are the only account-shaped commands that work offline,
+because they never leave your machine. The rest are on
+[the account page](/docs/cli/account/).
+
+## What a profile is not
+
+It is not a copy of your memory, and it is not a credential store. Deleting a
+profile, switching profiles, or reinstalling Kaleidoscope leaves every byte of
+every vault exactly where it was.

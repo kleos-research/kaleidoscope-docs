@@ -1,0 +1,40 @@
+---
+title: Claude Agent SDK
+description: Give a Claude Agent SDK run one Kaleidoscope MCP client and a strict two-name tool allowlist.
+---
+
+Create one Claude Agent SDK client for the run you intend, and hand it a stdio
+MCP configuration that names the Kaleidoscope tools explicitly. One client, one
+process, for the whole run.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Put that descriptor in the SDK's own stdio MCP configuration. One client, opened
+around the run and closed at the end — not a fresh engine process per tool call.
+
+## What it writes
+
+Nothing on your disk. The descriptor sets an empty environment for the child
+process, so account tokens, vault locations and provider keys never reach it.
+Your model-provider credentials stay in your own application.
+
+## The one thing that is different here
+
+The tool allowlist is two names, and you write them out:
+
+```text
+mcp__kaleidoscope__search
+mcp__kaleidoscope__remember
+```
+
+Anything else is not a Kaleidoscope tool. Operator commands are never offered to
+a model, so there is no third name to add.
+
+## Disconnect
+
+Close the client. Remove the descriptor from your SDK configuration; nothing
+else was changed.

@@ -1,0 +1,2 @@
+Review drafts — not in force.
+The product terms below have not been reviewed by legal counsel. Apache-2.0 and CC BY 4.0 are authorized license selections and are in force for the material they cover. The engine EULA, privacy notice, security policy, and support policy are source-controlled drafts: not in force, not offers or contracts, and not a description of terms that govern anything today. The production entity, jurisdiction, contacts, operational commitments, and external legal review are all outstanding.

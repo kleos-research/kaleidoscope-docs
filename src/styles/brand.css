@@ -1,0 +1,263 @@
+/* Kaleidoscope — kaleidoscope-dark, verbatim from brand/tokens/tokens.json.
+   Do not re-derive a value. Starlight's own tokens live in @layer
+   starlight.base; this file is unlayered and therefore wins. */
+:root,
+:root[data-theme='dark'],
+:root[data-theme='light'] {
+  /* the six canonical values */
+  --k-bg:     #0B0B0C;
+  --k-raised: #131315;
+  --k-rule:   #232325;
+  --k-muted:  #8C887F;
+  --k-ink:    #EAE7E0;
+  --k-brass:  #CFA757;
+
+  /* sanctioned extensions — NOT in tokens.json, derived for surfaces the six
+     do not cover. --k-muted is the dimmest value permitted on text: it clears
+     4.5:1 on both --k-bg and --k-raised, and nothing dimmer does. */
+  --k-raised-2: #1B1B1D;  /* second elevation, never a text colour */
+  --k-rule-2:   #2E2E30;  /* emphasised hairline, never a text colour */
+  --k-body:     #C3BFB6;  /* long-form body text */
+
+  /* ---- ground and ink ---- */
+  --sl-color-bg:            var(--k-bg);
+  --sl-color-bg-nav:        var(--k-bg);
+  --sl-color-bg-sidebar:    var(--k-bg);
+  --sl-color-black:         var(--k-bg);
+  --sl-color-bg-inline-code: var(--k-raised);
+  --sl-color-gray-7:        var(--k-raised);
+  --sl-color-gray-6:        var(--k-raised-2);
+  --sl-color-gray-5:        var(--k-rule);
+  --sl-color-gray-4:        var(--k-rule-2);
+  --sl-color-gray-3:        var(--k-muted);
+  --sl-color-gray-2:        var(--k-body);
+  --sl-color-gray-1:        var(--k-ink);
+  --sl-color-white:         var(--k-ink);
+  --sl-color-text:          var(--k-body);
+  --sl-color-hairline:            var(--k-rule);
+  --sl-color-hairline-light:      var(--k-rule);
+  --sl-color-hairline-shade:      var(--k-rule);
+
+  /* ---- brass: the accent, and it exists nowhere else in the system ---- */
+  --sl-color-accent:       var(--k-brass);
+  --sl-color-accent-low:   var(--k-raised-2);
+  --sl-color-accent-high:  var(--k-brass);
+  --sl-color-text-accent:  var(--k-brass);
+  --sl-color-bg-accent:    var(--k-brass);
+
+  /* ---- semantic asides, flattened onto the palette ---- */
+  --sl-color-blue:   var(--k-brass);  --sl-color-blue-low:   var(--k-raised);  --sl-color-blue-high:   var(--k-ink);
+  --sl-color-green:  var(--k-brass);  --sl-color-green-low:  var(--k-raised);  --sl-color-green-high:  var(--k-ink);
+  --sl-color-orange: var(--k-brass);  --sl-color-orange-low: var(--k-raised);  --sl-color-orange-high: var(--k-ink);
+  --sl-color-red:    var(--k-brass);  --sl-color-red-low:    var(--k-raised);  --sl-color-red-high:    var(--k-ink);
+  --sl-color-purple: var(--k-brass);  --sl-color-purple-low: var(--k-raised);  --sl-color-purple-high: var(--k-ink);
+
+  /* ---- type ---- */
+  --sl-font:      Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sl-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --k-font-serif: Newsreader, Georgia, "Times New Roman", serif;
+
+  /* fixed px, no clamp — the scale is the one the site already ships */
+  --sl-text-2xs: 9.5px;  --sl-text-xs: 11px;   --sl-text-sm: 12.5px;
+  --sl-text-base: 13px;  --sl-text-lg: 15px;   --sl-text-xl: 17px;
+  --sl-text-2xl: 19px;   --sl-text-3xl: 22px;  --sl-text-4xl: 26px;
+  --sl-text-5xl: 32px;   --sl-text-6xl: 40px;
+  --sl-text-body: 13px;  --sl-text-body-sm: 12.5px;  --sl-text-code: 12.5px;
+  /* Starlight routes INLINE code through --sl-text-code-sm, not --sl-text-code,
+     and its default is --sl-text-xs. So the 12.5px pinned above governed <pre>
+     only and inline code shipped at 11px in 13px prose — a pinned token that
+     was not in effect, which is the same defect as the body scale being inert
+     before it was applied to <body>. Pin both or neither. */
+  --sl-text-code-sm: 12.5px;
+  --sl-text-h1: 40px; --sl-text-h2: 26px; --sl-text-h3: 19px;
+  --sl-text-h4: 15px; --sl-text-h5: 13px;
+  --sl-line-height: 1.62;
+  --sl-line-height-headings: 1.2;
+
+  /* ---- geometry ---- */
+  --sl-content-width: 46rem;
+  --sl-sidebar-width: 17rem;
+  --sl-nav-height: 3.5rem;
+  --sl-shadow-sm: none; --sl-shadow-md: none; --sl-shadow-lg: none;
+
+  color-scheme: dark;
+}
+
+/* Nothing in the system is rounded except the app-icon tile, and this site does
+   not draw that tile. One reset, unlayered, beats every Starlight component
+   rule; do not chase individual selectors. */
+*, *::before, *::after { border-radius: 0; }
+
+body { background: var(--k-bg); color: var(--k-body); }
+
+h1, h2 { font-family: var(--k-font-serif); font-weight: 400; letter-spacing: -.015em; color: var(--k-ink); }
+h3, h4, h5, h6 { font-family: var(--sl-font); font-weight: 500; color: var(--k-ink); }
+.sl-markdown-content { color: var(--k-body); }
+.sl-markdown-content a { color: var(--k-brass); text-underline-offset: 2px; }
+
+/* metadata is mono, uppercase, tracked — the third face earns its place here */
+.k-meta { font: 500 9.5px/1.4 var(--sl-font-mono); letter-spacing: .13em; text-transform: uppercase; color: var(--k-muted); }
+
+/* a 64-character digest must not scroll the whole page sideways */
+.sl-markdown-content p code { overflow-wrap: anywhere; }
+
+/* clipped scrollers are keyboard-reachable */
+.table-scroll { overflow-x: auto; border: 1px solid var(--k-rule); }
+.table-scroll:focus-visible, pre:focus-visible { outline: 2px solid var(--k-brass); outline-offset: 2px; }
+
+/* the pre-release strip */
+.strip { border-bottom: 1px solid var(--k-rule); background: var(--k-raised); }
+.strip-inner { display: flex; gap: 10px; align-items: baseline; max-width: 88rem; margin: 0 auto; padding: 9px 1.5rem; }
+.strip .dot { width: 6px; height: 6px; background: var(--k-brass); flex: none; }
+.strip .t { font: 500 11px/1 var(--sl-font-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--k-brass); }
+.strip .d { font-size: 12.5px; color: var(--k-muted); }
+.strip .d a { color: var(--k-ink); }
+
+/* the legal review-draft band */
+.notice-band { border-bottom: 1px solid var(--k-rule); background: var(--k-raised-2); }
+.notice-band .draft-notice { max-width: 88rem; margin: 0 auto; padding: 12px 1.5rem; font-size: 12.5px; color: var(--k-body); }
+
+/* footer endorsement */
+.k-footer { border-top: 1px solid var(--k-rule); margin-top: 48px; padding: 24px 0; font-size: 12.5px; color: var(--k-muted); }
+.k-footer a { color: var(--k-muted); }
+.k-footer a:hover { color: var(--k-ink); }
+.k-footer .kleos { display: inline-flex; gap: 8px; align-items: center; }
+
+/* ==========================================================================
+   Below this line: layout wiring the pinned components above require, and
+   nothing else. No colour here is re-derived — every one is a var() on the
+   six canonical tokens or on the three sanctioned extensions.
+   ========================================================================== */
+
+/* --- header: the four-item nav lives in the SiteTitle slot, which
+   is the only Starlight header slot that renders on every route. Starlight
+   sizes that slot for a wordmark, so the grid it builds at >=50rem is
+   replaced by a single flex row. --- */
+.header { display: flex; align-items: center; gap: 1.5rem; }
+.header .title-wrapper { overflow: visible; flex: 1 1 auto; min-width: 0; }
+.header .right-group { display: none; }
+
+.k-lockup { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 1.5rem; }
+/* text-decoration: none is load-bearing. Replacing Starlight's site-title rule
+   dropped its reset with it, and the UA default underlined the brand lockup on
+   every page — a bone rule under "Kaleidoscope" in the header. */
+.k-lockup .site-title { font-family: var(--k-font-serif); font-weight: 400; font-size: 17px; letter-spacing: 0; color: var(--k-ink); gap: 9px; text-decoration: none; }
+.k-lockup .site-title:hover { color: var(--k-ink); text-decoration: none; }
+.k-lockup .site-title .kaleidoscope-mark { color: var(--k-brass); flex: none; }
+
+.k-nav { display: flex; gap: 1.375rem; align-items: center; }
+.k-nav a { font-size: 12.5px; color: var(--k-muted); text-decoration: none; white-space: nowrap; }
+.k-nav a:hover { color: var(--k-ink); }
+.k-nav a[aria-current='page'] { color: var(--k-ink); }
+@media (max-width: 30rem) {
+  .k-nav { gap: 0.875rem; }
+  .k-lockup .site-title span.wordmark { display: none; }
+}
+
+/* --- the strip bleeds to the edges of the main pane, since Starlight renders
+   the Banner slot inside <main>. --- */
+.strip { margin: calc(var(--sl-main-pad, 1.5rem) * -1); margin-bottom: 1.5rem; }
+.notice-band { margin: calc(var(--sl-main-pad, 1.5rem) * -1); margin-bottom: 1.5rem; }
+.notice-band + .strip, .strip + .notice-band { margin-top: 0; }
+
+/* --- sidebar --- */
+.sidebar-content { font-size: 12.5px; }
+.sidebar-content a { color: var(--k-muted); }
+.sidebar-content a:hover { color: var(--k-ink); }
+.sidebar-content a[aria-current='page'] { background: var(--k-raised); color: var(--k-brass); font-weight: 500; }
+/* group headings are metadata; top-level sidebar links (`a.large`) are links */
+.sidebar-content .group-label { font: 500 9.5px/1.4 var(--sl-font-mono); letter-spacing: .13em; text-transform: uppercase; color: var(--k-muted); }
+.sidebar-content a.large { font-size: 12.5px; font-weight: 500; color: var(--k-ink); }
+.sidebar-content a.large:hover { color: var(--k-brass); }
+
+/* --- tables --- */
+.sl-markdown-content table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.sl-markdown-content th, .sl-markdown-content td { border-bottom: 1px solid var(--k-rule); padding: 8px 12px; text-align: start; vertical-align: top; }
+.sl-markdown-content th { font: 500 9.5px/1.4 var(--sl-font-mono); letter-spacing: .13em; text-transform: uppercase; color: var(--k-muted); }
+.table-scroll { margin-block: 1.25rem; }
+.table-scroll > table { border: 0; }
+
+/* --- download card (spec 5.4) --- */
+.k-download { border: 1px solid var(--k-rule); background: var(--k-raised); padding: 14px 16px; margin-block: 12px; }
+.k-download .n { font: 500 12.5px/1.4 var(--sl-font-mono); color: var(--k-ink); }
+.k-download .b { font-size: 12.5px; color: var(--k-body); margin: 6px 0 10px; }
+.k-download .a { display: flex; gap: 18px; font-size: 12.5px; }
+
+/* --- misc chrome --- */
+.site-title:focus-visible, .k-nav a:focus-visible, .k-footer a:focus-visible { outline: 2px solid var(--k-brass); outline-offset: 2px; }
+.sl-markdown-content blockquote { border-inline-start: 2px solid var(--k-rule-2); padding-inline-start: 1rem; color: var(--k-muted); }
+
+/* --- type: Starlight never sets a font-size on <body>, so the pinned scale
+   above is inert until it is applied. Without this the site reads at the
+   browser default of 16px and none of --sl-text-* is in effect. --- */
+body {
+  font-family: var(--sl-font);
+  font-size: var(--sl-text-body);
+  line-height: var(--sl-line-height);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1 { text-wrap: balance; }
+/* long-form measure — 46rem of 13px text is ~90 characters, which is not a
+   reading measure. The rule the current site ships is 72ch. */
+.sl-markdown-content p, .sl-markdown-content li { max-width: 72ch; line-height: 1.68; }
+.sl-markdown-content li > p { max-width: none; }
+
+/* the label is two words and must not break across them */
+.strip .t { white-space: nowrap; }
+
+/* --- the mobile menu button ships as a filled bone circle. The reset already
+   squares it; this puts it on the ground with a hairline instead of making it
+   the brightest object in the header. --- */
+starlight-menu-button button { background: var(--k-bg); color: var(--k-muted); border: 1px solid var(--k-rule); }
+starlight-menu-button button:hover { background: var(--k-raised); color: var(--k-ink); }
+starlight-menu-button button[aria-expanded='true'] { background: var(--k-raised); color: var(--k-brass); border-color: var(--k-rule-2); }
+
+/* --- the mobile "On this page" control --- */
+mobile-starlight-toc nav { border-bottom: 1px solid var(--k-rule); background: var(--k-bg); }
+mobile-starlight-toc nav summary { font-size: 12.5px; color: var(--k-muted); }
+mobile-starlight-toc nav .display-current { color: var(--k-ink); }
+
+/* --- splash hero: Starlight's `.minimal` link-button carries one rule,
+   `{ color: var(--sl-color-white); padding-inline: 0 }`, and NO hover rule. On
+   our palette that resolves to body ink on the ground: the two secondary calls
+   to action read as sentences, not links, at rest and on hover both. The skill
+   page is the one the owner called the biggest gap on the site, and its front
+   door was one of the two. --- */
+.hero .sl-link-button.minimal {
+  color: var(--k-brass);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.hero .sl-link-button.minimal:hover { color: var(--k-ink); }
+
+/* --- a <thead> whose every cell is empty renders as a blank uppercase band
+   with a rule under it, and reads to a screen reader as a row of unlabelled
+   headers. Markdown gives no way to omit the header row, so drop it when it
+   carries nothing. The rule is :has()-gated on there being no non-empty th. --- */
+.sl-markdown-content table thead:not(:has(th:not(:empty))) { display: none; }
+
+/* --- the skip link is the FIRST focusable element on every page, and Starlight
+   ships it unstyled: a browser-default lavender (#9e9eff) on a transparent
+   ground, fixed at the top of the viewport. A keyboard user's very first
+   interaction with this site painted an off-system colour over the content, on
+   all 39 pages, and it is invisible in a screenshot because it only appears on
+   focus. --- */
+.sl-skip-link {
+  color: var(--k-bg);
+  background: var(--k-brass);
+  border: 1px solid var(--k-brass);
+  padding: 8px 14px;
+  font: 500 12.5px/1 var(--sl-font);
+  text-decoration: none;
+}
+.sl-skip-link:focus-visible { outline: 2px solid var(--k-ink); outline-offset: 2px; }
+
+/* --- the copy button and its icon carry an unstyled `color: #fff`, brighter
+   than --k-ink. It paints nothing today (the icon is a mask, the label is a
+   `title` attribute), but leaving it means "every rendered colour on this site
+   is one of the nine" is nearly-true rather than true, and nearly-true is not
+   a property anything can check. --- */
+.expressive-code .copy button, .expressive-code .copy button div { color: var(--k-ink); }

@@ -1,0 +1,35 @@
+---
+title: Any other MCP client
+description: Read Kaleidoscope's launch descriptor and run it as one long-lived stdio MCP server from any standard client.
+---
+
+Any standard MCP client can ask Kaleidoscope for its launch descriptor and keep
+one initialized session open for the whole run. You do not have to hand-write
+the command.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+What comes back is deliberately closed: an absolute command,
+`mcp --profile NAME`, `stdio`, exactly two tools, and an empty environment. Give
+that to your client as its server definition.
+
+## What it writes
+
+Nothing. There is no `connect` support for a client Kaleidoscope does not know
+by name, so you place the descriptor in your own configuration and you own that
+file. Do not add your vault location or a token to it.
+
+## The one thing that is different here
+
+One descriptor, one long-lived stdio process. Initialize once, check that you
+see exactly `search` and `remember`, then reuse that session for the rest of the
+run. Starting a new process per tool call is slower and gains you nothing.
+
+## Disconnect
+
+Remove the server definition from your own configuration. Kaleidoscope wrote
+nothing, so there is nothing for it to take back out.

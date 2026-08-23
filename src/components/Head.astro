@@ -1,0 +1,103 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+
+/**
+ * Starlight's Head, plus the two things it does not emit and the verifier
+ * requires: a `robots` meta and exactly one JSON-LD block.
+ *
+ * Everything static — fonts, favicons, the social card — is in `head:` in
+ * astro.config.mjs instead, because Starlight's `createHead` dedupes those on
+ * `name` / `property` / `rel` and would otherwise emit two of each.
+ *
+ * No `new Date()` anywhere in here. Every date on this site comes from
+ * public-docs-release.json or src/data/status.json; a build clock would make
+ * two builds of one source differ, and the recursive dist/docs diff is what
+ * proves what deploys is what was reviewed.
+ */
+const DOMAIN = 'https://memory.kleosresearch.xyz';
+const MODE = import.meta.env.PUBLIC_DOCS_MODE ?? 'public_docs';
+
+const route = (Astro.locals as any)?.starlightRoute;
+const data = route?.entry?.data ?? {};
+const path = Astro.url.pathname;
+
+const isDocs = path.startsWith('/docs/');
+const noindex =
+  MODE === 'staging' ||
+  data.noindex === true ||
+  path === '/404' ||
+  path === '/404.html';
+
+const title: string = data.title ?? 'Kaleidoscope';
+const description: string = data.description ?? '';
+const canonical = `${DOMAIN}${path}`;
+
+/** Breadcrumbs from the URL, so the trail cannot drift from the route. */
+const segments = path.split('/').filter(Boolean);
+const crumbs = [{ name: 'Kaleidoscope', item: `${DOMAIN}/` }];
+let walked = '';
+for (const segment of segments) {
+  walked += `/${segment}`;
+  crumbs.push({
+    name: segment === 'docs' ? 'Docs' : segment.replace(/-/g, ' '),
+    item: `${DOMAIN}${walked}/`,
+  });
+}
+
+const structured = isDocs
+  ? {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'TechArticle',
+          '@id': `${canonical}#article`,
+          headline: title,
+          ...(description ? { description } : {}),
+          url: canonical,
+          inLanguage: 'en',
+          isPartOf: { '@type': 'WebSite', name: 'Kaleidoscope', url: `${DOMAIN}/` },
+          publisher: {
+            '@type': 'Organization',
+            name: 'Kleos Research',
+            url: 'https://kleosresearch.xyz/',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          '@id': `${canonical}#breadcrumbs`,
+          itemListElement: crumbs.map((crumb, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: crumb.name,
+            item: crumb.item,
+          })),
+        },
+      ],
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Organization',
+          '@id': `${DOMAIN}/#organization`,
+          name: 'Kleos Research',
+          url: 'https://kleosresearch.xyz/',
+        },
+        {
+          '@type': 'SoftwareApplication',
+          '@id': `${DOMAIN}/#software`,
+          name: 'Kaleidoscope',
+          applicationCategory: 'DeveloperApplication',
+          operatingSystem: 'macOS',
+          description:
+            'Local native memory for AI agents, exposed through a staged manager CLI and stdio MCP contract.',
+          publisher: { '@id': `${DOMAIN}/#organization` },
+          url: DOMAIN,
+        },
+      ],
+    };
+---
+
+<Default><slot /></Default>
+<meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow'} />
+<script type="application/ld+json" set:html={JSON.stringify(structured)} />

@@ -1,0 +1,22 @@
+{
+  "name": "kaleidoscope-docs",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "description": "memory.kleosresearch.xyz \u2014 the Kaleidoscope documentation site.",
+  "engines": {
+    "node": "22.23.2"
+  },
+  "scripts": {
+    "clean": "rm -rf dist .astro node_modules/.astro node_modules/.vite",
+    "build:astro": "npm run clean && astro build",
+    "build": "npm run clean && astro build && python3 scripts/make_manifest.py dist --mode ${DOCS_MODE:-public_docs} --release-metadata public-docs-release.json && python3 verify_site.py dist --mode ${DOCS_MODE:-public_docs}",
+    "promote": "sh scripts/promote.sh",
+    "dev": "astro dev",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.41.7",
+    "astro": "7.2.4"
+  }
+}

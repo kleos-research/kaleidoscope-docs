@@ -1,5 +1,8 @@
 __pycache__/
 *.pyc
-production-must-fail/
-.production-without-release/
-.site/
+
+# The Astro output. NEVER the served directory: `docs/` is produced only by
+# scripts/promote.sh, which copies a verified dist/ into place.
+dist/
+node_modules/
+.astro/

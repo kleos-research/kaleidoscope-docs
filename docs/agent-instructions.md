@@ -1,8 +1,9 @@
 # Kaleidoscope agent instructions
 
-These are the commands that tell your agent Kaleidoscope is there. They work on
-a build you already have; there is no package to install and no account to sign
-in to yet.
+These are the commands that tell your agent Kaleidoscope is there. There is no
+build to install yet, so read them as the reference for what they do. The files
+they install are published below, and pasting them by hand works today:
+https://memory.kleosresearch.xyz/docs/skill/
 
 Kaleidoscope installs the shared skill into
 `.agents/skills/use-kaleidoscope/SKILL.md`, and can add a short pointer to the

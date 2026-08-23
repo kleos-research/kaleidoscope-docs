@@ -1,0 +1,75 @@
+---
+title: Kaleidoscope documentation
+description: The map of the Kaleidoscope documentation — which page answers which question, from the first five commands to the two-tool contract, the boundaries and what is available.
+---
+
+Kaleidoscope is local memory for agents. Your memory lives in a vault on your
+machine, and every editor or agent you connect shares one profile through a
+command-line tool and a long-lived process that offers exactly two tools.
+
+Kaleidoscope is not released. You cannot install it from npm or PyPI, you cannot
+sign in, and there is no public source repository for the clients yet.
+[Status](/status/) is the plain answer to what is available.
+
+## Start here
+
+- [Getting started](/docs/getting-started/) — the five commands you will run, in
+  order, from creating a profile to disconnecting cleanly.
+- [Give your agent the skill](/docs/skill/) — the file that tells an agent
+  Kaleidoscope exists, what it writes into your instruction file, and the four
+  files offered for download.
+- [Install](/docs/packages/) — the two package names, what is inside each, and
+  why you cannot get them yet.
+- [Concepts](/docs/concepts/) — profile, vault, engine, manager, account: which
+  is which, and which owns what.
+
+## The command line
+
+- [CLI overview](/docs/cli/) — the two global flags and the safety invariants
+  that govern every subcommand.
+- [Profiles and vaults](/docs/cli/profiles/) — `init` and the `profile`
+  commands.
+- [Connect an editor](/docs/cli/connect/) — `connect` and `disconnect`.
+- [Agent instructions](/docs/cli/instructions/) — `instructions install` and
+  `remove`, and the four targets.
+- [Diagnostics](/docs/cli/diagnostics/) — `config` and `doctor`.
+- [Account commands](/docs/cli/account/) — the whole account surface, none of
+  which runs yet.
+
+## Reference
+
+- [MCP](/docs/mcp/) — the two tools a model sees, their fields, and a correct
+  call of each.
+- [Editors, agents and frameworks](/docs/integrations/) — find yours and the one
+  command that connects it.
+
+## Operate
+
+- [Operations](/docs/operations/) — back up, restore, move, and the four
+  different things "remove Kaleidoscope" can mean.
+- [Account and devices](/docs/account/) — what an account would be for, and what
+  it never touches.
+- [Troubleshooting](/docs/troubleshooting/) — the six failures that actually
+  happen, and what causes each.
+
+## Boundaries
+
+- [Security](/docs/security/) — what is isolated from what, what is not signed,
+  and how to report a vulnerability.
+- [Privacy](/docs/privacy/) — what stays on your machine, what leaves it, and
+  what this website itself does.
+- [Licenses and terms](/docs/legal/) — which licences are in force, and which
+  terms are unreviewed drafts.
+
+## Availability
+
+- [Platforms](/docs/compatibility/) — which platforms Kaleidoscope is for, and
+  the one thing Windows does differently.
+- [Benchmarks](/docs/benchmarks/) — what we measured, in plain words, and what
+  we did not measure.
+- [Release notes](/docs/release-notes/) — there have been none; this is where
+  they will appear.
+
+## If you are a machine
+
+Read [llms.txt](/llms.txt), or the expanded [llms-full.txt](/llms-full.txt).

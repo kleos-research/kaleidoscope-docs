@@ -1,0 +1,35 @@
+---
+title: Platforms
+description: The platforms Kaleidoscope is for, what is available today, and the one thing Windows does differently.
+---
+
+Kaleidoscope targets macOS on Apple Silicon and Intel, Linux on x86_64 and
+arm64, and Windows on x86_64 and arm64.
+
+**None of them are available yet.** There is nothing to download, on any
+platform, and neither package is published. When there is something to install,
+that list is what it will cover. [What is available today](/status/).
+
+| platform | architectures |
+|---|---|
+| macOS | Apple Silicon, Intel |
+| Linux | x86_64, arm64 |
+| Windows | x86_64, arm64 |
+
+## Windows creates no vault
+
+On Windows, creating a new vault is refused on purpose. Windows needs its own
+filesystem work first — file locking, link handling, and flushing writes all the
+way to the disk — and until that lands Kaleidoscope stops rather than writing
+memory it cannot stand behind.
+
+This is a deliberate refusal in the code, not a gap, and it is the one platform
+fact worth knowing before you plan around it. The rest of the Windows work is
+outstanding too, so do not read the refusal as the only thing between you and a
+working install there.
+
+## What has actually been run
+
+One kind of machine: a Mac with Apple Silicon. The rest of the list is what
+Kaleidoscope is built for, not what it has been run on.
+[The full account is on the status page](/status/).

@@ -1,0 +1,82 @@
+---
+title: Account commands
+description: login, status, logout, account, devices and profile account — the whole account surface, and why none of it runs today.
+---
+
+None of the commands on this page work today. Every one that reaches the account
+service answers `provider not configured`, because no sign-in service is
+configured or published. They are listed so you can see the shape of what
+signing in will and will not do.
+
+You do not need an account to use Kaleidoscope. Your memory lives on your
+machine and has never needed one.
+
+## Sign in and out
+
+```bash
+kaleidoscope login
+kaleidoscope login --device
+kaleidoscope status --json
+kaleidoscope logout
+kaleidoscope logout --all-devices
+kaleidoscope logout --local-only
+```
+
+`login` is an ordinary browser sign-in; `--device` is the code-based path for a
+machine with no browser.
+
+`logout` removes or revokes your credentials according to the scope you chose.
+`--all-devices` ends every session on the account; `--local-only` removes the
+credential from this machine and warns you that it has not revoked anything
+remotely. Neither changes which profile is active, and neither alters a byte of
+your vault.
+
+`kaleidoscope status` reports your account session on this machine. It is not
+related to the [status page](/status/), which is about what is available.
+
+## Linked sign-in providers
+
+```bash
+kaleidoscope account link PROVIDER
+kaleidoscope account identities
+kaleidoscope account unlink EXTERNAL_IDENTITY_UUID
+kaleidoscope account revoke-session
+```
+
+`account identities` is where you get the opaque UUID that `account unlink`
+needs; it lists those IDs and nothing else.
+
+`account revoke-session` has the deliberately narrow meaning of revoking the
+session you are currently using. It does not deactivate an account.
+
+## Devices
+
+```bash
+kaleidoscope devices list
+kaleidoscope devices revoke DEVICE_UUID
+```
+
+The devices attached to your account, and how to detach one. Revoking a device
+is an account operation; the vault on that device is untouched.
+
+## Local account reference
+
+```bash
+kaleidoscope profile account show [NAME]
+kaleidoscope profile account bind ACCOUNT_UUID [NAME]
+kaleidoscope profile account unbind [NAME]
+```
+
+These three are the exception: they work offline, because they never leave your
+machine. They write a non-secret account ID into your local profile and nothing
+more — they do not start the engine, contact any service, touch a vault, or
+store a credential.
+
+## The boundary
+
+Account traffic goes to a closed list of account-only routes and never touches
+the memory engine. A guard rejects memory fields, profile fields and absolute
+local paths before anything is sent.
+
+What signing in would mean, and where a credential would be kept:
+[Account and devices](/docs/account/).

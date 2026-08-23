@@ -1,0 +1,23 @@
+---
+/**
+ * A plain availability table: what a platform IS, never how well tested it is.
+ * The five-word status register (Tested / Partly tested / Compiler-checked only
+ * / Untested / Not available) is deleted from every reader-facing page: the
+ * owner's instruction was to state availability, not to grade it
+ * and survives only in the machine records. This component has no column for it
+ * on purpose — there is nowhere to put one.
+ */
+interface Props { caption?: string; rows: { platform: string; architectures: string }[] }
+const { rows, caption } = Astro.props;
+---
+<div class="table-scroll" tabindex="0">
+  <table>
+    {caption && <caption class="k-meta">{caption}</caption>}
+    <thead><tr><th scope="col">platform</th><th scope="col">architectures</th></tr></thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr><td>{row.platform}</td><td>{row.architectures}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,61 @@
+---
+title: Connect an editor or agent
+description: connect and disconnect — wiring an editor or agent to your profile with a preview first, and unwiring it exactly.
+---
+
+`connect` writes the entry your editor or agent needs to start Kaleidoscope, and
+`disconnect` takes it back out. Both touch only the block Kaleidoscope owns.
+
+## Connect
+
+```bash
+kaleidoscope connect HOST --profile default --project "$PWD" --dry-run
+kaleidoscope connect HOST --profile default --project "$PWD"
+```
+
+`HOST` is one of `codex`, `claude`, `cursor`, or `opencode`. Each has its own
+page under [Editors, agents and frameworks](/docs/integrations/), because each
+writes a different file.
+
+What gets written names an absolute path to the local engine and
+`mcp --profile NAME`, and publishes exactly two tools, `search` and `remember`.
+It does not carry your vault location, a provider key, or an account credential.
+
+## The flags
+
+| flag | what it does |
+|---|---|
+| `--dry-run` | prints the exact change and writes nothing |
+| `--yes` | confirms in advance, for a script |
+| `--profile NAME` | which profile the host will open; `default` if omitted |
+| `--project PATH` | which project directory the change belongs to |
+| `--scope user\|project` | machine-wide or this project only; project is the default |
+| `--opencode-version stable-v1\|beta-v2` | OpenCode only, and never guessed |
+
+`--scope user` writes the entry once for your whole machine. `--scope project`
+writes it into the project you named, which is what you usually want when
+different projects should use different memory.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect HOST --project "$PWD" --dry-run
+kaleidoscope disconnect HOST --project "$PWD"
+```
+
+Disconnect is the exact inverse of connect. It removes only what Kaleidoscope
+wrote, leaves the rest of the host's settings alone, and does not touch a single
+byte of your vault. Pass the same `--scope` you connected with; a project-scope
+entry and a user-scope entry are two different entries in two different files.
+
+## When it refuses
+
+An unknown host, a conflicting entry name, a malformed file, a symlink, a file
+being edited at the same time, or ownership markers that have been hand-edited
+all produce a refusal rather than a rewrite. The file comes back untouched and
+you are told which of those it was. That is deliberate: a configuration file you
+maintain is yours, and a tool that guesses at an ambiguous one eventually
+guesses wrong.
+
+Connecting a host does not tell your agent to use the memory it can now reach.
+That is [a separate step](/docs/skill/).

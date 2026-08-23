@@ -1,0 +1,96 @@
+---
+title: Getting started
+description: Create a local Kaleidoscope profile, connect your editor or agent, check that search and remember appear, and disconnect cleanly — plus why you cannot install it yet.
+---
+
+These are the five commands you will run, in order. You cannot run the first
+one, because nothing installs from a registry yet; the four below it are real,
+and they are the ones we run.
+
+:::caution[You cannot install Kaleidoscope yet]
+Neither package has been published, so step 1 is blocked for everyone. Steps 2
+to 5 have each been run on a Mac with Apple Silicon, which is the only kind of
+machine anything has ever been run on. [What is available](/status/).
+:::
+
+## 1. Install — not possible yet
+
+There is no way to install Kaleidoscope today. Neither package exists in a
+registry, and both names return 404. When they publish, the npm package will be
+`@kleos-research/kaleidoscope` and will need Node.js 22 or newer; the Python
+package will be `kaleidoscope-memory` and will need Python 3.11 or newer. You
+install one of them, not both. Either one gives you the `kaleidoscope` and
+`kscope` commands and brings in a second package built for your platform, which
+carries the engine.
+
+## If you have an alpha key
+
+An alpha key does not use the Keychain and never asks for your login password.
+Kaleidoscope reads it from `KALEIDOSCOPE_API_KEY` in your environment, or from a
+file you write yourself:
+
+| | |
+|---|---|
+| macOS | `~/Library/Application Support/kaleidoscope/entitlement/api-key` |
+| Windows | the same path under `%APPDATA%` |
+| Linux and others | the same path under `$XDG_CONFIG_HOME`, or `~/.config` |
+
+The file holds the key and nothing else. On macOS and Linux it must be readable
+only by you — permissions `0600` — and a file with any other permissions is
+refused. Windows has no equivalent check. If a key is set but cannot be read,
+you are told that, specifically, rather than being told no key is configured.
+
+The key controls the memory service, never your data. Retrieval is what it buys,
+so without a valid key your agent's `search` returns nothing. Inspecting,
+verifying and migrating your own vault are never gated, whatever the key says,
+and no refusal ever reads, writes or deletes a byte of it.
+
+## 2. Create a profile
+
+```bash
+kaleidoscope init --profile default --root /absolute/path/to/your/kaleidoscope-memory
+kaleidoscope config --profile default --json
+```
+
+A profile is one memory store on your machine, at a path you choose and own. A
+missing or invalid root is refused rather than created for you. What gets
+written into your editor's configuration later is `mcp --profile NAME` — never a
+credential, never the raw location of your vault.
+
+## 3. Preview the change, then connect
+
+```bash
+kaleidoscope connect codex --profile default --project "$PWD" --dry-run
+kaleidoscope connect codex --profile default --project "$PWD"
+kaleidoscope doctor --project "$PWD"
+```
+
+The first command shows you the exact change and writes nothing. Applying it
+touches only the block Kaleidoscope owns, so your existing settings survive; an
+ambiguous, symlinked, tampered, or concurrently edited file is refused rather
+than overwritten. The hosts the command knows are `codex`, `claude`, `cursor`,
+and `opencode`.
+
+## 4. Check that both tools appeared
+
+Restart your editor after connecting, then look at the tools it lists for
+Kaleidoscope. You should see exactly two, `search` and `remember`. If you see
+none, or more than two, go to [Troubleshooting](/docs/troubleshooting/).
+Operator commands are never offered to a model, so two is the correct number in
+every host.
+
+Seeing the two tools is not the same as your agent using them. Telling it to is
+a separate step: [give your agent the skill](/docs/skill/).
+
+## 5. Disconnect safely
+
+```bash
+kaleidoscope disconnect codex --project "$PWD" --dry-run
+kaleidoscope disconnect codex --project "$PWD"
+```
+
+Disconnect removes only what Kaleidoscope wrote and leaves the rest of the
+host's settings, and every byte of your vault, alone. Disconnecting,
+uninstalling, signing out, and deleting a vault are four separate operations,
+and the first three never delete memory. [Operations](/docs/operations/) covers
+the other three.

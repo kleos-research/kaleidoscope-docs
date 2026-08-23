@@ -1,0 +1,35 @@
+---
+title: Claude Code
+description: Add Kaleidoscope to Claude Code as one local MCP server entry, plus an optional project pointer to the skill.
+---
+
+Claude Code gets one local MCP server definition from you, and optionally a
+short project pointer to the public skill. Everything Kaleidoscope writes is
+marked as its own, so it can take it back out.
+
+## Connect it
+
+```bash
+kaleidoscope connect claude --profile default --project "$PWD" --dry-run
+kaleidoscope connect claude --profile default --project "$PWD"
+kaleidoscope instructions install claude --project "$PWD"
+```
+
+## What it writes
+
+Only the entry Kaleidoscope owns is written to `.mcp.json`; the rest of your
+file is left alone. If the ownership markers have been edited or the file is
+ambiguous, the change is refused rather than guessed at. The entry publishes
+only `search` and `remember`.
+
+`instructions install claude` is separate from the connection: it appends the
+marked pointer block to `CLAUDE.md`. See
+[give your agent the skill](/docs/skill/).
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect claude --project "$PWD"
+```
+
+It removes only what Kaleidoscope wrote.

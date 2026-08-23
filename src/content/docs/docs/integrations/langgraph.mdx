@@ -1,0 +1,32 @@
+---
+title: LangGraph
+description: Put Kaleidoscope's two tools in a LangGraph tool node without turning it into a graph store or a checkpointer.
+---
+
+LangGraph uses the same one-session MCP adapter as LangChain, placed in your
+graph's tool node for the length of the run.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Open the adapter before you execute the graph, pass the two tools into the tool
+node, and close it once execution finishes. The same session is reused across
+node calls.
+
+## What it writes
+
+Nothing on your disk. Provider credentials stay in your own application.
+
+## The one thing that is different here
+
+Kaleidoscope is not a LangGraph checkpointer and not a `BaseStore`. Keep graph
+state and durable memory separate, so you never end up with two things that both
+claim to be the record.
+
+## Disconnect
+
+Close the adapter after the graph finishes, and remove the descriptor from your
+own configuration.

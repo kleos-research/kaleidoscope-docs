@@ -1,0 +1,59 @@
+---
+title: Kaleidoscope
+description: Local memory for AI agents. Your memory stays in a vault on your machine, and every editor or agent you connect shares one profile through exactly two tools.
+template: splash
+head:
+  # Starlight builds `<title>` as "page title — site title", which on the one
+  # page whose title IS the site title read "Kaleidoscope — Kaleidoscope".
+  # Starlight's head merge dedupes on tag name, so this wins.
+  - tag: title
+    content: Kaleidoscope — local memory for AI agents
+hero:
+  tagline: One memory · every tool · on your machine
+  actions:
+    - text: Get started
+      link: /docs/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: Give your agent the skill
+      link: /docs/skill/
+      variant: minimal
+    - text: See what is available
+      link: /status/
+      variant: minimal
+---
+
+Kaleidoscope gives your agents one memory on your machine that every editor and
+agent you connect shares. The engine that stores and ranks it runs locally; the
+`kaleidoscope` command wires it into your editor or agent, which sees exactly
+two tools: `search` and `remember`. Kaleidoscope is not released, and there is
+nothing you can install today.
+
+## Three properties, not three features
+
+**Local by construction.** Your memory lives in a vault on your machine. The
+engine needs no network and makes no external model calls, and memory content,
+queries, results, identifiers and vault paths are never account data.
+
+**Works with your tools.** Codex, Claude Code, Cursor, OpenCode and agent
+frameworks all read the same profile. They do not become separate memory stores
+merely because their configuration formats differ.
+
+**Open around a closed core.** The engine that stores and ranks your memory is
+proprietary object code. Everything around it is Apache-2.0: the command-line
+tool, both SDKs, every integration, and the agent skill.
+
+## Two tools, one long-lived process
+
+Your agent gets `search`, which brings back what you stored, ranked or by
+identifier, and `remember`, which writes exactly what you tell it to write.
+Every host runs one long-lived process, and no operator command ever enters a
+model's tool list.
+
+## Where to go next
+
+- [Getting started](/docs/getting-started/) — the five commands, in order.
+- [Give your agent the skill](/docs/skill/) — the file that tells an agent
+  Kaleidoscope is there, offered for download.
+- [Status](/status/) — what is available, what is not, and what has been run.
+- [Documentation](/docs/) — the full map.

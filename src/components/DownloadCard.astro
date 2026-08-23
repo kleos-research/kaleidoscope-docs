@@ -1,0 +1,14 @@
+---
+/**
+ * A published file, offered two ways. Both are ordinary links to static files
+ * on Pages, so both work — `download` on the second is what makes a browser
+ * save the file instead of rendering it.
+ */
+interface Props { href: string; name: string }
+const { href, name } = Astro.props;
+---
+<div class="k-download">
+  <p class="n">{name}</p>
+  <div class="b"><slot /></div>
+  <p class="a"><a href={href}>View</a><a href={href} download>Download</a></p>
+</div>
