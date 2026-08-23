@@ -1,0 +1,63 @@
+---
+title: Account and devices
+description: Why you do not need an account, what signing in would manage, where a credential would be kept, and why it never touches your local memory.
+---
+
+You do not need an account to use Kaleidoscope — your memory lives on your
+machine and works without one. You also could not sign in today if you wanted
+to: every command that reaches the account service answers
+`provider not configured`, because no sign-in service is configured or
+published.
+
+## What signing in would be for
+
+Signing in is designed as an ordinary browser sign-in, with a code-based path
+for machines that have no browser. It manages your product account and the
+devices attached to it. It is not a connection to hosted memory: no hosted
+service, endpoint, API, waitlist, or sync path exists, and signing in would not
+opt you into one.
+
+## What it never does to your memory
+
+Signing in never uploads, syncs, analyses, trains on, or deletes your memory.
+Memory content, your queries, the results you got back, memory IDs, graph data,
+local paths, and vault locations are all excluded from the account protocol, and
+the account client rejects those fields — and any absolute local path — before
+anything would leave your machine.
+
+## Where a sign-in credential would be kept
+
+Signing in is not built yet, so nothing is stored anywhere today. When it is,
+the refresh credential goes to the operating system's own credential store — the
+login Keychain on macOS, Credential Manager on Windows, the Secret Service on
+Linux — and never into a file we write, into an editor's configuration, or into
+a profile. On Linux, if no secret service is running, signing in stops and tells
+you rather than falling back to something weaker.
+
+One caveat we would rather state than let you discover: on macOS, whether the
+system remembers your approval depends on the program being signed with a stable
+identity. Kaleidoscope is [not signed for release](/docs/security/#nothing-is-signed-for-production),
+so an unsigned build can be asked for your login password every time it reaches
+the Keychain. That is a property of unsigned software, not of how the credential
+is stored, and it goes away when signed builds ship.
+
+Signing in is only ever about your account and your devices. It does not upload,
+sync, analyse, train on or delete your memory, and it does not connect you to a
+hosted service — there isn't one.
+
+An **alpha key is not a sign-in and does not use the Keychain at all.** It is
+read from an environment variable or from a file you write yourself, and it
+never prompts for your login password. See
+[if you have an alpha key](/docs/getting-started/#if-you-have-an-alpha-key).
+
+## What logging out changes
+
+Logging out removes or revokes your credentials, according to the scope you
+chose. It does not change which profile you are on and it does not alter a
+single byte of your vault. Deleting a vault is a separate, explicit operation
+with its own confirmation — see [Operations](/docs/operations/).
+
+## The commands
+
+Every account command, with what each one does and does not do, is on
+[the account command page](/docs/cli/account/).

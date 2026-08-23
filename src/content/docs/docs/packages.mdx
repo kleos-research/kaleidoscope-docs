@@ -1,0 +1,50 @@
+---
+title: Install
+description: The npm and Python package names for Kaleidoscope, what each one installs, what your machine needs, and why neither is available yet.
+---
+
+You cannot install Kaleidoscope today. Neither package exists in a registry, so
+both names on this page return 404. What follows is what you will install once
+they publish, what is inside, and what your machine will need.
+
+## The two packages
+
+| ecosystem | package | requires |
+|---|---|---|
+| npm | `@kleos-research/kaleidoscope` | Node.js 22 or newer |
+| PyPI | `kaleidoscope-memory` | Python 3.11 or newer |
+
+Neither is published. These names are final. You only need one of them: both
+install the same two commands, `kaleidoscope` and `kscope`, and both give you
+the same local memory. Pick whichever ecosystem your project already uses.
+
+## What is inside
+
+Installing one of these gets you two things. The first is the package for your
+language: the full client library for TypeScript or Python, and the
+`kaleidoscope` and `kscope` commands. The second is a package built for your
+platform, which carries the engine that stores and ranks your memory.
+
+That engine is proprietary object code. Its source is not in either package, and
+a native binary is still inspectable — shipping object code is not a claim that
+it cannot be read. Everything around the engine is open: the command-line tool,
+both SDKs, every integration, and the agent skill are Apache-2.0.
+
+Today the only platform package that exists is for macOS on Apple Silicon.
+Neither ecosystem uses an install hook, a download at install time, a compiler,
+or a source-build fallback — installing puts files on your disk, and that is all
+it does.
+
+## Why you cannot install it yet
+
+There is no public installation channel. `@kleos-research/kaleidoscope` is not
+on npm and `kaleidoscope-memory` is not on PyPI. Archives, tarballs, and wheels
+do exist, but they are private test builds, not downloads, and there is nowhere
+to fetch them from.
+
+Nothing is signed for production either. There is no Apple signing and no
+notarisation; the only signature that exists is a test fixture checked into the
+source tree, and the native code is ad-hoc signed only. None of that is a
+supply-chain guarantee, and it has to be real before either package can publish.
+
+[What is available today](/status/) · [Which platforms this is for](/docs/compatibility/)

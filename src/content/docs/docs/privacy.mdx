@@ -1,0 +1,68 @@
+---
+title: Privacy and data boundary
+description: What stays on your machine, what signing in could send, where a credential would be kept, and what this website itself does.
+---
+
+Your memory and your account identity are separate systems. Signing in does not
+authorize upload, sync, analysis, training on, or deletion of your memory.
+
+## Your memory stays local
+
+Signing in never carries your memory with it. Memory content, the queries you
+ran, the results you got back, memory IDs, graph data, local paths, vault
+locations, the internal identifiers Kaleidoscope uses to organise a vault, and
+any credentials you have stored locally are all excluded from the account
+protocol. The account client rejects those fields — and any absolute local path
+— before anything would leave your machine.
+
+## What signing in would send
+
+Signing in would send a narrow set of account and device fields — enough to log
+in, keep you logged in, show your account status, link or unlink another sign-in
+provider, log out, and manage the devices attached to your account. Nothing
+else. You cannot sign in today, and the terms that would govern it — who runs
+the sign-in service, how long anything is kept, how you recover an account, and
+how you delete one — are not settled. That is one of the reasons sign-in is
+switched off.
+
+## Where a sign-in credential would be kept
+
+Signing in is not built yet, so nothing is stored anywhere today. When it is,
+the refresh credential goes to the operating system's own credential store — the
+login Keychain on macOS, Credential Manager on Windows, the Secret Service on
+Linux — and never into a file we write, into an editor's configuration, or into
+a profile. On Linux, if no secret service is running, signing in stops and tells
+you rather than falling back to something weaker.
+
+There is a caveat about unsigned software and macOS credential prompts, and one
+about alpha keys, which do not use a credential store at all. Both are on
+[Account and devices](/docs/account/#where-a-sign-in-credential-would-be-kept).
+
+## Network use
+
+The engine needs no network access and makes no calls to any model provider.
+Everything except the account commands works with your machine offline, and the
+account commands are the only part of Kaleidoscope that is ever meant to talk to
+a server at all. Nothing has been settled about what a released version would
+report back, where that would go, or what you would be asked to agree to — and
+until it is settled and written into terms someone has actually reviewed,
+sign-in stays switched off.
+
+## This documentation site
+
+These pages are static files served by GitHub Pages. They set no cookies and use
+no local storage. The only scripts on them are the small ones that make the
+navigation work; there is no analytics, no behavioural tracking, and nothing
+that reports your reading anywhere. They do make one
+third-party request: the three typefaces are fetched from Google Fonts
+(`fonts.googleapis.com` and `fonts.gstatic.com`), so Google receives the request
+metadata a font fetch carries, including your IP address. Blocking it costs only
+the typefaces. Nothing on this site reads a vault, a profile, or any local
+memory.
+
+## Hosted memory
+
+There is no hosted service. Kaleidoscope does not sync your memory anywhere,
+there is no endpoint or API to send it to, and there is no waitlist for one. If
+that ever changes it will be a separate product with its own terms, and it will
+not be something a local profile or a sign-in quietly opts you into.

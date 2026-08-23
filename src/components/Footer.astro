@@ -1,0 +1,29 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+import KleosMark from './KleosMark.astro';
+---
+
+<Default><slot /></Default>
+
+<div class="k-footer">
+  <p class="row">
+    <a class="kleos" href="https://kleosresearch.xyz/">
+      <KleosMark size={16} />
+      <span>a kleos project</span>
+    </a>
+  </p>
+  <p class="row">Kaleidoscope by <a href="https://kleosresearch.xyz/">Kleos Research</a></p>
+  <nav class="row links" aria-label="Footer">
+    <a href="/docs/legal/">Licenses &amp; terms</a>
+    <a href="/docs/legal/privacy-notice/">Privacy notice (draft)</a>
+    <a href="/docs/legal/security-policy/">Security policy (draft)</a>
+    <a href="/docs/legal/support-policy/">Support (draft)</a>
+    <a href="/status/">Status</a>
+    <a href="/llms.txt">llms.txt</a>
+  </nav>
+</div>
+
+<style is:global>
+  .k-footer .row { margin: 0 0 8px; }
+  .k-footer .links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; }
+</style>

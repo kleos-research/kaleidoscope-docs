@@ -1,0 +1,40 @@
+---
+title: Cursor
+description: What Kaleidoscope writes for Cursor, the second file its project rule lives in, and how to take both back out.
+---
+
+Cursor uses the same local command and the same two tools as every other editor.
+Kaleidoscope makes the change to Cursor's JSON reversible, and adds a small
+project rule only if you ask for one.
+
+## Connect it
+
+```bash
+kaleidoscope connect cursor --profile default --project "$PWD" --dry-run
+kaleidoscope connect cursor --profile default --project "$PWD"
+kaleidoscope instructions install cursor --project "$PWD"
+```
+
+## What it writes
+
+The MCP server entry goes into Cursor's JSON configuration. Entries you added
+yourself are left untouched. A tampered marker, a name that conflicts, a
+malformed file, a symlink, or a file being edited at the same time is refused
+and handed back to you rather than overwritten.
+
+## The one thing that is different here
+
+The project rule is a **second, separate file** from the MCP configuration.
+`connect cursor` writes the server entry; `instructions install cursor` writes
+the rule. They are installed and removed independently, so removing one leaves
+the other in place. If Cursor can see the tools but ignores them, it is usually
+the rule that is missing — see [give your agent the skill](/docs/skill/).
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect cursor --project "$PWD"
+kaleidoscope instructions remove cursor --project "$PWD"
+```
+
+Each removes only what Kaleidoscope wrote. Run both if you installed both.

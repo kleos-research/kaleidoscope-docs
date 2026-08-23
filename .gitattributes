@@ -1,0 +1,15 @@
+# Gate (d), claim 2 — and the scope here is deliberate and was measured.
+#
+# A ONE-SENTENCE CONTENT EDIT touches exactly three artifact paths: the page,
+# llms-full.txt, and site-manifest.json. That diff is short, readable, and
+# exactly what a reviewer should read. It is NOT collapsed.
+#
+# A ONE-RULE CSS EDIT touches 42: all 41 HTML files, because the content-hashed
+# stylesheet is renamed in every one of them, plus the bundle itself. That half
+# is churn no human reads, and pretending otherwise is what makes a reviewer
+# stop reading the whole diff.
+#
+# So only the hashed bundle directory is collapsed. `diff --brief --recursive
+# dist docs` in CI still compares every one of these files in full — nothing is
+# exempted from the check, only from the reading.
+docs/_astro/** -diff linguist-generated

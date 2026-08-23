@@ -1,0 +1,33 @@
+---
+title: OpenAI Agents SDK
+description: Attach Kaleidoscope to an OpenAI Agents SDK run as one long-lived stdio MCP server with two tools.
+---
+
+Use the stdio MCP server lifecycle the OpenAI Agents SDK already gives you. Keep
+one server alive for the agent run, and filter the model-facing tools down to
+Kaleidoscope's two.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Create the MCP server from that descriptor as a managed resource around the run,
+and close it deterministically at the end. Do not open a fresh engine process
+for every tool call.
+
+## What it writes
+
+Nothing on your disk. Provider credentials come from your application and are
+never placed in the Kaleidoscope descriptor.
+
+## The one thing that is different here
+
+The tool allowlist is two names, `search` and `remember`. Nothing else is ever
+exposed to a model — the operator commands are yours, from the terminal.
+
+## Disconnect
+
+Close the server at the end of the run and remove the descriptor from your own
+configuration.

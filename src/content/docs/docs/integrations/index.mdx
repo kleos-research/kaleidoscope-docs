@@ -1,0 +1,30 @@
+---
+title: Editors, agents and frameworks
+description: The one command that connects each editor or agent to your local Kaleidoscope profile, and what every one of them sees.
+---
+
+Every editor and agent below talks to the same engine on your machine, over one
+long-lived process, and sees exactly two tools: `search` and `remember`. Connect
+five of them and they share one memory instead of starting five stores.
+
+| | connect it with |
+|---|---|
+| [Claude Code](/docs/integrations/claude-code/) | `kaleidoscope connect claude` |
+| [Codex](/docs/integrations/codex/) | `kaleidoscope connect codex` |
+| [Cursor](/docs/integrations/cursor/) | `kaleidoscope connect cursor` |
+| [OpenCode](/docs/integrations/opencode/) | `kaleidoscope connect opencode` |
+| [Any other MCP client](/docs/integrations/generic-mcp/) | read the descriptor from `kaleidoscope config --json` |
+
+Frameworks connect through their own MCP adapter, using the same descriptor:
+[Claude Agent SDK](/docs/integrations/claude-agent-sdk/) ·
+[OpenAI Agents SDK](/docs/integrations/openai-agents-sdk/) ·
+[LangChain](/docs/integrations/langchain/) ·
+[LangGraph](/docs/integrations/langgraph/) ·
+[CrewAI](/docs/integrations/crewai/)
+
+There is no build to install yet, so none of these commands run today. What they
+do when there is one is described on each page.
+[What has actually been run, and on what](/status/).
+
+Telling your agent to *use* the memory it can now reach is a separate step:
+[give your agent the skill](/docs/skill/).

@@ -1,0 +1,47 @@
+---
+/**
+ * Two bands, both above the article.
+ *
+ * 1. The pre-release status strip, rendered UNCONDITIONALLY on every route.
+ *    Starlight's default Banner returns nothing when a page sets no banner;
+ *    this override ignores frontmatter and always paints. The sentence
+ *    "Kaleidoscope is not publicly released" is a required claim and gate (h)
+ *    asserts it on every non-redirect HTML file.
+ * 2. The legal review-draft band, when the page's frontmatter says
+ *    `legalDraft: true`.
+ *
+ * THE BAND HAS TWO VARIANTS AND THAT IS NOT DECORATION. The four product terms
+ * are drafts and not in force; the licences INDEX is a page whose subject is
+ * that Apache-2.0 and CC BY 4.0 ARE in force. Painting the document band over
+ * the index told a reader the licence grant covering the CLI, the SDKs and this
+ * documentation was not in force. The deleted build_site.py carried two notices for
+ * exactly this reason and the first port collapsed them into one.
+ *
+ * Copy is VERBATIM from the two data files, which llms-full.txt.ts imports as
+ * well, so the page and the text mirror cannot drift. Each file is a tag line,
+ * then the body. Do not inline the copy here.
+ */
+import draftNotice from '../data/legal-draft-notice.txt?raw';
+import indexNotice from '../data/legal-index-notice.txt?raw';
+
+const data = (Astro.locals as any)?.starlightRoute?.entry?.data ?? {};
+const legalDraft = data.legalDraft === true;
+
+// The index is the one legal route whose own subject is a licence in force.
+const isLegalIndex = Astro.url.pathname.replace(/\/+$/, '') === '/docs/legal';
+const [tag, ...rest] = (isLegalIndex ? indexNotice : draftNotice).trim().split('\n');
+const body = rest.join(' ').trim();
+---
+
+{legalDraft && (
+  <div class="notice-band">
+    <p class="draft-notice"><strong>{tag}</strong> {body}</p>
+  </div>
+)}
+
+<div class="strip"><div class="strip-inner">
+  <span class="dot" aria-hidden="true"></span>
+  <span class="t">In development</span>
+  <span class="d">Kaleidoscope is not publicly released. Nothing here installs
+  from a registry yet — <a href="/status/">see what is available</a>.</span>
+</div></div>

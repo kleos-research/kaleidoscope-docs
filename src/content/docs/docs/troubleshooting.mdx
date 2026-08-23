@@ -1,0 +1,56 @@
+---
+title: Troubleshooting
+description: Fix the six things that go wrong with Kaleidoscope — tool discovery, OpenCode configuration, a misplaced profile, sign-in, installation, and safe diagnostics.
+---
+
+Start with `kaleidoscope doctor` when your profile, engine, or host
+configuration is misbehaving. Account commands fail on their own separate
+boundary, so read that section before you conclude that anything local is
+broken.
+
+## The host cannot find the tools
+
+1. Confirm the active profile is the one you expect.
+2. Preview the connection with `--dry-run` and read only the block Kaleidoscope
+   owns.
+3. Restart the host after a successful connect — most hosts read their
+   configuration once, at startup.
+4. Confirm the tools it discovered are exactly `search` and `remember`.
+
+## OpenCode configuration is refused
+
+The stable and beta-v2 configuration shapes differ. Kaleidoscope adopts an
+existing shape when it is unambiguous, or the version you named explicitly; it
+never quietly rewrites stable configuration into beta. Remove any duplicate
+Kaleidoscope entry and run the dry run again.
+
+## A profile points to the wrong place
+
+Do not edit the profile by hand. Import the vault you meant to use, or
+initialise a new one at an explicit path. A missing or invalid root is refused
+rather than created for you, so nothing is silently written to the wrong place.
+
+## Login says provider not configured
+
+That is expected today. No sign-in service is published, so every remote account
+command refuses. Do not invent an endpoint, and do not delete or recreate your
+vault to try to fix it — your account status and your local memory are separate,
+and you do not need an account to use your memory.
+
+## I cannot install the package
+
+No public installation channel exists. The archives, tarballs, and wheels that
+exist are private test builds signed with a test-only key; they are not
+downloadable releases, and there is nowhere to fetch them from.
+
+## The agent can see the tools but never uses them
+
+Discovering `search` and `remember` is not the same as being told to use them.
+Install the skill and the pointer block for your project:
+[give your agent the skill](/docs/skill/).
+
+## Before sharing diagnostics
+
+Strip local paths, account identifiers, provider keys, tokens, memory content,
+queries, results, and vault locations before you send anything to anyone. Use
+the redacted `doctor` output, which is the artifact meant for that.

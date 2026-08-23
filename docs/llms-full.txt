@@ -4,21 +4,22 @@
 
 - [Documentation](https://memory.kleosresearch.xyz/docs/): what Kaleidoscope is, and which page answers your question
 - [Getting started](https://memory.kleosresearch.xyz/docs/getting-started/): the five commands you will run, in order
+- [Give your agent the skill](https://memory.kleosresearch.xyz/docs/skill/): how an agent is told Kaleidoscope exists, and the four files it installs
 - [Install](https://memory.kleosresearch.xyz/docs/packages/): the two package names, what is inside them, and why you cannot install them yet
 - [CLI reference](https://memory.kleosresearch.xyz/docs/cli/): every `kaleidoscope` command and flag
 - [MCP reference](https://memory.kleosresearch.xyz/docs/mcp/): the two tools an agent sees, `search` and `remember`, and how to call them
 - [Integrations](https://memory.kleosresearch.xyz/docs/integrations/): Codex, Claude Code, Cursor, OpenCode, LangChain, LangGraph, Claude Agent SDK, OpenAI Agents SDK, CrewAI, and any standard MCP client
 - [Security](https://memory.kleosresearch.xyz/docs/security/): what is isolated from what, what is not signed, and how to report a vulnerability
-- [Privacy](https://memory.kleosresearch.xyz/docs/privacy/): what stays on your machine, how credentials are stored, and what this website itself does
+- [Privacy](https://memory.kleosresearch.xyz/docs/privacy/): what stays on your machine, where a credential would be kept, and what this website itself does
 - [Licenses and terms](https://memory.kleosresearch.xyz/docs/legal/): Apache-2.0 and CC BY 4.0 are in force; the product terms are unreviewed drafts
 - [Privacy notice](https://memory.kleosresearch.xyz/docs/legal/privacy-notice/): an unreviewed draft of the production privacy terms, not in force
 - [Security policy](https://memory.kleosresearch.xyz/docs/legal/security-policy/): an unreviewed draft of the disclosure and supported-version policy, not in force
 - [Support policy](https://memory.kleosresearch.xyz/docs/legal/support-policy/): an unreviewed draft of the support scope and response targets, not in force
 - [Account](https://memory.kleosresearch.xyz/docs/account/): you do not need an account, and you cannot create one yet
 - [Operations](https://memory.kleosresearch.xyz/docs/operations/): back up your memory, move it, uninstall, and delete a vault safely
-- [Platform support](https://memory.kleosresearch.xyz/docs/compatibility/): which machines this has been run on, and which have only had a compiler check
-- [Benchmarks](https://memory.kleosresearch.xyz/docs/benchmarks/): why no score is published, and what would have to be true first
-- [What works today](https://memory.kleosresearch.xyz/docs/status/): the platforms and editors that have actually been run, and what never has
+- [Platforms](https://memory.kleosresearch.xyz/docs/compatibility/): which platforms Kaleidoscope is for, and the one thing Windows does differently
+- [Benchmarks](https://memory.kleosresearch.xyz/docs/benchmarks/): two separate experiments — on the larger corpus, twelve times the memories at the same answer quality; on the smaller one, level with mem0 at 24% fewer tokens
+- [Status](https://memory.kleosresearch.xyz/status/): whether anything is available, whether anything is down, and what has actually been run
 - [Public agent skill](https://memory.kleosresearch.xyz/SKILL.md): how an agent should retrieve and write memory
 - [Agent instructions](https://memory.kleosresearch.xyz/agent-instructions.md): the short pointers Kaleidoscope installs into AGENTS.md, CLAUDE.md, or a Cursor rule
 - [Status record](https://memory.kleosresearch.xyz/status.json): the same status these pages state, in machine-readable form
@@ -26,7 +27,49 @@
 - [Full CLI help text](https://memory.kleosresearch.xyz/reference/kaleidoscope-cli.txt): the complete `kaleidoscope` help output
 - [Tool reference](https://memory.kleosresearch.xyz/reference/kaleidoscope-mcp.json): the fields of the two tools an agent sees
 
-Kaleidoscope has only ever been run on one kind of machine: a Mac with Apple Silicon. On that machine you can run a build you already have, connect Claude Code, Codex, OpenCode, Cursor, a standard MCP client or an agent framework to it, and have them all share one local memory. You cannot install it from npm or PyPI, because neither package is published; you cannot download a build for any platform; and you cannot sign in, because no sign-in service is configured and every account command answers `provider not configured`. macOS on Intel, Linux on x86_64 and arm64, and Windows on x86_64 have had a compiler check for the memory engine and nothing more — nothing was ever assembled into a program for them and nothing has been run there. Windows on arm64 has not had even that. Three connections carry a limit: Codex's configuration entry is written, read back and removed exactly, but Codex offers no way to confirm it then starts the server; Cursor's configuration and project rule are written and removed exactly, but Cursor has never been launched against them; and the agent frameworks were run against stand-in models rather than a live provider. Nothing has been driven through an editor's graphical interface. Nothing is signed for release. Apache-2.0 covers the public code and CC BY 4.0 covers this documentation, and both are in force; the product terms — the engine licence, the privacy notice, the security policy and the support policy — are unreviewed drafts that no counsel has read, and none of them is in force. There is no support commitment and no published security contact yet. Hosted memory does not exist: there is no service, endpoint, API or waitlist, and nothing syncs your memory anywhere. No benchmark score is published, and nothing here claims anything about retrieval quality or speed. The memory engine ships as proprietary object code, and its source is not in any public surface.
+Kaleidoscope has only ever been run on one kind of machine: a Mac with Apple Silicon. On that machine you can run a build you already have, connect Claude Code, Codex, OpenCode, Cursor, a standard MCP client or an agent framework to it, and have them all share one local memory. You cannot install it from npm or PyPI, because neither package is published; you cannot download a build for any platform; and you cannot sign in, because no sign-in service is configured and every account command answers `provider not configured`. macOS on Intel, Linux on x86_64 and arm64, and Windows on x86_64 have had a compiler check for the memory engine and nothing more — nothing was ever assembled into a program for them and nothing has been run there. Windows on arm64 has not had even that, and on Windows creating a new vault is refused on purpose until its filesystem work lands. Three connections carry a limit: Codex's configuration entry is written, read back and removed exactly, but Codex offers no way to confirm it then starts the server; Cursor's configuration and project rule are written and removed exactly, but Cursor has never been launched against them; and the agent frameworks were run against stand-in models rather than a live provider. Nothing has been driven through an editor's graphical interface. Nothing is signed for release. Apache-2.0 covers the public code and CC BY 4.0 covers this documentation, and both are in force; the product terms — the engine licence, the privacy notice, the security policy and the support policy — are unreviewed drafts that no counsel has read, and none of them is in force. There is no support commitment and no published security contact yet. Hosted memory does not exist: there is no service, endpoint, API or waitlist, and nothing syncs your memory anywhere. Benchmark results are stated in plain words on the benchmarks page; the full benchmark method is not published yet, and there is no build you could reproduce it with. The memory engine ships as proprietary object code, and its source is not in any public surface.
+
+---
+
+# Kaleidoscope
+
+URL: https://memory.kleosresearch.xyz/
+Updated: 2026-08-22
+
+Kaleidoscope gives your agents one memory on your machine that every editor and
+agent you connect shares. The engine that stores and ranks it runs locally; the
+`kaleidoscope` command wires it into your editor or agent, which sees exactly
+two tools: `search` and `remember`. Kaleidoscope is not released, and there is
+nothing you can install today.
+
+## Three properties, not three features
+
+**Local by construction.** Your memory lives in a vault on your machine. The
+engine needs no network and makes no external model calls, and memory content,
+queries, results, identifiers and vault paths are never account data.
+
+**Works with your tools.** Codex, Claude Code, Cursor, OpenCode and agent
+frameworks all read the same profile. They do not become separate memory stores
+merely because their configuration formats differ.
+
+**Open around a closed core.** The engine that stores and ranks your memory is
+proprietary object code. Everything around it is Apache-2.0: the command-line
+tool, both SDKs, every integration, and the agent skill.
+
+## Two tools, one long-lived process
+
+Your agent gets `search`, which brings back what you stored, ranked or by
+identifier, and `remember`, which writes exactly what you tell it to write.
+Every host runs one long-lived process, and no operator command ever enters a
+model's tool list.
+
+## Where to go next
+
+- Getting started — the five commands, in order.
+- Give your agent the skill — the file that tells an agent
+  Kaleidoscope is there, offered for download.
+- Status — what is available, what is not, and what has been run.
+- Documentation — the full map.
 
 ---
 
@@ -35,424 +78,76 @@ Kaleidoscope has only ever been run on one kind of machine: a Mac with Apple Sil
 URL: https://memory.kleosresearch.xyz/docs/
 Updated: 2026-08-22
 
-Kaleidoscope is local memory for agents. Your memory lives in a vault on your machine, and every editor or agent you connect shares one profile through a CLI and a long-lived MCP server.
-
-Kaleidoscope is not released. You cannot install it from npm or PyPI, you cannot sign in, and there is no public source repository for the clients yet. What works today (/docs/status/) lists what has actually been run, and on what.
-
-Start here
-
-Getting started (/docs/getting-started/)
-
-The five commands you will run, in order, from creating a profile to disconnecting cleanly.
-
-Five commands
-
-Install (/docs/packages/)
-
-What the two packages will be called, what is inside them, and why you cannot get them yet.
-
-Not available
-
-MCP (/docs/mcp/)
-
-Write a correct search or remember call against the two-tool contract.
-
-Two tools
-
-By area
-
-- StartOverview (/docs/) — what Kaleidoscope is, and which page you needGetting started (/docs/getting-started/) — the five commands you will run, in orderInstall (/docs/packages/) — the two package names, what is inside them, and why you cannot get them yetConcepts (/docs/concepts/) — what a profile, a vault, and an account are
-
-- ReferenceCLI (/docs/cli/) — every kaleidoscope command and flagMCP (/docs/mcp/) — how to write a correct search or remember callIntegrations (/docs/integrations/) — find your editor, agent, or framework and connect it
-
-- OperateOperations (/docs/operations/) — back up your memory, move it, uninstall, delete a vaultAccount (/docs/account/) — what signing in would do, and what it never touchesTroubleshooting (/docs/troubleshooting/) — the six things that go wrong, and what causes each
-
-- BoundariesSecurity (/docs/security/) — what is isolated from what, and how to report a vulnerabilityPrivacy (/docs/privacy/) — what stays on your machine, and what this website itself doesLegal (drafts) (/docs/legal/) — which licences are in force, and which terms are unreviewed drafts
-
-- StatusWhat works today (/docs/status/) — the platforms and editors that have actually been runPlatform support (/docs/compatibility/) — does this run on my machineBenchmarks (/docs/benchmarks/) — why there is no published score yetRelease notes (/docs/release-notes/) — there have been no releases; this is where they will appear
-
-Choose a path
-
-- Using an agentStart at Getting started (/docs/getting-started/), then Concepts (/docs/concepts/) for what a profile and a vault actually are.
-
-- Building on itFind your editor or framework in Integrations (/docs/integrations/), then write calls against the MCP (/docs/mcp/) contract.
-
-- Running it day to dayUse Operations (/docs/operations/) to back up, move, or delete a vault, and Troubleshooting (/docs/troubleshooting/) when a host cannot see the tools.
-
-- Reviewing itRead Security (/docs/security/) for what is isolated from what, and Privacy (/docs/privacy/) for what leaves your machine and what this website itself does.
-
-- An agent or crawlerRead llms.txt (/llms.txt), or the expanded llms-full.txt (/llms-full.txt).
-
----
-
-# Getting started
-
-URL: https://memory.kleosresearch.xyz/docs/getting-started/
-Release: 0.1.0-rc.1
-Updated: 2026-08-22
-
-These are the five commands you will run, in order. You cannot run the first one, because nothing installs from a registry yet; the four below it are real, and they are the ones we run.
-
-You cannot install Kaleidoscope yet. Neither package has been published, so step 1 is blocked for everyone. Steps 2 to 5 have each been run on a Mac with Apple Silicon, which is the only kind of machine anything has ever been run on.
-
-1. Install — not possible yet
-
-There is no way to install Kaleidoscope today. Neither package exists in a registry, and both names return 404. When they publish, the npm package will be @kleos-research/kaleidoscope and will need Node.js 22 or newer; the Python package will be kaleidoscope-memory and will need Python 3.11 or newer. You install one of them, not both. Either one gives you the kaleidoscope and kscope commands and brings in a second package built for your platform, which carries the engine.
-
-2. Create a profile
-
-kaleidoscope init --profile default --root /absolute/path/to/your/kaleidoscope-memory
-kaleidoscope config --profile default --json
-
-A profile is one memory store on your machine, at a path you choose and own. A missing or invalid root is refused rather than created for you. What gets written into your editor's configuration later is mcp --profile NAME — never a credential, never the raw location of your vault.
-
-3. Preview the change, then connect
-
-kaleidoscope connect codex --profile default --project "$PWD" --dry-run
-kaleidoscope connect codex --profile default --project "$PWD"
-kaleidoscope doctor --project "$PWD"
-
-The first command shows you the exact change and writes nothing. Applying it touches only the block Kaleidoscope owns, so your existing settings survive; an ambiguous, symlinked, tampered, or concurrently edited file is refused rather than overwritten. The hosts the command knows are codex, claude, cursor, and opencode.
-
-Codex, Claude Code, and OpenCode have each been connected this way for real, on a Mac with Apple Silicon. Cursor's configuration is written and removed correctly, but nobody has ever launched Cursor against it.
-
-4. Check that both tools appeared
-
-Restart your editor after connecting, then look at the tools it lists for Kaleidoscope. You should see exactly two, search and remember. If you see none, or more than two, go to Troubleshooting (/docs/troubleshooting/). Operator commands are never offered to a model, so two is the correct number in every host.
-
-5. Disconnect safely
-
-kaleidoscope disconnect codex --project "$PWD" --dry-run
-kaleidoscope disconnect codex --project "$PWD"
-
-Disconnect removes only what Kaleidoscope wrote and leaves the rest of the host's settings, and every byte of your vault, alone. Disconnecting, uninstalling, signing out, and deleting a vault are four separate operations, and the first three never delete memory. Operations (/docs/operations/) covers the other three.
-
----
-
-# Install
-
-URL: https://memory.kleosresearch.xyz/docs/packages/
-Release: 0.1.0-rc.1
-Updated: 2026-08-22
-
-You cannot install Kaleidoscope today. Neither package exists in a registry, so both names on this page return 404. What follows is what you will install once they publish, what is inside, and what your machine will need.
-
-The two packages
-
-EcosystemPackageRequiresStatus
-
-npm@kleos-research/kaleidoscopeNode.js 22 or newerNot available
-
-PyPIkaleidoscope-memoryPython 3.11 or newerNot available
-
-These names are final. You only need one of them: both install the same two commands, kaleidoscope and kscope, and both give you the same local memory. Pick whichever ecosystem your project already uses.
-
-What is inside
-
-Installing one of these gets you two things. The first is the package for your language: the full client library for TypeScript or Python, and the kaleidoscope and kscope commands. The second is a package built for your platform, which carries the engine that stores and ranks your memory.
-
-That engine is proprietary object code. Its source is not in either package, and a native binary is still inspectable — shipping object code is not a claim that it cannot be read. Everything around the engine is open: the command-line tool, both SDKs, every integration, and the agent skill are Apache-2.0.
-
-Today the only platform package that exists is for macOS on Apple Silicon. Neither ecosystem uses an install hook, a download at install time, a compiler, or a source-build fallback — installing puts files on your disk, and that is all it does.
-
-Why you cannot install it yet
-
-There is no public installation channel. @kleos-research/kaleidoscope is not on npm and kaleidoscope-memory is not on PyPI. Archives, tarballs, and wheels do exist, but they are private test builds, not downloads, and there is nowhere to fetch them from.
-
-Nothing is signed for production either. There is no Apple signing and no notarisation; the only signature that exists is a test fixture checked into the source tree, and the native code is ad-hoc signed only. None of that is a supply-chain guarantee, and it has to be real before either package can publish.
-
----
-
-# Concepts and boundaries
-
-URL: https://memory.kleosresearch.xyz/docs/concepts/
-Updated: 2026-08-22
-
-The boundary that matters is your local memory versus your account metadata — not merely whether you are signed in.
-
-Local engine
-
-The proprietary native engine owns the memory algorithm, the canonical vault on your machine, the graph, ranking, and the stdio MCP behavior. Its source is not part of the public CLI, client, integration, or skill surfaces.
-
-Manager and profile
-
-The kaleidoscope command creates profiles, validates the engine launch descriptor, edits host configuration safely, runs offline diagnostics, installs agent guidance, and carries the account and device commands. A profile may hold one explicit account UUID reference locally; that changes neither its vault identity nor its credentials.
-
-What gets installed
-
-You install one package for your language — the npm package or the Python package — and it brings in a second package built for your platform. The language package holds the full public client, the typed resolver that finds the installed payload, and the kaleidoscope and kscope commands. The platform package holds the manager and the proprietary engine as object code. Neither one contains engine source, and neither downloads anything at install time.
-
-One profile, every tool
-
-Codex, Claude Code, Cursor, OpenCode, framework clients, and generic MCP clients are consumers of the same profile. They do not become separate memory stores merely because their configuration formats differ.
-
-Account identity
-
-Signing in is designed to link a product account and a device. The account protocol rejects memory fields and absolute local paths before transport. Signing out or unlinking is not a vault operation, and must not be read as consent to upload memory.
-
-Hosted memory
-
-A hosted service is a later product requiring separate authorization, tenant isolation, retention, residency, deletion, sync, billing, and incident-response contracts. It does not exist, and signing in does not opt you into it.
-
----
-
-# CLI reference
-
-URL: https://memory.kleosresearch.xyz/docs/cli/
-Updated: 2026-08-22
-
-The command you will run is kaleidoscope. It sets up your local memory, connects your editor or agent to it, and tells you what is wrong when something does not work. You cannot install it yet, so read this as the reference for the command surface rather than a set of steps to follow now.
-
-kscope is the engine executable. It is installed alongside kaleidoscope and you do not normally run it yourself.
-
-Read the full kaleidoscope help text (/reference/kaleidoscope-cli.txt).
-
-Local memory and host commands
-
-kaleidoscope [--engine PATH] init [--root PATH] [--profile NAME] [--durability process-local|durable-local]
-kaleidoscope [--engine PATH] profile list|show|use|remove
-kaleidoscope profile account show [NAME]
-kaleidoscope profile account bind ACCOUNT_UUID [NAME]
-kaleidoscope profile account unbind [NAME]
-kaleidoscope [--engine PATH] config [--profile NAME] [--json]
-kaleidoscope [--engine PATH] connect HOST [--scope user|project] [--profile NAME] [--project PATH] [--opencode-version stable-v1|beta-v2] [--dry-run] [--yes]
-kaleidoscope [--engine PATH] disconnect HOST [--scope user|project] [--project PATH] [--dry-run] [--yes]
-kaleidoscope instructions install|remove skill|agents|claude|cursor [--project PATH] [--dry-run] [--yes]
-kaleidoscope [--engine PATH] doctor [--project PATH]
-
-init creates a profile and a vault. connect writes the entry your editor or agent needs and disconnect takes it back out; both touch only what Kaleidoscope owns. instructions installs or removes the agent guidance files for a project. doctor reports on your profile, engine, and host configuration without printing memory content or credentials.
-
-Account and device commands
-
-kaleidoscope login [--device]
-kaleidoscope status [--json]
-kaleidoscope logout [--all-devices] [--local-only]
-kaleidoscope account link PROVIDER
-kaleidoscope account identities
-kaleidoscope account unlink EXTERNAL_IDENTITY_UUID
-kaleidoscope account revoke-session
-kaleidoscope devices list
-kaleidoscope devices revoke DEVICE_UUID
-
-None of these work today. All remote account commands intentionally fail with provider not configured, because no production sign-in service is published. You do not need an account to use your local memory.
-
-When they do work: account identities lists the opaque IDs that account unlink takes, and nothing else. account revoke-session revokes the session you are in — it does not deactivate an account. The profile account commands write a non-secret account ID into your local profile and nothing more: they do not start the engine, contact any service, touch a vault, or store a credential.
-
-Safety invariants
-
-- Any command that changes a host file can be previewed with --dry-run, which changes nothing, and asks you to confirm before it writes.
-
-- An unknown, conflicting, symlinked, tampered, or concurrently edited target is refused rather than overwritten.
-
-- Changes are backed up, and removal is recorded so that running it twice is safe.
-
-- The configuration written for your editor or agent contains no tokens, no provider keys, and no vault location.
-
-- Account traffic goes to a closed list of account-only routes. It is separate from the local memory connection.
-
----
-
-# MCP reference
-
-URL: https://memory.kleosresearch.xyz/docs/mcp/
-Release: 0.1.0-rc.1
-Updated: 2026-08-22
-
-Your editor or agent sees exactly two tools from Kaleidoscope: search and remember. Nothing else is callable by a model. This page is what you need to write a correct call to either one.
-
-There is no way to install Kaleidoscope yet, so you cannot connect a host of your own today — see Install (/docs/packages/). The contract below is the one that runs locally.
-
-Read the machine-readable tool reference (/reference/kaleidoscope-mcp.json).
-
-search
-
-Send exactly one of query or memory_id. A query ranks your memories and returns them under selected_hits. A memory_id is an addressed read: it returns that one memory at the top level and refuses ranking controls. Keep top_k small — about 5 is normal — and set a bounded maximum_context_bytes. ledger accepts only true.
-
-{"query":"how do we handle database migrations","top_k":5,"ledger":true}
-
-A query also writes down what it returned. That record goes into your vault on your machine, next to the memories themselves, and it stays there — it is what a later authenticated tool would use to tell which memories actually helped.
-
-remember
-
-mode is required and is create, update, or delete. For a create or an update, content_md is the memory as you want to read it back and must begin with an H1, and semantic_delta carries the structure: a title and at least one fact. Every endpoint a fact names is declared with n, the surface the fact refers to it by; kind; and is, a short gloss. Predicates are snake_case. An update or a delete needs memory_id and expected_version_id. Batching through items accepts at most 20 creates, and items do not share structure with each other.
-
-{"mode":"create",
-"content_md":"# Ana owns the billing service\n\nAna took it over after the payments team split.",
-"semantic_delta":{
-"memory_type":"decision",
-"title":"Ana owns the billing service",
-"entities":[
-{"n":"Ana","kind":"person","is":"backend engineer on my team"},
-{"n":"billing service","kind":"service","is":"the service that issues invoices"}],
-"facts":[{"subject":"Ana","predicate":"owns","object":"billing service"}]}}
-
-Write the is gloss properly. It is not documentation — it is what the engine matches on when it decides whether two mentions of a name are the same thing, so Ana | person | backend engineer on my team finds far more than Ana alone does.
-
-remember infers nothing from what you wrote. The entities, facts, relationships, and dates it stores are the ones you state explicitly. Treat the tool schema your host discovered as the authority for which memory types and fields a build accepts, rather than copying a vocabulary out of prose.
-
-Lifecycle
-
-Your host keeps one long-lived process alive across calls and talks to it over stdio at MCP protocol revision 2025-11-25. It negotiates once, enforces a startup deadline, cancels cleanly, bounds what it reads from stderr, and shuts the process down without leaving an orphan behind. A framework integration will not run a second retrieval behind your back.
-
-What a model never sees
-
-Feedback, lifecycle and import, maintenance, ontology, and diagnostics are operator commands, not tools. They are absent from the list your agent discovers. Search results do not carry the handle those commands need either, so there is no path from a model to them and nothing to reconstruct.
-
----
-
-# Agent and framework integrations
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/
-Updated: 2026-08-22
-
-Find your editor or framework below, then follow its page for the exact commands. Whatever you connect, it talks to the one engine on your machine and sees exactly two tools, search and remember — so every tool you connect shares the same memory instead of starting a store of its own.
-
-“Tested” means we have run it ourselves on a Mac with Apple Silicon and it worked. “Partly tested” means part of it has been run and part has not; the limitation column says which part. Neither word means released or supported — the full definitions are on Platform support (/docs/compatibility/).
-
-IntegrationStatusLimitationHow you connect
-
-Codex (/docs/integrations/codex/)Partly testedIts configuration is written and removed exactly, but Codex gives no way to confirm it then started the serverkaleidoscope connect codex
-
-Claude Code (/docs/integrations/claude-code/)Tested—kaleidoscope connect claude
-
-OpenCode (/docs/integrations/opencode/)TestedStable v1 by default; beta v2 only if you ask for itkaleidoscope connect opencode
-
-Cursor (/docs/integrations/cursor/)Partly testedIts configuration is written and removed correctly, but Cursor has never been launched against itkaleidoscope connect cursor
-
-Generic MCP, Python and TypeScript (/docs/integrations/generic-mcp/)Tested—Read the descriptor with kaleidoscope config --profile default --json
-
-LangChain (/docs/integrations/langchain/) and LangGraph (/docs/integrations/langgraph/)Partly testedRun against a stand-in model, never against a live providerThe LangChain MCP adapter
-
-Claude Agent SDK (/docs/integrations/claude-agent-sdk/)Partly testedRun against a stand-in model, never against a live providerThe SDK’s own stdio MCP configuration
-
-OpenAI Agents SDK (/docs/integrations/openai-agents-sdk/)Partly testedRun against a scripted model, never against a live providerThe SDK’s stdio MCP server lifecycle
-
-CrewAI (/docs/integrations/crewai/)Partly testedRun against a local test server, never against a live providerThe CrewAI MCP adapter context
-
-The editor versions we tested against were Codex 0.149.0, Claude Code 2.1.239, and OpenCode 1.18.21. None of this installs from a registry yet, so connecting an editor means pointing it at a build you already have on your machine.
-
-Integration pages
-
-- Editors and CLIsCodex (/docs/integrations/codex/) — one entry in Codex’s own configuration, removable byte for byte; Claude Code (/docs/integrations/claude-code/) — one entry in .mcp.json; Cursor (/docs/integrations/cursor/) — one entry in mcp.json plus an optional project rule; OpenCode (/docs/integrations/opencode/) — stable v1 by default, beta v2 only when you ask.
-
-- Direct MCPPython and TypeScript generic MCP (/docs/integrations/generic-mcp/) — the launch descriptor any standard MCP client can read, over one long-lived process.
-
-- Agent frameworksClaude Agent SDK (/docs/integrations/claude-agent-sdk/) — one client, two allowed tool names; LangChain (/docs/integrations/langchain/) and LangGraph (/docs/integrations/langgraph/) — one session, no second memory store; OpenAI Agents SDK (/docs/integrations/openai-agents-sdk/) — Python and TypeScript; CrewAI (/docs/integrations/crewai/) — one adapter context for the crew run.
-
-Telling your agent about it
-
-Install the public skill (/SKILL.md), then add the short pointer that fits your project — AGENTS.md (/snippets/AGENTS.md), CLAUDE.md (/snippets/CLAUDE.md), or the Cursor rule (/snippets/cursor-kaleidoscope.mdc). Make the change with kaleidoscope rather than by hand, so you keep the dry run, the backup, and exact removal.
-
----
-
-# Operations
-
-URL: https://memory.kleosresearch.xyz/docs/operations/
-Updated: 2026-08-22
-
-Your memory lives in one place on your machine — a vault directory you chose. Everything else Kaleidoscope touches (editor configuration, agent instructions, account credentials, the installed executables) has its own lifecycle, and removing any of them does not remove your memory.
-
-Find your profile first
-
-You named a vault root when you initialized a profile. To see which profile is active and where it points, without printing credentials or any memory content:
-
-kaleidoscope profile list
-kaleidoscope config --profile default --json
-kaleidoscope doctor --project "$PWD"
-
-Back up and restore
-
-Back up by copying the whole vault directory while nothing is connected to it — close the editors and agents you have connected first, so nothing is writing to it mid-copy. Copy the directory as a whole; a partial copy is not a vault. To restore, or to move your memory to another machine or another path, put the directory back and point a profile at it:
-
-kaleidoscope init --profile default --root /absolute/path/to/the/vault
-
-Disconnect and uninstall
-
-These are four separate operations, and it matters that you know which one you are doing.
-
-- kaleidoscope disconnect HOST removes only the configuration Kaleidoscope itself wrote into that editor. Other settings in the same file are left alone.
-
-- kaleidoscope instructions remove removes the agent guidance pointer, which is a separate thing from the connection.
-
-- Uninstalling the package removes the executables.
-
-- kaleidoscope logout removes or revokes account credentials.
-
-None of the four deletes a vault. Your memory survives all of them.
-
-Delete a vault
-
-Deleting a vault is deliberately its own operation: it previews what it will delete, asks you to confirm, and acts on exactly one fully resolved path. A broad path, an unresolved variable, or an ambiguous target is refused rather than guessed at. Deleting a memory and deleting the vault that holds it are different acts — the first is something you ask the engine to do, the second removes the files.
-
-Install, update, and roll back
-
-Installing, updating, rolling back to the previous version, and uninstalling have each been run on a Mac with Apple Silicon and behaved correctly, and a vault kept alongside was byte-for-byte identical afterwards. That is the whole of what has been established. Nothing is signed for production, and there is no channel to update from yet, so this is not a supported update path — it is a mechanism we have run once, on one machine.
-
-What gets installed
-
-Two things: a language package for npm or Python, and a second package built for your platform. The language package holds the client library and the kaleidoscope and kscope commands; the platform package holds the manager and the engine, as object code. There is no install hook, runtime download, compiler, or source-build fallback — nothing is fetched or built on your machine after the download. The engine source is in neither package.
-
----
-
-# Security
-
-URL: https://memory.kleosresearch.xyz/docs/security/
-Updated: 2026-08-22
-
-Kaleidoscope’s engine is distributed as object code rather than source. That is a distribution choice, not a security guarantee: a native binary on your machine is still inspectable and may be reverse engineered, and shipping object code is not a claim of impossibility. What this page describes is the boundaries you can check — what the engine can reach, what account commands can send, and what is not signed.
-
-What the engine can reach
-
-The engine keeps your memory in a local vault, speaks stdio to your editor, declares no required network access, and makes no external model calls. When the manager launches it, it hands over a closed, non-secret environment rather than passing along whatever is in yours — your model-provider keys, account tokens, cloud credentials and the vault’s location are not part of what the engine process receives.
-
-What account commands can send
-
-Account commands never touch the memory engine. The manager can reach exactly eleven account routes and no others, and a guard rejects memory and profile fields, and absolute local paths, before anything is sent. With the engine deliberately removed from the machine, all eleven still refused cleanly with provider not configured — they fail before anything local is opened. There is no production account service to reach in any case.
-
-Nothing is signed for production
-
-There is no Apple signing and no notarisation. The only signature that exists anywhere in the build is a test fixture checked into the source, and the native code is ad-hoc signed only. Do not read any of this as a supply-chain guarantee: nothing here lets you verify that a file you received is the file we built. Production trust roots, signing identities and the final notices that go with them do not exist yet.
-
-What we have checked for leaks
-
-We put distinctive marker values into the environment, the profiles, the editor configuration and the MCP traffic, then check that none of them turn up in output. That is a scoped test on one platform, not a proof that nothing ever leaks — it can only find the kinds of leak it was written to look for.
-
-Report a vulnerability
-
-Do not publish an exploit or a sensitive report in a public issue. There is no security contact to send it to yet; publishing one, along with a policy saying which versions get fixes, is something that has to happen before release. It will appear on this page and at /.well-known/security.txt.
-
----
-
-# Privacy and data boundary
-
-URL: https://memory.kleosresearch.xyz/docs/privacy/
-Updated: 2026-08-22
-
-Your memory and your account identity are separate systems. Signing in does not authorize upload, sync, analysis, training on, or deletion of your memory.
-
-Your memory stays local
-
-Signing in never carries your memory with it. Memory content, the queries you ran, the results you got back, memory IDs, graph data, local paths, vault locations, the internal identifiers Kaleidoscope uses to organise a vault, and any credentials you have stored locally are all excluded from the account protocol. The account client rejects those fields — and any absolute local path — before anything would leave your machine.
-
-What signing in would send
-
-Signing in would send a narrow set of account and device fields — enough to log in, keep you logged in, show your account status, link or unlink another sign-in provider, log out, and manage the devices attached to your account. Nothing else. You cannot sign in today, and the terms that would govern it — who runs the sign-in service, how long anything is kept, how you recover an account, and how you delete one — are not settled. That is one of the reasons sign-in is switched off.
-
-Where credentials would be kept
-
-On a Mac — the only platform Kaleidoscope has been run on — credentials go into the macOS Keychain. Code for the Windows and Linux equivalents exists, but neither has ever been run on those platforms, so treat both as untested. There is no fallback that writes a credential to a plain file, and no sign-in token is ever written into an editor’s configuration or into a profile.
-
-Network use
-
-The engine needs no network access and makes no calls to any model provider. Everything except the account commands works with your machine offline, and the account commands are the only part of Kaleidoscope that is ever meant to talk to a server at all. Nothing has been settled about what a released version would report back, where that would go, or what you would be asked to agree to — and until it is settled and written into terms someone has actually reviewed, sign-in stays switched off.
-
-This documentation site
-
-These pages are static files served by GitHub Pages. They set no cookies, use no local storage, and run no analytics or behavioural script; the only script on any page is an inline JSON-LD block, which does not execute. They do make one third-party request: the three typefaces are fetched from Google Fonts (fonts.googleapis.com and fonts.gstatic.com), so Google receives the request metadata a font fetch carries, including your IP address. Blocking it costs only the typefaces. Nothing on this site reads a vault, a profile, or any local memory.
-
-Hosted memory
-
-There is no hosted service. Kaleidoscope does not sync your memory anywhere, there is no endpoint or API to send it to, and there is no waitlist for one. If that ever changes it will be a separate product with its own terms, and it will not be something a local profile or a sign-in quietly opts you into.
+Kaleidoscope is local memory for agents. Your memory lives in a vault on your
+machine, and every editor or agent you connect shares one profile through a
+command-line tool and a long-lived process that offers exactly two tools.
+
+Kaleidoscope is not released. You cannot install it from npm or PyPI, you cannot
+sign in, and there is no public source repository for the clients yet.
+Status is the plain answer to what is available.
+
+## Start here
+
+- Getting started — the five commands you will run, in
+  order, from creating a profile to disconnecting cleanly.
+- Give your agent the skill — the file that tells an agent
+  Kaleidoscope exists, what it writes into your instruction file, and the four
+  files offered for download.
+- Install — the two package names, what is inside each, and
+  why you cannot get them yet.
+- Concepts — profile, vault, engine, manager, account: which
+  is which, and which owns what.
+
+## The command line
+
+- CLI overview — the two global flags and the safety invariants
+  that govern every subcommand.
+- Profiles and vaults — `init` and the `profile`
+  commands.
+- Connect an editor — `connect` and `disconnect`.
+- Agent instructions — `instructions install` and
+  `remove`, and the four targets.
+- Diagnostics — `config` and `doctor`.
+- Account commands — the whole account surface, none of
+  which runs yet.
+
+## Reference
+
+- MCP — the two tools a model sees, their fields, and a correct
+  call of each.
+- Editors, agents and frameworks — find yours and the one
+  command that connects it.
+
+## Operate
+
+- Operations — back up, restore, move, and the four
+  different things "remove Kaleidoscope" can mean.
+- Account and devices — what an account would be for, and what
+  it never touches.
+- Troubleshooting — the six failures that actually
+  happen, and what causes each.
+
+## Boundaries
+
+- Security — what is isolated from what, what is not signed,
+  and how to report a vulnerability.
+- Privacy — what stays on your machine, what leaves it, and
+  what this website itself does.
+- Licenses and terms — which licences are in force, and which
+  terms are unreviewed drafts.
+
+## Availability
+
+- Platforms — which platforms Kaleidoscope is for, and
+  the one thing Windows does differently.
+- Benchmarks — what we measured, in plain words, and what
+  we did not measure.
+- Release notes — there have been none; this is where
+  they will appear.
+
+## If you are a machine
+
+Read llms.txt, or the expanded llms-full.txt.
 
 ---
 
@@ -461,104 +156,64 @@ There is no hosted service. Kaleidoscope does not sync your memory anywhere, the
 URL: https://memory.kleosresearch.xyz/docs/account/
 Updated: 2026-08-22
 
-You do not need an account to use Kaleidoscope — your memory lives on your machine and works without one. You also could not sign in today if you wanted to: every command here that reaches the account service answers provider not configured, because no production sign-in service is configured or published.
+You do not need an account to use Kaleidoscope — your memory lives on your
+machine and works without one. You also could not sign in today if you wanted
+to: every command that reaches the account service answers
+`provider not configured`, because no sign-in service is configured or
+published.
 
-What signing in would be for
+## What signing in would be for
 
-Signing in is designed as an ordinary browser sign-in, with a code-based path for machines that have no browser. It manages your product account and the devices attached to it. It is not a connection to hosted memory: no hosted service, endpoint, API, waitlist, or sync path exists, and signing in would not opt you into one.
+Signing in is designed as an ordinary browser sign-in, with a code-based path
+for machines that have no browser. It manages your product account and the
+devices attached to it. It is not a connection to hosted memory: no hosted
+service, endpoint, API, waitlist, or sync path exists, and signing in would not
+opt you into one.
 
-What it never does to your memory
+## What it never does to your memory
 
-Signing in never uploads, syncs, analyses, trains on, or deletes your memory. Memory content, your queries, the results you got back, memory IDs, graph data, local paths, and vault locations are all excluded from the account protocol, and the account client rejects those fields — and any absolute local path — before anything would leave your machine. Credentials go into the macOS Keychain, the only platform this has been run on; there is no plaintext fallback, and no refresh token is ever written into an editor’s configuration or into a profile.
+Signing in never uploads, syncs, analyses, trains on, or deletes your memory.
+Memory content, your queries, the results you got back, memory IDs, graph data,
+local paths, and vault locations are all excluded from the account protocol, and
+the account client rejects those fields — and any absolute local path — before
+anything would leave your machine.
 
-Commands
+## Where a sign-in credential would be kept
 
-None of these work yet. They are listed so you can see the shape of what signing in will and will not do.
+Signing in is not built yet, so nothing is stored anywhere today. When it is,
+the refresh credential goes to the operating system's own credential store — the
+login Keychain on macOS, Credential Manager on Windows, the Secret Service on
+Linux — and never into a file we write, into an editor's configuration, or into
+a profile. On Linux, if no secret service is running, signing in stops and tells
+you rather than falling back to something weaker.
 
-kaleidoscope login
-kaleidoscope login --device
-kaleidoscope status --json
-kaleidoscope logout
-kaleidoscope logout --all-devices
-kaleidoscope logout --local-only
-kaleidoscope account link PROVIDER
-kaleidoscope account identities
-kaleidoscope account unlink EXTERNAL_IDENTITY_UUID
-kaleidoscope account revoke-session
-kaleidoscope devices list
-kaleidoscope devices revoke DEVICE_UUID
-kaleidoscope profile account show [NAME]
-kaleidoscope profile account bind ACCOUNT_UUID [NAME]
-kaleidoscope profile account unbind [NAME]
+One caveat we would rather state than let you discover: on macOS, whether the
+system remembers your approval depends on the program being signed with a stable
+identity. Kaleidoscope is not signed for release,
+so an unsigned build can be asked for your login password every time it reaches
+the Keychain. That is a property of unsigned software, not of how the credential
+is stored, and it goes away when signed builds ship.
 
-account identities is where you get the opaque UUID that account unlink needs. account revoke-session has the deliberately narrow meaning of revoking the session you are currently using; --local-only warns you that it does not revoke a remote one. The profile account commands write a local, non-secret account reference and nothing else — they do not start the engine, contact any service, change a vault, or store a credential.
+Signing in is only ever about your account and your devices. It does not upload,
+sync, analyse, train on or delete your memory, and it does not connect you to a
+hosted service — there isn't one.
 
-What logging out changes
+An **alpha key is not a sign-in and does not use the Keychain at all.** It is
+read from an environment variable or from a file you write yourself, and it
+never prompts for your login password. See
+if you have an alpha key.
 
-Logging out removes or revokes your credentials, according to the scope you chose. It does not change which profile you are on and it does not alter a single byte of your vault. Deleting a vault is a separate, explicit operation with its own confirmation — see Operations (/docs/operations/).
+## What logging out changes
 
----
+Logging out removes or revokes your credentials, according to the scope you
+chose. It does not change which profile you are on and it does not alter a
+single byte of your vault. Deleting a vault is a separate, explicit operation
+with its own confirmation — see Operations.
 
-# Platform support
+## The commands
 
-URL: https://memory.kleosresearch.xyz/docs/compatibility/
-Updated: 2026-08-22
-
-Kaleidoscope has only ever been run on a Mac with Apple Silicon. If you are on an Intel Mac, on Linux, or on Windows, it will not run for you today — and there is nothing to download on any platform, including that Mac.
-
-What the status words mean
-
-The same five words are used on every page of this site. They describe what you can obtain, not what a test did.
-
-- TestedWe have run this ourselves and it worked. It is not released, supported, or signed — but it is not theoretical.
-
-- Partly testedSome of this has been run and some has not. Every “Partly tested” row says which part.
-
-- Compiler-checked onlyThe compiler accepts the source for this target when it is checked from a Mac. It has never been built into a program for that platform, and nobody has ever run it there. It may or may not work, and there is nothing available for it.
-
-- UntestedNobody has run this and nothing has been built for it. Assume it does not work.
-
-- Not availableThis does not exist yet. There is nothing to install, sign up for, or try.
-
-Platforms
-
-PlatformStatusWhat you need
-
-macOS, Apple SiliconTestedmacOS; Node.js 22 or newer, or Python 3.11 or newer
-
-macOS, IntelCompiler-checked only—
-
-Linux, x86_64Compiler-checked only—
-
-Linux, arm64Compiler-checked only—
-
-Windows, x86_64Compiler-checked only—
-
-Windows, arm64Untested—
-
-Hosts and frameworks
-
-HostStatusLimitation
-
-CodexPartly testedIts configuration is written and removed exactly, but Codex gives no way to confirm it then started the server
-
-Claude CodeTested—
-
-OpenCodeTestedStable v1 by default; beta v2 only if you ask for it
-
-CursorPartly testedIts configuration is written and removed correctly, but Cursor has never been launched against it
-
-Generic MCP clients, Python and TypeScriptTested—
-
-Agent frameworks — LangChain, LangGraph, Claude Agent SDK, OpenAI Agents SDK, CrewAIPartly testedRun against a stand-in model, never against a live model provider
-
-A compiler check is not a working build
-
-Every row above marked “Compiler-checked only” means one narrow thing, and it is narrower than it sounds. From a Mac, we asked the compiler whether it accepts the source of one part of Kaleidoscope — the memory engine — for that platform, and it said yes. Nothing was ever assembled into a program for that platform, and the step where a program is stitched together from its parts and its system libraries is exactly the step where building for another platform usually fails first. That step has not happened, on any of these rows. The rest of Kaleidoscope — the command-line tool you would actually run, and the client libraries — was not part of the check at all.
-
-So nobody has executed a program, run an installer, touched a credential store, or driven an editor on any platform except a Mac with Apple Silicon. Windows on arm64 is weaker still — it has not even had the compiler check, so do not read it as a quieter version of Windows on x86_64.
-
-Nothing in these tables is an availability claim. There is no build you can download for any platform, and no package in any registry.
+Every account command, with what each one does and does not do, is on
+the account command page.
 
 ---
 
@@ -568,91 +223,1408 @@ URL: https://memory.kleosresearch.xyz/docs/benchmarks/
 Release: 0.1.0-rc.1
 Updated: 2026-08-22
 
-There is no published benchmark score for Kaleidoscope, and nothing on this site claims anything about how well it retrieves or how fast it is. This page explains why, and what would have to be true before you saw a number here.
+Kaleidoscope is measured on BEAM, a public benchmark for long-term memory in
+conversation. The results below are ours: we ran them, on our machines, against
+a named alternative. There is no build you can download yet, so you cannot
+reproduce them yourself today. Read them with that in mind.
 
-Why there is no number here
+These are **separate experiments**, run on different corpora and different sets
+of questions. Each section says which. They answer different questions and are
+not steps in one series, so please do not read them as one.
 
-A score a vendor runs on a workload the vendor chose measures what that vendor is good at. If you cannot reproduce it on your own data, on your own machine, it is not information you can act on — it is a claim you have to take on trust. We would rather publish nothing than publish that.
+## Twelve times the memories, the same answer quality
 
-What would have to be true first
+*The larger of the two corpora: about seventy-five thousand memories over
+thirty-five conversations.*
 
-Three things, together. The workload has to be described in full: the data, the queries, and how an answer is judged right or wrong. You have to be able to run it yourself, against a build you can actually get, and arrive at the same numbers. And the result has to be reported against a named alternative, so the number means something relative to a choice you might otherwise make.
+We grew the store from about six thousand memories to about seventy-five
+thousand, spread across thirty-five separate vaults, and ran the questions for
+that larger corpus. It scored **0.73** on BEAM's scale, where 1.0 is a perfect
+answer to every question — the same score the same configuration reached on the
+smaller corpus. Nothing
+degraded as the store filled up.
 
-None of those hold today, and the first one cannot hold while there is no build to give you.
+Retrieving a hundred memories for each question instead of fifty changed
+nothing either. Past a point, handing the reader more does not help; handing it
+the right thing does.
 
-What you can check instead
+That is the property that matters for memory you mean to keep for years. A store
+that answers well when it is empty and badly when it is full is not memory.
 
-The parts of Kaleidoscope that do not need a score are the ones you can read now: the exact two tools an agent gets and the shape of a valid call, on MCP (/docs/mcp/); where memory lives and what never leaves your machine, on Privacy (/docs/privacy/); and what has and has not been run, on What works today (/docs/status/).
+## Far better than answering with no memory
+
+*The smaller corpus: twenty conversations. Everything in this section and the
+next was measured there, with the same reader and the same judge throughout.*
+
+A model answering with nothing to go on gets most of these questions wrong. With
+Kaleidoscope it answers most of them well. This is the largest single difference
+in anything we have measured.
+
+Putting the whole conversation into the context window instead does not answer
+better than retrieving from memory, and it costs about a hundred and thirty
+thousand tokens a question to do it. More context is not the same as the right
+context.
+
+## Level with mem0, at a quarter fewer tokens
+
+*Same smaller corpus, same twenty conversations.*
+
+We ran mem0's own system on those conversations, using mem0's own prompt and
+mem0's own judge, and compared it with ours. **The answer quality matches.** Ours
+gets there on **8,173 prompt tokens a question against mem0's 10,762 — 24%
+fewer.**
+
+We are not claiming to beat mem0. On this benchmark the two are level, and the
+difference is what it costs to get there. mem0 has never published a BEAM score
+of its own; the number above is our measurement of their system, not theirs.
+
+## Writing is fast when you write in batches
+
+At ten thousand memories in a vault, storing a memory takes about **76
+milliseconds**.\* That is measured end to end — starting the process, opening
+the vault, admitting the memory and refreshing the index — not just the part
+inside the engine.
+
+\* Writing twenty at a time. A single write on its own costs far more, because
+most of the cost is paid once per call rather than once per memory. Batch your
+writes.
+
+## What we have not measured
+
+Everything here comes from one benchmark on one kind of workload: long,
+multi-session conversations. We have not measured code repositories, documents,
+or anything else you might point memory at.
+
+We also chose the settings we ran by trying them against the very questions we
+then scored, without holding a set of questions back, so treat all of this as
+our best case rather than a promise. The full method — every arm, every
+measurement, and the ones that did not work — will be published alongside the
+first release.
 
 ---
 
-# What works today
+# CLI reference
 
-URL: https://memory.kleosresearch.xyz/docs/status/
+URL: https://memory.kleosresearch.xyz/docs/cli/
+Updated: 2026-08-22
+
+The command you will run is `kaleidoscope`. It sets up your local memory,
+connects your editor or agent to it, and tells you what is wrong when something
+does not work. You cannot install it yet, so read this as the reference for the
+command surface rather than a set of steps to follow now.
+
+`kscope` is the engine executable. It is installed alongside `kaleidoscope` and
+you do not normally run it yourself.
+
+Read the full `kaleidoscope` help text.
+
+## The commands, by what they are for
+
+| | |
+|---|---|
+| Profiles and vaults | `init`, `profile list`, `profile show`, `profile use`, `profile remove` |
+| Connect an editor | `connect`, `disconnect` |
+| Agent instructions | `instructions install`, `instructions remove` |
+| Diagnostics | `config`, `doctor` |
+| Account and devices | `login`, `status`, `logout`, `account`, `devices`, `profile account` |
+
+## The two global flags
+
+`--engine PATH` points the manager at a specific engine executable instead of
+the one it would find for itself. It is accepted by every command that has to
+start or validate the engine: `init`, `profile`, `config`, `connect`,
+`disconnect` and `doctor`. The account commands do not take it, because they
+never touch the engine.
+
+`--version` prints the manager's version and exits.
+
+Two more flags appear on every command that writes to a file, and they matter
+enough to have their own section below: `--dry-run` and `--yes`.
+
+## Safety invariants
+
+These hold for every subcommand, not just the ones documented with them.
+
+- Any command that changes a host file can be previewed with `--dry-run`, which
+  changes nothing, and asks you to confirm before it writes. `--yes` is how you
+  say yes in advance; there is no way to write without one or the other.
+- An unknown, conflicting, symlinked, tampered, or concurrently edited target is
+  refused rather than overwritten. You get the file back as it was and a reason.
+- Changes are backed up, and removal is recorded so that running it twice is
+  safe.
+- The configuration written for your editor or agent contains no tokens, no
+  provider keys, and no vault location.
+- Account traffic goes to a closed list of account-only routes. It is separate
+  from the local memory connection, and nothing about your memory travels on it.
+- Project scope is the default. `--scope user` is how you ask for the
+  machine-wide file instead.
+
+---
+
+# Account commands
+
+URL: https://memory.kleosresearch.xyz/docs/cli/account/
+Updated: 2026-08-22
+
+None of the commands on this page work today. Every one that reaches the account
+service answers `provider not configured`, because no sign-in service is
+configured or published. They are listed so you can see the shape of what
+signing in will and will not do.
+
+You do not need an account to use Kaleidoscope. Your memory lives on your
+machine and has never needed one.
+
+## Sign in and out
+
+```bash
+kaleidoscope login
+kaleidoscope login --device
+kaleidoscope status --json
+kaleidoscope logout
+kaleidoscope logout --all-devices
+kaleidoscope logout --local-only
+```
+
+`login` is an ordinary browser sign-in; `--device` is the code-based path for a
+machine with no browser.
+
+`logout` removes or revokes your credentials according to the scope you chose.
+`--all-devices` ends every session on the account; `--local-only` removes the
+credential from this machine and warns you that it has not revoked anything
+remotely. Neither changes which profile is active, and neither alters a byte of
+your vault.
+
+`kaleidoscope status` reports your account session on this machine. It is not
+related to the status page, which is about what is available.
+
+## Linked sign-in providers
+
+```bash
+kaleidoscope account link PROVIDER
+kaleidoscope account identities
+kaleidoscope account unlink EXTERNAL_IDENTITY_UUID
+kaleidoscope account revoke-session
+```
+
+`account identities` is where you get the opaque UUID that `account unlink`
+needs; it lists those IDs and nothing else.
+
+`account revoke-session` has the deliberately narrow meaning of revoking the
+session you are currently using. It does not deactivate an account.
+
+## Devices
+
+```bash
+kaleidoscope devices list
+kaleidoscope devices revoke DEVICE_UUID
+```
+
+The devices attached to your account, and how to detach one. Revoking a device
+is an account operation; the vault on that device is untouched.
+
+## Local account reference
+
+```bash
+kaleidoscope profile account show [NAME]
+kaleidoscope profile account bind ACCOUNT_UUID [NAME]
+kaleidoscope profile account unbind [NAME]
+```
+
+These three are the exception: they work offline, because they never leave your
+machine. They write a non-secret account ID into your local profile and nothing
+more — they do not start the engine, contact any service, touch a vault, or
+store a credential.
+
+## The boundary
+
+Account traffic goes to a closed list of account-only routes and never touches
+the memory engine. A guard rejects memory fields, profile fields and absolute
+local paths before anything is sent.
+
+What signing in would mean, and where a credential would be kept:
+Account and devices.
+
+---
+
+# Connect an editor or agent
+
+URL: https://memory.kleosresearch.xyz/docs/cli/connect/
+Updated: 2026-08-22
+
+`connect` writes the entry your editor or agent needs to start Kaleidoscope, and
+`disconnect` takes it back out. Both touch only the block Kaleidoscope owns.
+
+## Connect
+
+```bash
+kaleidoscope connect HOST --profile default --project "$PWD" --dry-run
+kaleidoscope connect HOST --profile default --project "$PWD"
+```
+
+`HOST` is one of `codex`, `claude`, `cursor`, or `opencode`. Each has its own
+page under Editors, agents and frameworks, because each
+writes a different file.
+
+What gets written names an absolute path to the local engine and
+`mcp --profile NAME`, and publishes exactly two tools, `search` and `remember`.
+It does not carry your vault location, a provider key, or an account credential.
+
+## The flags
+
+| flag | what it does |
+|---|---|
+| `--dry-run` | prints the exact change and writes nothing |
+| `--yes` | confirms in advance, for a script |
+| `--profile NAME` | which profile the host will open; `default` if omitted |
+| `--project PATH` | which project directory the change belongs to |
+| `--scope user\|project` | machine-wide or this project only; project is the default |
+| `--opencode-version stable-v1\|beta-v2` | OpenCode only, and never guessed |
+
+`--scope user` writes the entry once for your whole machine. `--scope project`
+writes it into the project you named, which is what you usually want when
+different projects should use different memory.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect HOST --project "$PWD" --dry-run
+kaleidoscope disconnect HOST --project "$PWD"
+```
+
+Disconnect is the exact inverse of connect. It removes only what Kaleidoscope
+wrote, leaves the rest of the host's settings alone, and does not touch a single
+byte of your vault. Pass the same `--scope` you connected with; a project-scope
+entry and a user-scope entry are two different entries in two different files.
+
+## When it refuses
+
+An unknown host, a conflicting entry name, a malformed file, a symlink, a file
+being edited at the same time, or ownership markers that have been hand-edited
+all produce a refusal rather than a rewrite. The file comes back untouched and
+you are told which of those it was. That is deliberate: a configuration file you
+maintain is yours, and a tool that guesses at an ambiguous one eventually
+guesses wrong.
+
+Connecting a host does not tell your agent to use the memory it can now reach.
+That is a separate step.
+
+---
+
+# Diagnostics
+
+URL: https://memory.kleosresearch.xyz/docs/cli/diagnostics/
+Updated: 2026-08-22
+
+Two commands answer two different questions. `config` says what is configured.
+`doctor` says what is wrong.
+
+## config
+
+```bash
+kaleidoscope config --profile default
+kaleidoscope config --profile default --json
+```
+
+`config` prints the launch descriptor for a profile: the absolute command a host
+would run, `mcp --profile NAME`, stdio as the transport, exactly two tools, and
+an empty environment for the child process.
+
+`--json` is the machine-readable form, and it is what you paste into any MCP
+client that Kaleidoscope has no `connect` support for. See
+any other MCP client.
+
+The descriptor is deliberately closed. Do not add your vault location or a token
+to it.
+
+## doctor
+
+```bash
+kaleidoscope doctor --project "$PWD"
+```
+
+`doctor` runs offline and reports on your profile, your engine, and the host
+configuration in the project you named. It is the first thing to run when a host
+cannot see the tools, or when you are not sure which profile is active.
+
+## What the output leaves out
+
+`doctor` output is the artifact meant for sharing when you are asking for help.
+It does not print memory content, the queries you ran, the results you got back,
+credentials, or provider keys.
+
+It can still contain local paths and profile names, so strip those before you
+send it to anyone. See
+before sharing diagnostics.
+
+---
+
+# Agent instructions
+
+URL: https://memory.kleosresearch.xyz/docs/cli/instructions/
+Updated: 2026-08-22
+
+`instructions` puts the Kaleidoscope skill, or a short pointer to it, into the
+files your agent already reads. It is the command behind
+give your agent the skill, which shows the files themselves and
+offers them for download.
+
+## Install
+
+```bash
+kaleidoscope instructions install skill  --project "$PWD"
+kaleidoscope instructions install agents --project "$PWD" --dry-run
+kaleidoscope instructions install agents --project "$PWD"
+kaleidoscope instructions install claude --project "$PWD"
+kaleidoscope instructions install cursor --project "$PWD"
+```
+
+## The four targets
+
+| target | lands at | form |
+|---|---|---|
+| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| `agents` | `AGENTS.md` in the project | one marked block, appended |
+| `claude` | `CLAUDE.md` in the project | one marked block, appended |
+| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+
+A target is one of exactly those four words. There is no target that writes to
+every file at once, and there is no automatic install: nothing writes to
+`AGENTS.md` or `CLAUDE.md` as a side effect of connecting a host or starting the
+engine.
+
+## Remove
+
+```bash
+kaleidoscope instructions remove cursor --project "$PWD" --dry-run
+kaleidoscope instructions remove cursor --project "$PWD"
+```
+
+`remove` is the exact inverse of `install`. It takes out the block Kaleidoscope
+owns and leaves the rest of the file as it was.
+
+## Why the block has markers
+
+Everything appended to an existing file sits between two ownership comments.
+That pair is what makes a second install idempotent instead of duplicating, what
+makes removal exact, and what the manager reads before it touches the file at
+all. If you have edited the text between the markers, the command stops and
+hands the file back rather than overwriting your work.
+
+`--dry-run` prints the plan and changes nothing. Without `--yes`, you are asked
+to confirm.
+
+---
+
+# Profiles and vaults
+
+URL: https://memory.kleosresearch.xyz/docs/cli/profiles/
+Updated: 2026-08-22
+
+A profile is one memory store on your machine: a vault directory at a path you
+chose, plus the settings needed to open it. Everything else in Kaleidoscope
+points at a profile by name.
+
+## Create a profile
+
+```bash
+kaleidoscope init --root /absolute/path/to/your/kaleidoscope-memory --profile default
+kaleidoscope init --root /absolute/path --profile work --durability durable-local
+```
+
+`--root` is the vault directory. It must be an absolute path; a missing or
+invalid root is refused rather than created for you, so nothing is silently
+written to the wrong place. `--profile` names the profile, and `default` is the
+name every other command assumes if you do not say otherwise.
+
+`--durability` chooses how hard the engine works to get writes onto the disk.
+`process-local` is the ordinary choice. `durable-local` asks for the stronger
+guarantee and is refused unless the engine can prove the platform supports it,
+rather than being accepted and quietly downgraded.
+
+## List, inspect, switch, remove
+
+```bash
+kaleidoscope profile list
+kaleidoscope profile show default
+kaleidoscope profile use work
+kaleidoscope profile remove work
+```
+
+`profile list` shows the profiles this machine knows and which one is active.
+`profile show` prints one of them. `profile use` changes which profile is active
+for commands that do not name one.
+
+`profile remove` forgets a profile. It does not delete the vault the profile
+pointed at — your memory is a directory on your disk and it stays there. Getting
+rid of the memory itself is a separate, deliberate act; see
+Operations.
+
+## Bind a profile to an account
+
+```bash
+kaleidoscope profile account show [NAME]
+kaleidoscope profile account bind ACCOUNT_UUID [NAME]
+kaleidoscope profile account unbind [NAME]
+```
+
+These write a local, non-secret account reference into a profile and nothing
+more. They do not start the engine, contact any service, touch a vault, or store
+a credential. They are the only account-shaped commands that work offline,
+because they never leave your machine. The rest are on
+the account page.
+
+## What a profile is not
+
+It is not a copy of your memory, and it is not a credential store. Deleting a
+profile, switching profiles, or reinstalling Kaleidoscope leaves every byte of
+every vault exactly where it was.
+
+---
+
+# Platforms
+
+URL: https://memory.kleosresearch.xyz/docs/compatibility/
+Updated: 2026-08-22
+
+Kaleidoscope targets macOS on Apple Silicon and Intel, Linux on x86_64 and
+arm64, and Windows on x86_64 and arm64.
+
+**None of them are available yet.** There is nothing to download, on any
+platform, and neither package is published. When there is something to install,
+that list is what it will cover. What is available today.
+
+| platform | architectures |
+|---|---|
+| macOS | Apple Silicon, Intel |
+| Linux | x86_64, arm64 |
+| Windows | x86_64, arm64 |
+
+## Windows creates no vault
+
+On Windows, creating a new vault is refused on purpose. Windows needs its own
+filesystem work first — file locking, link handling, and flushing writes all the
+way to the disk — and until that lands Kaleidoscope stops rather than writing
+memory it cannot stand behind.
+
+This is a deliberate refusal in the code, not a gap, and it is the one platform
+fact worth knowing before you plan around it. The rest of the Windows work is
+outstanding too, so do not read the refusal as the only thing between you and a
+working install there.
+
+## What has actually been run
+
+One kind of machine: a Mac with Apple Silicon. The rest of the list is what
+Kaleidoscope is built for, not what it has been run on.
+The full account is on the status page.
+
+---
+
+# Concepts and boundaries
+
+URL: https://memory.kleosresearch.xyz/docs/concepts/
+Updated: 2026-08-22
+
+The boundary that matters is your local memory versus your account metadata —
+not merely whether you are signed in.
+
+## Local engine
+
+The proprietary native engine owns the memory algorithm, the canonical vault on
+your machine, the graph, ranking, and the stdio MCP behavior. Its source is not
+part of the public CLI, client, integration, or skill surfaces.
+
+## Manager and profile
+
+The `kaleidoscope` command creates profiles, validates the engine launch
+descriptor, edits host configuration safely, runs offline diagnostics, installs
+agent guidance, and carries the account and device commands. A profile may hold
+one explicit account UUID reference locally; that changes neither its vault
+identity nor its credentials.
+
+## What gets installed
+
+You install one package for your language — the npm package or the Python
+package — and it brings in a second package built for your platform. The
+language package holds the full public client, the typed resolver that finds the
+installed payload, and the `kaleidoscope` and `kscope` commands. The platform
+package holds the manager and the proprietary engine as object code. Neither one
+contains engine source, and neither downloads anything at install time.
+
+## One profile, every tool
+
+Codex, Claude Code, Cursor, OpenCode, framework clients, and generic MCP clients
+are consumers of the same profile. They do not become separate memory stores
+merely because their configuration formats differ.
+
+## Account identity
+
+Signing in is designed to link a product account and a device. The account
+protocol rejects memory fields and absolute local paths before transport.
+Signing out or unlinking is not a vault operation, and must not be read as
+consent to upload memory.
+
+## Hosted memory
+
+A hosted service is a later product requiring separate authorization, tenant
+isolation, retention, residency, deletion, sync, billing, and incident-response
+contracts. It does not exist, and signing in does not opt you into it.
+
+---
+
+# Getting started
+
+URL: https://memory.kleosresearch.xyz/docs/getting-started/
 Release: 0.1.0-rc.1
 Updated: 2026-08-22
 
-You cannot install Kaleidoscope today: neither package exists in a registry, there is nothing to sign up for, and no build is offered for download. This page is the plain answer to “can I use this?” — what has been run, on what, and what has never been run at all.
+These are the five commands you will run, in order. You cannot run the first
+one, because nothing installs from a registry yet; the four below it are real,
+and they are the ones we run.
 
-Platforms
+Neither package has been published, so step 1 is blocked for everyone. Steps 2
+to 5 have each been run on a Mac with Apple Silicon, which is the only kind of
+machine anything has ever been run on. What is available.
 
-Kaleidoscope has only ever been run on a Mac with Apple Silicon. Every other row below has had a compiler check and nothing more — nobody has built a program for it or run anything on it. The status words are defined once, on Platform support (/docs/compatibility/).
+## 1. Install — not possible yet
 
-PlatformStatusWhat you need
+There is no way to install Kaleidoscope today. Neither package exists in a
+registry, and both names return 404. When they publish, the npm package will be
+`@kleos-research/kaleidoscope` and will need Node.js 22 or newer; the Python
+package will be `kaleidoscope-memory` and will need Python 3.11 or newer. You
+install one of them, not both. Either one gives you the `kaleidoscope` and
+`kscope` commands and brings in a second package built for your platform, which
+carries the engine.
 
-macOS, Apple SiliconTestedmacOS; Node.js 22+ or Python 3.11+
+## If you have an alpha key
 
-macOS, IntelCompiler-checked only—
+An alpha key does not use the Keychain and never asks for your login password.
+Kaleidoscope reads it from `KALEIDOSCOPE_API_KEY` in your environment, or from a
+file you write yourself:
 
-Linux, x86_64Compiler-checked only—
+| | |
+|---|---|
+| macOS | `~/Library/Application Support/kaleidoscope/entitlement/api-key` |
+| Windows | the same path under `%APPDATA%` |
+| Linux and others | the same path under `$XDG_CONFIG_HOME`, or `~/.config` |
 
-Linux, arm64Compiler-checked only—
+The file holds the key and nothing else. On macOS and Linux it must be readable
+only by you — permissions `0600` — and a file with any other permissions is
+refused. Windows has no equivalent check. If a key is set but cannot be read,
+you are told that, specifically, rather than being told no key is configured.
 
-Windows, x86_64Compiler-checked only—
+The key controls the memory service, never your data. Retrieval is what it buys,
+so without a valid key your agent's `search` returns nothing. Inspecting,
+verifying and migrating your own vault are never gated, whatever the key says,
+and no refusal ever reads, writes or deletes a byte of it.
 
-Windows, arm64Untested—
+## 2. Create a profile
 
-Hosts you can connect
+```bash
+kaleidoscope init --profile default --root /absolute/path/to/your/kaleidoscope-memory
+kaleidoscope config --profile default --json
+```
 
-Each of these talks to the same local engine over one long-lived stdio MCP process, and each sees exactly two tools: search and remember. No operator command is ever exposed to a model.
+A profile is one memory store on your machine, at a path you choose and own. A
+missing or invalid root is refused rather than created for you. What gets
+written into your editor's configuration later is `mcp --profile NAME` — never a
+credential, never the raw location of your vault.
 
-HostStatusHow you connect
+## 3. Preview the change, then connect
 
-CodexPartly testedkaleidoscope connect codex
+```bash
+kaleidoscope connect codex --profile default --project "$PWD" --dry-run
+kaleidoscope connect codex --profile default --project "$PWD"
+kaleidoscope doctor --project "$PWD"
+```
 
-Claude CodeTestedkaleidoscope connect claude
+The first command shows you the exact change and writes nothing. Applying it
+touches only the block Kaleidoscope owns, so your existing settings survive; an
+ambiguous, symlinked, tampered, or concurrently edited file is refused rather
+than overwritten. The hosts the command knows are `codex`, `claude`, `cursor`,
+and `opencode`.
 
-OpenCodeTestedkaleidoscope connect opencode
+## 4. Check that both tools appeared
 
-CursorPartly testedkaleidoscope connect cursor
+Restart your editor after connecting, then look at the tools it lists for
+Kaleidoscope. You should see exactly two, `search` and `remember`. If you see
+none, or more than two, go to Troubleshooting.
+Operator commands are never offered to a model, so two is the correct number in
+every host.
 
-Agent frameworksPartly testedtheir own MCP adapter, given the descriptor from kaleidoscope config --json
+Seeing the two tools is not the same as your agent using them. Telling it to is
+a separate step: give your agent the skill.
 
-Three of those rows carry a limit. With Codex, Kaleidoscope’s entry is written, read back and removed exactly, but Codex offers no way to confirm it then started the server and saw the two tools — with Claude Code and OpenCode that step was confirmed. Cursor’s configuration and project rule are written and removed correctly, but nobody has launched Cursor against them. The agent frameworks — LangChain, LangGraph, the Claude Agent SDK, the OpenAI Agents SDK and CrewAI — were run against stand-in models, never a live provider. Any other MCP client can use the same descriptor; the Python and TypeScript MCP clients have been tested directly.
+## 5. Disconnect safely
 
-The versions we tested against were Codex 0.149.0, Claude Code 2.1.239, and OpenCode 1.18.21. OpenCode’s stable v1 shape is the default; beta v2 has to be asked for explicitly.
+```bash
+kaleidoscope disconnect codex --project "$PWD" --dry-run
+kaleidoscope disconnect codex --project "$PWD"
+```
 
-What has not been tested
+Disconnect removes only what Kaleidoscope wrote and leaves the rest of the
+host's settings, and every byte of your vault, alone. Disconnecting,
+uninstalling, signing out, and deleting a vault are four separate operations,
+and the first three never delete memory. Operations covers
+the other three.
 
-- Any platform other than a Mac with Apple Silicon. No binary has been executed, no installer run, no credential store touched and no editor driven anywhere else.
+---
 
-- Windows on arm64. It has not even had the compiler check that the other platforms have had.
+# Editors, agents and frameworks
 
-- Cursor itself. Only its configuration has been written and removed.
+URL: https://memory.kleosresearch.xyz/docs/integrations/
+Updated: 2026-08-22
 
-- Whether Codex actually starts the server after being configured. Its configuration entry is written, read back and removed exactly, and that is as far as Codex’s command line lets us check.
+Every editor and agent below talks to the same engine on your machine, over one
+long-lived process, and sees exactly two tools: `search` and `remember`. Connect
+five of them and they share one memory instead of starting five stores.
 
-- Any editor’s graphical interface. The connections above were made and checked from the command line.
+| | connect it with |
+|---|---|
+| Claude Code | `kaleidoscope connect claude` |
+| Codex | `kaleidoscope connect codex` |
+| Cursor | `kaleidoscope connect cursor` |
+| OpenCode | `kaleidoscope connect opencode` |
+| Any other MCP client | read the descriptor from `kaleidoscope config --json` |
 
-- Any run against a live model provider.
+Frameworks connect through their own MCP adapter, using the same descriptor:
+Claude Agent SDK ·
+OpenAI Agents SDK ·
+LangChain ·
+LangGraph ·
+CrewAI
 
-- Signing in. Every account command refuses with provider not configured.
+There is no build to install yet, so none of these commands run today. What they
+do when there is one is described on each page.
+What has actually been run, and on what.
 
-- Any signed build. Nothing is signed for production — no Apple signing, no notarisation.
+Telling your agent to *use* the memory it can now reach is a separate step:
+give your agent the skill.
 
-- Any published package. Everything that exists is a private test build.
+---
 
-Some things do not exist yet, so there is nothing to test. There is no hosted service, no API and no waitlist. No benchmark score has been published, and nothing on this site claims anything about retrieval quality or speed. No security contact is published yet; it will appear on Security (/docs/security/) and at /.well-known/security.txt before release. There is no public source repository for the clients or SDKs.
+# Claude Agent SDK
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/claude-agent-sdk/
+Updated: 2026-08-22
+
+Create one Claude Agent SDK client for the run you intend, and hand it a stdio
+MCP configuration that names the Kaleidoscope tools explicitly. One client, one
+process, for the whole run.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Put that descriptor in the SDK's own stdio MCP configuration. One client, opened
+around the run and closed at the end — not a fresh engine process per tool call.
+
+## What it writes
+
+Nothing on your disk. The descriptor sets an empty environment for the child
+process, so account tokens, vault locations and provider keys never reach it.
+Your model-provider credentials stay in your own application.
+
+## The one thing that is different here
+
+The tool allowlist is two names, and you write them out:
+
+```text
+mcp__kaleidoscope__search
+mcp__kaleidoscope__remember
+```
+
+Anything else is not a Kaleidoscope tool. Operator commands are never offered to
+a model, so there is no third name to add.
+
+## Disconnect
+
+Close the client. Remove the descriptor from your SDK configuration; nothing
+else was changed.
+
+---
+
+# Claude Code
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/claude-code/
+Updated: 2026-08-22
+
+Claude Code gets one local MCP server definition from you, and optionally a
+short project pointer to the public skill. Everything Kaleidoscope writes is
+marked as its own, so it can take it back out.
+
+## Connect it
+
+```bash
+kaleidoscope connect claude --profile default --project "$PWD" --dry-run
+kaleidoscope connect claude --profile default --project "$PWD"
+kaleidoscope instructions install claude --project "$PWD"
+```
+
+## What it writes
+
+Only the entry Kaleidoscope owns is written to `.mcp.json`; the rest of your
+file is left alone. If the ownership markers have been edited or the file is
+ambiguous, the change is refused rather than guessed at. The entry publishes
+only `search` and `remember`.
+
+`instructions install claude` is separate from the connection: it appends the
+marked pointer block to `CLAUDE.md`. See
+give your agent the skill.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect claude --project "$PWD"
+```
+
+It removes only what Kaleidoscope wrote.
+
+---
+
+# Codex
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/codex/
+Updated: 2026-08-22
+
+Codex reads the same local launch descriptor and the same profile as every other
+editor you connect. Kaleidoscope owns the change it makes to Codex's
+configuration, so you can preview it, and take it back out exactly.
+
+## Connect it
+
+```bash
+kaleidoscope connect codex --profile default --project "$PWD" --dry-run
+kaleidoscope connect codex --profile default --project "$PWD"
+kaleidoscope instructions install agents --project "$PWD"
+```
+
+## What it writes
+
+What gets written names an absolute path to the local engine,
+`mcp --profile default`, and exactly `search` and `remember`. It does not carry
+your vault location, a provider key, or an account credential.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect codex --project "$PWD"
+```
+
+It removes only what Kaleidoscope wrote, leaving the file as it was.
+
+---
+
+# CrewAI
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/crewai/
+Updated: 2026-08-22
+
+CrewAI uses one stdio MCP adapter context for the whole crew run, and exposes
+only the Kaleidoscope tools you choose to give the model.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Build the adapter from that descriptor, enter it once, select `search` and
+`remember`, run the crew, then close the context. Do not recreate the server for
+each task.
+
+## What it writes
+
+Nothing on your disk. CrewAI owns your provider configuration and your crew
+state; Kaleidoscope owns only the local memory, and never receives a
+model-provider credential or an account token.
+
+## Disconnect
+
+Close the adapter context at the end of the crew run and remove the descriptor
+from your own configuration.
+
+---
+
+# Cursor
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/cursor/
+Updated: 2026-08-22
+
+Cursor uses the same local command and the same two tools as every other editor.
+Kaleidoscope makes the change to Cursor's JSON reversible, and adds a small
+project rule only if you ask for one.
+
+## Connect it
+
+```bash
+kaleidoscope connect cursor --profile default --project "$PWD" --dry-run
+kaleidoscope connect cursor --profile default --project "$PWD"
+kaleidoscope instructions install cursor --project "$PWD"
+```
+
+## What it writes
+
+The MCP server entry goes into Cursor's JSON configuration. Entries you added
+yourself are left untouched. A tampered marker, a name that conflicts, a
+malformed file, a symlink, or a file being edited at the same time is refused
+and handed back to you rather than overwritten.
+
+## The one thing that is different here
+
+The project rule is a **second, separate file** from the MCP configuration.
+`connect cursor` writes the server entry; `instructions install cursor` writes
+the rule. They are installed and removed independently, so removing one leaves
+the other in place. If Cursor can see the tools but ignores them, it is usually
+the rule that is missing — see give your agent the skill.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect cursor --project "$PWD"
+kaleidoscope instructions remove cursor --project "$PWD"
+```
+
+Each removes only what Kaleidoscope wrote. Run both if you installed both.
+
+---
+
+# Any other MCP client
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/generic-mcp/
+Updated: 2026-08-22
+
+Any standard MCP client can ask Kaleidoscope for its launch descriptor and keep
+one initialized session open for the whole run. You do not have to hand-write
+the command.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+What comes back is deliberately closed: an absolute command,
+`mcp --profile NAME`, `stdio`, exactly two tools, and an empty environment. Give
+that to your client as its server definition.
+
+## What it writes
+
+Nothing. There is no `connect` support for a client Kaleidoscope does not know
+by name, so you place the descriptor in your own configuration and you own that
+file. Do not add your vault location or a token to it.
+
+## The one thing that is different here
+
+One descriptor, one long-lived stdio process. Initialize once, check that you
+see exactly `search` and `remember`, then reuse that session for the rest of the
+run. Starting a new process per tool call is slower and gains you nothing.
+
+## Disconnect
+
+Remove the server definition from your own configuration. Kaleidoscope wrote
+nothing, so there is nothing for it to take back out.
+
+---
+
+# LangChain
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/langchain/
+Updated: 2026-08-22
+
+Use the official LangChain MCP adapter to load the two Kaleidoscope tools inside
+a single adapter session.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Give that descriptor to the LangChain MCP adapter. Open the stdio adapter once
+around the agent run you intend, load the two tools, then close the adapter when
+the run is over.
+
+## What it writes
+
+Nothing on your disk. Your model-provider credentials are supplied by your own
+application and never pass through Kaleidoscope.
+
+## The one thing that is different here
+
+Kaleidoscope is not a `BaseStore` implementation, and you should not wrap it as
+one. Do not add a parallel LangChain memory, and do not summarize messages into
+a second store. If two things can answer "what do I know", they will disagree.
+The MCP server stays the one owner.
+
+## Disconnect
+
+Close the adapter. Remove the descriptor from your application configuration.
+
+---
+
+# LangGraph
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/langgraph/
+Updated: 2026-08-22
+
+LangGraph uses the same one-session MCP adapter as LangChain, placed in your
+graph's tool node for the length of the run.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Open the adapter before you execute the graph, pass the two tools into the tool
+node, and close it once execution finishes. The same session is reused across
+node calls.
+
+## What it writes
+
+Nothing on your disk. Provider credentials stay in your own application.
+
+## The one thing that is different here
+
+Kaleidoscope is not a LangGraph checkpointer and not a `BaseStore`. Keep graph
+state and durable memory separate, so you never end up with two things that both
+claim to be the record.
+
+## Disconnect
+
+Close the adapter after the graph finishes, and remove the descriptor from your
+own configuration.
+
+---
+
+# OpenAI Agents SDK
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/openai-agents-sdk/
+Updated: 2026-08-22
+
+Use the stdio MCP server lifecycle the OpenAI Agents SDK already gives you. Keep
+one server alive for the agent run, and filter the model-facing tools down to
+Kaleidoscope's two.
+
+## Connect it
+
+```bash
+kaleidoscope config --profile default --json
+```
+
+Create the MCP server from that descriptor as a managed resource around the run,
+and close it deterministically at the end. Do not open a fresh engine process
+for every tool call.
+
+## What it writes
+
+Nothing on your disk. Provider credentials come from your application and are
+never placed in the Kaleidoscope descriptor.
+
+## The one thing that is different here
+
+The tool allowlist is two names, `search` and `remember`. Nothing else is ever
+exposed to a model — the operator commands are yours, from the terminal.
+
+## Disconnect
+
+Close the server at the end of the run and remove the descriptor from your own
+configuration.
+
+---
+
+# OpenCode
+
+URL: https://memory.kleosresearch.xyz/docs/integrations/opencode/
+Updated: 2026-08-22
+
+OpenCode stable v1 and beta v2 want different configuration shapes. Kaleidoscope
+never guesses which one you are on and never quietly moves you between them.
+
+## Connect it
+
+```bash
+kaleidoscope connect opencode --profile default --project "$PWD" --dry-run
+kaleidoscope connect opencode --profile default --project "$PWD"
+```
+
+Stable v1 is what you get if you say nothing.
+
+## The one thing that is different here
+
+The two configuration shapes are genuinely different, and which one you get is a
+flag:
+
+```bash
+kaleidoscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
+```
+
+The stable entry is a direct local command. Beta v2 uses the explicit server
+shape with code mode turned off, so `search` and `remember` stay visible to the
+model. If your file already contains both shapes, the change is refused rather
+than resolved for you.
+
+## What it writes
+
+One entry, in whichever shape applies, naming the local engine and
+`mcp --profile NAME`. It carries no vault location, provider key or credential.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect opencode --project "$PWD"
+```
+
+It removes only what Kaleidoscope wrote.
+
+---
+
+# Licenses and product terms
+
+URL: https://memory.kleosresearch.xyz/docs/legal/
+Updated: 2026-08-22
+
+Review drafts — not in force.
+The product terms below have not been reviewed by legal counsel. Apache-2.0 and CC BY 4.0 are authorized license selections and are in force for the material they cover. The engine EULA, privacy notice, security policy, and support policy are source-controlled drafts: not in force, not offers or contracts, and not a description of terms that govern anything today. The production entity, jurisdiction, contacts, operational commitments, and external legal review are all outstanding.
+
+The public software, original documentation, and proprietary engine have
+deliberately separate license boundaries. Two of them are settled; the rest are
+drafts.
+
+## Authorized public licenses
+
+**Apache-2.0 — in force.** Covers the public manager, SDKs, wrappers,
+integrations, and skill, and is carried in those source and package
+repositories. It does not license the native engine, model weights, trademarks,
+or third-party material.
+
+**CC BY 4.0 — in force.** Covers original documentation. Read the
+documentation license scope and the
+CC BY 4.0 legal code.
+
+## Product terms — review drafts
+
+| document | plain text |
+|---|---|
+| Proprietary engine EULA | `ENGINE-EULA.txt` |
+| Privacy notice | `PRIVACY-NOTICE.txt` |
+| Security policy | `SECURITY-POLICY.txt` |
+| Support policy | `SUPPORT-POLICY.txt` |
+
+## What is still outstanding
+
+- **Production entity.** The contracting entity named in the drafts is a
+  placeholder and has not been settled.
+- **Jurisdiction.** Governing law and venue are unresolved, so no dispute clause
+  in the drafts is operative.
+- **Contacts.** No monitored legal, privacy, or security intake address is
+  published; the addresses in the drafts do not accept mail.
+- **Commitments.** Support scope, severity definitions, and response targets are
+  proposals, not obligations, and no service level exists.
+- **External legal review.** No counsel has reviewed any of these documents.
+  This is the gate that keeps every draft above out of force.
+
+---
+
+# MCP reference
+
+URL: https://memory.kleosresearch.xyz/docs/mcp/
+Release: 0.1.0-rc.1
+Updated: 2026-08-22
+
+Your editor or agent sees exactly two tools from Kaleidoscope: `search` and
+`remember`. Nothing else is callable by a model. This page is what you need to
+write a correct call to either one.
+
+There is no way to install Kaleidoscope yet, so you cannot connect a host of
+your own today — see Install. The contract below is the one
+that runs locally.
+
+Read the machine-readable tool reference.
+
+## `search`
+
+Send exactly one of `query` or `memory_id`. A `query` ranks your memories and
+returns them under `selected_hits`. A `memory_id` is an addressed read: it
+returns that one memory at the top level and refuses ranking controls. Keep
+`top_k` small — about 5 is normal — and set a bounded `maximum_context_bytes`.
+`ledger` accepts only `true`.
+
+```json
+{"query": "how do we handle database migrations", "top_k": 5, "ledger": true}
+```
+
+A query also writes down what it returned. That record goes into your vault on
+your machine, next to the memories themselves, and it stays there — it is what a
+later authenticated tool would use to tell which memories actually helped.
+
+## `remember`
+
+`mode` is required and is `create`, `update`, or `delete`. For a create or an
+update, `content_md` is the memory as you want to read it back and must begin
+with an H1, and `semantic_delta` carries the structure: a title and at least one
+fact. Every endpoint a fact names is declared with `n`, the surface the fact
+refers to it by; `kind`; and `is`, a short gloss. Predicates are snake_case. An
+update or a delete needs `memory_id` and `expected_version_id`. Batching through
+`items` accepts at most 20 creates, and items do not share structure with each
+other.
+
+```json
+{
+  "mode": "create",
+  "content_md": "# Ana owns the billing service\n\nAna took it over after the payments team split.",
+  "semantic_delta": {
+    "memory_type": "decision",
+    "title": "Ana owns the billing service",
+    "entities": [
+      {"n": "Ana", "kind": "person", "is": "backend engineer on my team"},
+      {"n": "billing service", "kind": "service", "is": "the service that issues invoices"}
+    ],
+    "facts": [{"subject": "Ana", "predicate": "owns", "object": "billing service"}]
+  }
+}
+```
+
+Write the `is` gloss properly. It is not documentation — it is what the engine
+matches on when it decides whether two mentions of a name are the same thing, so
+`Ana | person | backend engineer on my team` finds far more than `Ana` alone
+does.
+
+`remember` infers nothing from what you wrote. The entities, facts,
+relationships, and dates it stores are the ones you state explicitly. Treat the
+tool schema your host discovered as the authority for which memory types and
+fields a build accepts, rather than copying a vocabulary out of prose.
+
+## Lifecycle
+
+Your host keeps one long-lived process alive across calls and talks to it over
+stdio at MCP protocol revision `2025-11-25`. It negotiates once, enforces a
+startup deadline, cancels cleanly, bounds what it reads from stderr, and shuts
+the process down without leaving an orphan behind. A framework integration will
+not run a second retrieval behind your back.
+
+## What a model never sees
+
+Feedback, lifecycle and import, maintenance, ontology, and diagnostics are
+operator commands, not tools. They are absent from the list your agent
+discovers. Search results do not carry the handle those commands need either, so
+there is no path from a model to them and nothing to reconstruct.
+
+## Telling your agent to use them
+
+Discovering the two tools is not the same as using them well. The skill file
+that tells an agent when to retrieve and what is worth writing is published at
+give your agent the skill.
+
+---
+
+# Operations
+
+URL: https://memory.kleosresearch.xyz/docs/operations/
+Updated: 2026-08-22
+
+Your memory lives in one place on your machine — a vault directory you chose.
+Everything else Kaleidoscope touches (editor configuration, agent instructions,
+account credentials, the installed executables) has its own lifecycle, and
+removing any of them does not remove your memory.
+
+## Find your profile first
+
+You named a vault root when you initialized a profile. To see which profile is
+active and where it points, without printing credentials or any memory content:
+
+```bash
+kaleidoscope profile list
+kaleidoscope config --profile default --json
+kaleidoscope doctor --project "$PWD"
+```
+
+## Back up and restore
+
+Back up by copying the whole vault directory while nothing is connected to it —
+close the editors and agents you have connected first, so nothing is writing to
+it mid-copy. Copy the directory as a whole; a partial copy is not a vault. To
+restore, or to move your memory to another machine or another path, put the
+directory back and point a profile at it:
+
+```bash
+kaleidoscope init --profile default --root /absolute/path/to/the/vault
+```
+
+## Disconnect and uninstall
+
+These are four separate operations, and it matters that you know which one you
+are doing.
+
+- `kaleidoscope disconnect HOST` removes only the configuration Kaleidoscope
+  itself wrote into that editor. Other settings in the same file are left alone.
+- `kaleidoscope instructions remove` removes the agent guidance pointer, which
+  is a separate thing from the connection.
+- Uninstalling the package removes the executables.
+- `kaleidoscope logout` removes or revokes account credentials.
+
+None of the four deletes a vault. Your memory survives all of them.
+
+## Delete a vault
+
+Deleting a vault is deliberately its own operation: it previews what it will
+delete, asks you to confirm, and acts on exactly one fully resolved path. A
+broad path, an unresolved variable, or an ambiguous target is refused rather
+than guessed at. Deleting a memory and deleting the vault that holds it are
+different acts — the first is something you ask the engine to do, the second
+removes the files.
+
+## Install, update, and roll back
+
+Installing, updating, rolling back to the previous version, and uninstalling
+have each been run on a Mac with Apple Silicon and behaved correctly, and a
+vault kept alongside was byte-for-byte identical afterwards. That is the whole
+of what has been established. Nothing is signed for production, and there is no
+channel to update from yet, so this is not a supported update path — it is a
+mechanism we have run once, on one machine.
+
+## What gets installed
+
+Two things: a language package for npm or Python, and a second package built for
+your platform. The language package holds the client library and the
+`kaleidoscope` and `kscope` commands; the platform package holds the manager and
+the engine, as object code. There is no install hook, runtime download,
+compiler, or source-build fallback — nothing is fetched or built on your machine
+after the download. The engine source is in neither package.
+
+## Encrypted vaults, on a Mac
+
+On a Mac you can choose to keep a vault inside an encrypted disk image. Its
+password is generated by macOS, kept in your login Keychain, and shown to you
+once as a recovery key — write that down, it is the only copy. This is macOS
+only; elsewhere the command refuses.
+
+---
+
+# Install
+
+URL: https://memory.kleosresearch.xyz/docs/packages/
+Release: 0.1.0-rc.1
+Updated: 2026-08-22
+
+You cannot install Kaleidoscope today. Neither package exists in a registry, so
+both names on this page return 404. What follows is what you will install once
+they publish, what is inside, and what your machine will need.
+
+## The two packages
+
+| ecosystem | package | requires |
+|---|---|---|
+| npm | `@kleos-research/kaleidoscope` | Node.js 22 or newer |
+| PyPI | `kaleidoscope-memory` | Python 3.11 or newer |
+
+Neither is published. These names are final. You only need one of them: both
+install the same two commands, `kaleidoscope` and `kscope`, and both give you
+the same local memory. Pick whichever ecosystem your project already uses.
+
+## What is inside
+
+Installing one of these gets you two things. The first is the package for your
+language: the full client library for TypeScript or Python, and the
+`kaleidoscope` and `kscope` commands. The second is a package built for your
+platform, which carries the engine that stores and ranks your memory.
+
+That engine is proprietary object code. Its source is not in either package, and
+a native binary is still inspectable — shipping object code is not a claim that
+it cannot be read. Everything around the engine is open: the command-line tool,
+both SDKs, every integration, and the agent skill are Apache-2.0.
+
+Today the only platform package that exists is for macOS on Apple Silicon.
+Neither ecosystem uses an install hook, a download at install time, a compiler,
+or a source-build fallback — installing puts files on your disk, and that is all
+it does.
+
+## Why you cannot install it yet
+
+There is no public installation channel. `@kleos-research/kaleidoscope` is not
+on npm and `kaleidoscope-memory` is not on PyPI. Archives, tarballs, and wheels
+do exist, but they are private test builds, not downloads, and there is nowhere
+to fetch them from.
+
+Nothing is signed for production either. There is no Apple signing and no
+notarisation; the only signature that exists is a test fixture checked into the
+source tree, and the native code is ad-hoc signed only. None of that is a
+supply-chain guarantee, and it has to be real before either package can publish.
+
+What is available today · Which platforms this is for
+
+---
+
+# Privacy and data boundary
+
+URL: https://memory.kleosresearch.xyz/docs/privacy/
+Updated: 2026-08-22
+
+Your memory and your account identity are separate systems. Signing in does not
+authorize upload, sync, analysis, training on, or deletion of your memory.
+
+## Your memory stays local
+
+Signing in never carries your memory with it. Memory content, the queries you
+ran, the results you got back, memory IDs, graph data, local paths, vault
+locations, the internal identifiers Kaleidoscope uses to organise a vault, and
+any credentials you have stored locally are all excluded from the account
+protocol. The account client rejects those fields — and any absolute local path
+— before anything would leave your machine.
+
+## What signing in would send
+
+Signing in would send a narrow set of account and device fields — enough to log
+in, keep you logged in, show your account status, link or unlink another sign-in
+provider, log out, and manage the devices attached to your account. Nothing
+else. You cannot sign in today, and the terms that would govern it — who runs
+the sign-in service, how long anything is kept, how you recover an account, and
+how you delete one — are not settled. That is one of the reasons sign-in is
+switched off.
+
+## Where a sign-in credential would be kept
+
+Signing in is not built yet, so nothing is stored anywhere today. When it is,
+the refresh credential goes to the operating system's own credential store — the
+login Keychain on macOS, Credential Manager on Windows, the Secret Service on
+Linux — and never into a file we write, into an editor's configuration, or into
+a profile. On Linux, if no secret service is running, signing in stops and tells
+you rather than falling back to something weaker.
+
+There is a caveat about unsigned software and macOS credential prompts, and one
+about alpha keys, which do not use a credential store at all. Both are on
+Account and devices.
+
+## Network use
+
+The engine needs no network access and makes no calls to any model provider.
+Everything except the account commands works with your machine offline, and the
+account commands are the only part of Kaleidoscope that is ever meant to talk to
+a server at all. Nothing has been settled about what a released version would
+report back, where that would go, or what you would be asked to agree to — and
+until it is settled and written into terms someone has actually reviewed,
+sign-in stays switched off.
+
+## This documentation site
+
+These pages are static files served by GitHub Pages. They set no cookies and use
+no local storage. The only scripts on them are the small ones that make the
+navigation work; there is no analytics, no behavioural tracking, and nothing
+that reports your reading anywhere. They do make one
+third-party request: the three typefaces are fetched from Google Fonts
+(`fonts.googleapis.com` and `fonts.gstatic.com`), so Google receives the request
+metadata a font fetch carries, including your IP address. Blocking it costs only
+the typefaces. Nothing on this site reads a vault, a profile, or any local
+memory.
+
+## Hosted memory
+
+There is no hosted service. Kaleidoscope does not sync your memory anywhere,
+there is no endpoint or API to send it to, and there is no waitlist for one. If
+that ever changes it will be a separate product with its own terms, and it will
+not be something a local profile or a sign-in quietly opts you into.
 
 ---
 
@@ -662,11 +1634,193 @@ URL: https://memory.kleosresearch.xyz/docs/release-notes/
 Release: 0.1.0-rc.1
 Updated: 2026-08-22
 
-Kaleidoscope has not been released, so there are no release notes yet. When it is released, every version will be listed here, newest first.
+Kaleidoscope has not been released, so there are no release notes yet. When it
+is released, every version will be listed here, newest first.
 
-Each entry will say which platforms that version runs on, which editor and agent versions it was tested against, what changed, what broke or was removed, whether anything you already have needs to be moved or reconfigured, and any security fixes it carries.
+Each entry will say which platforms that version runs on, which editor and agent
+versions it was checked against, what changed, what broke or was removed, whether
+anything you already have needs to be moved or reconfigured, and any security
+fixes it carries.
 
-Until then, What works today (/docs/status/) is the current picture: what has been run, on what, and what has never been tested.
+Until then, Status is the current picture: what is available, what
+is not, and what has actually been run.
+
+---
+
+# Security
+
+URL: https://memory.kleosresearch.xyz/docs/security/
+Updated: 2026-08-22
+
+Kaleidoscope's engine is distributed as object code rather than source. That is
+a distribution choice, not a security guarantee: a native binary on your machine
+is still inspectable and may be reverse engineered, and shipping object code is
+not a claim of impossibility. What this page describes is the boundaries you can
+check — what the engine can reach, what account commands can send, and what is
+not signed.
+
+## What the engine can reach
+
+The engine keeps your memory in a local vault, speaks stdio to your editor,
+declares no required network access, and makes no external model calls. When the
+manager launches it, it hands over a closed, non-secret environment rather than
+passing along whatever is in yours — your model-provider keys, account tokens,
+cloud credentials and the vault's location are not part of what the engine
+process receives.
+
+## What account commands can send
+
+Account commands never touch the memory engine. The manager can reach exactly
+eleven account routes and no others, and a guard rejects memory and profile
+fields, and absolute local paths, before anything is sent. With the engine
+deliberately removed from the machine, all eleven still refused cleanly with
+`provider not configured` — they fail before anything local is opened. There is
+no account service to reach in any case.
+
+## Nothing is signed for production
+
+There is no Apple signing and no notarisation. The only signature that exists
+anywhere in the build is a test fixture checked into the source, and the native
+code is ad-hoc signed only. Do not read any of this as a supply-chain guarantee:
+nothing here lets you verify that a file you received is the file we built.
+Production trust roots, signing identities and the final notices that go with
+them do not exist yet.
+
+This has a consequence you will meet before any other: an unsigned program has
+no stable identity for the operating system to remember, so a macOS credential
+prompt can come back every launch. That is the reason the
+account page says a
+Keychain approval may not stick.
+
+## What we have checked for leaks
+
+We put distinctive marker values into the environment, the profiles, the editor
+configuration and the MCP traffic, then check that none of them turn up in
+output. That is a scoped test on one platform, not a proof that nothing ever
+leaks — it can only find the kinds of leak it was written to look for.
+
+## Report a vulnerability
+
+Do not publish an exploit or a sensitive report in a public issue. There is no
+security contact to send it to yet; publishing one, along with a policy saying
+which versions get fixes, is something that has to happen before release. It
+will appear on this page and at `/.well-known/security.txt`.
+
+---
+
+# Give your agent the skill
+
+URL: https://memory.kleosresearch.xyz/docs/skill/
+Updated: 2026-08-22
+
+An agent only uses memory if something told it to. Kaleidoscope ships one skill
+file and a short pointer for whichever instruction file your project already has,
+and it installs them as a block it owns, so it can take them out again exactly.
+
+Nothing is written to `CLAUDE.md` or `AGENTS.md` as a side effect of installing,
+running or connecting anything. It is a command a human runs, it previews before
+it writes, and it has an exact inverse.
+
+## The four files
+
+Every one is published here, byte for byte, as the manager would install it.
+
+SKILL.md — https://memory.kleosresearch.xyz/SKILL.md
+
+The skill itself — about 600 words telling an agent how to use `search` and
+`remember`, when to retrieve, what is worth persisting, and what never to store.
+Goes to `.agents/skills/use-kaleidoscope/SKILL.md`.
+
+AGENTS.md snippet — https://memory.kleosresearch.xyz/snippets/AGENTS.md
+
+One paragraph pointing at the skill, wrapped in its markers. Appended to your
+project's `AGENTS.md`.
+
+CLAUDE.md snippet — https://memory.kleosresearch.xyz/snippets/CLAUDE.md
+
+The same paragraph for `CLAUDE.md`.
+
+Cursor rule — https://memory.kleosresearch.xyz/snippets/cursor-kaleidoscope.mdc
+
+The same paragraph as a Cursor project rule, with `alwaysApply: true`.
+
+## What gets added to your file
+
+This is the whole of it. The two comments are the point: they mark where
+Kaleidoscope's text starts and stops.
+
+```md title="CLAUDE.md" wrap
+<!-- >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+## Kaleidoscope memory
+
+For nontrivial tasks, read and follow `.agents/skills/use-kaleidoscope/SKILL.md` before using Kaleidoscope. Use only the public `search` and `remember` tools for agent work. Retrieve at task start, persist only verified durable semantic deltas, never store secrets or transcripts, and leave the required exposure record. If the skill or authenticated tools are unavailable, continue without inventing memory operations.
+<!-- <<< kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+```
+
+Nothing else in your file is touched, and nothing is added a second time if you
+run it twice.
+
+The block is a pointer, not the skill. It tells the agent to read the skill
+file, to use only `search` and `remember`, to retrieve at task start, to persist
+only verified durable changes, never to store secrets or transcripts, and to
+carry on normally if the tools are not there.
+
+## The four targets
+
+| target | lands at | form |
+|---|---|---|
+| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| `agents` | `AGENTS.md` in the project | one marked block, appended |
+| `claude` | `CLAUDE.md` in the project | one marked block, appended |
+| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+
+In `AGENTS.md` and `CLAUDE.md` the block is delimited by an HTML comment pair.
+In `SKILL.md` and the Cursor rule the file *is* Kaleidoscope's, so the pair
+wraps the whole of it: the opening marker sits in the frontmatter as a `#`
+comment and the closing marker is the last line of the file. That marked pair is
+what makes a second install idempotent instead of duplicating, what makes
+removal exact, and what the manager checks before touching a file at all.
+
+Six guarantees govern every one of those writes: it previews before writing; it
+asks you to confirm unless you explicitly bypass that; it leaves unrelated
+content alone; it writes atomically with a bounded backup; running it again
+changes nothing; and removal takes out only what it owns. A target that is
+unknown, conflicting, symlinked, hand-edited inside the markers, or changed
+underneath it is refused, not overwritten.
+
+## Doing it by hand, which is what you can do today
+
+There is no build to install yet, so the commands below are the reference for
+what they will do rather than something you can run. In the meantime the files
+above are the whole mechanism, and pasting them by hand works:
+
+1. Save `SKILL.md` to `.agents/skills/use-kaleidoscope/SKILL.md` in your project.
+2. Paste the matching snippet into `AGENTS.md`, `CLAUDE.md`, or your Cursor rules
+   — **keep the two marker comments**. They are what lets Kaleidoscope adopt the
+   block later, and remove it exactly, instead of treating it as your own text.
+
+## The commands, for when there is a build
+
+```bash
+kaleidoscope instructions install skill  --project "$PWD"
+kaleidoscope instructions install agents --project "$PWD" --dry-run
+kaleidoscope instructions install agents --project "$PWD"
+kaleidoscope instructions install claude --project "$PWD"
+kaleidoscope instructions install cursor --project "$PWD"
+
+kaleidoscope instructions remove cursor --project "$PWD" --dry-run
+kaleidoscope instructions remove cursor --project "$PWD"
+```
+
+`--dry-run` prints the plan and changes nothing. Without `--yes` you are asked to
+confirm. `instructions remove` is the exact inverse of `instructions install`:
+it takes out the marked block and leaves the rest of the file as it was. If you
+edited inside the markers, it stops and hands the file back rather than
+overwriting your work.
+
+Full command reference: the instructions commands.
+What the two tools actually do: MCP reference.
+The same text as a single file: agent-instructions.md.
 
 ---
 
@@ -675,295 +1829,153 @@ Until then, What works today (/docs/status/) is the current picture: what has be
 URL: https://memory.kleosresearch.xyz/docs/troubleshooting/
 Updated: 2026-08-22
 
-Start with kaleidoscope doctor when your profile, engine, or host configuration is misbehaving. Account commands fail on their own separate boundary, so read that section before you conclude that anything local is broken.
+Start with `kaleidoscope doctor` when your profile, engine, or host
+configuration is misbehaving. Account commands fail on their own separate
+boundary, so read that section before you conclude that anything local is
+broken.
 
-The host cannot find the tools
+## The host cannot find the tools
 
-- Confirm the active profile is the one you expect.
+1. Confirm the active profile is the one you expect.
+2. Preview the connection with `--dry-run` and read only the block Kaleidoscope
+   owns.
+3. Restart the host after a successful connect — most hosts read their
+   configuration once, at startup.
+4. Confirm the tools it discovered are exactly `search` and `remember`.
 
-- Preview the connection with --dry-run and read only the block Kaleidoscope owns.
+## OpenCode configuration is refused
 
-- Restart the host after a successful connect — most hosts read their configuration once, at startup.
+The stable and beta-v2 configuration shapes differ. Kaleidoscope adopts an
+existing shape when it is unambiguous, or the version you named explicitly; it
+never quietly rewrites stable configuration into beta. Remove any duplicate
+Kaleidoscope entry and run the dry run again.
 
-- Confirm the tools it discovered are exactly search and remember.
+## A profile points to the wrong place
 
-OpenCode configuration is refused
+Do not edit the profile by hand. Import the vault you meant to use, or
+initialise a new one at an explicit path. A missing or invalid root is refused
+rather than created for you, so nothing is silently written to the wrong place.
 
-The stable and beta-v2 configuration shapes differ. Kaleidoscope adopts an existing shape when it is unambiguous, or the version you named explicitly; it never quietly rewrites stable configuration into beta. Remove any duplicate Kaleidoscope entry and run the dry run again.
+## Login says provider not configured
 
-A profile points to the wrong place
+That is expected today. No sign-in service is published, so every remote account
+command refuses. Do not invent an endpoint, and do not delete or recreate your
+vault to try to fix it — your account status and your local memory are separate,
+and you do not need an account to use your memory.
 
-Do not edit the profile by hand. Import the vault you meant to use, or initialise a new one at an explicit path. A missing or invalid root is refused rather than created for you, so nothing is silently written to the wrong place.
+## I cannot install the package
 
-Login says provider not configured
+No public installation channel exists. The archives, tarballs, and wheels that
+exist are private test builds signed with a test-only key; they are not
+downloadable releases, and there is nowhere to fetch them from.
 
-That is expected today. No production sign-in service is published, so every remote account command refuses. Do not invent an endpoint, and do not delete or recreate your vault to try to fix it — your account status and your local memory are separate, and you do not need an account to use your memory.
+## The agent can see the tools but never uses them
 
-I cannot install the package
+Discovering `search` and `remember` is not the same as being told to use them.
+Install the skill and the pointer block for your project:
+give your agent the skill.
 
-No public installation channel exists. The archives, tarballs, and wheels that exist are private test builds signed with a test-only key; they are not downloadable releases, and there is nowhere to fetch them from.
+## Before sharing diagnostics
 
-Before sharing diagnostics
-
-Strip local paths, account identifiers, provider keys, tokens, memory content, queries, results, and vault locations before you send anything to anyone. Use the redacted doctor output, which is the artifact meant for that.
-
----
-
-# Codex integration
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/codex/
-Updated: 2026-08-22
-
-Codex reads the same local launch descriptor and the same profile as every other editor you connect. Kaleidoscope owns the change it makes to Codex’s configuration, so you can preview it, and take it back out exactly.
-
-Connect a project
-
-kaleidoscope connect codex --profile default --project "$PWD" --dry-run
-kaleidoscope connect codex --profile default --project "$PWD"
-kaleidoscope instructions install agents --project "$PWD"
-
-What gets written names an absolute path to the local engine, mcp --profile default, and exactly search and remember. It does not carry your vault location, a provider key, or an account credential.
-
-What is tested
-
-On a Mac with Apple Silicon, Kaleidoscope added its entry to Codex 0.149.0’s configuration, Codex listed and read that entry back, and removing it restored the file byte for byte. That is the part we can vouch for. Codex’s own command line offers no way to confirm that it then launched the server and saw the two tools, so for Codex that step is unconfirmed — it has been confirmed with Claude Code and OpenCode. Codex has also not been driven through a model turn or its terminal interface, and there is no package to install it from yet.
-
----
-
-# Claude Code integration
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/claude-code/
-Updated: 2026-08-22
-
-Claude Code gets one local MCP server definition from you, and optionally a short project pointer to the public skill. Everything Kaleidoscope writes is marked as its own, so it can take it back out.
-
-Preview first
-
-kaleidoscope connect claude --profile default --project "$PWD" --dry-run
-kaleidoscope connect claude --profile default --project "$PWD"
-kaleidoscope instructions install claude --project "$PWD"
-
-Only the entry Kaleidoscope owns is written to .mcp.json; the rest of your file is left alone. If the ownership markers have been edited or the file is ambiguous, the change is refused rather than guessed at. The entry publishes only search and remember.
-
-What is tested
-
-Claude Code 2.1.239 has been connected for real on a Mac with Apple Silicon. The entry was written, running the command again did not duplicate it, removing it left the file clean, and Claude Code discovered the two tools. It has not been run through a model turn against an installed package, because there is no package to install yet.
+Strip local paths, account identifiers, provider keys, tokens, memory content,
+queries, results, and vault locations before you send anything to anyone. Use
+the redacted `doctor` output, which is the artifact meant for that.
 
 ---
 
-# Claude Agent SDK integration
+# Status
 
-URL: https://memory.kleosresearch.xyz/docs/integrations/claude-agent-sdk/
+URL: https://memory.kleosresearch.xyz/status/
+Release: 0.1.0-rc.1
 Updated: 2026-08-22
 
-Create one Claude Agent SDK client for the run you intend, and hand it a stdio MCP configuration that names the Kaleidoscope tools explicitly. One client, one process, for the whole run.
+As of 2026-08-22
 
-Allowed tools
+Kaleidoscope is not released. Nothing installs from a package registry, no build
+is offered for download on any platform, nothing is signed, and signing in does
+not work. That is the whole status, and the rest of this page says what each part
+of it means.
 
-mcp__kaleidoscope__search
-mcp__kaleidoscope__remember
+## Is anything down?
 
-Your model-provider credentials stay yours. The descriptor sets an empty environment for the child process, so account tokens, vault locations, and provider keys never reach it.
+No, and there is nothing that could be.
 
-What is tested
+Kaleidoscope runs on your machine. The engine that stores and ranks your memory
+is a local process; there is no server between you and it, no API endpoint, no
+hosted memory, and no account service you depend on to read your own vault. A
+status page for a local program has no uptime to report, and we would rather say
+that than invent a green tick.
 
-This has been run against a stand-in model, never against a live provider. The test confirms one client and exactly the two tool names above.
+If a hosted service ever exists, its status will be published here, and this
+section will say something other than "there is nothing that could be down."
 
----
+## Can I install it?
 
-# Cursor integration
+Not yet. Two package names are reserved and neither is published:
 
-URL: https://memory.kleosresearch.xyz/docs/integrations/cursor/
-Updated: 2026-08-22
+| | |
+|---|---|
+| npm | `@kleos-research/kaleidoscope` |
+| Python | `kaleidoscope-memory` |
 
-Cursor uses the same local command and the same two tools as every other editor. Kaleidoscope makes the change to Cursor’s JSON reversible, and adds a small project rule only if you ask for one.
+There is no download for any platform. Nothing is signed for release, so even a
+build you obtained some other way would be unsigned software on your machine.
 
-Connect and guide
+## Can I sign in?
 
-kaleidoscope connect cursor --profile default --project "$PWD" --dry-run
-kaleidoscope connect cursor --profile default --project "$PWD"
-kaleidoscope instructions install cursor --project "$PWD"
+No. Every account command answers `provider not configured`. There is no account
+service running, so there is no account to make, nothing to link, and no device
+list to manage. This does not affect using memory: your vault has never needed an
+account.
 
-Entries you added yourself are left untouched. A tampered marker, a name that conflicts, a malformed file, a symlink, or a file being edited at the same time is refused and handed back to you rather than overwritten.
+## What version is current
 
-What is tested
+| | |
+|---|---|
+| Documentation | 0.1.0-rc.1, updated 2026-08-22 |
+| Packages | none published |
+| Signed builds | none |
 
-Kaleidoscope writes Cursor’s configuration and the project rule correctly and removes both exactly — on a Mac with Apple Silicon, and only that far. Nobody has ever launched Cursor against them. Everything past the configuration step is unknown.
+The documentation version is the only version that currently means anything: it
+identifies this text, not a program you can run.
 
----
+## Two contracts you can check right now
 
-# OpenCode integration
+They are published as files, and they are the closest thing to a live interface
+this project has today:
 
-URL: https://memory.kleosresearch.xyz/docs/integrations/opencode/
-Updated: 2026-08-22
+- The two tools a model sees — `search` and
+  `remember`, and nothing else. No operator command is ever a model tool.
+- The full command-line help — every command
+  and flag of the local manager, verbatim.
 
-OpenCode stable v1 and beta v2 want different configuration shapes. Kaleidoscope never guesses which one you are on and never quietly moves you between them.
+## What we have actually run
 
-Stable v1 by default
+This is the part that is easy to overstate, so it is stated flatly.
 
-kaleidoscope connect opencode --profile default --project "$PWD" --dry-run
-kaleidoscope connect opencode --profile default --project "$PWD"
+**Machines.** Kaleidoscope has been run on one kind of machine: a Mac with Apple
+Silicon. Everything else on the platform list has had a compiler check of the
+memory engine's source and nothing more — nothing was assembled into a program,
+nothing was linked, and nothing has been run there.
 
-Explicit beta v2
+**Editors and agents.** From the command line, on that Mac:
 
-kaleidoscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
+- Codex 0.149.0 — what happened: Kaleidoscope's entry is added to Codex's configuration, listed, read back and removed exactly, leaving the file byte for byte as it was. What did not: that Codex then starts the server and sees the two tools; Codex's command line offers no way to check.
+- Claude Code 2.1.239 — what happened: connected from the command line, not duplicated on a second run, removed cleanly, and both tools discovered. What did not: any run through a model turn, and anything done through the graphical interface.
+- OpenCode 1.18.21 — what happened: both configuration shapes written, applied twice without duplicating, removed cleanly, and both tools discovered. What did not: any run through a model turn, and anything done through the graphical interface.
+- Cursor — what happened: its configuration and its project rule are written and removed exactly. What did not: everything after that; Cursor has never been launched against them.
 
-The stable entry is a direct local command. Beta v2 uses the explicit server shape with code mode turned off, so search and remember stay visible to the model. If your file already contains both shapes, the change is refused rather than resolved for you.
+      what happenedwhat did not
 
-What is tested
+**Frameworks.** LangChain, LangGraph, the Claude Agent SDK, the OpenAI Agents SDK
+and CrewAI have been run against stand-in models, never a live provider.
 
-OpenCode 1.18.21 has been connected for real on a Mac with Apple Silicon: both shapes were written, applied again without duplicating, removed cleanly, and the two tools were discovered. It has not been run through a model turn, and there is no package to install it from yet.
+**Not done at all:** any run against a live model provider, anything through an
+editor's graphical interface, any platform other than a Mac with Apple Silicon,
+and any package installed from a registry.
 
----
-
-# Generic MCP integration
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/generic-mcp/
-Updated: 2026-08-22
-
-Any standard MCP client can ask Kaleidoscope for its launch descriptor and keep one initialized session open for the whole run. You do not have to hand-write the command.
-
-Get the descriptor
-
-kaleidoscope config --profile default --json
-
-What comes back is deliberately closed: an absolute command, mcp --profile NAME, stdio, exactly two tools, and an empty environment. Do not add your vault location or a token to it.
-
-Keep one session
-
-Initialize once, check that you see exactly search and remember, then reuse that session for the rest of the run. Starting a new process per tool call is slower and gains you nothing.
-
-What is tested
-
-The Python mcp client at 1.29.0 and 2.0.0, and the TypeScript @modelcontextprotocol/client at 2.0.0, have both driven this server on a Mac with Apple Silicon: one long-lived process, restart, shutdown, structured results, a malformed discovery response, and refusal of anything outside the two tools.
-
----
-
-# LangChain integration
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/langchain/
-Updated: 2026-08-22
-
-Use the official LangChain MCP adapter to load the two Kaleidoscope tools inside a single adapter session. Kaleidoscope is not a BaseStore implementation, and you should not wrap it as one.
-
-Lifecycle
-
-Open the stdio adapter once around the agent run you intend, load the two tools, then close the adapter when the run is over. Your model-provider credentials are supplied by your own application and never pass through Kaleidoscope.
-
-Boundary
-
-Do not add a parallel LangChain memory or summarize messages into a second store. If two things can answer “what do I know”, they will disagree. The MCP server stays the one owner.
-
-What is tested
-
-Tested with langchain 1.3.16 against a stand-in model, never against a live provider: what one step remembered, a later step found again through the same single process.
-
----
-
-# LangGraph integration
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/langgraph/
-Updated: 2026-08-22
-
-LangGraph uses the same one-session MCP adapter as LangChain, placed in your graph’s tool node for the length of the run.
-
-Boundary
-
-Kaleidoscope is not a LangGraph checkpointer and not a BaseStore. Keep graph state and durable memory separate, so you never end up with two things that both claim to be the record.
-
-Lifecycle
-
-Open the adapter before you execute the graph, pass the two tools into the tool node, and close it once execution finishes. The same session is reused across node calls.
-
-What is tested
-
-Tested with langgraph 1.2.11 against a stand-in model, never against a live provider: a tool node wrote a memory and then found it again through the same process.
-
----
-
-# OpenAI Agents SDK integration
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/openai-agents-sdk/
-Updated: 2026-08-22
-
-Use the stdio MCP server lifecycle the OpenAI Agents SDK already gives you. Keep one server alive for the agent run, and filter the model-facing tools down to Kaleidoscope’s two.
-
-Tool boundary
-
-Your agent may call search and remember. Nothing else is ever exposed to a model — the operator commands are yours, from the terminal. Provider credentials come from your application and are never placed in the Kaleidoscope descriptor.
-
-Lifecycle
-
-Create the MCP server as a managed resource around the run and close it deterministically at the end. Do not open a fresh engine process for every tool call.
-
-What is tested
-
-Tested with the Python 0.22.0 and TypeScript 0.17.0 SDKs against a scripted model, never against a live provider: one server stayed alive for the whole run.
-
----
-
-# CrewAI integration
-
-URL: https://memory.kleosresearch.xyz/docs/integrations/crewai/
-Updated: 2026-08-22
-
-CrewAI uses one stdio MCP adapter context for the whole crew run, and exposes only the Kaleidoscope tools you choose to give the model.
-
-Lifecycle
-
-Build the adapter from the descriptor kaleidoscope config --profile default --json gives you, enter it once, select search and remember, run the crew, then close the context. Do not recreate the server for each task.
-
-Boundary
-
-CrewAI owns your provider configuration and your crew state. Kaleidoscope owns only the local memory, and never receives a model-provider credential or an account token.
-
-What is tested
-
-Tested with crewai 1.15.17 against a local test server, never against a live model provider: one long-lived process for the crew run, with only the two tools exposed.
-
----
-
-# Licenses and product terms
-
-URL: https://memory.kleosresearch.xyz/docs/legal/
-Updated: 2026-08-22
-
-Review drafts — not in force
-The product terms below have not been reviewed by legal counsel. Apache-2.0 and CC BY 4.0 are authorized license selections and are in force for the material they cover. The engine EULA, privacy notice, security policy, and support policy are source-controlled drafts: not in force, not offers or contracts, and not a description of terms that govern anything today. The production entity, jurisdiction, contacts, operational commitments, and external legal review are all outstanding.
-
-The public software, original documentation, and proprietary
-engine have deliberately separate license boundaries. Two of them are settled;
-the rest are drafts.
-
-Authorized public licenses
-
-- Apache-2.0 In forceCovers the public manager, SDKs, wrappers, integrations, and skill, and is carried in those source and package repositories. It does not license the native engine, model weights, trademarks, or third-party material.
-
-- CC BY 4.0 In forceCovers original documentation. Read the documentation license scope (/documentation-license.txt) and the CC BY 4.0 legal code (/legal/CC-BY-4.0.txt).
-
-Product terms — review drafts
-
-DocumentStatusPlain text
-
-Proprietary engine EULA (/docs/legal/engine-eula/)Review draftENGINE-EULA.txt (/legal/ENGINE-EULA.txt)
-
-Privacy notice (/docs/legal/privacy-notice/)Review draftPRIVACY-NOTICE.txt (/legal/PRIVACY-NOTICE.txt)
-
-Security policy (/docs/legal/security-policy/)Review draftSECURITY-POLICY.txt (/legal/SECURITY-POLICY.txt)
-
-Support policy (/docs/legal/support-policy/)Review draftSUPPORT-POLICY.txt (/legal/SUPPORT-POLICY.txt)
-
-What is still outstanding
-
-- Production entityThe contracting entity named in the drafts is a placeholder and has not been settled.
-
-- JurisdictionGoverning law and venue are unresolved, so no dispute clause in the drafts is operative.
-
-- ContactsNo monitored legal, privacy, or security intake address is published; the addresses in the drafts do not accept mail.
-
-- CommitmentsSupport scope, severity definitions, and response targets are proposals, not obligations, and no service level exists.
-
-- External legal reviewNo counsel has reviewed any of these documents. This is the gate that keeps every draft above out of force.
+The same facts, in machine-readable form: status.json and
+platform-support.json.
 
 ---
 
@@ -1151,31 +2163,27 @@ URL: https://memory.kleosresearch.xyz/status.json
         "confirmed": "Kaleidoscope's entry is added to Codex's configuration, listed, read back and removed exactly, leaving the file byte for byte as it was",
         "name": "Codex",
         "not confirmed": "that Codex then starts the server and sees the two tools; Codex's command line offers no way to check",
-        "status": "partly tested",
         "version": "0.149.0"
       },
       {
         "confirmed": "connected from the command line, not duplicated on a second run, removed cleanly, and both tools discovered",
         "name": "Claude Code",
         "not confirmed": "any run through a model turn, and anything done through the graphical interface",
-        "status": "tested",
         "version": "2.1.239"
       },
       {
         "confirmed": "both configuration shapes written, applied twice without duplicating, removed cleanly, and both tools discovered",
         "name": "OpenCode",
         "not confirmed": "any run through a model turn, and anything done through the graphical interface",
-        "status": "tested",
         "version": "1.18.21"
       },
       {
         "confirmed": "its configuration and its project rule are written and removed exactly",
         "name": "Cursor",
-        "not confirmed": "everything after that; Cursor has never been launched against them",
-        "status": "partly tested"
+        "not confirmed": "everything after that; Cursor has never been launched against them"
       }
     ],
-    "not tested at all": [
+    "not run at all": [
       "any run against a live model provider",
       "any editor's graphical interface",
       "any platform other than macOS on Apple Silicon",
@@ -1263,8 +2271,8 @@ URL: https://memory.kleosresearch.xyz/status.json
   "still true before any release": {
     "any editor run against a live model provider": false,
     "any platform other than macOS on Apple Silicon verified": false,
-    "benchmark score published": false,
     "builds signed for release": false,
+    "full benchmark method published": false,
     "hosted memory built": false,
     "packages published to a registry": false,
     "product terms reviewed by legal counsel": false,
@@ -1282,7 +2290,7 @@ URL: https://memory.kleosresearch.xyz/status.json
     "Download a build: none is offered, for any platform.",
     "Sign in or create an account: every account command answers 'provider not configured'.",
     "Use hosted memory: there is no service, endpoint, API or waitlist.",
-    "Read a benchmark score: none is published.",
+    "Reproduce our benchmark results: there is no build to run them with, and the full method is not published yet.",
     "Rely on any support commitment: none is offered."
   ]
 }

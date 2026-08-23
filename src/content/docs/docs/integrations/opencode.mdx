@@ -1,0 +1,43 @@
+---
+title: OpenCode
+description: Connect OpenCode using its stable v1 configuration, or ask explicitly for the beta v2 shape.
+---
+
+OpenCode stable v1 and beta v2 want different configuration shapes. Kaleidoscope
+never guesses which one you are on and never quietly moves you between them.
+
+## Connect it
+
+```bash
+kaleidoscope connect opencode --profile default --project "$PWD" --dry-run
+kaleidoscope connect opencode --profile default --project "$PWD"
+```
+
+Stable v1 is what you get if you say nothing.
+
+## The one thing that is different here
+
+The two configuration shapes are genuinely different, and which one you get is a
+flag:
+
+```bash
+kaleidoscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
+```
+
+The stable entry is a direct local command. Beta v2 uses the explicit server
+shape with code mode turned off, so `search` and `remember` stay visible to the
+model. If your file already contains both shapes, the change is refused rather
+than resolved for you.
+
+## What it writes
+
+One entry, in whichever shape applies, naming the local engine and
+`mcp --profile NAME`. It carries no vault location, provider key or credential.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect opencode --project "$PWD"
+```
+
+It removes only what Kaleidoscope wrote.

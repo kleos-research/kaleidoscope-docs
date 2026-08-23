@@ -1,0 +1,104 @@
+---
+title: Status
+description: Whether Kaleidoscope is available, whether anything is down, what version is current, and what has actually been run.
+---
+import status from '../../data/status.json';
+import release from '../../../public-docs-release.json';
+
+<p class="k-meta">As of {status['as of']}</p>
+
+Kaleidoscope is not released. Nothing installs from a package registry, no build
+is offered for download on any platform, nothing is signed, and signing in does
+not work. That is the whole status, and the rest of this page says what each part
+of it means.
+
+## Is anything down?
+
+No, and there is nothing that could be.
+
+Kaleidoscope runs on your machine. The engine that stores and ranks your memory
+is a local process; there is no server between you and it, no API endpoint, no
+hosted memory, and no account service you depend on to read your own vault. A
+status page for a local program has no uptime to report, and we would rather say
+that than invent a green tick.
+
+If a hosted service ever exists, its status will be published here, and this
+section will say something other than "there is nothing that could be down."
+
+## Can I install it?
+
+Not yet. Two package names are reserved and neither is published:
+
+| | |
+|---|---|
+| npm | `@kleos-research/kaleidoscope` |
+| Python | `kaleidoscope-memory` |
+
+There is no download for any platform. Nothing is signed for release, so even a
+build you obtained some other way would be unsigned software on your machine.
+
+## Can I sign in?
+
+No. Every account command answers `provider not configured`. There is no account
+service running, so there is no account to make, nothing to link, and no device
+list to manage. This does not affect using memory: your vault has never needed an
+account.
+
+## What version is current
+
+| | |
+|---|---|
+| Documentation | {release.release_version}, updated {status['as of']} |
+| Packages | none published |
+| Signed builds | none |
+
+The documentation version is the only version that currently means anything: it
+identifies this text, not a program you can run.
+
+## Two contracts you can check right now
+
+They are published as files, and they are the closest thing to a live interface
+this project has today:
+
+- [The two tools a model sees](/reference/kaleidoscope-mcp.json) — `search` and
+  `remember`, and nothing else. No operator command is ever a model tool.
+- [The full command-line help](/reference/kaleidoscope-cli.txt) — every command
+  and flag of the local manager, verbatim.
+
+## What we have actually run
+
+This is the part that is easy to overstate, so it is stated flatly.
+
+**Machines.** Kaleidoscope has been run on one kind of machine: a Mac with Apple
+Silicon. Everything else on the platform list has had a compiler check of the
+memory engine's source and nothing more — nothing was assembled into a program,
+nothing was linked, and nothing has been run there.
+
+**Editors and agents.** From the command line, on that Mac:
+
+<div class="table-scroll" tabindex="0">
+  <table>
+    <thead>
+      <tr><th scope="col"></th><th scope="col">what happened</th><th scope="col">what did not</th></tr>
+    </thead>
+    <tbody>
+      {status.hosts.hosts.map((host) => (
+        <tr>
+          <td>{host.version ? `${host.name} ${host.version}` : host.name}</td>
+          <td>{host.confirmed}</td>
+          <td>{host['not confirmed']}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+**Frameworks.** LangChain, LangGraph, the Claude Agent SDK, the OpenAI Agents SDK
+and CrewAI have been run against stand-in models, never a live provider.
+
+**Not done at all:** any run against a live model provider, anything through an
+editor's graphical interface, any platform other than a Mac with Apple Silicon,
+and any package installed from a registry.
+
+The same facts, in machine-readable form: [status.json](/status.json) and
+[platform-support.json](/platform-support.json).

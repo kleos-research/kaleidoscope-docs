@@ -1,0 +1,55 @@
+---
+title: CLI reference
+description: What the kaleidoscope command is, its two global flags, and the safety invariants that govern every subcommand that touches a file.
+---
+
+The command you will run is `kaleidoscope`. It sets up your local memory,
+connects your editor or agent to it, and tells you what is wrong when something
+does not work. You cannot install it yet, so read this as the reference for the
+command surface rather than a set of steps to follow now.
+
+`kscope` is the engine executable. It is installed alongside `kaleidoscope` and
+you do not normally run it yourself.
+
+[Read the full `kaleidoscope` help text](/reference/kaleidoscope-cli.txt).
+
+## The commands, by what they are for
+
+| | |
+|---|---|
+| [Profiles and vaults](/docs/cli/profiles/) | `init`, `profile list`, `profile show`, `profile use`, `profile remove` |
+| [Connect an editor](/docs/cli/connect/) | `connect`, `disconnect` |
+| [Agent instructions](/docs/cli/instructions/) | `instructions install`, `instructions remove` |
+| [Diagnostics](/docs/cli/diagnostics/) | `config`, `doctor` |
+| [Account and devices](/docs/cli/account/) | `login`, `status`, `logout`, `account`, `devices`, `profile account` |
+
+## The two global flags
+
+`--engine PATH` points the manager at a specific engine executable instead of
+the one it would find for itself. It is accepted by every command that has to
+start or validate the engine: `init`, `profile`, `config`, `connect`,
+`disconnect` and `doctor`. The account commands do not take it, because they
+never touch the engine.
+
+`--version` prints the manager's version and exits.
+
+Two more flags appear on every command that writes to a file, and they matter
+enough to have their own section below: `--dry-run` and `--yes`.
+
+## Safety invariants
+
+These hold for every subcommand, not just the ones documented with them.
+
+- Any command that changes a host file can be previewed with `--dry-run`, which
+  changes nothing, and asks you to confirm before it writes. `--yes` is how you
+  say yes in advance; there is no way to write without one or the other.
+- An unknown, conflicting, symlinked, tampered, or concurrently edited target is
+  refused rather than overwritten. You get the file back as it was and a reason.
+- Changes are backed up, and removal is recorded so that running it twice is
+  safe.
+- The configuration written for your editor or agent contains no tokens, no
+  provider keys, and no vault location.
+- Account traffic goes to a closed list of account-only routes. It is separate
+  from the local memory connection, and nothing about your memory travels on it.
+- Project scope is the default. `--scope user` is how you ask for the
+  machine-wide file instead.

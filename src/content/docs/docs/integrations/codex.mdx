@@ -1,0 +1,30 @@
+---
+title: Codex
+description: Connect Codex to your local Kaleidoscope profile, with a dry run first and exact removal afterwards.
+---
+
+Codex reads the same local launch descriptor and the same profile as every other
+editor you connect. Kaleidoscope owns the change it makes to Codex's
+configuration, so you can preview it, and take it back out exactly.
+
+## Connect it
+
+```bash
+kaleidoscope connect codex --profile default --project "$PWD" --dry-run
+kaleidoscope connect codex --profile default --project "$PWD"
+kaleidoscope instructions install agents --project "$PWD"
+```
+
+## What it writes
+
+What gets written names an absolute path to the local engine,
+`mcp --profile default`, and exactly `search` and `remember`. It does not carry
+your vault location, a provider key, or an account credential.
+
+## Disconnect
+
+```bash
+kaleidoscope disconnect codex --project "$PWD"
+```
+
+It removes only what Kaleidoscope wrote, leaving the file as it was.

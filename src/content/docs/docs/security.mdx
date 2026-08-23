@@ -1,0 +1,58 @@
+---
+title: Security
+description: What Kaleidoscope keeps on your machine, what account commands can send, what is not signed, and how to report a vulnerability.
+---
+
+Kaleidoscope's engine is distributed as object code rather than source. That is
+a distribution choice, not a security guarantee: a native binary on your machine
+is still inspectable and may be reverse engineered, and shipping object code is
+not a claim of impossibility. What this page describes is the boundaries you can
+check — what the engine can reach, what account commands can send, and what is
+not signed.
+
+## What the engine can reach
+
+The engine keeps your memory in a local vault, speaks stdio to your editor,
+declares no required network access, and makes no external model calls. When the
+manager launches it, it hands over a closed, non-secret environment rather than
+passing along whatever is in yours — your model-provider keys, account tokens,
+cloud credentials and the vault's location are not part of what the engine
+process receives.
+
+## What account commands can send
+
+Account commands never touch the memory engine. The manager can reach exactly
+eleven account routes and no others, and a guard rejects memory and profile
+fields, and absolute local paths, before anything is sent. With the engine
+deliberately removed from the machine, all eleven still refused cleanly with
+`provider not configured` — they fail before anything local is opened. There is
+no account service to reach in any case.
+
+## Nothing is signed for production
+
+There is no Apple signing and no notarisation. The only signature that exists
+anywhere in the build is a test fixture checked into the source, and the native
+code is ad-hoc signed only. Do not read any of this as a supply-chain guarantee:
+nothing here lets you verify that a file you received is the file we built.
+Production trust roots, signing identities and the final notices that go with
+them do not exist yet.
+
+This has a consequence you will meet before any other: an unsigned program has
+no stable identity for the operating system to remember, so a macOS credential
+prompt can come back every launch. That is the reason the
+[account page](/docs/account/#where-a-sign-in-credential-would-be-kept) says a
+Keychain approval may not stick.
+
+## What we have checked for leaks
+
+We put distinctive marker values into the environment, the profiles, the editor
+configuration and the MCP traffic, then check that none of them turn up in
+output. That is a scoped test on one platform, not a proof that nothing ever
+leaks — it can only find the kinds of leak it was written to look for.
+
+## Report a vulnerability
+
+Do not publish an exploit or a sensitive report in a public issue. There is no
+security contact to send it to yet; publishing one, along with a policy saying
+which versions get fixes, is something that has to happen before release. It
+will appear on this page and at `/.well-known/security.txt`.

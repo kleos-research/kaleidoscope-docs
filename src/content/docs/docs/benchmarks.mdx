@@ -1,0 +1,82 @@
+---
+title: Benchmarks
+description: What we measured, in plain words — twelve times the memories at the same answer quality; and, separately, level with mem0 at a quarter fewer tokens.
+---
+
+Kaleidoscope is measured on BEAM, a public benchmark for long-term memory in
+conversation. The results below are ours: we ran them, on our machines, against
+a named alternative. There is no build you can download yet, so you cannot
+reproduce them yourself today. Read them with that in mind.
+
+These are **separate experiments**, run on different corpora and different sets
+of questions. Each section says which. They answer different questions and are
+not steps in one series, so please do not read them as one.
+
+## Twelve times the memories, the same answer quality
+
+*The larger of the two corpora: about seventy-five thousand memories over
+thirty-five conversations.*
+
+We grew the store from about six thousand memories to about seventy-five
+thousand, spread across thirty-five separate vaults, and ran the questions for
+that larger corpus. It scored **0.73** on BEAM's scale, where 1.0 is a perfect
+answer to every question — the same score the same configuration reached on the
+smaller corpus. Nothing
+degraded as the store filled up.
+
+Retrieving a hundred memories for each question instead of fifty changed
+nothing either. Past a point, handing the reader more does not help; handing it
+the right thing does.
+
+That is the property that matters for memory you mean to keep for years. A store
+that answers well when it is empty and badly when it is full is not memory.
+
+## Far better than answering with no memory
+
+*The smaller corpus: twenty conversations. Everything in this section and the
+next was measured there, with the same reader and the same judge throughout.*
+
+A model answering with nothing to go on gets most of these questions wrong. With
+Kaleidoscope it answers most of them well. This is the largest single difference
+in anything we have measured.
+
+Putting the whole conversation into the context window instead does not answer
+better than retrieving from memory, and it costs about a hundred and thirty
+thousand tokens a question to do it. More context is not the same as the right
+context.
+
+## Level with mem0, at a quarter fewer tokens
+
+*Same smaller corpus, same twenty conversations.*
+
+We ran mem0's own system on those conversations, using mem0's own prompt and
+mem0's own judge, and compared it with ours. **The answer quality matches.** Ours
+gets there on **8,173 prompt tokens a question against mem0's 10,762 — 24%
+fewer.**
+
+We are not claiming to beat mem0. On this benchmark the two are level, and the
+difference is what it costs to get there. mem0 has never published a BEAM score
+of its own; the number above is our measurement of their system, not theirs.
+
+## Writing is fast when you write in batches
+
+At ten thousand memories in a vault, storing a memory takes about **76
+milliseconds**.\* That is measured end to end — starting the process, opening
+the vault, admitting the memory and refreshing the index — not just the part
+inside the engine.
+
+\* Writing twenty at a time. A single write on its own costs far more, because
+most of the cost is paid once per call rather than once per memory. Batch your
+writes.
+
+## What we have not measured
+
+Everything here comes from one benchmark on one kind of workload: long,
+multi-session conversations. We have not measured code repositories, documents,
+or anything else you might point memory at.
+
+We also chose the settings we ran by trying them against the very questions we
+then scored, without holding a set of questions back, so treat all of this as
+our best case rather than a promise. The full method — every arm, every
+measurement, and the ones that did not work — will be published alongside the
+first release.

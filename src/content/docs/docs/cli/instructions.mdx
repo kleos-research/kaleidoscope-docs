@@ -1,0 +1,54 @@
+---
+title: Agent instructions
+description: instructions install and remove — the four targets, what each one writes, and why the marked block matters.
+---
+
+`instructions` puts the Kaleidoscope skill, or a short pointer to it, into the
+files your agent already reads. It is the command behind
+[give your agent the skill](/docs/skill/), which shows the files themselves and
+offers them for download.
+
+## Install
+
+```bash
+kaleidoscope instructions install skill  --project "$PWD"
+kaleidoscope instructions install agents --project "$PWD" --dry-run
+kaleidoscope instructions install agents --project "$PWD"
+kaleidoscope instructions install claude --project "$PWD"
+kaleidoscope instructions install cursor --project "$PWD"
+```
+
+## The four targets
+
+| target | lands at | form |
+|---|---|---|
+| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| `agents` | `AGENTS.md` in the project | one marked block, appended |
+| `claude` | `CLAUDE.md` in the project | one marked block, appended |
+| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+
+A target is one of exactly those four words. There is no target that writes to
+every file at once, and there is no automatic install: nothing writes to
+`AGENTS.md` or `CLAUDE.md` as a side effect of connecting a host or starting the
+engine.
+
+## Remove
+
+```bash
+kaleidoscope instructions remove cursor --project "$PWD" --dry-run
+kaleidoscope instructions remove cursor --project "$PWD"
+```
+
+`remove` is the exact inverse of `install`. It takes out the block Kaleidoscope
+owns and leaves the rest of the file as it was.
+
+## Why the block has markers
+
+Everything appended to an existing file sits between two ownership comments.
+That pair is what makes a second install idempotent instead of duplicating, what
+makes removal exact, and what the manager reads before it touches the file at
+all. If you have edited the text between the markers, the command stops and
+hands the file back rather than overwriting your work.
+
+`--dry-run` prints the plan and changes nothing. Without `--yes`, you are asked
+to confirm.

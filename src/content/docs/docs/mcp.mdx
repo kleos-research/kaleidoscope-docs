@@ -1,0 +1,88 @@
+---
+title: MCP reference
+description: Write a correct search or remember call — the two tools Kaleidoscope gives an agent, their fields, worked examples, and how the session works.
+---
+
+Your editor or agent sees exactly two tools from Kaleidoscope: `search` and
+`remember`. Nothing else is callable by a model. This page is what you need to
+write a correct call to either one.
+
+There is no way to install Kaleidoscope yet, so you cannot connect a host of
+your own today — see [Install](/docs/packages/). The contract below is the one
+that runs locally.
+
+[Read the machine-readable tool reference](/reference/kaleidoscope-mcp.json).
+
+## `search`
+
+Send exactly one of `query` or `memory_id`. A `query` ranks your memories and
+returns them under `selected_hits`. A `memory_id` is an addressed read: it
+returns that one memory at the top level and refuses ranking controls. Keep
+`top_k` small — about 5 is normal — and set a bounded `maximum_context_bytes`.
+`ledger` accepts only `true`.
+
+```json
+{"query": "how do we handle database migrations", "top_k": 5, "ledger": true}
+```
+
+A query also writes down what it returned. That record goes into your vault on
+your machine, next to the memories themselves, and it stays there — it is what a
+later authenticated tool would use to tell which memories actually helped.
+
+## `remember`
+
+`mode` is required and is `create`, `update`, or `delete`. For a create or an
+update, `content_md` is the memory as you want to read it back and must begin
+with an H1, and `semantic_delta` carries the structure: a title and at least one
+fact. Every endpoint a fact names is declared with `n`, the surface the fact
+refers to it by; `kind`; and `is`, a short gloss. Predicates are snake_case. An
+update or a delete needs `memory_id` and `expected_version_id`. Batching through
+`items` accepts at most 20 creates, and items do not share structure with each
+other.
+
+```json
+{
+  "mode": "create",
+  "content_md": "# Ana owns the billing service\n\nAna took it over after the payments team split.",
+  "semantic_delta": {
+    "memory_type": "decision",
+    "title": "Ana owns the billing service",
+    "entities": [
+      {"n": "Ana", "kind": "person", "is": "backend engineer on my team"},
+      {"n": "billing service", "kind": "service", "is": "the service that issues invoices"}
+    ],
+    "facts": [{"subject": "Ana", "predicate": "owns", "object": "billing service"}]
+  }
+}
+```
+
+Write the `is` gloss properly. It is not documentation — it is what the engine
+matches on when it decides whether two mentions of a name are the same thing, so
+`Ana | person | backend engineer on my team` finds far more than `Ana` alone
+does.
+
+`remember` infers nothing from what you wrote. The entities, facts,
+relationships, and dates it stores are the ones you state explicitly. Treat the
+tool schema your host discovered as the authority for which memory types and
+fields a build accepts, rather than copying a vocabulary out of prose.
+
+## Lifecycle
+
+Your host keeps one long-lived process alive across calls and talks to it over
+stdio at MCP protocol revision `2025-11-25`. It negotiates once, enforces a
+startup deadline, cancels cleanly, bounds what it reads from stderr, and shuts
+the process down without leaving an orphan behind. A framework integration will
+not run a second retrieval behind your back.
+
+## What a model never sees
+
+Feedback, lifecycle and import, maintenance, ontology, and diagnostics are
+operator commands, not tools. They are absent from the list your agent
+discovers. Search results do not carry the handle those commands need either, so
+there is no path from a model to them and nothing to reconstruct.
+
+## Telling your agent to use them
+
+Discovering the two tools is not the same as using them well. The skill file
+that tells an agent when to retrieve and what is worth writing is published at
+[give your agent the skill](/docs/skill/).
