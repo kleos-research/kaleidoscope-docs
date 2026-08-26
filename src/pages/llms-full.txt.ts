@@ -9,7 +9,7 @@ import statusRecord from '../data/status.json?raw';
 import platformSupport from '../data/platform-support.json?raw';
 // The text mirror carries the same chrome the HTML does. Banner.astro paints
 // this band on a `legalDraft` page; without it here, a model reading
-// llms-full.txt would take an unreviewed draft for settled terms.
+// llms-full.txt would take a not-yet-adopted draft for settled terms.
 import legalDraftNotice from '../data/legal-draft-notice.txt?raw';
 // Two variants, same reason Banner.astro has two: the licences INDEX is about
 // Apache-2.0 and CC BY 4.0 BEING in force, so the document band contradicts it.

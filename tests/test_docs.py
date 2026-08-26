@@ -335,7 +335,7 @@ class SourceContractTest(unittest.TestCase):
         self.assertFalse(status["publicly available"])
         self.assertFalse(status["packages"]["published to a registry"])
         self.assertFalse(status["packages"]["signed for release"])
-        self.assertIn("not in force", status["licences"]["the product terms"])
+        self.assertIn("not yet in force", status["licences"]["the product terms"])
 
 
 class RouteInventoryTest(unittest.TestCase):

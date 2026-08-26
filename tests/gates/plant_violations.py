@@ -123,13 +123,13 @@ def _(): sub("dist/docs/getting-started/index.html",
              "Kaleidoscope is not publicly released", "Kaleidoscope is available", 1)
 
 # ---- legal ----------------------------------------------------------------
-@plant("legal: the review-draft band removed from a draft")
+@plant("legal: the not-yet-in-force boundary removed from a draft")
 def _(): sub("dist/docs/legal/privacy-notice/index.html",
-             "not been reviewed by legal counsel", "been reviewed by legal counsel", 1)
+             "not yet in force", "in force", 1)
 
-@plant("legal: an overclaim, WRAPPED ACROSS A LINE BREAK")
+@plant("legal: an adoption overclaim, WRAPPED ACROSS A LINE BREAK")
 def _(): sub("dist/docs/legal/support-policy/index.html", "<p>",
-             "<p>These terms have been reviewed by legal\n      counsel. ", 1)
+             "<p>These terms are now in\n      force. ", 1)
 
 @plant("legal: the draft band renders after the article")
 def _():

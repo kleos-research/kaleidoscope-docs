@@ -1,0 +1,18 @@
+---
+/**
+ * Starlight renders the frontmatter `title` as the page h1. On the home page
+ * that produced "Kaleidoscope" — the product name, not a thesis — and the
+ * editorial hero in index.mdx supplies its own h1, so the page carried two.
+ * Gate: exactly one h1 per page.
+ *
+ * Suppressing Starlight's h1 on the SPLASH ROUTE ONLY leaves the thesis as the
+ * single h1, which is also the semantically correct outcome: the heading a
+ * reader sees is the heading the document has. Every other route keeps
+ * Starlight's title untouched — this is not a site-wide removal.
+ */
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const isHome = Astro.url.pathname.replace(/\/+$/, '') === '';
+---
+
+{!isHome && <Default><slot /></Default>}

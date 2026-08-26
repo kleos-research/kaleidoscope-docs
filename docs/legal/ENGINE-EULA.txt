@@ -1,243 +1,752 @@
-KALEIDOSCOPE ENGINE END USER LICENSE AGREEMENT
-REVIEW DRAFT - NOT FOR PRODUCTION DISTRIBUTION
+KALEIDOSCOPE ENGINE END USER LICENCE AGREEMENT
+REVIEWED DRAFT - NOT YET IN FORCE
 
-Last updated: August 22, 2026
+Draft of 23 August 2026
 
-IMPORTANT: This review draft is included only in a private, dry-run release
-candidate. It does not authorize publication or distribution. Before any
-production release, the Licensor's exact legal name, notice address, governing
-law, venue, consumer-law treatment, liability cap, and acceptance flow must be
-approved and inserted.
+STATUS OF THIS DOCUMENT
 
-This End User License Agreement ("Agreement") governs the proprietary
-Kaleidoscope native engine object code distributed with a Kaleidoscope product
-(the "Engine"). The person or entity that supplies the Engine under an order,
-receipt, download page, or other release record is the "Licensor." "You" means
-the individual or entity accepting this Agreement.
+This document has been reviewed by legal counsel for Kleos Research Private
+Limited. It is not yet in force and it does not govern anything today: the
+company has not yet adopted it, and nothing in it is an offer. No one should
+rely on it as binding. The clauses below are written to be operative, not to be
+filled in later; what remains outstanding is a decision to adopt, not missing
+terms or further legal review.
 
-By installing, copying, or using a production copy of the Engine after being
-presented with this Agreement, You agree to it. If You accept for an
-organization, You represent that You have authority to bind that organization.
-If You do not agree, do not install or use the Engine and remove any copies
-provided to You. This acceptance paragraph does not activate this review draft.
+Because the clauses below are written in the present tense, one thing needs
+saying plainly. No one has accepted this Agreement and no one is licensed
+under it. Alpha access granted before this document is adopted is not governed
+by it, and requesting, holding, or using an entitlement key today is not
+acceptance of it and is not any of the confirmations in section 2.2. If we
+adopt this Agreement we will say so, and we will ask you to accept it then.
 
-1. SCOPE AND SEPARATE MATERIALS
 
-1.1 Engine. The Engine includes proprietary executable code, embedded
-components and model assets supplied with it, and updates the Licensor
-designates as governed by this Agreement.
+1. WHO YOU ARE CONTRACTING WITH
 
-1.2 Public components. The Kaleidoscope public manager, SDKs, wrappers,
-integrations, examples, snippets, and agent skill are separate works licensed
-under the Apache License 2.0 when their distribution says so. Original
-Kaleidoscope documentation may be licensed under Creative Commons Attribution
-4.0 International when marked accordingly. Those public licenses are not
-restricted by this Agreement.
+Kleos Research Private Limited ("Kleos Research", "we", "us", "our") is a
+private limited company incorporated in India and registered in Delhi.
 
-1.3 Third-party material. Third-party components are governed by their
-applicable notices and license terms. Those terms control if they conflict with
-this Agreement for that component. The Engine's command-line notice report and
-the package's third-party notice file identify applicable components.
+    Kleos Research Private Limited
+    Email: contact@kleosresearch.xyz
 
-1.4 Services. Hosted services, accounts, billing, support plans, and
-professional services may have separate terms. This Agreement does not create a
-hosted-memory service or authorize upload of local memory data.
+That address is the contact address for every purpose under this Agreement,
+including legal notices. It is monitored.
 
-2. LICENSE GRANT
+Our full entity particulars, including our registered office address and our
+Corporate Identity Number, are available on request at that address. This is
+an undertaking to furnish those particulars to anyone who asks for them, not
+merely an invitation to write to us.
 
-Subject to Your compliance with this Agreement and any applicable order or
-entitlement, the Licensor grants You a limited, non-exclusive,
-non-transferable, non-sublicensable, revocable license to:
+"You" means the business on whose behalf this Agreement is accepted. Section 2
+sets out what accepting it confirms.
 
-(a) install and run the Engine in object-code form on devices You own or
-control, solely for Your personal or internal business use with Kaleidoscope
-products;
 
-(b) make one reasonable backup copy for disaster recovery; and
+2. THIS IS A BUSINESS AGREEMENT, NOT A CONSUMER ONE
 
-(c) permit Your employees and contractors to use the Engine for Your benefit,
-provided they are bound by obligations at least as protective as this
-Agreement and You remain responsible for their compliance.
+2.1 The Engine is offered only to businesses, and only for business purposes.
+It is not offered to consumers, it is not marketed to consumers, and it is not
+designed or supported for personal, domestic, or household use.
 
-The license is limited by the devices, users, term, plan, and other entitlement
-terms stated in Your order or release record. If no such limit is stated, the
-license is for one user on devices that user owns or controls.
+2.2 By accepting this Agreement you confirm each of the following:
 
-3. RESTRICTIONS
+  (a) you are acting for an identified business, which you have identified to
+      us by name;
 
-Except to the extent a restriction is prohibited by applicable law, You must
-not, and must not enable another person to:
+  (b) you are authorised to enter into this Agreement on that business's
+      behalf and to bind it;
 
-(a) copy the Engine except as expressly permitted;
+  (c) you will use the Engine for that business's purposes, in the course of
+      its trade or business, and not for personal, domestic, or household use;
+      and
 
-(b) sell, resell, rent, lease, sublicense, distribute, publish, transfer, or
-make the Engine available to a third party;
+  (d) you are not acquiring the Engine exclusively for the purpose of earning
+      your own livelihood by means of self-employment.
 
-(c) use the Engine to provide a hosted, service-bureau, time-sharing, or
-managed service for third parties;
+Those four confirmations are conditions of the licence in section 4. If any of
+them is not true, do not accept this Agreement and do not use the Engine, and
+tell us at contact@kleosresearch.xyz.
 
-(d) modify, translate, adapt, or create derivative works of the Engine;
+Where our signup process collected these confirmations from you before you
+first obtained a key, you confirm that they were true then as well. Where it
+did not, this paragraph does not put words in your mouth: you are confirming
+them now, from the date you accept this Agreement.
 
-(e) reverse engineer, decompile, disassemble, or otherwise attempt to derive
-source code, non-public algorithms, models, keys, or protocols from the Engine;
+2.3 If you are a self-employed developer buying this to earn your living,
+Indian consumer protection law may still treat you as a consumer whatever this
+Agreement says. That is why we ask for four separate confirmations rather than
+a single "I am a business user" tick-box, and why paragraph (d) is there.
 
-(f) bypass or defeat license, entitlement, signature, integrity, access, or
-usage controls;
+The reason is that the Consumer Protection Act, 2019 defines a consumer by the
+purpose of the acquisition, and the Explanation to section 2(7) expressly
+preserves the position of a person who buys goods or avails services
+exclusively for the purpose of earning a livelihood by means of
+self-employment. A person can therefore be a developer, be highly skilled, be
+paid for their work, be acting for their own one-person business, and still
+fall within that statutory exception. Nothing you sign can move you out of it.
 
-(g) remove, obscure, or alter proprietary notices; or
+2.4 So: where a person has rights under consumer protection law that cannot be
+given up by agreement, this Agreement does not take those rights away, does
+not limit them, and is not to be read as attempting to. Sections 13, 14, 15
+and 18 are subject to this clause.
 
-(h) use the Engine unlawfully or in a way that infringes another person's
-rights.
 
-Where applicable law permits interoperability research or reverse engineering
-despite this section, You may exercise only the non-waivable right, after first
-requesting reasonably necessary interoperability information from the
-Licensor, and only to the minimum extent the law permits.
+3. WHAT IS LICENSED, AND WHAT IS NOT
 
-4. OWNERSHIP AND FEEDBACK
+3.1 The Engine. "Engine" means the proprietary Kaleidoscope memory engine
+supplied to you in object-code form, together with the Kleos embedding model
+and its vocabulary as embedded in that object code, the entitlement helper
+program described in section 9, and any updates or replacements we supply
+under this Agreement.
 
-The Engine is licensed, not sold. The Licensor and its licensors retain all
-right, title, and interest in the Engine and all intellectual-property rights
-not expressly granted. No implied license is granted. Kaleidoscope names,
-logos, and marks are not licensed except for truthful identification of the
-product.
+3.2 The Kleos embedding model. The embedding model inside the Engine is our
+own work. It is independently implemented and trained from random
+initialisation on datasets we own or are appropriately licensed to use. It
+does not incorporate, derive from, modify, or redistribute any third party's
+model weights, checkpoints, tokenizers, vocabulary files, source code, or
+other model artifacts. It is licensed to you only as part of the Engine and
+only on the terms of this Agreement.
 
-If You voluntarily provide product feedback, You grant the Licensor a
-worldwide, perpetual, irrevocable, royalty-free right to use and incorporate
-that feedback without identifying You. This does not grant rights in Your
-memory content, prompts, queries, results, or other local data.
+3.3 Separately licensed material. These are not licensed under this Agreement
+and this Agreement does not narrow them:
 
-5. LOCAL DATA, ACCOUNTS, AND NETWORK USE
+  (a) the public Kaleidoscope manager, client libraries, wrappers,
+      integrations, examples, and agent skill, which are licensed under the
+      Apache Licence, Version 2.0 where their own distribution says so; and
 
-5.1 Local engine data. Under the documented local configuration, memory
-content, queries, selected results, graph data, and vault files remain on
-devices You control. You own Your content. You are responsible for lawful
-collection, use, backups, access control, and deletion of that content.
+  (b) original Kaleidoscope documentation, which is licensed under the
+      Creative Commons Attribution 4.0 International Licence where it is
+      marked that way.
 
-5.2 No implied upload. Installing or using the Engine does not authorize the
-Licensor to upload, sync, train on, sell, or delete Your local memory data.
-A hosted or sync feature requires a separate, express agreement and user
-action.
+3.4 Third-party open-source libraries. The Engine links open-source software
+libraries written by others. Each of those is governed by its own licence, not
+by this Agreement, and where such a licence conflicts with this Agreement in
+respect of that library, that licence governs that library. Section 10 says
+what we owe you about them and what is still outstanding.
 
-5.3 Optional account features. If You choose to use account or device
-features, the public manager may communicate the bounded account fields
-described in the then-current privacy notice. Account traffic is separate from
-the Engine's local memory protocol.
+3.5 No hosted service. This Agreement licenses software that runs on your own
+machines. It does not create a hosted memory service, and it does not
+authorise us to upload, hold, or process the contents of your memory store.
 
-5.4 Diagnostics. Do not send secrets, raw memory content, credentials, or
-private paths in a support request. Review and redact diagnostic output before
-sharing it.
 
-6. UPDATES AND CHANGES
+4. LICENCE GRANT
 
-The Licensor may provide updates, patches, or replacements. An update may be
-required for security, compatibility, or continued service access. Updates are
-governed by this Agreement unless supplied with different terms. The Licensor
-does not promise any update, feature, compatibility, or maintenance period
-except in a separate written support plan.
+4.1 What each side gives. The licence in 4.2 is granted in consideration of
+your promises in this Agreement, and it is granted for those promises rather
+than gratuitously. Those promises include, without limiting the rest of the
+document: the confirmations in section 2.2; the restrictions you accept in
+section 6; your undertaking in section 5.2 to keep your entitlement key
+confidential and unshared; the licence you grant us in section 11 in respect
+of feedback you choose to send; your responsibilities and the indemnity in
+section 15; your compliance undertakings in section 16; and the obligations of
+confidence in section 17. No money passes during the alpha, and none is
+required to make this Agreement binding.
 
-7. SECURITY AND RESPONSIBLE USE
+4.2 The grant. Subject to your compliance with this Agreement, to the
+confirmations in section 2.2, and to a valid entitlement under section 5, we
+grant you a limited, non-exclusive, non-transferable, non-sublicensable,
+revocable licence, for the term in section 12, to:
 
-You must use reasonable safeguards for devices, credentials, profiles, and
-vaults; install security updates within a reasonable time; and notify the
-Licensor through the published security channel if You discover a suspected
-vulnerability. You must not publicly disclose exploit details before a
-reasonable coordinated-disclosure period unless applicable law requires it.
+  (a) install and run the Engine in object-code form on machines you own or
+      control, for your own internal business purposes, together with
+      Kaleidoscope products;
 
-8. CONFIDENTIALITY
+  (b) make a reasonable number of copies for installation, testing, and
+      backup, each subject to this Agreement; and
 
-Non-public Engine internals, private release materials, keys, and technical
-information identified as confidential or reasonably understood to be
-confidential are the Licensor's confidential information. You must protect them
-with at least reasonable care and use them only as this Agreement permits.
-This section does not cover information You can document was lawfully public,
-already known without restriction, independently developed, or received
-lawfully from another source.
+  (c) allow your employees and contractors to use the Engine for your benefit,
+      provided they are bound by terms at least as protective as this
+      Agreement and you remain responsible for what they do.
 
-9. COMPLIANCE
+No other rights are granted. We reserve everything not expressly granted here.
 
-You must comply with applicable export-control, sanctions, anti-corruption, and
-other laws. You represent that You are not prohibited from receiving the
-Engine. You are responsible for obtaining permissions needed for Your data and
-use case. The Engine is not designed or warranted for emergency, life-support,
-nuclear, weapons, or other use where failure could reasonably cause death,
-personal injury, or severe environmental or property damage.
 
-10. TERM AND TERMINATION
+5. RELEASES, THE ALPHA, AND YOUR ENTITLEMENT KEY
 
-This Agreement starts when validly accepted and continues while You possess or
-use the Engine, unless an order states a shorter term. Your license terminates
-automatically if You materially breach this Agreement and do not cure a
-curable breach within 30 days after notice. It may terminate immediately for a
-breach of Sections 3, 8, or 9, or where continued performance would violate
-law.
+5.1 The alpha. The Engine is at an alpha stage today. While it remains at that
+stage: it is supplied only to a small number of invited testers; it is not
+generally available; the Engine is not published to any package registry; it
+is not signed or notarised for production distribution; and the only platform
+we support, and the only one on which we have run it ourselves, is macOS on
+Apple Silicon. Our build configuration also compiles and tests for other
+operating systems, and you should not read that as support: no build for any
+other platform is supplied, supported, or to be relied on. Those statements
+describe the current stage. They are not promises about later ones.
 
-When the license ends, stop using the Engine and delete all copies, except one
-archival copy retained solely if law requires it. Sections concerning
-ownership, confidentiality, disclaimers, liability, and general terms survive.
+5.2 Your key. Access to the Engine's memory service is controlled by an
+entitlement key that we issue to you — during the alpha, an alpha key. The key
+is issued to you and to the business you identified under section 2.2, and you
+must not share, publish, or transfer it. You must keep it confidential, store
+it only as the documentation directs, and tell us at contact@kleosresearch.xyz
+if you believe it has been disclosed.
 
-11. WARRANTY DISCLAIMER
+5.3 Suspension and revocation. We may suspend or revoke a key at any time, and
+we do not have to give a reason. Where we are revoking keys because we are
+ending the alpha rather than because of anything you have done, section 12.4
+applies and we will give the notice it describes.
 
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE ENGINE IS PROVIDED "AS IS" AND "AS
-AVAILABLE." THE LICENSOR AND ITS SUPPLIERS DISCLAIM ALL EXPRESS, IMPLIED, AND
-STATUTORY WARRANTIES, INCLUDING TITLE, NON-INFRINGEMENT, MERCHANTABILITY,
-SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, QUIET
-ENJOYMENT, AND THAT THE ENGINE WILL BE ERROR-FREE, SECURE, OR UNINTERRUPTED.
+5.4 What revocation does. Revoking or suspending a key stops the Engine
+running its memory service. Exactly four commands are gated by the key:
+`serve`, `mcp`, `context`, and `call`. Those are the ones that run the
+service, expose it to an agent, assemble the context for a query, and carry
+out memory operations through the service. That last one covers writing as
+well as retrieval, so a revoked key stops you writing memories through the
+Engine as well as reading them. No other command is gated: inspecting, verifying,
+migrating, initialising, and deleting your own memory store all continue to
+work, and a refusal by the entitlement gate does not read, write, or delete
+any part of your store.
 
-THIS DISCLAIMER DOES NOT EXCLUDE WARRANTIES OR REMEDIES THAT CANNOT LAWFULLY BE
-EXCLUDED. ANY EXPRESS LIMITED WARRANTY IN AN ORDER CONTROLS OVER THIS SECTION
-ONLY TO THE EXTENT OF THE CONFLICT.
+5.5 What revocation does not do, stated exactly, because it is easy to
+overstate. No ungated command returns the content of your memories. There is
+one ungated command with "export" in its name — `vault-export-device` — and it
+exports the key material needed to open an encrypted vault on a second device;
+it does not export memories. We do not want you to plan around an export
+feature, because there is not one. If your key is revoked you cannot read your
+memories back through the Engine. What you keep is the store itself: ordinary
+files on your own disk, in the locations and formats described in 8.2, which
+we neither hold nor control and which the key does not touch. The key gates
+the service. It does not gate the files.
 
-12. LIMITATION OF LIABILITY
+5.6 Updates. Updates are supplied as packages you obtain from us and install.
+The Engine's updater activates a package that is already present on your
+machine; it does not fetch one. Installing an update is your act, not ours.
 
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, NEITHER THE LICENSOR NOR ITS SUPPLIERS
-WILL BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, OR
-CONSEQUENTIAL DAMAGES, OR FOR LOST PROFITS, REVENUE, GOODWILL, BUSINESS,
-OPPORTUNITY, OR DATA, ARISING FROM THE ENGINE OR THIS AGREEMENT, EVEN IF ADVISED
-THAT SUCH DAMAGES WERE POSSIBLE.
+5.7 Later releases. This Agreement is written to govern the Engine at any
+stage. When we tell you that a release is generally available, the
+alpha-specific statements in 5.1 stop applying to that release, and everything
+else in this Agreement continues to apply to it unchanged, subject to 19.4.
 
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE AGGREGATE LIABILITY OF THE LICENSOR
-AND ITS SUPPLIERS ARISING FROM THE ENGINE OR THIS AGREEMENT WILL NOT EXCEED THE
-GREATER OF (A) THE AMOUNT YOU PAID FOR THE ENGINE DURING THE 12 MONTHS BEFORE
-THE EVENT GIVING RISE TO LIABILITY OR (B) USD 100.
+5.8 Fees. No fee is payable for the alpha; the Engine is supplied to you free
+of charge. That does not make this Agreement gratuitous — see 4.1. If we later
+offer the Engine on paid terms, the fees, the plan, and anything specific to
+it will be agreed separately in writing, and this Agreement will apply to that
+supply except where the separate terms say otherwise. Section 14.3 and section
+14.4 explain what this means for the cap on our liability.
 
-THE LIMITATIONS DO NOT APPLY TO LIABILITY THAT CANNOT LAWFULLY BE LIMITED. Some
-jurisdictions do not allow particular exclusions or limits, so parts of this
-section may not apply to You. The parties intend the limitations to allocate
-risk and apply even if a limited remedy fails of its essential purpose.
 
-13. GENERAL TERMS
+6. RESTRICTIONS
 
-13.1 Governing law and venue. The production Agreement must identify the
-Licensor's jurisdiction and an appropriate exclusive venue before release.
-Mandatory consumer protections and non-waivable statutory rights continue to
-apply.
+Except where a restriction is unenforceable under applicable law, you must
+not, and must not permit anyone else to:
 
-13.2 Assignment. You may not assign this Agreement without the Licensor's prior
-written consent, except in connection with a merger or sale of substantially
-all assets where the assignee accepts this Agreement. The Licensor may assign
-this Agreement as part of a reorganization, financing, or sale of the relevant
-business.
+  (a) copy the Engine except as section 4 permits;
 
-13.3 Notices. Legal notices must be sent to the address identified in the
-production download page or order. A production release must provide an exact
-legal entity, postal or electronic notice address, and security contact.
+  (b) sell, rent, lease, lend, sublicense, distribute, publish, or otherwise
+      make the Engine available to any third party;
 
-13.4 Entire agreement; order of precedence. This Agreement, applicable orders,
-and incorporated third-party notices are the entire agreement about the
-Engine. An executed order controls over this Agreement for its subject matter.
-A purchase order does not modify these terms unless expressly accepted in
-writing.
+  (c) use the Engine to provide a bureau, hosting, time-sharing, or managed
+      service to third parties;
 
-13.5 Severability and waiver. If a provision is unenforceable, it will be
-reformed only to the minimum extent necessary, and the remainder stays in
-effect. A failure to enforce a provision is not a waiver.
+  (d) modify, adapt, translate, or create derivative works of the Engine;
 
-13.6 Force majeure. Neither party is responsible for delay caused by events
-beyond its reasonable control, except payment obligations.
+  (e) reverse engineer, decompile, or disassemble the Engine, or otherwise try
+      to derive its source code, model weights, algorithms, or keys, except to
+      the extent this restriction cannot lawfully be imposed and except as
+      section 17.4 and our security policy permit;
 
-13.7 Language. The English version controls unless applicable law requires
-otherwise.
+  (f) extract, copy, or reconstruct the Kleos embedding model or its weights,
+      or use the Engine or its outputs to train, fine-tune, distil, or
+      otherwise create a machine-learning model that competes with it;
+
+  (g) defeat or work around the entitlement, integrity, or access controls in
+      the Engine, or use it without a valid key;
+
+  (h) remove, obscure, or alter any proprietary or third-party notice carried
+      in or with the Engine; or
+
+  (i) use the Engine unlawfully, or in a way that infringes anyone's rights.
+
+Where applicable law gives you a right to decompile or to obtain
+interoperability information that cannot be excluded by agreement, paragraph
+(e) does not stop you exercising it, but you must first ask us for the
+information you need at contact@kleosresearch.xyz and give us a reasonable
+time to supply it.
+
+
+7. OWNERSHIP
+
+The Engine is licensed, not sold. We and our licensors keep all right, title,
+and interest in it, including all intellectual property rights, and including
+in the Kleos embedding model. Nothing in this Agreement transfers ownership,
+and no licence is granted by implication or estoppel.
+
+The names "Kaleidoscope" and "Kleos Research", and our logos, are not licensed
+by this Agreement. You may use them only to describe the product accurately.
+
+You own the memory content you put into the Engine and the results you get out
+of it, subject to your having the rights to that content in the first place.
+
+
+8. YOUR DATA STAYS ON YOUR MACHINES
+
+8.1 Your memory store — the vault — is created on a path you choose, on
+hardware you control. Memory content, queries, results, the derived graph, and
+the identifiers that address them are written there and are not sent to us.
+
+8.2 What is written there, so that you can protect it properly. The vault is a
+directory tree. In normal operation it holds:
+
+  (a) the text of every memory you write, as ordinary markdown files, one per
+      version;
+
+  (b) an append-only journal of every event, as ordinary line-delimited JSON;
+
+  (c) a database file holding the derived indexes, the identity and ordering
+      of records, the graph, and the search structures; and
+
+  (d) an exposure record for each ranked search — that is, each search you run
+      by query text. It includes the query text, the context that was served
+      in answer to it, and which memories were selected. That record is not
+      optional: a ranked search that asks for it to be suppressed is refused
+      rather than served without it, and writing it advances the journal. A
+      read addressed to a single memory by its identifier is not a ranked
+      search and writes no exposure record.
+
+By default all of this material is stored in plain, unencrypted files at the
+path you chose, protected by your operating system's file permissions and by
+nothing else we add.
+
+Two things the Engine writes are deliberately outside the vault, and you
+should know where they are: your local profiles, which record vault paths and
+workspace, principal and journal identifiers, and the cached entitlement
+verdict described in section 9.5. Both live in your operating system's
+per-user application configuration location, readable only by your own user
+account. Neither contains memory text. Diagnostic tracing that writes
+memory-derived text to a file of your choosing exists but is off unless you
+switch it on with an environment variable.
+
+8.3 Encryption at rest is available on macOS and is not the default. It is
+switched on by an explicit command, which places the vault inside an encrypted
+disk image whose password is held in your login keychain and emitted once as a
+recovery key. Understand its limit: while that vault is mounted, its contents
+are readable by anything running as your user. Encryption at rest protects the
+vault when it is closed, not while you are using it. If you need encryption at
+rest, you must turn it on. If you lose both the recovery key and the keychain
+entry, we cannot recover the vault, because we never held it.
+
+8.4 Installing or using the Engine does not authorise us to read, copy,
+upload, synchronise, train on, or delete any of it. If we ever offer a hosted
+or synchronising feature, it will require a separate agreement and a
+deliberate act by you.
+
+8.5 You are responsible for the content in your vault. Where that content
+includes personal data about other people, you are the Data Fiduciary for it
+under the Digital Personal Data Protection Act, 2023 — the party that decides
+why and how it is processed and is accountable for it. We are neither the Data
+Fiduciary nor a Data Processor of it, because we never receive it and never
+process it on anyone's behalf. Two consequences you should factor into your
+own assessment: the exposure record described in 8.2(d) is created on every
+ranked search and cannot be switched off, so your vault accumulates a record
+of what was searched and what was served; and only you can act on a request to
+access, correct, or erase anything in it. You are also responsible for having
+the right to process the content you put into the vault, for controlling
+access to the machines it sits on, for backing it up and testing the restore,
+and for deleting it when you want it gone. Deleting a vault is your operation,
+not ours.
+
+8.6 The only network call the Engine causes is the entitlement check described
+in section 9. Our privacy notice describes that call in full.
+
+8.7 Do not put credentials, private keys, or memory content into a support
+request or a bug report. Read our support policy before you send us anything.
+
+
+9. THE ENTITLEMENT CHECK
+
+9.1 So that we can issue, list, and revoke access, your entitlement is checked
+against a validation service we run. The builds we supply to you under this
+Agreement carry that check.
+
+9.2 The check is not made by the Engine. The Engine reads a small cached
+verdict file on your machine and proceeds on what it says, so its behaviour
+and its speed never depend on network conditions. When that cached verdict is
+stale, the Engine starts a separate helper program in the background and does
+not wait for it. That helper is the only component that opens a network
+connection.
+
+The Engine starts it with no shell, a fixed argument list, its input and
+output discarded, and the environment cleared and then set back to exactly
+three values: the address of our validation service, which the Engine
+overwrites rather than inherits, so that a variable set in your shell cannot
+redirect the call; the directory the Engine itself resolved for the cached
+verdict; and your entitlement key, which the helper needs in order to
+authenticate and which is passed only if the Engine had it in its own
+environment. Nothing else from your shell, your agent, or your editor reaches
+it — no model-provider token, no cloud credential, no path of yours, and
+nothing from your vault.
+
+9.3 What the request contains. It presents your key for authentication, and
+its body carries two fields and nothing else: the operating system family it
+is running on ("macos", "windows", or "linux"), and the version of the program
+making the call. There is no code path that can add a third field: the body is
+built from a two-field structure with nothing else in it. The connection is
+made over HTTPS, which the helper checks for itself rather than leaving to the
+transport, and redirects are not followed.
+
+9.4 What the request does not contain. No memory content, no queries, no
+prompts, no results, no file paths, no vault, workspace, principal, or journal
+identifiers, no hardware or device fingerprint, and nothing from your agent or
+your editor.
+
+9.5 What is cached on your machine. The verdict is written outside your vault,
+in your user configuration directory, in a file that only your user account
+can read; the Engine refuses a verdict file whose permissions are looser than
+that rather than trusting it. The cached record holds a one-way cryptographic
+digest of your key, never the key itself, together with the identifier we
+assigned to your key, its expiry, and our signed answer. A verdict the Engine
+cannot verify as ours can only deny access, never grant it.
+
+9.6 Timing. Our service tells your installation how long to treat a verdict as
+current and how long it may keep working if we cannot be reached. Your
+installation will not accept more than 24 hours and 7 days whatever we send,
+and it applies those ceilings when it reads the file, so an edited file cannot
+buy a longer window. Eight days is therefore the outer limit both on how long
+you can work without reaching us and on how long a revoked key can keep
+working against an installation that never reconnects. In the ordinary case
+the helper runs about once a day. While a verdict is stale, denied, or absent
+it may run more often — at most once every fifteen minutes, and without that
+throttle on the first check after a key is issued or changed.
+
+9.7 Our privacy notice sets out what we receive from this call, what we store,
+why, for how long, and where it is processed.
+
+
+10. THIRD-PARTY OPEN-SOURCE COMPONENTS
+
+The Engine links open-source libraries written by others, some of whose
+licences require that attribution travel with the software. Those notices are
+not yet complete, either in this Agreement or in the Engine's own output. We
+will complete them before general release. Until then, we will supply the
+current list of those libraries and their licences to anyone who asks at
+contact@kleosresearch.xyz.
+
+This section is about third-party libraries only. The embedding model inside
+the Engine is our own work and carries no third-party attribution; see section
+3.2.
+
+
+11. FEEDBACK
+
+11.1 If you choose to send us suggestions, bug reports, or other feedback
+about the Engine, you grant us a non-exclusive, worldwide, royalty-free
+licence to use it without restriction and to build it into our products, to
+the fullest extent you are able to grant it. We owe you nothing for it. We
+will not identify you or your business as the source without your agreement.
+
+11.2 This does not give us any right in your memory content, your queries,
+your results, or any other data of yours.
+
+11.3 Vulnerability reports are not feedback for the purposes of this section.
+What you send us under our security policy is governed by that policy, and we
+do not take a licence in it under this clause.
+
+11.4 To the extent any part of 11.1 is not effective as a licence of copyright
+under Indian law, it operates instead as your agreement not to assert any
+right you have against our use of the ideas, methods, and information in your
+feedback. Do not send us anything you are not willing to have used on these
+terms.
+
+
+12. TERM, SUSPENSION, AND TERMINATION
+
+12.1 If we adopt this Agreement and you accept it, it starts when you accept
+it and continues until it ends under this section.
+
+12.2 You may end it at any time by stopping use of the Engine and deleting
+your copies.
+
+12.3 We may end it, or suspend your access, on notice if you breach it. If the
+breach can be put right, we will give you 30 days to do so before ending the
+Agreement, unless the breach is of section 2.2, section 5.2, section 6,
+section 16, or section 17, or unless continuing would put us in breach of the
+law, in which case we may act immediately.
+
+12.4 We may end the alpha itself, and this Agreement with it, on at least 30
+days' notice to you. Your memory store is unaffected: it stays on your
+machines as the files described in 8.2, and neither ending this Agreement nor
+revoking your key deletes it, moves it, or locks you out of it. We are not
+promising an export command, because there is not one — see 5.5. We are
+telling you where your data is and undertaking not to take it away.
+
+12.5 When this Agreement ends you must stop using the Engine and delete your
+copies of it. Your vault is yours and this does not require you to delete it.
+
+12.6 Sections 2.4, 7, 8, 10, 11, 13, 14, 15, 16, 17, 18, and 19 survive
+termination, together with any clause that by its nature is intended to.
+
+
+13. NO WARRANTY
+
+13.1 THE ENGINE IS SUPPLIED "AS IS" AND "AS AVAILABLE", AND DURING THE ALPHA
+IT IS PRE-RELEASE SOFTWARE.
+
+13.2 To the fullest extent permitted by law, we exclude all warranties,
+conditions, guarantees, representations, and terms of any kind, whether
+express, implied, statutory, or arising from a course of dealing or usage of
+trade, including any implied warranty or condition of merchantability,
+satisfactory quality, fitness for a particular purpose, title, non-
+infringement, accuracy, or quiet enjoyment.
+
+Two notes on how that exclusion works, because getting the mechanism wrong
+would be worse than not stating one. Its basis is the parties' freedom to
+agree the terms of their own bargain under the Indian Contract Act, 1872: this
+is a licence of software, not a sale of goods — section 7 says the Engine is
+licensed and not sold, and no price passes — so section 62 of the Sale of
+Goods Act, 1930, which allows implied rights, duties, and liabilities to be
+negatived or varied by express agreement, is relied on only in the
+alternative, if and so far as that Act applies at all. And the exclusion of a
+non-infringement warranty limits what we promise you; it does not touch
+section 14.1(f), which preserves liability for third-party intellectual
+property claims.
+
+13.3 We do not warrant that the Engine will meet your requirements, that it
+will run without interruption or error, that defects will be corrected, that
+results will be accurate, complete, or suitable for any purpose, or that it is
+secure or free of harmful components. During the alpha it has not been signed
+or notarised for production distribution, and you should not treat any copy
+you receive as verified by us.
+
+13.4 There is no service level, no uptime commitment, and no guaranteed
+support of any kind. Our support policy says so in terms.
+
+13.5 The Engine is a memory and retrieval system. What it returns is a
+selection from what you put into it, and it can be incomplete, out of date, or
+wrong. You are responsible for what you do with its output, for anything you
+build on top of it, and for the consequences of acting on it.
+
+13.6 The Engine is not designed for, and must not be used in, any application
+where failure could lead to death, personal injury, or severe damage to
+property or the environment.
+
+13.7 This section does not exclude any warranty, condition, or term that
+cannot lawfully be excluded, and it does not apply to fraud or fraudulent
+misrepresentation. It is subject to section 2.4.
+
+
+14. LIMITATION OF LIABILITY
+
+14.1 What this section cannot do, and does not try to do. Nothing in this
+Agreement excludes or limits, or is to be read as excluding or limiting:
+
+  (a) liability for death or personal injury caused by negligence;
+
+  (b) liability for fraud or fraudulent misrepresentation;
+
+  (c) liability for wilful misconduct;
+
+  (d) any statutory penalty, and any criminal liability;
+
+  (e) any right of yours under consumer protection law that cannot be given up
+      by agreement;
+
+  (f) liability for infringement of a third party's intellectual property
+      rights, to the extent that liability cannot lawfully be limited, and in
+      any event any claim brought against you by a third-party rights holder,
+      who is not a party to this Agreement and is not bound by anything in it;
+
+  (g) the personal liability of any of our directors or officers for their own
+      fraud, offences, personal guarantees, or statutory defaults; or
+
+  (h) any other liability that applicable law does not permit to be excluded
+      or limited.
+
+The rest of this section is subject to this clause. We are setting the
+carve-outs out first, and at this length, because a limitation clause that
+appears to sweep them up is worse than one that does not try: it misleads the
+reader and it invites a court to read down the whole clause. An agreement
+whose object is unlawful or opposed to public policy is void under section 23
+of the Indian Contract Act, 1872, and a clause that purported to defeat any of
+(a) to (h) would be inviting that result.
+
+14.2 Subject to 14.1, and to the fullest extent permitted by law, we are not
+liable for any indirect or consequential loss, or for loss of profit, revenue,
+business, goodwill, anticipated savings, opportunity, or data, or for the cost
+of procuring substitute goods or services, or for corruption or loss of any
+memory store, however caused, whether in contract, tort including negligence,
+breach of statutory duty, or otherwise, and whether or not we were told such
+loss was possible.
+
+14.3 Subject to 14.1, and to the fullest extent permitted by law, our total
+aggregate liability for all claims arising out of or in connection with this
+Agreement or the Engine is limited to the total amount you have actually paid
+us for the Engine in the 12 months before the event giving rise to the claim.
+
+14.4 No charge is made for the alpha. That amount is therefore nil, and our
+aggregate liability under 14.3 is nil. We are stating this plainly rather than
+leaving it to be worked out from 14.3: the Engine is supplied free, at an
+alpha stage, with no warranty, and the financial cap on our liability is zero.
+If we later supply the Engine on paid terms under 5.8, the cap in 14.3 will
+read on what you have actually paid in the relevant 12 months. In either case
+the cap is subject to 14.1 and does not reach anything listed there.
+
+14.5 You keep your own backups and you are responsible for the consequences of
+not having them. Because your memory store is on your own machines and we have
+no access to it, we cannot restore it for you and we will never be able to.
+
+14.6 The parties agree that these limits are a reasonable allocation of risk
+between two businesses, reflecting that the Engine is supplied free of charge
+and at an alpha stage, and that they apply even if a limited remedy fails of
+its essential purpose.
+
+14.7 Nothing in this Agreement restricts either party from enforcing its
+rights by the usual legal proceedings, or shortens the time within which a
+claim may be brought. Section 28 of the Indian Contract Act, 1872 makes an
+agreement in absolute restraint of legal proceedings, or one that curtails the
+limitation period, void to that extent, and this Agreement does not attempt
+either. The periods set by the Limitation Act, 1963 apply. Section 18 chooses
+a court; it does not close one.
+
+14.8 Nothing in this Agreement is to be read as excluding, limiting, or
+displacing the operation of any statute. Where a clause of this Agreement
+would have that effect, it is to be narrowed only as far as necessary to make
+it lawful, as section 19.5 provides, and no further.
+
+
+15. YOUR RESPONSIBILITIES AND INDEMNITY
+
+15.1 You are responsible for the machines you install the Engine on, for the
+credentials and keys you hold, for the lawfulness of the content you process,
+for the integrations you build, for backing up your own data, and for
+installing updates we tell you are needed for security within a reasonable
+time.
+
+15.2 You will indemnify us against claims brought against us by a third party,
+and against losses and reasonable costs we incur because of them, where the
+claim arises from your use of the Engine in breach of section 6, from your use
+of it unlawfully, from your breach of a confirmation in section 2.2, or from
+content you process with it that infringes a third party's rights.
+
+15.3 That indemnity is limited as follows, and the limits are conditions of
+it, not concessions. It does not apply to the extent the claim arises from our
+own breach, negligence, or wrongdoing; it does not apply to anything within
+section 14.1; and it does not apply at all to a person whose rights under
+consumer protection law cannot be given up by agreement. We will tell you
+promptly about any claim we want to be indemnified for, we will not settle it
+without asking you first, and we will let you take over its conduct if you
+want to and will give you reasonable help in doing so.
+
+
+16. COMPLIANCE AND EXPORT
+
+You must comply with the export control, sanctions, and anti-bribery laws that
+apply to you, including India's foreign trade and export control regime and
+any other regime that applies where you are. You confirm that you are not
+prohibited from receiving the Engine under any of them, and you must not make
+it available to anyone who is. The Engine contains cryptography, so a regime
+that turns on that may apply to you where you are; check before you take it
+across a border.
+
+
+17. CONFIDENTIALITY
+
+17.1 Non-public information about the Engine that we give you — including
+internals, pre-release material, benchmarks, keys, and anything we identify as
+confidential or that is obviously confidential — must be kept confidential,
+protected with at least reasonable care, and used only as this Agreement
+allows.
+
+17.2 We owe you the same duty in return. Non-public information of yours that
+reaches us — in a support request, in diagnostics you attach, in a security
+report, or otherwise — will be kept confidential, protected with at least
+reasonable care, and used only to answer you, to fix the problem, and to run
+and improve the Engine. We will not publish it, and we will not disclose it to
+anyone outside the people in our organisation and our advisers who need it.
+Our privacy notice governs any personal data in it.
+
+17.3 Neither duty applies to information the receiving party can show was
+already public, was already known to it without restriction, was developed by
+it independently, or reached it lawfully from someone else free of any duty of
+confidence.
+
+17.4 Either party may disclose what the law or a court requires it to
+disclose, and should tell the other first if it is allowed to.
+
+17.5 Nothing in this section stops you reporting a security vulnerability to
+us or, after the period our security policy describes, publishing your
+findings in accordance with it.
+
+
+18. GOVERNING LAW AND COURTS
+
+18.1 This Agreement, and any dispute or claim arising out of or in connection
+with it or its subject matter, including non-contractual ones, is governed by
+the laws of India.
+
+18.2 The courts at Delhi have exclusive jurisdiction to settle any such
+dispute or claim, and both parties submit to that jurisdiction.
+
+18.3 Clause 18.2 does not oust a forum that is available to a person as of
+statutory right, including a consumer forum, and it is to be read consistently
+with section 2.4 and section 14.7.
+
+18.4 Both parties may seek interim or protective relief from any court of
+competent jurisdiction.
+
+
+19. GENERAL
+
+19.1 Notices. Notices under this Agreement are sent to us at
+contact@kleosresearch.xyz, and to you at the address you gave us when we
+issued your key. A notice sent by email takes effect when sent, unless the
+sender receives a delivery failure.
+
+19.2 Assignment. You may not assign or transfer this Agreement without our
+written consent. We may assign it to a company that acquires our business or
+the relevant part of it, or in a reorganisation, provided the assignee takes
+on our obligations.
+
+19.3 Entire agreement. This Agreement is the whole agreement between us about
+the Engine, and replaces anything said or written before. Our privacy notice,
+our support policy, and our security policy are referred to in this Agreement
+for information and are not incorporated into it: each says what it is, and
+the support policy and the security policy each say that they are not
+contracts. The one exception is the safe harbour in our security policy, which
+we give as a standing authorisation to security researchers and will not use
+this Agreement to defeat. Neither party relies on any statement not set out
+here, but nothing excludes liability for fraud or fraudulent
+misrepresentation.
+
+19.4 Variation. We may change this Agreement for future releases of the Engine
+by giving you notice. If you do not accept the change, your remedy is to stop
+using the Engine. We will not change it retrospectively.
+
+19.5 Severability. If any provision is held unenforceable, it is to be
+modified to the least extent necessary to make it enforceable, or if that is
+not possible, struck out. The rest of the Agreement continues.
+
+19.6 No waiver. A delay or failure to enforce a right is not a waiver of it.
+
+19.7 No partnership. Nothing here creates a partnership, joint venture,
+agency, or employment relationship.
+
+19.8 Force majeure. Neither party is liable for a failure or delay caused by
+something outside its reasonable control, other than a failure to pay.
+
+19.9 Language. This Agreement is made in English, and the English text
+governs.
+
+19.10 Third parties. No one other than you and us has any right to enforce
+this Agreement.
+
+
+SOURCES RELIED ON
+
+These are references for the reviewer. They are not terms of this Agreement.
+
+  Indian Contract Act, 1872 — sections 10, 23, 25 and 28
+  https://www.indiacode.nic.in/bitstream/123456789/2187/2/A187209.pdf
+
+  Consumer Protection Act, 2019 — section 2(7) and its Explanation
+  https://www.indiacode.nic.in/bitstream/123456789/16939/1/a2019-35.pdf
+
+  Sale of Goods Act, 1930 — section 62 (implied terms may be negatived or
+  varied by express agreement), relied on in the alternative only
+
+  Digital Personal Data Protection Act, 2023 — for the Data Fiduciary line
+  drawn in section 8.5
+  https://www.indiacode.nic.in/bitstream/123456789/20063/1/a2023-22.pdf
+
+  Bharathi Knitting Co. v DHL Worldwide Express, (1996) 4 SCC 704 — an agreed
+  limitation of liability is to be given effect unless the clause is itself
+  shown to be invalid
+
 
 END OF REVIEW DRAFT
-

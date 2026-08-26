@@ -270,17 +270,23 @@ LEGAL_DRAFT_ROUTES = {
     "docs/legal/security-policy/index.html",
     "docs/legal/support-policy/index.html",
 }
-# "has not" on a document page, "have not" on the section index — match both.
-LEGAL_DRAFT_SENTINELS = ("not been reviewed by legal counsel", "not in force")
+# Counsel reviewed and directed these documents on 2026-08-23, so the old
+# sentinel ("not been reviewed by legal counsel") is now FALSE and asserting it
+# would force the site to lie. The boundary that still holds, and that this gate
+# now defends, is ADOPTION: reviewed, but not adopted and therefore not in force.
+# Note "not yet in force" does not contain the substring "not in force", which is
+# why this constant changed rather than gaining a member.
+LEGAL_DRAFT_SENTINELS = ("not yet in force",)
 LEGAL_OVERCLAIMS = (
-    "reviewed by counsel",
     "legally binding",
     "counsel-approved",
     "legally effective",
-    # the affirmative that mirrors the sentinel: a page may carry the sentinel
-    # and this at the same time, and neither of the other checks would speak.
-    "has been reviewed by legal counsel",
-    "have been reviewed by legal counsel",
+    # "reviewed by counsel" and its variants were overclaims until 2026-08-23 and
+    # are now simply true, so they are no longer listed. What remains forbidden is
+    # any claim of ADOPTION or binding effect, which has not happened.
+    "now in force",
+    "currently in force",
+    "adopted by kleos research",
     "reviewed by outside counsel",
     "counsel-reviewed",
     "approved by counsel",
@@ -679,10 +685,10 @@ def verify(
             ]:
                 failures.append("status.json has the wrong built-for platform")
             licences = status.get("licences", {})
-            if "not in force" not in licences.get("the product terms", ""):
-                failures.append("status.json must keep the product terms not in force")
-            if "no counsel has read them" not in licences.get("the product terms", ""):
-                failures.append("status.json must say no counsel has read the drafts")
+            if "not yet in force" not in licences.get("the product terms", ""):
+                failures.append("status.json must keep the product terms not yet in force")
+            if "not adopted" not in licences.get("the product terms", ""):
+                failures.append("status.json must say the product terms are not adopted")
             holds = status.get("still true before any release", {})
             for field in (
                 "packages published to a registry",
@@ -1423,7 +1429,7 @@ def verify(
         "provider not configured",
         "a compiler check for the memory engine and nothing more",
         "nothing is signed for release",
-        "unreviewed drafts that no counsel has read",
+        "reviewed by counsel but not adopted",
         "hosted memory does not exist",
         # /docs/benchmarks/ publishes results now. What is still true, and
         # what this file must still say, is that the method is not out.

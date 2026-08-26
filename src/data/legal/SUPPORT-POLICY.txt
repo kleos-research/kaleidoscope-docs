@@ -1,149 +1,399 @@
 KALEIDOSCOPE SUPPORT POLICY
-REVIEW DRAFT - NOT FOR PRODUCTION USE
+REVIEWED DRAFT - NOT YET IN FORCE
 
-Last updated: August 22, 2026
+Draft of 23 August 2026
 
-This draft describes proposed standard support for a local Kaleidoscope
-product. It creates no service-level agreement, warranty, maintenance promise,
-or public support claim. Production support begins only when a supported
-release, staffed intake channel, business hours, and plan terms are published.
 
-1. COVERED PRODUCTS
+STATUS OF THIS DOCUMENT
 
-Standard support may cover:
+This is a complete draft. It is not yet in force.
 
-- the current generally available public manager, SDK wrappers, integrations,
-  and agent skill;
-- the proprietary engine object-code package under a valid entitlement; and
-- the operating systems, architectures, package managers, and host versions
-  explicitly listed in the production compatibility table.
+It has been reviewed by legal counsel for Kleos Research Private Limited, which
+has not yet adopted it. Nothing in it is an offer, a contract, or a commitment,
+and nothing in it describes terms that currently govern any product, service,
+or relationship. Do not rely on this text as binding today.
 
-A separate order or paid support plan controls if it states different scope,
-response times, hours, or remedies.
 
-2. NOT COVERED
+1. WHO WE ARE
 
-Unless a written plan says otherwise, standard support excludes:
+Kleos Research Private Limited ("Kleos Research", "we", "us") is a private
+limited company incorporated in India and registered in Delhi.
 
-- release candidates, local staging builds, test-signed artifacts, nightly
-  builds, source snapshots, and refusal-only packages;
-- unlisted platforms, host versions, custom forks, modified binaries, or
-  packages whose integrity cannot be verified;
-- third-party services, models, frameworks, or operating systems except for
-  reasonable interoperability diagnosis;
-- user-authored prompts, memory content, business logic, data recovery, or
-  backup administration;
-- incidents caused by credential compromise, unsupported configuration,
-  failure to install an available fix, or use contrary to documentation;
-- consulting, architecture design, migrations, custom integrations, and
-  performance tuning; and
-- security research, which must use the private security-reporting channel.
+    Kleos Research Private Limited
+    Email: contact@kleosresearch.xyz
 
-3. SUPPORT CHANNEL
+That address is monitored. Our full entity particulars, including our
+registered office address and our Corporate Identity Number, are available on
+request at that address, and we undertake to supply them to anyone who asks
+for them.
 
-Before production, publish one authenticated support portal or monitored email,
-the operating legal entity, business hours and time zone, supported languages,
-and escalation process. Public issues may be used for non-sensitive
-Apache-licensed SDK defects after a public repository exists, but must never
-contain credentials, private engine material, exploit details, or user memory
-data.
 
-4. INFORMATION TO PROVIDE
+2. WHO THIS IS FOR
 
-A support request should include:
+Kaleidoscope is offered to businesses, and to developers acting for a
+business, for business purposes. This policy is written on that footing, and
+so are the engine licence agreement and the privacy notice.
 
-- product and exact version;
-- operating system, architecture, package manager, and relevant host version;
-- package and executable digests where available;
-- a concise expected-versus-observed description;
-- reproducible steps using non-sensitive test data;
-- redacted error output and diagnostics; and
-- recent relevant changes.
+If you are not acting for a business, this is the wrong product for you at
+this stage, and you should not accept the licence. Section 14 records what we
+cannot and do not take away from a person who nevertheless has rights under
+Indian consumer protection law.
 
-Users must review diagnostics before sharing them. Remove local paths, account
-identifiers, provider keys, tokens, memory content, prompts, queries, results,
-and vault coordinates. Support may refuse unsafe uploads and ask for a minimal
-redacted reproduction.
 
-5. SEVERITY GUIDANCE
+3. WHAT WE PROMISE: NOTHING
 
-Proposed severity levels are:
+Read this section before anything else. It is the whole policy, and the rest
+is detail.
 
-- Severity 1: verified security incident, data-loss risk, or complete outage of
-  a supported production use with no workaround;
-- Severity 2: major supported function unavailable or severely degraded, with
-  material impact and no reasonable workaround;
-- Severity 3: limited defect with a workaround or moderate impact; and
-- Severity 4: question, documentation issue, compatibility request, or feature
-  request.
+Support for Kaleidoscope is best effort. Specifically:
 
-Kaleidoscope may reclassify a request based on verified impact and scope.
+  - We do not commit to responding to you.
+  - We do not commit to responding within any period, or at all.
+  - We do not commit to fixing anything you report.
+  - We do not commit to telling you that we are not going to fix it, or why.
+  - There is no service level agreement.
+  - There is no uptime commitment, because there is nothing we run for you.
+  - There is no support tier, no paid support plan, no priority queue, and no
+    published support hours. None of those exist to be bought or asked for.
 
-6. PROPOSED RESPONSE TARGETS
+We are stating this bluntly on purpose. A support policy that says we will
+"aim to" respond "promptly" is read as a promise, and hedged language is worse
+than a clear no, because someone plans around it. Kaleidoscope is alpha
+software, built by a very small team, given away without charge. Any help you
+get is a courtesy, and that is all it is.
 
-For standard support during published business hours, proposed non-binding
-initial-response targets are:
+In practice we read what comes in and reply to most of it. That is a
+description of what has tended to happen, not a commitment.
 
-- Severity 1: 1 business day;
-- Severity 2: 2 business days;
-- Severity 3: 5 business days; and
-- Severity 4: 10 business days or best effort.
+If you need support you can rely on, Kaleidoscope is not the right product for
+you today. We would rather you learned that from this page than from an
+unanswered issue.
 
-A response is an acknowledgement and triage action, not necessarily a fix.
-No restoration, resolution, uptime, or response SLA applies unless a written
-paid plan expressly provides one. These targets require staffing confirmation
-before production.
+Two things sit outside this section, and both are stated where they belong
+rather than here:
 
-7. FIXES AND WORKAROUNDS
+  (a) Security. Our security policy explains how to report a vulnerability and
+      gives a safe harbour for good-faith researchers, which is given to be
+      relied on. It does not promise a response time either, and it says so;
+      what it does give you instead is a date after which you may publish.
 
-Support may provide documentation, configuration guidance, a workaround, an
-upgrade recommendation, or a product fix. Security and compatibility fixes may
-be delivered only in the current release. Kaleidoscope does not promise to
-backport a fix or maintain compatibility with an unpinned third-party host.
+  (b) Data protection. Where a statute gives you a right to a response within
+      a period, that right is unaffected by this section. See section 14.
 
-8. VERSION LIFECYCLE
 
-Only versions in the production support table are covered. Proposed default:
-the current release and the immediately preceding minor release remain eligible
-for standard support for 90 days after replacement. Kaleidoscope should give at
-least 90 days' notice before ending ordinary support where practicable, but may
-end support sooner for legal, security, third-party platform, or emergency
-reasons.
+4. THE ONLY SUPPORT CHANNEL
 
-No lifecycle period applies to prereleases. A separate long-term-support plan
-must be stated in writing.
+4.1 Support runs through issues on our source repository, and nowhere else:
 
-9. USER RESPONSIBILITIES
+    https://github.com/kleos-research/kaleidoscope
 
-Users are responsible for:
+The repository is private during the alpha. If you have been given access,
+open an issue there. If you hold an alpha key but do not have repository
+access, ask for it at contact@kleosresearch.xyz — that is a gap in the setup,
+not a decision to leave you without a channel.
 
-- maintaining verified backups and testing restoration;
-- controlling device, profile, credential, and vault access;
-- using supported platforms and installing fixes within a reasonable time;
-- preserving a safe minimal reproduction;
-- obtaining rights and consents for data they process; and
-- maintaining a reasonable business-continuity plan.
+4.2 We use issues because the question, the history, and any fix stay in one
+place, and the next person with the same problem can find the answer.
 
-Support activity does not authorize Kaleidoscope to access or delete a local
-vault. Remote access, if ever offered, requires separate informed consent,
-least privilege, a defined session, and an audit trail.
+4.3 contact@kleosresearch.xyz is not a support channel. Write there only for
+things that must not go into an issue:
 
-10. PRIVACY AND CONFIDENTIALITY
+  - anything about your alpha key, including issue, replacement, or
+    revocation, and a request for repository access;
+  - a data protection request or grievance under our privacy notice;
+  - a question about this policy, the licence, or a legal notice; or
+  - a request for our full entity particulars.
 
-Support data is handled under the production privacy notice and applicable
-order. Support personnel should access only the minimum data necessary and must
-not use customer memory content, prompts, queries, or results for advertising
-or model training without a separate explicit opt-in.
+A product question sent to that address may be answered, or may be redirected
+to an issue, or may not be answered at all. Section 3 applies to it either
+way.
 
-11. REQUIRED PRODUCTION COMPLETION
+4.4 Security problems do not go in an issue and do not go to that address in
+the ordinary way. Our security policy explains where they go and what
+protection you get for reporting them.
 
-Before this policy becomes effective, confirm:
+4.5 We support Kaleidoscope in English.
 
-- legal entity, support channel, staffing, hours, and time zone;
-- supported products, versions, platforms, packages, and host pins;
-- plan tiers, entitlements, targets, exclusions, and any remedies;
-- data-handling, secure upload, retention, and deletion procedures; and
-- escalation ownership for security, privacy, billing, and account recovery.
+4.6 There is no telephone support, no chat channel, no forum, no ticketing
+system, no account manager, and no named support contact. These are not gaps
+in the list above. They do not exist. Our privacy notice separately publishes
+the point of contact for data protection questions, which is a statutory
+requirement and a different thing from support.
+
+
+5. WHAT NOT TO PUT IN AN ISSUE
+
+Never post any of the following, in an issue or in an email to us:
+
+  - your alpha key, or any token, password, or private key;
+  - memory content, search queries, compiled context, prompts, model outputs,
+    or anything else out of your vault;
+  - absolute filesystem paths that reveal private directory structure; or
+  - anyone else's personal data.
+
+Redact your diagnostics before you attach them. Reproduce with test data where
+you can. We may ask you to edit or delete something you have posted, or to
+reproduce a problem with data you do not mind sharing.
+
+If you post a credential by accident, treat it as compromised: rotate it
+first, then tell us at contact@kleosresearch.xyz.
+
+The repository is hosted by a third party, and personal data you put into an
+issue is handled as our privacy notice describes, including what that notice
+says about processing outside India.
+
+
+6. WHAT IS SUPPORTED
+
+Best effort, and only for:
+
+  - the current alpha build of the Kaleidoscope engine, run under a valid
+    alpha key; and
+
+  - macOS on Apple Silicon, which is the only platform we support and the only
+    one on which we have run the product ourselves.
+
+Our build configuration also compiles and tests for other operating systems.
+Do not read that as support: no build for another platform is supplied,
+supported, or to be relied on, and a compiler accepting the source is not the
+same as the product working.
+
+
+7. WHAT IS NOT SUPPORTED
+
+  - Any build other than the current one. There is no release line yet, so
+    there is nothing to back-port to and no earlier version being maintained.
+
+  - Any platform other than macOS on Apple Silicon.
+
+  - Modified binaries, custom builds, and anything whose integrity we cannot
+    check.
+
+  - Third-party software: your editor, your agent harness, your model
+    provider, your shell, your operating system. We will help you work out
+    whether a problem is ours. That is where it stops.
+
+  - Your prompts, your agent's design, your memory content, and the results
+    you get out of the system. What a memory system chooses to return is
+    product behaviour and you are welcome to file it as an issue; tuning your
+    use of it is consulting, not support.
+
+  - Recovering your data. Your vault is on your machine, we never receive it,
+    and we cannot restore it for you. See section 11.
+
+  - Consulting, architecture review, integration work, data migration, bespoke
+    development, training, and performance tuning.
+
+  - Anything caused by a compromised credential, an unsupported configuration,
+    or use contrary to the documentation.
+
+  - Security research, which goes through the security policy instead.
+
+
+8. ALPHA MEANS THINGS BREAK
+
+This is the part people skip, so it gets its own section.
+
+Kaleidoscope is at an alpha stage. The engine is not published to any package
+registry, it is not signed or notarised for release, and it is distributed
+under individual alpha keys rather than generally. Expect all of the
+following, and plan for them:
+
+  - defects, including defects that lose or corrupt data;
+  - behaviour that changes between builds without warning;
+  - interfaces, commands, flags, and stored formats that change in ways that
+    are not backward compatible;
+  - features that are removed;
+  - a build that does not open a store written by an earlier build; and
+  - the alpha itself ending.
+
+None of that is a breach of anything, because nothing has been promised. The
+engine licence agreement supplies the software as-is and as-available, with no
+warranties, and limits our liability; this policy does not vary that and is
+not an exception to it.
+
+
+9. HOW TO REPORT A BUG WELL
+
+We cannot commit to acting on any report. We can tell you what a report we are
+able to act on usually contains:
+
+  - the exact build version, and your operating system and architecture;
+  - what you expected to happen, and what happened instead, stated separately;
+  - the smallest sequence of steps that reproduces it, using data you do not
+    mind sharing;
+  - the exact error output, redacted per section 5;
+  - whether it happens every time or intermittently; and
+  - what changed just before it started — a new build, a new configuration, a
+    new integration.
+
+One problem per issue. Search the existing issues first. An issue without a
+reproduction is much less likely to go anywhere; that is not a rule we
+enforce, it is just how it works out.
+
+Anything you send us about the product through this channel — a report, a
+suggestion, a proposed change — is feedback, and the feedback clause of the
+engine licence agreement governs what we may do with it. Do not send us
+anything you are not willing to have used on those terms. A vulnerability
+report sent under our security policy is not feedback for that purpose and is
+expressly excluded from that clause.
+
+
+10. WHAT WE MIGHT DO ABOUT IT
+
+If we act on something, it might be an answer, a documentation change, a
+workaround, a configuration suggestion, or a fix in a later build. Fixes go
+into the current build only.
+
+We may close an issue without fixing it, including because it is out of scope,
+because we cannot reproduce it, because it is working as intended, or because
+we have decided not to fix it. We will normally say which. See section 3.
+
+
+11. YOUR SIDE
+
+You are responsible for:
+
+  - keeping backups of your vault, and testing that they restore. Your vault
+    is a directory of files on your own disk. We never receive it, we hold no
+    copy of it, and there is nothing for us to restore from;
+  - controlling access to your machines, your profiles, and your alpha key;
+  - moving to the current build when we tell you that one fixes something;
+  - the lawfulness of what you put into the system and what you do with what
+    comes out; and
+  - having a plan for what you do if Kaleidoscope stops working, because it is
+    alpha software and it might.
+
+We never need access to your machine or your vault in order to help you, and
+we will not ask for it. If any form of remote assistance is ever offered, it
+would require your explicit agreement on each occasion, and this policy would
+be updated to describe it before that happened.
+
+
+12. WHAT HAPPENS TO YOUR DATA WHEN THE ALPHA, OR YOUR KEY, ENDS
+
+The alpha will end. The terms on which anything is supported afterwards will
+be different and will be published. Under the engine licence agreement we
+would give you at least 30 days' notice before ending the alpha; that
+agreement governs termination and suspension, and this policy does not add to
+it or vary it.
+
+Be clear about what ending access does and does not do, because an earlier
+draft of this policy overstated it.
+
+12.1 Your alpha key gates exactly four commands: `serve`, `mcp`, `context`,
+and `call`. Everything else the engine can do runs regardless of the state of
+your key, including the vault commands that inspect, verify, and migrate a
+store, and the commands that report configuration, licences, and where things
+live.
+
+12.2 Do not read that as a data export guarantee. Searching and compiling
+context both run through the gated commands, and so does writing a memory. If
+your key is revoked or the alpha ends, you can no longer read from or write to
+the store through Kaleidoscope. There is no ungated command that hands back
+memory content. There is one ungated command with "export" in its name,
+`vault-export-device`, and it exports the key material for opening an
+encrypted vault on a second device rather than any memory.
+
+12.3 What keeps your data yours is the storage format, not a command. Your
+vault is a directory of ordinary files on your own disk: memory content is
+stored as plain markdown, one file per version, and the event journal as plain
+JSON lines. You can open, copy, back up, and move those files with the tools
+you already have, without the engine and without a key. A database file in the
+same directory holds the derived indexes and the ordering; that is what needs
+the software, not your text. If you have enabled the optional macOS encrypted
+vault, the files sit inside an encrypted disk image to which you hold the
+password and the recovery key, and the same point applies once you have opened
+it.
+
+12.4 Deleting the software does not delete your vault, and we cannot delete it
+for you.
+
+
+13. HOW THIS FITS WITH THE OTHER DOCUMENTS
+
+13.1 This policy is a description of how we handle support at the alpha stage.
+It is not a contract and we do not intend it to be one. Nothing in it is a
+warranty, a condition, a representation, or a guarantee, and nothing in it
+adds to what we owe you under the engine licence agreement. Sections 15 and 16
+are there for the case where some part of it is nevertheless treated as having
+legal effect; they do not turn the rest of it into a contract.
+
+13.2 The engine licence agreement is the contract. It supplies the software
+as-is and as-available, disclaims warranties so far as Indian law permits, and
+caps our aggregate contractual liability at the fees you have paid us in the
+preceding twelve months, which is nil for a free alpha. Section 3 of this
+policy is consistent with that and does not enlarge or reduce it.
+
+13.3 Personal data you send us in a support request is handled as our privacy
+notice describes.
+
+13.4 Vulnerability reports are governed by our security policy, including its
+safe harbour.
+
+13.5 If this policy conflicts with the engine licence agreement, the licence
+agreement prevails.
+
+
+14. RIGHTS WE CANNOT AND DO NOT DISCLAIM
+
+14.1 Nothing in this policy operates to defeat a statute or to exclude a
+liability that Indian law does not permit us to exclude. In particular,
+nothing here limits liability for fraud or fraudulent misrepresentation, for
+wilful misconduct, for death or personal injury caused by negligence, for a
+statutory penalty, or for criminal liability.
+
+14.2 Where a person has rights under the Consumer Protection Act, 2019 that
+cannot be given up by agreement, this policy does not take them away and is
+not to be read as attempting to. We note that the Act's definition of
+"consumer" in section 2(7) turns on the purpose for which goods or services
+were acquired, and that its Explanation preserves consumer status for a person
+who acquires them exclusively to earn a livelihood by means of
+self-employment. Describing this product as business-only does not by itself
+decide that question.
+
+14.3 Section 3 does not apply to any response period fixed by law. Our privacy
+notice sets out how to make a data protection request or grievance, the period
+within which we will respond to it, and your right to complain to the Data
+Protection Board of India. That commitment is made in that document and stands
+independently of this one.
+
+
+15. CHANGES TO THIS POLICY
+
+We may change this policy. The current version is the one published at
+memory.kleosresearch.xyz, and it carries the date of the draft or, once
+adopted, of the version in force. We will note material changes on the same
+page. A changed policy describes how support is handled from the date it is
+published; it does not create an obligation that this policy otherwise
+disclaims, and it does not change the engine licence agreement, which has its
+own variation clause.
+
+
+16. GOVERNING LAW AND DISPUTES
+
+16.1 This policy, and anything arising out of it or connected with it, is
+governed by the laws of India.
+
+16.2 The courts at Delhi have exclusive jurisdiction, subject to 16.3.
+
+16.3 Nothing in this policy restrains either of us from enforcing our rights
+through the ordinary courts and tribunals, shortens any period of limitation,
+or purports to do either. Section 28 of the Indian Contract Act, 1872 makes an
+agreement in absolute restraint of legal proceedings void to that extent, and
+this clause is to be read consistently with it. Where a forum is available to
+a person as of statutory right, including a consumer forum, clause 16.2 does
+not oust it.
+
+
+17. HOW TO CONTACT US
+
+    Kleos Research Private Limited
+    Email: contact@kleosresearch.xyz
+
+Support: open an issue on the repository (section 4). Full entity particulars,
+including our registered office address and Corporate Identity Number, are
+available on request at the email address above.
+
 
 END OF REVIEW DRAFT
-
