@@ -8,26 +8,32 @@ head:
   # Starlight's head merge dedupes on tag name, so this wins.
   - tag: title
     content: Kaleidoscope — local memory for AI agents
-hero:
-  tagline: One memory · every tool · on your machine
-  actions:
-    - text: Get started
-      link: /docs/getting-started/
-      icon: right-arrow
-      variant: primary
-    - text: Give your agent the skill
-      link: /docs/skill/
-      variant: minimal
-    - text: See what is available
-      link: /status/
-      variant: minimal
 ---
 
-Kaleidoscope gives your agents one memory on your machine that every editor and
-agent you connect shares. The engine that stores and ranks it runs locally; the
-`kaleidoscope` command wires it into your editor or agent, which sees exactly
-two tools: `search` and `remember`. Kaleidoscope is not released, and there is
-nothing you can install today.
+{/*
+  No `hero:` block. Starlight's splash hero renders a product-name headline, a
+  small tagline and a filled button; kleosresearch.xyz opens with a mono
+  eyebrow, a Newsreader thesis and lede paragraphs. The two sites already share
+  fonts and tokens, so composition was the only thing making them look
+  unrelated. Markup below matches the lab site; styles live in brand.css.
+*/}
+
+<div class="k-hero not-content">
+  <p class="k-eyebrow">Local memory for agents · one vault · every tool</p>
+
+  <h1>Carry the work forward, from one tool to the next.</h1>
+
+  <p class="k-lede">Kaleidoscope gives your agents one memory on your machine that every editor and agent you connect shares. The engine that stores and ranks it runs locally; the <code>kaleidoscope</code> command wires it into your editor or agent, which sees exactly two tools: <code>search</code> and <code>remember</code>.</p>
+
+  <p class="k-lede">It is not released. There is nothing you can install today.</p>
+
+  <div class="k-actions">
+    <a href="/docs/getting-started/">Get started</a>
+    <a class="k-quiet" href="/docs/skill/">Give your agent the skill</a>
+    <a class="k-quiet" href="/status/">See what is available</a>
+  </div>
+</div>
+
 
 ## Three properties, not three features
 

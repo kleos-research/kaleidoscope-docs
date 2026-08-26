@@ -142,6 +142,8 @@ export default defineConfig({
         SiteTitle: './src/components/SiteTitle.astro',
         Head: './src/components/Head.astro',
         Banner: './src/components/Banner.astro',
+        // Suppresses the duplicate h1 on the splash route; see the component.
+        PageTitle: './src/components/PageTitle.astro',
         Footer: './src/components/Footer.astro',
         // A control that cannot change anything is a lie about the design.
         ThemeSelect: './src/components/Empty.astro',

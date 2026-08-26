@@ -261,3 +261,75 @@ mobile-starlight-toc nav .display-current { color: var(--k-ink); }
    is one of the nine" is nearly-true rather than true, and nearly-true is not
    a property anything can check. --- */
 .expressive-code .copy button, .expressive-code .copy button div { color: var(--k-ink); }
+
+/* ── Editorial hero, matched to kleosresearch.xyz ─────────────────────────────
+ *
+ * The lab site opens with a mono eyebrow, a Newsreader THESIS (a sentence, not
+ * a product name), then lede paragraphs, inside a 940px wrap. Starlight's
+ * splash `hero:` block renders a generic product hero instead — bare title,
+ * small tagline, filled button — which is why the home page stopped looking
+ * like the rest of the estate while the docs pages still did.
+ *
+ * The type scale is the lab site's, transposed onto kaleidoscope-dark. Same
+ * families, same rhythm, ink ground instead of bone.
+ */
+/* Starlight already pays for the header: .main-frame adds 56px and
+ * .content-panel another 24px. The lab site's 76px is measured from the rule
+ * under its header, so adding it whole put 192px of dead space above the
+ * thesis. 24px here lands the hero at the same optical distance. */
+.k-hero { padding: 24px 0 8px; }
+
+/* The lab site sets its measure at 940px less 40px gutters. Starlight's splash
+ * container is 736px, which made the same 42px thesis wrap a line earlier and
+ * read cramped. Scoped by :has() to the one route that carries a hero, so no
+ * documentation page changes width. */
+.sl-container:has(.k-hero) { max-width: 860px; }
+
+.k-hero .k-eyebrow {
+  font: 500 9.5px/1 var(--k-font-mono, "JetBrains Mono", ui-monospace, monospace);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--k-brass);
+  margin: 0 0 26px;
+}
+
+.k-hero h1 {
+  font: 400 42px/1.14 var(--k-font-serif, Newsreader, Georgia, serif);
+  letter-spacing: -.015em;
+  color: var(--k-ink);
+  margin: 0 0 26px;
+  max-width: 20ch;
+  text-wrap: balance;
+  border: 0;            /* Starlight underlines h1; the lab site does not */
+  padding: 0;
+}
+
+.k-hero .k-lede {
+  font: 400 17px/1.62 var(--k-font-serif, Newsreader, Georgia, serif);
+  color: var(--k-body);
+  max-width: 62ch;
+  margin: 0 0 14px;
+}
+
+.k-hero .k-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.k-hero .k-actions a {
+  font: 500 13px/1 var(--k-font-sans, Inter, system-ui, sans-serif);
+  color: var(--k-brass);
+  border: 1px solid var(--k-brass);
+  padding: 11px 18px;
+  text-decoration: none;
+}
+.k-hero .k-actions a:hover { background: var(--k-brass); color: #15110A; }
+.k-hero .k-actions a.k-quiet { color: var(--k-body); border-color: var(--k-rule-2); }
+.k-hero .k-actions a.k-quiet:hover { background: transparent; border-color: var(--k-muted); color: var(--k-ink); }
+
+@media (max-width: 720px) {
+  .k-hero { padding-top: 44px; }
+  .k-hero h1 { font-size: 32px; }
+}

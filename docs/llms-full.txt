@@ -11,10 +11,10 @@
 - [Integrations](https://memory.kleosresearch.xyz/docs/integrations/): Codex, Claude Code, Cursor, OpenCode, LangChain, LangGraph, Claude Agent SDK, OpenAI Agents SDK, CrewAI, and any standard MCP client
 - [Security](https://memory.kleosresearch.xyz/docs/security/): what is isolated from what, what is not signed, and how to report a vulnerability
 - [Privacy](https://memory.kleosresearch.xyz/docs/privacy/): what stays on your machine, where a credential would be kept, and what this website itself does
-- [Licenses and terms](https://memory.kleosresearch.xyz/docs/legal/): Apache-2.0 and CC BY 4.0 are in force; the product terms are unreviewed drafts
-- [Privacy notice](https://memory.kleosresearch.xyz/docs/legal/privacy-notice/): an unreviewed draft of the production privacy terms, not in force
-- [Security policy](https://memory.kleosresearch.xyz/docs/legal/security-policy/): an unreviewed draft of the disclosure and supported-version policy, not in force
-- [Support policy](https://memory.kleosresearch.xyz/docs/legal/support-policy/): an unreviewed draft of the support scope and response targets, not in force
+- [Licenses and terms](https://memory.kleosresearch.xyz/docs/legal/): Apache-2.0 and CC BY 4.0 are in force; the product terms are reviewed drafts, not yet adopted
+- [Privacy notice](https://memory.kleosresearch.xyz/docs/legal/privacy-notice/): a counsel-reviewed draft of the production privacy terms, not yet in force
+- [Security policy](https://memory.kleosresearch.xyz/docs/legal/security-policy/): a counsel-reviewed draft of the disclosure and supported-version policy, not yet in force
+- [Support policy](https://memory.kleosresearch.xyz/docs/legal/support-policy/): a counsel-reviewed draft of the support scope and response targets, not yet in force
 - [Account](https://memory.kleosresearch.xyz/docs/account/): you do not need an account, and you cannot create one yet
 - [Operations](https://memory.kleosresearch.xyz/docs/operations/): back up your memory, move it, uninstall, and delete a vault safely
 - [Platforms](https://memory.kleosresearch.xyz/docs/compatibility/): which platforms Kaleidoscope is for, and the one thing Windows does differently
@@ -27,7 +27,7 @@
 - [Full CLI help text](https://memory.kleosresearch.xyz/reference/kaleidoscope-cli.txt): the complete `kaleidoscope` help output
 - [Tool reference](https://memory.kleosresearch.xyz/reference/kaleidoscope-mcp.json): the fields of the two tools an agent sees
 
-Kaleidoscope has only ever been run on one kind of machine: a Mac with Apple Silicon. On that machine you can run a build you already have, connect Claude Code, Codex, OpenCode, Cursor, a standard MCP client or an agent framework to it, and have them all share one local memory. You cannot install it from npm or PyPI, because neither package is published; you cannot download a build for any platform; and you cannot sign in, because no sign-in service is configured and every account command answers `provider not configured`. macOS on Intel, Linux on x86_64 and arm64, and Windows on x86_64 have had a compiler check for the memory engine and nothing more — nothing was ever assembled into a program for them and nothing has been run there. Windows on arm64 has not had even that, and on Windows creating a new vault is refused on purpose until its filesystem work lands. Three connections carry a limit: Codex's configuration entry is written, read back and removed exactly, but Codex offers no way to confirm it then starts the server; Cursor's configuration and project rule are written and removed exactly, but Cursor has never been launched against them; and the agent frameworks were run against stand-in models rather than a live provider. Nothing has been driven through an editor's graphical interface. Nothing is signed for release. Apache-2.0 covers the public code and CC BY 4.0 covers this documentation, and both are in force; the product terms — the engine licence, the privacy notice, the security policy and the support policy — are unreviewed drafts that no counsel has read, and none of them is in force. There is no support commitment and no published security contact yet. Hosted memory does not exist: there is no service, endpoint, API or waitlist, and nothing syncs your memory anywhere. Benchmark results are stated in plain words on the benchmarks page; the full benchmark method is not published yet, and there is no build you could reproduce it with. The memory engine ships as proprietary object code, and its source is not in any public surface.
+Kaleidoscope has only ever been run on one kind of machine: a Mac with Apple Silicon. On that machine you can run a build you already have, connect Claude Code, Codex, OpenCode, Cursor, a standard MCP client or an agent framework to it, and have them all share one local memory. You cannot install it from npm or PyPI, because neither package is published; you cannot download a build for any platform; and you cannot sign in, because no sign-in service is configured and every account command answers `provider not configured`. macOS on Intel, Linux on x86_64 and arm64, and Windows on x86_64 have had a compiler check for the memory engine and nothing more — nothing was ever assembled into a program for them and nothing has been run there. Windows on arm64 has not had even that, and on Windows creating a new vault is refused on purpose until its filesystem work lands. Three connections carry a limit: Codex's configuration entry is written, read back and removed exactly, but Codex offers no way to confirm it then starts the server; Cursor's configuration and project rule are written and removed exactly, but Cursor has never been launched against them; and the agent frameworks were run against stand-in models rather than a live provider. Nothing has been driven through an editor's graphical interface. Nothing is signed for release. Apache-2.0 covers the public code and CC BY 4.0 covers this documentation, and both are in force; the product terms — the engine licence, the privacy notice, the security policy and the support policy — have been reviewed by counsel but not adopted, and none of them is yet in force. There is no support commitment and no published security contact yet. Hosted memory does not exist: there is no service, endpoint, API or waitlist, and nothing syncs your memory anywhere. Benchmark results are stated in plain words on the benchmarks page; the full benchmark method is not published yet, and there is no build you could reproduce it with. The memory engine ships as proprietary object code, and its source is not in any public surface.
 
 ---
 
@@ -36,11 +36,17 @@ Kaleidoscope has only ever been run on one kind of machine: a Mac with Apple Sil
 URL: https://memory.kleosresearch.xyz/
 Updated: 2026-08-22
 
-Kaleidoscope gives your agents one memory on your machine that every editor and
-agent you connect shares. The engine that stores and ranks it runs locally; the
-`kaleidoscope` command wires it into your editor or agent, which sees exactly
-two tools: `search` and `remember`. Kaleidoscope is not released, and there is
-nothing you can install today.
+Local memory for agents · one vault · every tool
+
+  Carry the work forward, from one tool to the next.
+
+  Kaleidoscope gives your agents one memory on your machine that every editor and agent you connect shares. The engine that stores and ranks it runs locally; the kaleidoscope command wires it into your editor or agent, which sees exactly two tools: search and remember.
+
+  It is not released. There is nothing you can install today.
+
+    Get started
+    Give your agent the skill
+    See what is available
 
 ## Three properties, not three features
 
@@ -134,7 +140,7 @@ Status is the plain answer to what is available.
 - Privacy — what stays on your machine, what leaves it, and
   what this website itself does.
 - Licenses and terms — which licences are in force, and which
-  terms are unreviewed drafts.
+  terms are reviewed drafts, not yet in force.
 
 ## Availability
 
@@ -1286,8 +1292,8 @@ It removes only what Kaleidoscope wrote.
 URL: https://memory.kleosresearch.xyz/docs/legal/
 Updated: 2026-08-22
 
-Review drafts — not in force.
-The product terms below have not been reviewed by legal counsel. Apache-2.0 and CC BY 4.0 are authorized license selections and are in force for the material they cover. The engine EULA, privacy notice, security policy, and support policy are source-controlled drafts: not in force, not offers or contracts, and not a description of terms that govern anything today. The production entity, jurisdiction, contacts, operational commitments, and external legal review are all outstanding.
+Reviewed drafts — not yet in force.
+The product terms below have been reviewed by legal counsel for Kleos Research Private Limited. Apache-2.0 and CC BY 4.0 are authorized license selections and are in force for the material they cover. The engine EULA, privacy notice, security policy, and support policy have been reviewed but have not yet been adopted: they are not in force, are not offers or contracts, and do not describe terms that govern anything today. They will take effect when the company formally adopts them.
 
 The public software, original documentation, and proprietary engine have
 deliberately separate license boundaries. Two of them are settled; the rest are
@@ -1315,16 +1321,31 @@ CC BY 4.0 legal code.
 
 ## What is still outstanding
 
-- **Production entity.** The contracting entity named in the drafts is a
-  placeholder and has not been settled.
-- **Jurisdiction.** Governing law and venue are unresolved, so no dispute clause
-  in the drafts is operative.
-- **Contacts.** No monitored legal, privacy, or security intake address is
-  published; the addresses in the drafts do not accept mail.
-- **Commitments.** Support scope, severity definitions, and response targets are
-  proposals, not obligations, and no service level exists.
-- **External legal review.** No counsel has reviewed any of these documents.
-  This is the gate that keeps every draft above out of force.
+- **External legal review.** No lawyer has read any of these documents. This is
+  the gate that keeps every draft above out of force, and it is now the only one
+  of its kind: the drafts are complete rather than partial, so what is left is
+  review and a decision to adopt, not missing terms.
+- **A compliance question inside them.** The drafts identify the contracting
+  party by name, company type, place of registration, and contact address, and
+  undertake to supply the registered office address and Corporate Identity
+  Number to anyone who asks. Two provisions bear on that and the reviewer has to
+  decide both. Section 12(3)(c) of the Companies Act, 2013 requires the name,
+  registered office address and CIN in a company's business letters, billheads,
+  letter papers "and in all its notices and other official publications" —
+  whether published product terms are an "official publication" is arguable.
+  Rule 26(1) of the Companies (Incorporation) Rules, 2014, as substituted with
+  effect from 27 July 2016, is the more direct one: it requires a company with a
+  website to publish its name, registered office address, CIN, telephone number,
+  email and a contact for queries or grievances **on the landing or home page**.
+  Both values are already public on the MCA portal against the company name, so
+  the question is compliance form rather than confidentiality.
+- **Third-party notices.** The embedding model inside the engine is Kleos
+  Research's own work and carries no third-party attribution. The open-source
+  libraries linked into the engine are a separate question, and they are not yet
+  enumerated in the EULA or in the engine's own output. That has to be finished
+  before a release.
+- **Commitments.** Support scope is deliberately best effort with no response
+  time, and no service level exists. That is a decision, not a gap.
 
 ---
 
@@ -1609,8 +1630,11 @@ sign-in stays switched off.
 
 ## This documentation site
 
-These pages are static files served by GitHub Pages. They set no cookies and use
-no local storage. The only scripts on them are the small ones that make the
+These pages are static files served by GitHub Pages. They set no cookies. They do
+keep two things in your own browser, both functional and neither sent anywhere:
+your light-or-dark theme choice, in local storage, and the navigation sidebar's
+state — which groups you left open, where you had scrolled, and a short check
+value — in session storage, which your browser discards when you close the tab. The only scripts on them are the small ones that make the
 navigation work; there is no analytics, no behavioural tracking, and nothing
 that reports your reading anywhere. They do make one
 third-party request: the three typefaces are fetched from Google Fonts
@@ -2197,7 +2221,7 @@ URL: https://memory.kleosresearch.xyz/status.json
     ]
   },
   "licences": {
-    "the product terms": "unreviewed drafts, not in force; no counsel has read them",
+    "the product terms": "reviewed by counsel, not yet in force; not adopted by the company",
     "the public code": "Apache-2.0, in force",
     "this documentation": "CC BY 4.0, in force"
   },
