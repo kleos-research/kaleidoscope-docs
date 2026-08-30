@@ -9,8 +9,8 @@ never guesses which one you are on and never quietly moves you between them.
 ## Connect it
 
 ```bash
-kaleidoscope connect opencode --profile default --project "$PWD" --dry-run
-kaleidoscope connect opencode --profile default --project "$PWD"
+kscope connect opencode --profile default --project "$PWD" --dry-run
+kscope connect opencode --profile default --project "$PWD"
 ```
 
 Stable v1 is what you get if you say nothing.
@@ -21,7 +21,7 @@ The two configuration shapes are genuinely different, and which one you get is a
 flag:
 
 ```bash
-kaleidoscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
+kscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
 ```
 
 The stable entry is a direct local command. Beta v2 uses the explicit server
@@ -37,7 +37,7 @@ One entry, in whichever shape applies, naming the local engine and
 ## Disconnect
 
 ```bash
-kaleidoscope disconnect opencode --project "$PWD"
+kscope disconnect opencode --project "$PWD"
 ```
 
 It removes only what Kaleidoscope wrote.

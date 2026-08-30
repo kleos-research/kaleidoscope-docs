@@ -1,96 +1,71 @@
 ---
 title: Getting started
-description: Create a local Kaleidoscope profile, connect your editor or agent, check that search and remember appear, and disconnect cleanly — plus why you cannot install it yet.
+description: Install Kaleidoscope, activate it with your key, and give a project a memory your agent can use.
 ---
 
-These are the five commands you will run, in order. You cannot run the first
-one, because nothing installs from a registry yet; the four below it are real,
-and they are the ones we run.
+Four steps. They take about two minutes, and the third one is where the useful
+part happens.
 
-:::caution[You cannot install Kaleidoscope yet]
-Neither package has been published, so step 1 is blocked for everyone. Steps 2
-to 5 have each been run on a Mac with Apple Silicon, which is the only kind of
-machine anything has ever been run on. [What is available](/status/).
-:::
+You need macOS or Linux and Node.js 18 or newer.
 
-## 1. Install — not possible yet
-
-There is no way to install Kaleidoscope today. Neither package exists in a
-registry, and both names return 404. When they publish, the npm package will be
-`@kleos-research/kaleidoscope` and will need Node.js 22 or newer; the Python
-package will be `kaleidoscope-memory` and will need Python 3.11 or newer. You
-install one of them, not both. Either one gives you the `kaleidoscope` and
-`kscope` commands and brings in a second package built for your platform, which
-carries the engine.
-
-## If you have an alpha key
-
-An alpha key does not use the Keychain and never asks for your login password.
-Kaleidoscope reads it from `KALEIDOSCOPE_API_KEY` in your environment, or from a
-file you write yourself:
-
-| | |
-|---|---|
-| macOS | `~/Library/Application Support/kaleidoscope/entitlement/api-key` |
-| Windows | the same path under `%APPDATA%` |
-| Linux and others | the same path under `$XDG_CONFIG_HOME`, or `~/.config` |
-
-The file holds the key and nothing else. On macOS and Linux it must be readable
-only by you — permissions `0600` — and a file with any other permissions is
-refused. Windows has no equivalent check. If a key is set but cannot be read,
-you are told that, specifically, rather than being told no key is configured.
-
-The key controls the memory service, never your data. Retrieval is what it buys,
-so without a valid key your agent's `search` returns nothing. Inspecting,
-verifying and migrating your own vault are never gated, whatever the key says,
-and no refusal ever reads, writes or deletes a byte of it.
-
-## 2. Create a profile
+## 1. Install
 
 ```bash
-kaleidoscope init --profile default --root /absolute/path/to/your/kaleidoscope-memory
-kaleidoscope config --profile default --json
+npm install -g @kleos-research/kaleidoscope
 ```
 
-A profile is one memory store on your machine, at a path you choose and own. A
-missing or invalid root is refused rather than created for you. What gets
-written into your editor's configuration later is `mcp --profile NAME` — never a
-credential, never the raw location of your vault.
+This gives you the `kscope` command. It also pulls in a second package built
+for your platform, which carries the part that stores and searches your memory.
 
-## 3. Preview the change, then connect
+## 2. Activate it with your key
+
+Kaleidoscope needs a key to run. If you do not have one, email
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz).
 
 ```bash
-kaleidoscope connect codex --profile default --project "$PWD" --dry-run
-kaleidoscope connect codex --profile default --project "$PWD"
-kaleidoscope doctor --project "$PWD"
+export KALEIDOSCOPE_API_KEY=<your key>
+kscope activate
 ```
 
-The first command shows you the exact change and writes nothing. Applying it
-touches only the block Kaleidoscope owns, so your existing settings survive; an
-ambiguous, symlinked, tampered, or concurrently edited file is refused rather
-than overwritten. The hosts the command knows are `codex`, `claude`, `cursor`,
-and `opencode`.
+You should see `"entitled":true` and a fragment of your key. `activate` also
+saves the key, so that `export` is a one-off — new terminals will find it.
 
-## 4. Check that both tools appeared
+If you would rather not put the key in your shell at all, write it into a file
+by hand instead. On macOS that is
+`~/Library/Application Support/kaleidoscope/entitlement/api-key`; on Linux it is
+the same path under `$XDG_CONFIG_HOME`, or `~/.config`. The file holds the key
+and nothing else, and it must be readable only by you (`chmod 600`).
 
-Restart your editor after connecting, then look at the tools it lists for
-Kaleidoscope. You should see exactly two, `search` and `remember`. If you see
-none, or more than two, go to [Troubleshooting](/docs/troubleshooting/).
-Operator commands are never offered to a model, so two is the correct number in
-every host.
-
-Seeing the two tools is not the same as your agent using them. Telling it to is
-a separate step: [give your agent the skill](/docs/skill/).
-
-## 5. Disconnect safely
+## 3. Give a project a memory
 
 ```bash
-kaleidoscope disconnect codex --project "$PWD" --dry-run
-kaleidoscope disconnect codex --project "$PWD"
+cd ~/your-project
+kscope init
 ```
 
-Disconnect removes only what Kaleidoscope wrote and leaves the rest of the
-host's settings, and every byte of your vault, alone. Disconnecting,
-uninstalling, signing out, and deleting a vault are four separate operations,
-and the first three never delete memory. [Operations](/docs/operations/) covers
-the other three.
+This creates the vault — a `.kaleidoscope` folder in your project, added to your
+`.gitignore` — and wires up whichever agent you use. It knows Claude Code,
+Codex, Cursor and OpenCode, and it writes an `AGENTS.md` for anything else.
+
+It only touches the part of your editor's configuration that belongs to
+Kaleidoscope. If it finds a Kaleidoscope entry someone added by hand, it stops
+and tells you rather than overwriting your work.
+
+## 4. Restart your agent, then just talk to it
+
+Your agent now has two things it can do: look something up, and write something
+down. You do not call those yourself. Ask it what you decided about a design
+last week, or tell it to remember that you prefer a particular approach, and it
+will use them.
+
+If it does not seem to know its memory is there, the most reliable fix is to
+[give it the skill](/docs/skill/) — a short file that teaches it when to read
+and when to write. Otherwise, see
+[Troubleshooting](/docs/troubleshooting/).
+
+## Removing it
+
+Your memory is a folder. Deleting `.kaleidoscope` from a project deletes that
+project's memory and nothing else; `npm uninstall -g @kleos-research/kaleidoscope`
+removes the command and leaves every vault alone.
+[Operations](/docs/operations/) covers moving and inspecting a vault.

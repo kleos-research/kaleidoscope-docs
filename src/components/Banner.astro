@@ -2,11 +2,16 @@
 /**
  * Two bands, both above the article.
  *
- * 1. The pre-release status strip, rendered UNCONDITIONALLY on every route.
- *    Starlight's default Banner returns nothing when a page sets no banner;
- *    this override ignores frontmatter and always paints. The sentence
- *    "Kaleidoscope is not publicly released" is a required claim and gate (h)
- *    asserts it on every non-redirect HTML file.
+ * 1. The access strip, rendered UNCONDITIONALLY on every route. Starlight's
+ *    default Banner returns nothing when a page sets no banner; this override
+ *    ignores frontmatter and always paints.
+ *
+ *    It used to read "Kaleidoscope is not publicly released. Nothing here
+ *    installs from a registry yet", and gate (h) asserted that sentence on
+ *    every page. It stopped being true when 0.0.5 went to npm: the package
+ *    installs, and what a reader actually needs to know is that it will not
+ *    run until they have a key. Gate (h) now asserts THAT, so the site cannot
+ *    quietly go back to publishing a command nobody can use.
  * 2. The legal review-draft band, when the page's frontmatter says
  *    `legalDraft: true`.
  *
@@ -41,7 +46,8 @@ const body = rest.join(' ').trim();
 
 <div class="strip"><div class="strip-inner">
   <span class="dot" aria-hidden="true"></span>
-  <span class="t">In development</span>
-  <span class="d">Kaleidoscope is not publicly released. Nothing here installs
-  from a registry yet — <a href="/status/">see what is available</a>.</span>
+  <span class="t">Early access</span>
+  <span class="d">Kaleidoscope needs a key to run. Email <a
+  href="mailto:contact@kleosresearch.xyz">contact@kleosresearch.xyz</a> and we
+  will send you one.</span>
 </div></div>

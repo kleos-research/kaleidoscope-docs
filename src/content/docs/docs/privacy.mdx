@@ -40,13 +40,16 @@ about alpha keys, which do not use a credential store at all. Both are on
 
 ## Network use
 
-The engine needs no network access and makes no calls to any model provider.
-Everything except the account commands works with your machine offline, and the
-account commands are the only part of Kaleidoscope that is ever meant to talk to
-a server at all. Nothing has been settled about what a released version would
-report back, where that would go, or what you would be asked to agree to — and
-until it is settled and written into terms someone has actually reviewed,
-sign-in stays switched off.
+The part that stores and searches your memory needs no network access and makes
+no calls to any model provider. Storing, searching and reading your memory all
+work with your machine offline.
+
+One thing does reach the network: checking that your key is still valid. That
+check sends your key and nothing else — no memory content, no queries, no
+results, no file paths. It runs in the background and caches its answer, so it
+is not on the path of anything you do.
+
+There is no account to create and no sign-in.
 
 ## This documentation site
 

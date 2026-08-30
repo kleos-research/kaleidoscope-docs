@@ -331,9 +331,14 @@ class SourceContractTest(unittest.TestCase):
                 f"internal vocabulary matching {pattern} in a public machine record",
             )
         status = json.loads(self.data("status.json").read_text(encoding="utf-8"))
-        self.assertFalse(status["released"])
-        self.assertFalse(status["publicly available"])
-        self.assertFalse(status["packages"]["published to a registry"])
+        # These three flipped when 0.0.5 published. The assertion is kept, not
+        # deleted: the record must still state each one, and a machine reading
+        # it must not have to infer availability from the absence of a field.
+        self.assertTrue(status["released"])
+        self.assertTrue(status["publicly available"])
+        self.assertTrue(status["packages"]["published to a registry"])
+        # Still false, and the one that matters most to a reader deciding
+        # whether to install: nothing is signed.
         self.assertFalse(status["packages"]["signed for release"])
         self.assertIn("not yet in force", status["licences"]["the product terms"])
 

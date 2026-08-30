@@ -291,10 +291,17 @@ LEGAL_OVERCLAIMS = (
     "counsel-reviewed",
     "approved by counsel",
 )
-# Gate (h). The owner requires this sentence on the site; until now nothing
-# enforced it. Whitespace is normalised before the comparison because the
-# strip's copy wraps across lines in the component source.
-STATUS_STRIP_SENTINEL = "Kaleidoscope is not publicly released"
+# Gate (h). Whitespace is normalised before the comparison because the strip's
+# copy wraps across lines in the component source.
+#
+# This asserted "Kaleidoscope is not publicly released" until 0.0.5 went to npm,
+# at which point the gate was enforcing a false claim and its own negative
+# control planted the TRUE sentence as the violation. What a reader needs from
+# this strip is no longer whether the package exists -- it does, and
+# `npm install -g @kleos-research/kaleidoscope` works -- but that it will not
+# run without a key. That is what the gate holds now, so the site cannot go back
+# to publishing an install command with no mention of the thing that blocks it.
+STATUS_STRIP_SENTINEL = "Kaleidoscope needs a key to run"
 
 # kaleidoscope-dark, brand/tokens/tokens.json.
 REQUIRED_TOKENS = ("#0B0B0C", "#131315", "#232325", "#8C887F", "#EAE7E0", "#CFA757")
@@ -549,7 +556,7 @@ def verify(
         else:
             allowed_availability = {
                 "staging": {"staging"},
-                "public_docs": {"documentation_preview"},
+                "public_docs": {"documentation_preview", "available_with_key"},
                 "production": {"release_candidate", "released"},
             }[expected_mode]
             if release["availability"] not in allowed_availability:
@@ -670,18 +677,24 @@ def verify(
         else:
             if status.get("schema_version") != "kaleidoscope.docs-status.v1":
                 failures.append("status.json has the wrong schema")
-            # Every one of these is a claim a reader would act on. A build that
-            # flips one has said the product is available, and must not pass
-            # until someone changes this file on purpose.
+            # Every one of these is a claim a reader would act on, so each is
+            # pinned to the value that is true and a build that flips one fails
+            # until somebody changes this file on purpose. Three flipped when
+            # 0.0.5 published; they are still asserted, in the other direction.
             for field in ("released", "publicly available"):
-                if status.get(field) is not False:
-                    failures.append(f"status.json must keep {field!r} false")
+                if status.get(field) is not True:
+                    failures.append(f"status.json must keep {field!r} true")
             packages = status.get("packages", {})
-            for field in ("published to a registry", "signed for release"):
-                if packages.get(field) is not False:
-                    failures.append(f"status.json must keep packages {field!r} false")
-            if packages.get("the platform package is built for") != [
-                "macOS, Apple Silicon"
+            if packages.get("published to a registry") is not True:
+                failures.append("status.json must keep packages 'published to a registry' true")
+            # NOT flipped, and the one a reader most needs before installing.
+            if packages.get("signed for release") is not False:
+                failures.append("status.json must keep packages 'signed for release' false")
+            if sorted(packages.get("the platform package is built for") or []) != [
+                "Linux, arm64",
+                "Linux, x86_64",
+                "macOS, Apple Silicon",
+                "macOS, x86_64",
             ]:
                 failures.append("status.json has the wrong built-for platform")
             licences = status.get("licences", {})
@@ -690,14 +703,18 @@ def verify(
             if "not adopted" not in licences.get("the product terms", ""):
                 failures.append("status.json must say the product terms are not adopted")
             holds = status.get("still true before any release", {})
+            # This block lists what has NOT been done, so a finished item
+            # LEAVES it rather than flipping to true -- which is also what
+            # `test_the_benchmark_key_was_renamed_not_deleted` asserts of every
+            # value here. Three left when 0.0.5 published: registry publication
+            # (now asserted true through `packages`), the counsel review, and
+            # verification on a platform other than Apple Silicon (now carried
+            # by the built-for list above).
             for field in (
-                "packages published to a registry",
                 "builds signed for release",
-                "product terms reviewed by legal counsel",
                 "sign-in service configured",
                 "support offered",
                 "security contact published",
-                "any platform other than macOS on Apple Silicon verified",
                 "any editor run against a live model provider",
                 # Renamed. /docs/benchmarks/ now publishes results in plain
                 # words, so "benchmark score published: false" became a lie the
@@ -1420,14 +1437,21 @@ def verify(
     # internal work-item identifiers and build digests; these are the honest
     # claims that replaced it, and each one is load-bearing.
     for required in (
-        "local native",
         "`search` and `remember`",
         "proprietary object code",
-        "kaleidoscope is not released",
-        "neither package is published",
-        "you cannot download a build for any platform",
-        "provider not configured",
-        "a compiler check for the memory engine and nothing more",
+        # Five claims were removed here when 0.0.5 published, because each had
+        # become false and the gate was requiring the site to state it:
+        # "kaleidoscope is not released", "neither package is published",
+        # "you cannot download a build for any platform", "provider not
+        # configured", and "a compiler check for the memory engine and nothing
+        # more". Four platforms now build and publish, and the package installs.
+        #
+        # What replaced them is the one thing a reader most needs and cannot
+        # discover by trying: it will not run without a key.
+        "npm install -g @kleos-research/kaleidoscope",
+        "needs a key to run",
+        "contact@kleosresearch.xyz",
+        "windows is not supported",
         "nothing is signed for release",
         "reviewed by counsel but not adopted",
         "hosted memory does not exist",

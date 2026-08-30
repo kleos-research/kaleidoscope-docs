@@ -3,24 +3,24 @@ title: CLI reference
 description: What the kaleidoscope command is, its two global flags, and the safety invariants that govern every subcommand that touches a file.
 ---
 
-The command you will run is `kaleidoscope`. It sets up your local memory,
+The command you will run is `kscope`. It sets up your local memory,
 connects your editor or agent to it, and tells you what is wrong when something
-does not work. You cannot install it yet, so read this as the reference for the
+does not work. Read this as the reference for the
 command surface rather than a set of steps to follow now.
 
-`kscope` is the engine executable. It is installed alongside `kaleidoscope` and
+`kscope` is the engine executable. It is installed alongside `kscope` and
 you do not normally run it yourself.
 
-[Read the full `kaleidoscope` help text](/reference/kaleidoscope-cli.txt).
+[Read the full `kscope` help text](/reference/kaleidoscope-cli.txt).
 
 ## The commands, by what they are for
 
 | | |
 |---|---|
 | [Profiles and vaults](/docs/cli/profiles/) | `init`, `profile list`, `profile show`, `profile use`, `profile remove` |
-| [Connect an editor](/docs/cli/connect/) | `connect`, `disconnect` |
+| [Connect an editor](/docs/cli/connect/) | `init` |
 | [Agent instructions](/docs/cli/instructions/) | `instructions install`, `instructions remove` |
-| [Diagnostics](/docs/cli/diagnostics/) | `config`, `doctor` |
+| [Diagnostics](/docs/cli/diagnostics/) | `where`, `gate`, `model`, `vault-verify` |
 | [Account and devices](/docs/cli/account/) | `login`, `status`, `logout`, `account`, `devices`, `profile account` |
 
 ## The two global flags

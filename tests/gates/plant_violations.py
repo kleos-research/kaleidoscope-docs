@@ -118,9 +118,9 @@ def _(): sub("dist/docs/mcp/index.html", 'opacity="0.56"', 'opacity="0.5"', 1)
 def _(): sub("dist/docs/mcp/index.html", '<rect x="28.5"', '<rect rx="2" x="28.5"', 1)
 
 # ---- gate (h) the status strip -------------------------------------------
-@plant("(h) the pre-release status strip is dropped")
+@plant("(h) the access strip is dropped")
 def _(): sub("dist/docs/getting-started/index.html",
-             "Kaleidoscope is not publicly released", "Kaleidoscope is available", 1)
+             "Kaleidoscope needs a key to run", "Kaleidoscope is ready to run", 1)
 
 # ---- legal ----------------------------------------------------------------
 @plant("legal: the not-yet-in-force boundary removed from a draft")

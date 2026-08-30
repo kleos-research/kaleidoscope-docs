@@ -1,61 +1,37 @@
 ---
 title: Connect an editor or agent
-description: connect and disconnect — wiring an editor or agent to your profile with a preview first, and unwiring it exactly.
+description: kscope init — creating a project's memory and wiring it into whichever editor or agent you use.
 ---
 
-`connect` writes the entry your editor or agent needs to start Kaleidoscope, and
-`disconnect` takes it back out. Both touch only the block Kaleidoscope owns.
-
-## Connect
+One command does both jobs. `kscope init`, run inside a project, creates that
+project's memory and writes the entry your editor or agent needs to find it.
 
 ```bash
-kaleidoscope connect HOST --profile default --project "$PWD" --dry-run
-kaleidoscope connect HOST --profile default --project "$PWD"
+cd ~/your-project
+kscope init
 ```
 
-`HOST` is one of `codex`, `claude`, `cursor`, or `opencode`. Each has its own
-page under [Editors, agents and frameworks](/docs/integrations/), because each
-writes a different file.
+It tells you what it did, line by line: the vault it created, the `.gitignore`
+rule it added, and each editor it wired. It knows Claude Code, Codex, Cursor and
+OpenCode. If it recognises none of them it writes an `AGENTS.md` instead, which
+most other agents will read.
 
-What gets written names an absolute path to the local engine and
-`mcp --profile NAME`, and publishes exactly two tools, `search` and `remember`.
-It does not carry your vault location, a provider key, or an account credential.
+Restart your editor afterwards. Until you do, it is still running with the
+configuration it started with.
 
-## The flags
+## It will not overwrite your work
 
-| flag | what it does |
-|---|---|
-| `--dry-run` | prints the exact change and writes nothing |
-| `--yes` | confirms in advance, for a script |
-| `--profile NAME` | which profile the host will open; `default` if omitted |
-| `--project PATH` | which project directory the change belongs to |
-| `--scope user\|project` | machine-wide or this project only; project is the default |
-| `--opencode-version stable-v1\|beta-v2` | OpenCode only, and never guessed |
+Kaleidoscope only touches the block it owns, and it leaves a receipt beside each
+one. If it finds a Kaleidoscope entry that does not match its receipt — because
+you edited it, or added one by hand — it stops, changes nothing, and tells you
+which file to look at. That is the intended behaviour, not a failure: the
+alternative is silently replacing something you wrote on purpose.
 
-`--scope user` writes the entry once for your whole machine. `--scope project`
-writes it into the project you named, which is what you usually want when
-different projects should use different memory.
+## Removing it
 
-## Disconnect
+There is no `disconnect`. Deleting the `.kaleidoscope` folder removes that
+project's memory, and `npm uninstall -g @kleos-research/kaleidoscope` removes
+the command. Editor entries that point at a vault which no longer exists are
+harmless, and re-running `kscope init` rewrites them.
 
-```bash
-kaleidoscope disconnect HOST --project "$PWD" --dry-run
-kaleidoscope disconnect HOST --project "$PWD"
-```
-
-Disconnect is the exact inverse of connect. It removes only what Kaleidoscope
-wrote, leaves the rest of the host's settings alone, and does not touch a single
-byte of your vault. Pass the same `--scope` you connected with; a project-scope
-entry and a user-scope entry are two different entries in two different files.
-
-## When it refuses
-
-An unknown host, a conflicting entry name, a malformed file, a symlink, a file
-being edited at the same time, or ownership markers that have been hand-edited
-all produce a refusal rather than a rewrite. The file comes back untouched and
-you are told which of those it was. That is deliberate: a configuration file you
-maintain is yours, and a tool that guesses at an ambiguous one eventually
-guesses wrong.
-
-Connecting a host does not tell your agent to use the memory it can now reach.
-That is [a separate step](/docs/skill/).
+[Operations](/docs/operations/) covers moving and backing up a vault.

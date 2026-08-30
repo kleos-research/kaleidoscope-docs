@@ -1,5 +1,5 @@
 {
-  "as of": "2026-08-22",
+  "as of": "2026-08-30",
   "hosts": {
     "hosts": [
       {
@@ -47,20 +47,25 @@
   "packages": {
     "npm": {
       "client": "@kleos-research/kaleidoscope",
-      "platform package": "@kleos-research/kaleidoscope-darwin-arm64"
+      "platform packages": [
+        "@kleos-research/kaleidoscope-darwin-arm64",
+        "@kleos-research/kaleidoscope-darwin-x64",
+        "@kleos-research/kaleidoscope-linux-arm64",
+        "@kleos-research/kaleidoscope-linux-x64"
+      ]
     },
-    "published to a registry": false,
-    "python": {
-      "client": "kaleidoscope-memory",
-      "platform package": "kaleidoscope-memory-native-darwin-arm64"
-    },
+    "published to a registry": true,
     "signed for release": false,
-    "the client package contains": "the public SDK and the kaleidoscope and kscope commands",
+    "the client package contains": "the kscope command and the launcher that picks your platform's binary",
     "the platform package contains": "the local manager and the memory engine, as proprietary object code",
     "the platform package is built for": [
-      "macOS, Apple Silicon"
+      "macOS, Apple Silicon",
+      "macOS, x86_64",
+      "Linux, arm64",
+      "Linux, x86_64"
     ],
-    "version": "0.1.0-rc.1"
+    "there is no Python package": "kaleidoscope-memory was planned and never registered",
+    "version": "0.0.5"
   },
   "platforms": {
     "compiler checked only": {
@@ -108,32 +113,32 @@
     "schema_version": "kaleidoscope.docs-platform-support.v1",
     "what this is": "Which machines Kaleidoscope has been run on, and which ones have only had a compiler check."
   },
-  "publicly available": false,
-  "released": false,
+  "publicly available": true,
+  "released": true,
   "schema_version": "kaleidoscope.docs-status.v1",
   "still true before any release": {
     "any editor run against a live model provider": false,
-    "any platform other than macOS on Apple Silicon verified": false,
     "builds signed for release": false,
     "full benchmark method published": false,
     "hosted memory built": false,
-    "packages published to a registry": false,
-    "product terms reviewed by legal counsel": false,
     "security contact published": false,
     "sign-in service configured": false,
     "support offered": false
   },
-  "summary": "Kaleidoscope is not released. Nothing here installs from a package registry, nothing is signed for release, and signing in does not work.",
+  "summary": "Kaleidoscope is installable from npm and needs a key to run. Nothing is signed for release, and there is no account to sign in to.",
   "what you can do today": [
-    "Read the documentation, the command reference and the two-tool agent contract.",
-    "On a Mac with Apple Silicon, run a build you already have and connect an editor to it."
+    "Install Kaleidoscope: npm install -g @kleos-research/kaleidoscope.",
+    "Run it with a key, which we send by email on request.",
+    "Give a project a memory with kscope init, and connect Claude Code, Codex, Cursor or OpenCode to it.",
+    "Read the documentation, the command reference and the two-tool agent contract."
   ],
   "what you cannot do today": [
-    "Install Kaleidoscope from npm or PyPI: neither package is published.",
-    "Download a build: none is offered, for any platform.",
-    "Sign in or create an account: every account command answers 'provider not configured'.",
+    "Run it on Windows: creating a vault there is refused until the filesystem work lands.",
+    "Run it without a key: email contact@kleosresearch.xyz and we will send you one.",
+    "Install a Python package: there is none, and kaleidoscope-memory on PyPI is not us.",
+    "Verify a signature: nothing is signed for release.",
     "Use hosted memory: there is no service, endpoint, API or waitlist.",
-    "Reproduce our benchmark results: there is no build to run them with, and the full method is not published yet.",
+    "Reproduce our benchmark results: the full method is not published yet.",
     "Rely on any support commitment: none is offered."
   ]
 }

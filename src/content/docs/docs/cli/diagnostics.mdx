@@ -1,45 +1,54 @@
 ---
 title: Diagnostics
-description: config and doctor — what is configured on this machine, what is wrong with it, and what the output deliberately leaves out.
+description: Where your vault is, whether the engine is complete, and whether your key is working.
 ---
 
-Two commands answer two different questions. `config` says what is configured.
-`doctor` says what is wrong.
+Four commands answer the questions you are likely to have when something looks
+wrong. None of them reads or changes a single memory.
 
-## config
-
-```bash
-kaleidoscope config --profile default
-kaleidoscope config --profile default --json
-```
-
-`config` prints the launch descriptor for a profile: the absolute command a host
-would run, `mcp --profile NAME`, stdio as the transport, exactly two tools, and
-an empty environment for the child process.
-
-`--json` is the machine-readable form, and it is what you paste into any MCP
-client that Kaleidoscope has no `connect` support for. See
-[any other MCP client](/docs/integrations/generic-mcp/).
-
-The descriptor is deliberately closed. Do not add your vault location or a token
-to it.
-
-## doctor
+## Where is my memory?
 
 ```bash
-kaleidoscope doctor --project "$PWD"
+kscope where
 ```
 
-`doctor` runs offline and reports on your profile, your engine, and the host
-configuration in the project you named. It is the first thing to run when a host
-cannot see the tools, or when you are not sure which profile is active.
+Prints the vault this directory resolves to, and the workspace it belongs to.
+Run it when you are not sure which project's memory your agent is talking to.
 
-## What the output leaves out
+## Is my key working?
 
-`doctor` output is the artifact meant for sharing when you are asking for help.
-It does not print memory content, the queries you ran, the results you got back,
-credentials, or provider keys.
+```bash
+kscope gate
+```
 
-It can still contain local paths and profile names, so strip those before you
-send it to anyone. See
-[before sharing diagnostics](/docs/troubleshooting/#before-sharing-diagnostics).
+Says whether this build checks a licence, which commands need one, and where it
+looks for your key. If a command has been refused, this is the page that tells
+you why in one line.
+
+```bash
+kscope activate
+```
+
+Re-checks the key you already have and stores it. `"entitled":true` means you
+are set up.
+
+## Is the engine complete?
+
+```bash
+kscope model
+```
+
+Should print `"status":"bundled"`. Anything else means the part that understands
+what your memories mean is missing, and search will quietly get worse rather
+than fail — which is why it is worth checking directly.
+
+## Is my vault healthy?
+
+```bash
+kscope vault-verify /path/to/.kaleidoscope
+```
+
+Counts what is stored and reports whether the copies agree. It reads only.
+
+For a deeper report, `kscope call doctor` runs the full diagnostic and returns
+JSON. It is an operator command, so your agent is never offered it.
