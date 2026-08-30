@@ -46,10 +46,10 @@ anyone, not only to customers, and we do not ask for a reason.
 
 Read this section before you start.
 
-Kaleidoscope is at an alpha stage. It is not publicly released. The engine is
-not published to any package registry, it is not signed or notarised for
-production distribution, and it is not generally available. There are no user
-accounts, no sign-in, and no hosted product. The only platform we support, and
+Kaleidoscope is publicly released and available. The engine is published to the
+npm package registry, and it requires a key to run. It is not signed or
+notarised for production distribution. There are no user accounts, no sign-in,
+and no hosted product. The only platform we support, and
 the only one on which we have run it ourselves, is macOS on Apple Silicon; our
 build configuration also compiles and tests for other operating systems, and
 no build for another platform is supplied or supported.
