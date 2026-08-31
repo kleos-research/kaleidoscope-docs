@@ -7,13 +7,13 @@ import { DOMAIN } from './_site';
  */
 export const body = `# Kaleidoscope
 
-> Local native memory for agents. Your memory lives in a vault on your machine, and every editor or agent you connect shares one profile through a command-line tool and a long-lived stdio MCP server. Kaleidoscope is not released: nothing installs from a registry, and signing in does not work.
+> Local memory for coding agents. Your agent forgets everything between sessions; Kaleidoscope gives it a memory that lives in a folder on your own machine and is shared by every editor and agent you use. Install it with \`npm install -g @kleos-research/kaleidoscope\`. It needs a key to run — email contact@kleosresearch.xyz.
 
 - [Documentation](${DOMAIN}/docs/): what Kaleidoscope is, and which page answers your question
-- [Getting started](${DOMAIN}/docs/getting-started/): the five commands you will run, in order
+- [Getting started](${DOMAIN}/docs/getting-started/): install, activate with your key, and give a project a memory
 - [Give your agent the skill](${DOMAIN}/docs/skill/): how an agent is told Kaleidoscope exists, and the four files it installs
-- [Install](${DOMAIN}/docs/packages/): the two package names, what is inside them, and why you cannot install them yet
-- [CLI reference](${DOMAIN}/docs/cli/): every \`kaleidoscope\` command and flag
+- [Install](${DOMAIN}/docs/packages/): the package names and what is inside them
+- [CLI reference](${DOMAIN}/docs/cli/): every \`kscope\` command and flag
 - [MCP reference](${DOMAIN}/docs/mcp/): the two tools an agent sees, \`search\` and \`remember\`, and how to call them
 - [Integrations](${DOMAIN}/docs/integrations/): Codex, Claude Code, Cursor, OpenCode, LangChain, LangGraph, Claude Agent SDK, OpenAI Agents SDK, CrewAI, and any standard MCP client
 - [Security](${DOMAIN}/docs/security/): what is isolated from what, what is not signed, and how to report a vulnerability
@@ -34,7 +34,11 @@ export const body = `# Kaleidoscope
 - [Full CLI help text](${DOMAIN}/reference/kaleidoscope-cli.txt): the complete \`kaleidoscope\` help output
 - [Tool reference](${DOMAIN}/reference/kaleidoscope-mcp.json): the fields of the two tools an agent sees
 
-Kaleidoscope has only ever been run on one kind of machine: a Mac with Apple Silicon. On that machine you can run a build you already have, connect Claude Code, Codex, OpenCode, Cursor, a standard MCP client or an agent framework to it, and have them all share one local memory. You cannot install it from npm or PyPI, because neither package is published; you cannot download a build for any platform; and you cannot sign in, because no sign-in service is configured and every account command answers \`provider not configured\`. macOS on Intel, Linux on x86_64 and arm64, and Windows on x86_64 have had a compiler check for the memory engine and nothing more — nothing was ever assembled into a program for them and nothing has been run there. Windows on arm64 has not had even that, and on Windows creating a new vault is refused on purpose until its filesystem work lands. Three connections carry a limit: Codex's configuration entry is written, read back and removed exactly, but Codex offers no way to confirm it then starts the server; Cursor's configuration and project rule are written and removed exactly, but Cursor has never been launched against them; and the agent frameworks were run against stand-in models rather than a live provider. Nothing has been driven through an editor's graphical interface. Nothing is signed for release. Apache-2.0 covers the public code and CC BY 4.0 covers this documentation, and both are in force; the product terms — the engine licence, the privacy notice, the security policy and the support policy — have been reviewed by counsel but not adopted, and none of them is yet in force. There is no support commitment and no published security contact yet. Hosted memory does not exist: there is no service, endpoint, API or waitlist, and nothing syncs your memory anywhere. Benchmark results are stated in plain words on the benchmarks page; the full benchmark method is not published yet, and there is no build you could reproduce it with. The memory engine ships as proprietary object code, and its source is not in any public surface.
+Kaleidoscope is installable today: \`npm install -g @kleos-research/kaleidoscope\` gives you the \`kscope\` command on macOS and Linux, on both Apple Silicon and x86_64. It needs a key to run. We send keys by email — write to contact@kleosresearch.xyz. Windows is not supported: creating a vault there is refused on purpose until the filesystem work lands.
+
+Once it is installed, \`kscope init\` in a project creates the memory and connects whichever agent you use. Claude Code, Codex, Cursor, OpenCode, standard MCP clients and the agent frameworks all read the same vault. Two of those connections have a limit worth stating: Codex's configuration entry is written and removed exactly, but Codex offers no way to confirm it then starts the server, and Cursor's has never been checked by launching Cursor itself. The agent frameworks were tested against stand-in models rather than a live provider.
+
+What is not here: hosted memory does not exist -- there is no service, endpoint, API or waitlist, and nothing syncs your memory anywhere. It stays in a folder in your project. Apache-2.0 covers the public code and CC BY 4.0 covers this documentation, and both are in force; the engine licence, privacy notice, security policy and support policy have been reviewed by counsel but not adopted, so none of them is yet in force and there is no support commitment. Nothing is signed for release. The part that stores and searches your memory ships as proprietary object code, and its source is not public. Benchmark results are described in plain words on the benchmarks page; the full benchmark method is not published yet.
 `;
 
 export const GET = () =>

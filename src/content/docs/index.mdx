@@ -1,6 +1,6 @@
 ---
 title: Kaleidoscope
-description: Local memory for AI agents. Your memory stays in a vault on your machine, and every editor or agent you connect shares one profile through exactly two tools.
+description: Your coding agent forgets everything between sessions. Kaleidoscope gives it a memory that lives on your own machine, shared by every editor and agent you use.
 template: splash
 head:
   # Starlight builds `<title>` as "page title — site title", which on the one
@@ -21,45 +21,55 @@ head:
 <div class="k-hero not-content">
   <p class="k-eyebrow">Local memory for agents · one vault · every tool</p>
 
-  <h1>Carry the work forward, from one tool to the next.</h1>
+  <h1>Your agent forgets. This is where it remembers.</h1>
 
-  <p class="k-lede">Kaleidoscope gives your agents one memory on your machine that every editor and agent you connect shares. The engine that stores and ranks it runs locally; the <code>kaleidoscope</code> command wires it into your editor or agent, which sees exactly two tools: <code>search</code> and <code>remember</code>.</p>
+  <p class="k-lede">Every new session, your coding agent starts from nothing. It re-asks questions you already answered, re-reads code it already understood, and repeats mistakes you already paid for. Kaleidoscope gives it a memory that stays on your machine and follows you between tools.</p>
 
-  <p class="k-lede">It is not released. There is nothing you can install today.</p>
+  <p class="k-lede">Your agent gets two things it can do: look something up, and write something down. Everything it stores lives in a folder in your project. No server, no account, and nothing leaves your disk.</p>
 
   <div class="k-actions">
     <a href="/docs/getting-started/">Get started</a>
     <a class="k-quiet" href="/docs/skill/">Give your agent the skill</a>
-    <a class="k-quiet" href="/status/">See what is available</a>
+    <a class="k-quiet" href="/status/">What works today</a>
   </div>
 </div>
 
+## Install it
 
-## Three properties, not three features
+```bash
+npm install -g @kleos-research/kaleidoscope
+```
 
-**Local by construction.** Your memory lives in a vault on your machine. The
-engine needs no network and makes no external model calls, and memory content,
-queries, results, identifiers and vault paths are never account data.
+Then activate it with your key and give a project a memory:
 
-**Works with your tools.** Codex, Claude Code, Cursor, OpenCode and agent
-frameworks all read the same profile. They do not become separate memory stores
-merely because their configuration formats differ.
+```bash
+export KALEIDOSCOPE_API_KEY=<your key>
+kscope activate
+cd ~/your-project && kscope init
+```
 
-**Open around a closed core.** The engine that stores and ranks your memory is
-proprietary object code. Everything around it is Apache-2.0: the command-line
-tool, both SDKs, every integration, and the agent skill.
+You need a key to run it. Email [contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz)
+and we will send you one. Full walkthrough in
+[getting started](/docs/getting-started/).
 
-## Two tools, one long-lived process
+## What you get
 
-Your agent gets `search`, which brings back what you stored, ranked or by
-identifier, and `remember`, which writes exactly what you tell it to write.
-Every host runs one long-lived process, and no operator command ever enters a
-model's tool list.
+**It stays on your machine.** Your memory is a folder inside your project. The
+part that stores and searches it runs on your laptop and needs no network, so
+what you write down is not something we can read.
+
+**One memory, every tool.** Claude Code, Codex, Cursor and OpenCode all read the
+same vault. Something your agent learned in one of them is there in the next.
+
+**Your agent drives it.** `kscope init` wires up whichever tool you use, and
+from then on you just talk normally — ask it what you decided last week, or tell
+it to remember something. The two commands it uses are the only two it sees.
 
 ## Where to go next
 
-- [Getting started](/docs/getting-started/) — the five commands, in order.
-- [Give your agent the skill](/docs/skill/) — the file that tells an agent
-  Kaleidoscope is there, offered for download.
-- [Status](/status/) — what is available, what is not, and what has been run.
-- [Documentation](/docs/) — the full map.
+- [Getting started](/docs/getting-started/) — install, activate, and give a
+  project a memory.
+- [Give your agent the skill](/docs/skill/) — a file that teaches an agent how
+  to use its memory well.
+- [What works today](/status/) — which platforms and tools are covered.
+- [Documentation](/docs/) — everything else.

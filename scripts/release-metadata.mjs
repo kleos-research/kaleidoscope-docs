@@ -116,9 +116,14 @@ export function readReleaseMetadata(mode = 'staging') {
 
   if (mode !== 'staging') {
     // (4) availability must match the mode.
+    // `public_docs` accepted only `documentation_preview` until 0.0.5 shipped.
+    // The mode says WHICH ARTIFACT is being built -- the public documentation
+    // site -- and the availability says what the product's state is; the two
+    // are independent, and conflating them meant the public site could not
+    // describe a released product without being built as something it is not.
     const allowed =
       mode === 'public_docs'
-        ? ['documentation_preview']
+        ? ['documentation_preview', 'available_with_key']
         : ['release_candidate', 'released'];
     if (!allowed.includes(data.availability)) {
       throw new Error(`${mode} build has an invalid availability value`);

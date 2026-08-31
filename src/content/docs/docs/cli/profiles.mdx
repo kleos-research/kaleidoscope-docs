@@ -10,8 +10,8 @@ points at a profile by name.
 ## Create a profile
 
 ```bash
-kaleidoscope init --root /absolute/path/to/your/kaleidoscope-memory --profile default
-kaleidoscope init --root /absolute/path --profile work --durability durable-local
+kscope init --root /absolute/path/to/your/kaleidoscope-memory --profile default
+kscope init --root /absolute/path --profile work --durability durable-local
 ```
 
 `--root` is the vault directory. It must be an absolute path; a missing or
@@ -27,10 +27,10 @@ rather than being accepted and quietly downgraded.
 ## List, inspect, switch, remove
 
 ```bash
-kaleidoscope profile list
-kaleidoscope profile show default
-kaleidoscope profile use work
-kaleidoscope profile remove work
+kscope profile list
+kscope profile show default
+kscope profile use work
+kscope profile remove work
 ```
 
 `profile list` shows the profiles this machine knows and which one is active.
@@ -45,9 +45,9 @@ rid of the memory itself is a separate, deliberate act; see
 ## Bind a profile to an account
 
 ```bash
-kaleidoscope profile account show [NAME]
-kaleidoscope profile account bind ACCOUNT_UUID [NAME]
-kaleidoscope profile account unbind [NAME]
+kscope profile account show [NAME]
+kscope profile account bind ACCOUNT_UUID [NAME]
+kscope profile account unbind [NAME]
 ```
 
 These write a local, non-secret account reference into a profile and nothing

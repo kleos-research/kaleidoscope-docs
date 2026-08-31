@@ -7,10 +7,9 @@ import release from '../../../public-docs-release.json';
 
 <p class="k-meta">As of {status['as of']}</p>
 
-Kaleidoscope is not released. Nothing installs from a package registry, no build
-is offered for download on any platform, nothing is signed, and signing in does
-not work. That is the whole status, and the rest of this page says what each part
-of it means.
+Kaleidoscope is installable and needs a key to run. Nothing is signed for
+release, and there is no account to sign in to. That is the whole status, and
+the rest of this page says what each part of it means.
 
 ## Is anything down?
 
@@ -27,33 +26,33 @@ section will say something other than "there is nothing that could be down."
 
 ## Can I install it?
 
-Not yet. Two package names are reserved and neither is published:
+Yes.
 
-| | |
-|---|---|
-| npm | `@kleos-research/kaleidoscope` |
-| Python | `kaleidoscope-memory` |
+```bash
+npm install -g @kleos-research/kaleidoscope
+```
 
-There is no download for any platform. Nothing is signed for release, so even a
-build you obtained some other way would be unsigned software on your machine.
+macOS and Linux, on Apple Silicon and x86_64. Windows is not supported yet.
 
-## Can I sign in?
+You need a key to run it — email
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz). There is no
+Python package; `kaleidoscope-memory` was planned and never registered.
 
-No. Every account command answers `provider not configured`. There is no account
-service running, so there is no account to make, nothing to link, and no device
-list to manage. This does not affect using memory: your vault has never needed an
-account.
+Nothing is signed for release, so what you install is unsigned software on your
+machine. That is on the list to fix.
+
+## Do I need an account?
+
+No, and there is no way to make one. Your key is all that is needed, and your
+vault has never depended on an account.
 
 ## What version is current
 
 | | |
 |---|---|
-| Documentation | {release.release_version}, updated {status['as of']} |
-| Packages | none published |
+| Package | {release.release_version} on npm |
+| Documentation | updated {status['as of']} |
 | Signed builds | none |
-
-The documentation version is the only version that currently means anything: it
-identifies this text, not a program you can run.
 
 ## Two contracts you can check right now
 

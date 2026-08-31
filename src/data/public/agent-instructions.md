@@ -28,7 +28,7 @@ The files it installs are published here, byte for byte:
 - [CLAUDE.md snippet](/snippets/CLAUDE.md)
 - [Cursor rule](/snippets/cursor-kaleidoscope.mdc)
 
-Install and remove them with `kaleidoscope` rather than by hand. That is what
+Install and remove them with `kscope` rather than by hand. That is what
 keeps the dry run, the backup, the record of what Kaleidoscope owns, the
 refusal to overwrite something you edited yourself, and the check for a file
 that changed underneath it.

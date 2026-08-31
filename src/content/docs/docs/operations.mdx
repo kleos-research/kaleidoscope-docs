@@ -14,9 +14,9 @@ You named a vault root when you initialized a profile. To see which profile is
 active and where it points, without printing credentials or any memory content:
 
 ```bash
-kaleidoscope profile list
-kaleidoscope config --profile default --json
-kaleidoscope doctor --project "$PWD"
+kscope profile list
+kscope config --profile default --json
+kscope doctor --project "$PWD"
 ```
 
 ## Back up and restore
@@ -28,7 +28,7 @@ restore, or to move your memory to another machine or another path, put the
 directory back and point a profile at it:
 
 ```bash
-kaleidoscope init --profile default --root /absolute/path/to/the/vault
+kscope init --profile default --root /absolute/path/to/the/vault
 ```
 
 ## Disconnect and uninstall
@@ -36,7 +36,7 @@ kaleidoscope init --profile default --root /absolute/path/to/the/vault
 These are four separate operations, and it matters that you know which one you
 are doing.
 
-- `kaleidoscope disconnect HOST` removes only the configuration Kaleidoscope
+- `kscope disconnect HOST` removes only the configuration Kaleidoscope
   itself wrote into that editor. Other settings in the same file are left alone.
 - `kaleidoscope instructions remove` removes the agent guidance pointer, which
   is a separate thing from the connection.
@@ -67,10 +67,10 @@ mechanism we have run once, on one machine.
 
 Two things: a language package for npm or Python, and a second package built for
 your platform. The language package holds the client library and the
-`kaleidoscope` and `kscope` commands; the platform package holds the manager and
+`kscope` command; the platform package holds the manager and
 the engine, as object code. There is no install hook, runtime download,
 compiler, or source-build fallback — nothing is fetched or built on your machine
-after the download. The engine source is in neither package.
+after the download. The engine source is not in the package.
 
 ## Encrypted vaults, on a Mac
 
