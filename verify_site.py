@@ -32,6 +32,18 @@ Python emitter could not:
       — they were strings in one Python function. A required claim with no gate
       is one refactor away from gone.
 
+Three more were added after the 0.0.5 audit, and all three read the authored
+source rather than the artifact, because each names a file somebody has to edit:
+
+  (i) the command gate — every fenced shell line invoking `kscope` must name a
+      verb the shipped binary has, taken from src/data/kscope-surface.json, and
+      a line invoking the unpublished `kaleidoscope` must sit in a block marked
+      as not yet shipped.
+  (j) the availability gate — no page may tell a reader the product cannot be
+      had while public-docs-release.json says it can.
+  (k) the version gate — the release version is stated as a fact in exactly one
+      authored file, and every pin that names Kaleidoscope must match it.
+
 Scope note, and it is deliberate: gates (a) and (b) now scan the SOURCE tree as
 well as the artifact, so a leak is caught before it is built rather than after
 it is committed.
@@ -59,8 +71,20 @@ SOCIAL_IMAGE_SHA256 = (
     "d84723af1329236dc663243909771784a4a056a6359f1f0cbd3243390c27ebf5"
 )
 EXPECTED_CNAME = "memory.kleosresearch.xyz"
+# The skill this site republishes, pinned by digest.
+#
+# It is not a document written here. It is the file `kscope init` installs into
+# a project, and the pin is what stops this copy drifting from that one -- which
+# it had: the bytes published here were three revisions behind the bytes the
+# shipped command writes, under a page promising they were the same.
+#
+# To check it, or to update it after the engine ships a new skill: run
+# `kscope init` in an empty directory and hash what it installs.
+#
+#     shasum -a 256 .claude/skills/use-kaleidoscope/SKILL.md
+#
 PUBLIC_SKILL_SHA256 = (
-    "c688db1b84ee20b6786d6109c68fbf8a21fd87486b9fe37e525d85170b77c9ad"
+    "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e"
 )
 
 # ---------------------------------------------------------------- gate (a)
@@ -72,16 +96,34 @@ PUBLIC_SKILL_SHA256 = (
 # private product repository as it appears in an href, while allowing the org
 # link `https://github.com/kleos-research` that the top navigation uses on
 # every page. Do not "improve" it into a regex without the quote.
+# `KSCOPE_ROOT`, `KSCOPE_WORKSPACE`, `KSCOPE_PRINCIPAL` and `KSCOPE_JOURNAL`
+# were on the list below and have been removed. The rule above says no
+# exemptions may be added, so this is a removal from the list rather than an
+# exemption to it, and the reason is that the premise changed under it.
+#
+# They were banned as a proxy. A reader who found `KSCOPE_ROOT` on this site was
+# looking at somebody's exported shell, and the name arrived attached to a path.
+# What catches that is the path, and `/Users/`, `\Users\` and the worktree
+# markers below still do, absolutely and with no exemption anywhere.
+#
+# The names themselves are not coordinates any more, and treating them as
+# secrets now costs something real: the shipped `kscope --help` prints all four,
+# in the paragraph explaining how a command that names no vault finds one. While
+# they were banned here, this site could neither republish that help nor explain
+# vault resolution in its own words, and it needs to do both.
+PUBLIC_ENVIRONMENT_NAMES = (
+    "KSCOPE_ROOT",
+    "KSCOPE_WORKSPACE",
+    "KSCOPE_PRINCIPAL",
+    "KSCOPE_JOURNAL",
+)
+
 PRIVATE_MARKERS = (
     "/Users/",
     "\\Users\\",
     ".codex/worktrees",
     ".claude/worktrees",
     'github.com/kleos-research/kaleidoscope"',
-    "KSCOPE_ROOT",
-    "KSCOPE_WORKSPACE",
-    "KSCOPE_PRINCIPAL",
-    "KSCOPE_JOURNAL",
 )
 # Suffixes that are legitimately not text. Everything else in the artifact must
 # decode as UTF-8 and is scanned. This inverts the old rule, which scanned an
@@ -133,6 +175,11 @@ BANNED_VOCABULARY = (
 # goes on covering a path that no longer holds the file it was argued for.
 VOCABULARY_EXEMPT = {
     "SKILL.md",
+    # `kscope --help`, republished verbatim under both its routes. The engine
+    # writes in the engine's voice; a republished artifact held to the house
+    # vocabulary is a paraphrase, which is the thing this file exists to stop.
+    "reference/kaleidoscope-cli.txt",
+    "reference/kscope-cli.txt",
     "legal/ENGINE-EULA.txt",
     "legal/PRIVACY-NOTICE.txt",
     "legal/SECURITY-POLICY.txt",
@@ -145,7 +192,15 @@ VOCABULARY_EXEMPT = {
     "site-manifest.json",
 }
 # The same four sources, and the skill, on the source side.
+#
+# `kaleidoscope-cli.txt` joins them for the same reason they are here: it is a
+# document this site republishes rather than writes. It is now the shipped
+# `kscope --help`, captured verbatim, and the engine's help text is written in
+# the engine's voice — it says `harness` where this site says `agent`. A
+# republished artifact cannot be held to the house vocabulary without ceasing to
+# be a republished artifact, which is the whole value of publishing it.
 SOURCE_VOCABULARY_EXEMPT = {
+    "src/data/kaleidoscope-cli.txt",
     "src/data/public/SKILL.md",
     "src/data/legal/ENGINE-EULA.txt",
     "src/data/legal/PRIVACY-NOTICE.txt",
@@ -153,7 +208,7 @@ SOURCE_VOCABULARY_EXEMPT = {
     "src/data/legal/SUPPORT-POLICY.txt",
 }
 # llms-full.txt inlines the exempt skill; scan the chunks the site wrote.
-VOCABULARY_EXEMPT_CHUNKS = ("# Public agent skill",)
+VOCABULARY_EXEMPT_CHUNKS = ("# Public agent skill", "# Full CLI help text")
 # Starlight's own minified vendor CSS and JavaScript contain `slice`, which is
 # a JavaScript method and not our vocabulary. Our stylesheet is bundled into
 # the same directory, which is why gate (b) also runs over the authored source
@@ -364,6 +419,105 @@ SOURCE_ROOTS = ("src",)
 SOURCE_FILES = ("astro.config.mjs",)
 BRAND_CSS = "src/styles/brand.css"
 
+# ---------------------------------------------------------------- gate (i)
+# The command gate. Every fenced shell line that invokes `kscope` must name a
+# verb the shipped binary actually has.
+#
+# This exists because the pages drifted the other way round from how anyone
+# expected. Nothing here was invented: `kscope connect`, `kscope disconnect`,
+# `kscope config`, `kscope doctor` and `kscope profile use` are all real verbs
+# — of `kaleidoscope`, a SECOND executable that is built only inside the
+# private product repository and published on no channel. A reader who copies
+# one of those lines gets "command not found" and no way to discover why, and
+# the docs looked correct to everyone who knew both binaries.
+#
+# The allowed list is NOT written here. It lives in the file below, beside the
+# other machine records this site republishes, so that the person who changes
+# the binary edits a data file rather than hunting for a tuple in a verifier.
+KSCOPE_SURFACE = "src/data/kscope-surface.json"
+# Fences live in authored pages. The scan is deliberately not run over the
+# artifact: `dist/` is a build of the source, so a page fixed in `src/` and not
+# yet promoted would fail on the stale copy, and the failure a person can act
+# on is the one that names the .mdx file they have open.
+COMMAND_SCAN_ROOTS = ("src/content",)
+COMMAND_SCAN_SUFFIXES = {".mdx", ".md"}
+# The languages that mean "type this into a shell". A ```json block naming
+# kscope is a configuration file, not a command line, and is not scanned.
+SHELL_FENCE_LANGUAGES = {"sh", "bash", "zsh", "shell", "console", "shellsession"}
+# The marker that admits an unshipped command. An MDX comment: it renders
+# nothing, so it cannot be mistaken for something the reader is being told, and
+# it is documented in kscope-surface.json under `not_yet_shipped`. It must sit
+# on its own line directly above the fence, blank lines allowed between.
+NOT_YET_SHIPPED_MARKER = "{/* not-yet-shipped */}"
+
+# ---------------------------------------------------------------- gate (j)
+# The availability gate. `public-docs-release.json` is the one record of what
+# a reader can obtain, and it says `available_with_key`. While it says that, no
+# page may tell a reader the product cannot be had.
+#
+# Read the list below for what it is: A SMOKE ALARM, NOT A PROOF. English has
+# unbounded ways to say a thing is unavailable and no scan enumerates them.
+# What this catches is the specific sentences that were published here before
+# 0.0.5 went to npm and that a copy-paste or a revert would bring straight
+# back. It will not catch a fresh phrasing, and nobody should read a pass as
+# evidence that every page agrees with the release record.
+#
+# Each phrasing is bound to Kaleidoscope or to the package as a whole on
+# purpose. "Not yet released" alone is a true sentence on this site — it is
+# what the kscope-memory placeholder on PyPI says about itself — and a gate
+# that fired on it would be teaching people to delete a fact.
+RELEASE_RECORD = "public-docs-release.json"
+AVAILABLE_AVAILABILITY = "available_with_key"
+UNAVAILABILITY_PHRASINGS = (
+    "kaleidoscope is not released",
+    "kaleidoscope is not publicly released",
+    "kaleidoscope is not available",
+    "kaleidoscope is not installable",
+    "is not published to npm",
+    "neither package is published",
+    "no package is published",
+    "you cannot install kaleidoscope",
+    "cannot download a build for any platform",
+    "not installable yet",
+    "there is nothing to install",
+    "no way to install it",
+)
+
+# ---------------------------------------------------------------- gate (k)
+# The version gate. A release version is the fastest-rotting fact on the site,
+# and it was restated in five authored files at 0.0.5.
+#
+# The rule has two halves, because a version literal does two different jobs:
+#
+#   1. Stated as a fact — "what 0.0.5 is" — it is a claim about the release,
+#      and it belongs in exactly ONE authored file, named below. Pages that
+#      need to show it take it from the release metadata the build injects,
+#      which is how the provenance routes already work.
+#   2. Bound to the package — `@kleos-research/kaleidoscope@0.0.5`, or
+#      "kscope 0.0.5" — it is a pin or a note of what was measured, and those
+#      are useful where they stand. They are allowed anywhere AND checked for
+#      equality with the release record, so a stale pin fails wherever it is.
+#
+# Version-shaped literals that are not Kaleidoscope's — an editor's version in
+# status.json, the 0.0.0 placeholder that kscope-memory publishes on PyPI — are
+# facts about other software and are not touched by either half.
+#
+# The file of record is src/data/status.json rather than public-docs-release.json
+# for a reason worth writing down, because the two look interchangeable and are
+# not. public-docs-release.json is the AUTHOR of the version: astro.config.mjs
+# refuses a build whose release metadata carries none, and /status/ throws if
+# status.json disagrees with it. But it sits at the repository root, outside the
+# `src` tree this scan walks, so the gate never reads it as a page and could not
+# name it as the one place a version may be stated. status.json is the single
+# mirror the build already pins to that author, which makes it the one authored
+# file under src/ that is allowed to carry the literal — and the failure below
+# fires if it ever stops carrying it, so the pin cannot quietly go missing.
+RELEASE_VERSION_FILE_OF_RECORD = "src/data/status.json"
+VERSION_SHAPED = r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.]+)?"
+BOUND_VERSION = re.compile(
+    r"\b(?:kscope|kaleidoscope)@?\s*v?(" + VERSION_SHAPED + r")\b"
+)
+
 
 class DocumentParser(HTMLParser):
     """One pass over a page.
@@ -507,6 +661,212 @@ def scan_vocabulary(relative: str, text: str, failures: list[str]) -> None:
         found = re.search(pattern, lowered)
         if found:
             failures.append(f"internal vocabulary {found.group(0)!r} in {relative}")
+
+
+def load_kscope_surface(source_root: Path, failures: list[str]) -> dict | None:
+    """Read the recorded command surface, or refuse.
+
+    Fail closed. A missing or malformed surface file means the command gate
+    cannot run, and a gate that cannot run passes everything.
+    """
+    path = source_root / KSCOPE_SURFACE
+    if not path.is_file():
+        failures.append(
+            f"missing {KSCOPE_SURFACE} — the command gate has no record of which "
+            "verbs the shipped binary has, so it cannot refuse one it does not"
+        )
+        return None
+    try:
+        surface = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        failures.append(f"{KSCOPE_SURFACE} is not valid JSON")
+        return None
+    required = (
+        "executable",
+        "global_flags",
+        "verbs",
+        "subcommands",
+        "call_operations",
+        "flags_that_take_a_value",
+        "not_yet_shipped",
+    )
+    missing = [key for key in required if key not in surface]
+    if missing:
+        failures.append(
+            f"{KSCOPE_SURFACE} is missing {sorted(missing)} — the command gate "
+            "reads every one of those, and an absent key would silently widen it"
+        )
+        return None
+    if "executable" not in surface["not_yet_shipped"]:
+        failures.append(
+            f"{KSCOPE_SURFACE}: not_yet_shipped names no executable, so the gate "
+            "would let an unobtainable command through unmarked"
+        )
+        return None
+    return surface
+
+
+def iter_fenced_lines(text: str):
+    """Yield (line number, line, language, marked) for every line inside a fence.
+
+    `marked` says whether the fence that encloses the line was preceded by
+    NOT_YET_SHIPPED_MARKER. Blank lines between the marker and the fence are
+    allowed; anything else in between clears it, because a marker three
+    paragraphs up is a marker on somebody else's block.
+    """
+    fence: str | None = None
+    language = ""
+    marked = False
+    previous = ""
+    for number, line in enumerate(text.split("\n"), start=1):
+        stripped = line.strip()
+        if fence is None:
+            opening = re.match(r"\s*(`{3,})(.*)$", line)
+            if opening:
+                fence = opening.group(1)
+                meta = opening.group(2).strip()
+                language = meta.split()[0].lower() if meta else ""
+                marked = previous == NOT_YET_SHIPPED_MARKER
+            elif stripped:
+                previous = stripped
+            continue
+        if set(stripped) == {"`"} and len(stripped) >= len(fence):
+            fence = None
+            language = ""
+            continue
+        yield number, line, language, marked
+
+
+def shell_commands(line: str) -> list[list[str]]:
+    """Split one fenced line into the commands it would run, head token first.
+
+    Deliberately simple: a prompt is dropped, leading environment assignments
+    are dropped, and `|`, `||`, `;` and `&&` separate commands. It does not
+    parse quoting, so a pipe inside a quoted string splits a line that a shell
+    would not — which produces a segment whose head is not a program we know
+    and is therefore ignored, not a false refusal.
+    """
+    stripped = line.strip()
+    if stripped.startswith("$ "):
+        stripped = stripped[2:].strip()
+    if stripped.startswith("#"):
+        return []
+    commands = []
+    for segment in re.split(r"\|\||&&|[|;]", stripped):
+        tokens = segment.split()
+        while tokens and re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*=.*", tokens[0]):
+            tokens.pop(0)
+        if tokens:
+            commands.append(tokens)
+    return commands
+
+
+def positional_tokens(tokens: list[str], value_flags: set[str]) -> list[str]:
+    """The non-flag tokens, with the value of a value-taking flag skipped."""
+    positionals: list[str] = []
+    skip = False
+    for token in tokens:
+        if skip:
+            skip = False
+            continue
+        if token.startswith("-"):
+            if token in value_flags:
+                skip = True
+            continue
+        positionals.append(token)
+    return positionals
+
+
+def scan_kscope_commands(
+    relative: str, text: str, surface: dict, failures: list[str]
+) -> None:
+    """Gate (i), over one authored page."""
+    shipped = surface["executable"]
+    unshipped = surface["not_yet_shipped"]["executable"]
+    verbs = set(surface["verbs"])
+    global_flags = set(surface["global_flags"])
+    value_flags = set(surface["flags_that_take_a_value"])
+    subcommands = {name: set(values) for name, values in surface["subcommands"].items()}
+    operations = set(surface["call_operations"])
+
+    for number, line, language, marked in iter_fenced_lines(text):
+        if language not in SHELL_FENCE_LANGUAGES:
+            continue
+        for tokens in shell_commands(line):
+            program = tokens[0]
+            if program == unshipped:
+                if not marked:
+                    failures.append(
+                        f"{relative}:{number}: `{unshipped}` is not published on any "
+                        f"channel, so this command cannot be run by anyone reading "
+                        f"the page. Mark the block {NOT_YET_SHIPPED_MARKER!r} and say "
+                        f"in the prose beside it that the command is not available yet"
+                    )
+                continue
+            if program != shipped:
+                continue
+            positionals = positional_tokens(tokens[1:], value_flags)
+            if not positionals:
+                if not any(token in global_flags for token in tokens[1:]):
+                    failures.append(
+                        f"{relative}:{number}: `{shipped}` is invoked with no verb and "
+                        f"no flag {shipped} recognises"
+                    )
+                continue
+            verb = positionals[0]
+            if verb not in verbs:
+                failures.append(
+                    f"{relative}:{number}: {shipped} verb {verb!r} is not on the "
+                    f"shipped binary — the surface is recorded in {KSCOPE_SURFACE}"
+                )
+                continue
+            if verb in subcommands and len(positionals) > 1:
+                sub = positionals[1]
+                if sub not in subcommands[verb]:
+                    failures.append(
+                        f"{relative}:{number}: {shipped} {verb} has no subcommand "
+                        f"{sub!r} — the surface is recorded in {KSCOPE_SURFACE}"
+                    )
+            if verb == "call" and len(positionals) > 1:
+                operation = positionals[1]
+                if operation not in operations:
+                    failures.append(
+                        f"{relative}:{number}: {shipped} call has no operation "
+                        f"{operation!r} — the surface is recorded in {KSCOPE_SURFACE}"
+                    )
+
+
+def scan_unavailability(
+    relative: str, text: str, availability: str, failures: list[str]
+) -> None:
+    """Gate (j), over one authored file."""
+    if availability != AVAILABLE_AVAILABILITY:
+        return
+    flat = " ".join(text.split()).lower()
+    for phrasing in UNAVAILABILITY_PHRASINGS:
+        if phrasing in flat:
+            failures.append(
+                f"{relative}: says {phrasing!r} while {RELEASE_RECORD} says "
+                f"availability is {availability!r} — one of the two is wrong, and "
+                "the release record is the one a reader can check against npm"
+            )
+
+
+def scan_release_version(
+    relative: str, text: str, release_version: str, failures: list[str]
+) -> bool:
+    """Gate (k), over one authored file. Returns True if it states the version."""
+    for found in BOUND_VERSION.finditer(text):
+        if found.group(1) != release_version:
+            failures.append(
+                f"{relative}: names Kaleidoscope at version {found.group(1)!r} while "
+                f"{RELEASE_RECORD} says {release_version!r} — a pin that has gone "
+                "stale is worse than no pin, because a reader will use it"
+            )
+    bare = text
+    for found in reversed(list(BOUND_VERSION.finditer(text))):
+        bare = bare[: found.start()] + bare[found.end() :]
+    return bool(re.search(r"\b" + re.escape(release_version) + r"\b", bare))
 
 
 def verify(
@@ -826,12 +1186,19 @@ def verify(
         failures.append("missing CLI reference")
     else:
         cli_text = cli_reference.read_text(encoding="utf-8")
+        # The commands below are the shipped engine's, because the file is now
+        # the shipped engine's `--help`. It used to be a hand-typed copy of a
+        # second program's help, and this list used to name that program's
+        # verbs -- so the check passed while the page handed readers commands
+        # no download of ours provides. What is asserted is the setup path a
+        # reader actually follows and the two verbs a model is given.
         for command in (
-            "kaleidoscope [--engine PATH] init",
-            "connect HOST",
-            "disconnect HOST",
-            "instructions install TARGET",
-            "doctor",
+            "kscope init",
+            "kscope call --profile <NAME> search",
+            "kscope call --profile <NAME> remember",
+            "kscope schema",
+            "kscope mcp --profile <NAME>",
+            "kscope activate",
         ):
             if command not in cli_text:
                 failures.append(f"CLI reference missing {command!r}")
@@ -867,9 +1234,18 @@ def verify(
                 failures.append("MCP tool reference exposes operator commands")
             if mcp.get("release_readiness_claimed") is not False:
                 failures.append("MCP tool reference claims release readiness")
+            # This record used to carry `released` and `publicly available`,
+            # and the verifier used to require both false. That was a second
+            # home for a fact whose home is the release metadata, and when
+            # 0.0.5 published, the two disagreed. The record no longer states
+            # it, and stating it again is the failure.
             for field in ("released", "publicly available"):
-                if mcp.get(field) is not False:
-                    failures.append(f"MCP tool reference must keep {field!r} false")
+                if field in mcp:
+                    failures.append(
+                        f"MCP tool reference states {field!r}: release status is "
+                        "the release metadata's to state, and stating it twice is "
+                        "how the two came to disagree"
+                    )
 
     # ------------------------------------------------- gates (a) and (b), artifact
     exempt_present = set(actual) | {"site-manifest.json"}
@@ -931,6 +1307,33 @@ def verify(
                 for name in SOURCE_FILES
                 if (source_root / name).is_file()
             )
+            # ------------------------------------------- gates (i), (j), (k)
+            # All three read the authored source, for the same reason the
+            # vocabulary scan grew a source half: the failure a person can act
+            # on names the file they have open, not a built copy of it.
+            #
+            # The five files in SOURCE_VOCABULARY_EXEMPT are skipped here too.
+            # They are republished byte for byte from somewhere else, and a gate
+            # that demanded an edit to one of them would be demanding that the
+            # published copy stop matching the source it claims to reproduce.
+            surface = load_kscope_surface(source_root, failures)
+            record_path = source_root / RELEASE_RECORD
+            record: dict = {}
+            if not record_path.is_file():
+                failures.append(
+                    f"missing {RELEASE_RECORD} — the availability and version gates "
+                    "have nothing to check the pages against, and a gate with no "
+                    "reference passes everything"
+                )
+            else:
+                try:
+                    record = json.loads(record_path.read_text(encoding="utf-8"))
+                except json.JSONDecodeError:
+                    failures.append(f"{RELEASE_RECORD} is not valid JSON")
+            availability = str(record.get("availability", ""))
+            release_version = str(record.get("release_version", ""))
+            states_the_version: list[str] = []
+
             for path in sorted(set(source_paths)):
                 relative = path.relative_to(source_root).as_posix()
                 if path.suffix.lower() in BINARY_SUFFIXES:
@@ -945,6 +1348,37 @@ def verify(
                     and relative not in SOURCE_VOCABULARY_EXEMPT
                 ):
                     scan_vocabulary(f"source:{relative}", text, failures)
+                    if (
+                        surface is not None
+                        and relative.startswith(COMMAND_SCAN_ROOTS)
+                        and path.suffix.lower() in COMMAND_SCAN_SUFFIXES
+                    ):
+                        scan_kscope_commands(relative, text, surface, failures)
+                    if availability:
+                        scan_unavailability(relative, text, availability, failures)
+                    if release_version and scan_release_version(
+                        relative, text, release_version, failures
+                    ):
+                        states_the_version.append(relative)
+
+            if release_version:
+                if RELEASE_VERSION_FILE_OF_RECORD not in states_the_version:
+                    failures.append(
+                        f"{RELEASE_VERSION_FILE_OF_RECORD} does not state the release "
+                        f"version {release_version!r}. It is the one authored file "
+                        "that may, and if it stops the gate below has nothing to "
+                        "measure the rest of the site against"
+                    )
+                for relative in states_the_version:
+                    if relative == RELEASE_VERSION_FILE_OF_RECORD:
+                        continue
+                    failures.append(
+                        f"{relative}: states the release version {release_version!r} "
+                        f"as a fact. Exactly one authored file may — "
+                        f"{RELEASE_VERSION_FILE_OF_RECORD} — and a page that needs to "
+                        "show it takes it from the release metadata the build "
+                        "injects, the way the provenance routes already do"
+                    )
 
             # /docs/skill/ shows the CLAUDE.md block in a fence and says "This
             # is the whole of it", then tells the reader to paste it by hand.
@@ -955,8 +1389,17 @@ def verify(
             skill_page = source_root / "src/content/docs/docs/skill.mdx"
             snippet = source_root / "src/data/public/snippets/CLAUDE.md"
             if skill_page.is_file() and snippet.is_file():
+                # The fence delimiter is captured and matched against itself,
+                # rather than being three backticks. The snippet contains a
+                # ```bash block of its own, so the page has to wrap it in four
+                # — and a three-backtick pattern then matched the OPENING of
+                # the outer fence and the CLOSING of the inner one, comparing
+                # the snippet against its own first paragraph and reporting a
+                # drift that was not there. A gate that fails on correct input
+                # teaches people to route around it.
                 fence = re.search(
-                    r'```md title="CLAUDE\.md"[^\n]*\n(.*?)```',
+                    r'(?P<delimiter>`{3,})md title="CLAUDE\.md"[^\n]*\n'
+                    r"(?P<block>.*?)(?P=delimiter)",
                     skill_page.read_text(encoding="utf-8"),
                     flags=re.S,
                 )
@@ -966,7 +1409,7 @@ def verify(
                         "and with it the check that what the page shows is what the "
                         "manager writes"
                     )
-                elif fence.group(1) != snippet.read_text(encoding="utf-8"):
+                elif fence.group("block") != snippet.read_text(encoding="utf-8"):
                     failures.append(
                         "src/content/docs/docs/skill.mdx: the CLAUDE.md fence is not "
                         "byte-identical to src/data/public/snippets/CLAUDE.md — the "

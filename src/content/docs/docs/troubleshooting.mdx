@@ -3,18 +3,25 @@ title: Troubleshooting
 description: Fix the six things that go wrong with Kaleidoscope — tool discovery, OpenCode configuration, a misplaced profile, sign-in, installation, and safe diagnostics.
 ---
 
-Start with `kscope doctor` when your profile, engine, or host
-configuration is misbehaving. Account commands fail on their own separate
-boundary, so read that section before you conclude that anything local is
-broken.
+Start with `kscope where` when your profile, engine, or host configuration is
+misbehaving: it prints the vault a command that names none would resolve to from
+here, and where that answer came from. It needs no key, which is why it is the
+first thing to try. The fuller check is
+`echo '{"mode":"inspect"}' | kscope call doctor`, which reads health and writes
+nothing — but `call` is one of the commands the key gates, so a refusal there is
+about your key rather than about your vault. Signing in sits on its own separate
+boundary and is not a local failure at all, so read that section below before
+you conclude anything here is broken.
 
 ## The host cannot find the tools
 
-1. Confirm the active profile is the one you expect.
-2. Preview the connection with `--dry-run` and read only the block Kaleidoscope
-   owns.
-3. Restart the host after a successful connect — most hosts read their
-   configuration once, at startup.
+1. Confirm the active profile is the one you expect, with `kscope profile list`
+   and `kscope where`.
+2. Open the host's own configuration file and read only the block Kaleidoscope
+   owns — `kscope init` marks the entry it wrote as its own, so which block that
+   is does not have to be guessed.
+3. Restart the host after `kscope init` — most hosts read their configuration
+   once, at startup.
 4. Confirm the tools it discovered are exactly `search` and `remember`.
 
 ## OpenCode configuration is refused
@@ -22,26 +29,40 @@ broken.
 The stable and beta-v2 configuration shapes differ. Kaleidoscope adopts an
 existing shape when it is unambiguous, or the version you named explicitly; it
 never quietly rewrites stable configuration into beta. Remove any duplicate
-Kaleidoscope entry and run the dry run again.
+Kaleidoscope entry and run `kscope init` again.
 
 ## A profile points to the wrong place
 
-Do not edit the profile by hand. Import the vault you meant to use, or
-initialise a new one at an explicit path. A missing or invalid root is refused
-rather than created for you, so nothing is silently written to the wrong place.
+Do not edit the profile by hand. `kscope profile import NAME ROOT` reads the
+identity out of the vault you meant to use and writes a profile pointing at it;
+`kscope init ROOT RFC3339_CREATED_AT` makes a new vault at an explicit path, and
+that second argument is a timestamp — `2026-08-30T09:00:00Z` — not a name. A
+missing or invalid root is refused rather than created for you, so nothing is
+silently written to the wrong place.
 
-## Login says provider not configured
+## You cannot sign in
 
-That is expected today. No sign-in service is published, so every remote account
-command refuses. Do not invent an endpoint, and do not delete or recreate your
-vault to try to fix it — your account status and your local memory are separate,
-and you do not need an account to use your memory.
+There is nothing to sign in to, and what you installed does not try. `kscope`
+carries no login, logout, or account command at all — those are verbs of a
+separate `kaleidoscope` manager executable that is published on no channel, so
+they are commands you cannot obtain rather than commands that fail. Your key is
+what entitles the machine, and `kscope activate` is how it gets there. Do not
+delete or recreate your vault over this: your account status and your local
+memory were never connected, and you do not need an account to use your memory.
 
 ## The install did not work
 
-No public installation channel exists. The archives, tarballs, and wheels that
-exist are private test builds signed with a test-only key; they are not
-downloadable releases, and there is nowhere to fetch them from.
+The install is `npm install -g @kleos-research/kaleidoscope`, and npm picks the
+platform package for your machine out of the four that are published — macOS on
+Apple Silicon and x86_64, Linux on arm64 and x86_64. On Windows there is no
+package to bring down, so the install has nothing to give you.
+
+If `kscope` installed but refuses to run, the key is a likelier cause than the
+download. `kscope gate` prints what this build gates and the path it reads a key
+from, without reading the key or opening a vault, and `kscope activate` is what
+puts the key there. Nothing is signed for release either, so an operating-system
+refusal to launch an unsigned binary is about the missing signature and not a
+corrupt install.
 
 ## The agent can see the tools but never uses them
 
@@ -53,4 +74,7 @@ Install the skill and the pointer block for your project:
 
 Strip local paths, account identifiers, provider keys, tokens, memory content,
 queries, results, and vault locations before you send anything to anyone. Use
-the redacted `doctor` output, which is the artifact meant for that.
+what `kscope call doctor` prints on stdout in `inspect` mode, which is the
+artifact meant for that: counts and status fields, and no memory content or
+absolute paths. The line it writes to stderr beside it is not part of that — it
+names the vault it resolved, by absolute path.

@@ -1,107 +1,201 @@
 ---
 title: Give your agent the skill
-description: How an agent is told Kaleidoscope exists — the skill file, the marked block, and the four files, offered for download.
+description: How an agent is told Kaleidoscope exists — the skill file, the marked block, where each one lands, and the four files, offered for download.
 ---
 import DownloadCard from '../../../components/DownloadCard.astro';
 
 An agent only uses memory if something told it to. Kaleidoscope ships one skill
 file and a short pointer for whichever instruction file your project already has,
-and it installs them as a block it owns, so it can take them out again exactly.
+and it installs them as a block it owns, so what it wrote can always be told
+apart from what you wrote.
 
-Nothing is written to `CLAUDE.md` or `AGENTS.md` as a side effect of installing,
-running or connecting anything. It is a command a human runs, it previews before
-it writes, and it has an exact inverse.
+Installing the package writes none of it, and neither does running the memory
+server. `kscope init` writes it, it is a command a person runs, it says on your
+screen what it did, and `kscope init --no-wire` is how you tell it to create the
+vault and leave every file of yours alone. That flag works and is absent from
+the binary's own `--help`, which is worth knowing before you go looking for it
+there.
 
 ## The four files
 
-Every one is published here, byte for byte, as the manager would install it.
+Every one is published here, byte for byte, as `kscope init` installs it.
+
+They are copies, and the thing that makes the claim checkable is that they are
+copies of something named. The originals are
+`crates/kaleidoscope-manager/skills/use-kaleidoscope/SKILL.md` and
+`crates/kaleidoscope-manager/snippets/` in the product source, compiled into the
+executable, so the bytes `kscope init` writes are those and no others.
+[`/site-manifest.json`](/site-manifest.json) records, for each of the four, the
+sha256 of the source it was taken from, under `public_upstream_sha256`, and the
+build refuses to publish a copy that no longer matches its digest. The digests
+live in that file rather than in this sentence because a digest is something to
+check with, not something to read: download a file below, take its sha256, and
+compare. This page has been wrong about these bytes before, and a claim that
+nothing re-checks is how that happened.
 
 <DownloadCard href="/SKILL.md" name="SKILL.md">
 
-The skill itself — about 600 words telling an agent how to use `search` and
+The skill itself — about 1,500 words telling an agent how to use `search` and
 `remember`, when to retrieve, what is worth persisting, and what never to store.
-Goes to `.agents/skills/use-kaleidoscope/SKILL.md`.
+Claude Code reads it at `.claude/skills/use-kaleidoscope/SKILL.md`; Codex and
+OpenCode read `.agents/skills/use-kaleidoscope/SKILL.md`. It is the same file
+either way.
 
 </DownloadCard>
 
 <DownloadCard href="/snippets/AGENTS.md" name="AGENTS.md snippet">
 
-One paragraph pointing at the skill, wrapped in its markers. Appended to your
-project's `AGENTS.md`.
+The marked block for your project's `AGENTS.md`, which Codex and OpenCode read.
+It points at the skill and states the rules in short, so an agent that never
+opens the skill still has them.
 
 </DownloadCard>
 
 <DownloadCard href="/snippets/CLAUDE.md" name="CLAUDE.md snippet">
 
-The same paragraph for `CLAUDE.md`.
+The same block for `CLAUDE.md`, differing where it must: it names the skill path
+Claude Code reads, which is not the one `AGENTS.md` names.
 
 </DownloadCard>
 
 <DownloadCard href="/snippets/cursor-kaleidoscope.mdc" name="Cursor rule">
 
-The same paragraph as a Cursor project rule, with `alwaysApply: true`.
+The same block as a Cursor project rule, with `alwaysApply: true`. It names no
+skill file, because Cursor has no skill directory to read one from, and points
+at `kscope schema remember` for the write contract instead.
 
 </DownloadCard>
 
 ## What gets added to your file
 
-This is the whole of it. The two comments are the point: they mark where
-Kaleidoscope's text starts and stops.
+The two comments are the point: they mark where Kaleidoscope's text starts and
+stops.
 
-```md title="CLAUDE.md" wrap
+````md title="CLAUDE.md" wrap
 <!-- >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
 ## Kaleidoscope memory
 
-For nontrivial tasks, read and follow `.agents/skills/use-kaleidoscope/SKILL.md` before using Kaleidoscope. Use only the public `search` and `remember` tools for agent work. Retrieve at task start, persist only verified durable semantic deltas, never store secrets or transcripts, and leave the required exposure record. If the skill or authenticated tools are unavailable, continue without inventing memory operations.
-<!-- <<< kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+This project's memory across sessions: decisions made, preferences stated, constraints, corrections, and what past work produced. `search` reads it, `remember` writes it. All local -- no network, nothing leaves this machine.
+
+**Prefer the CLI when you have a shell.** One invocation costs a couple of dozen tokens; the MCP tool definitions sit in your context all session (~1,800) whether or not you call them. Use the MCP `search`/`remember` tools only when you have no shell -- same engine, same vault.
+
+```bash
+echo '{"query":"how we handle retries","top_k":5}' | kscope call --profile default search
+kscope schema remember   # the write contract, when you need it
 ```
+
+**Search before you go looking.** Before grepping, reading your way around the code, or asking the user how this project works -- search first. Code shows what *is*; memory shows what was *decided*, and why. A question already settled here must not be asked twice.
+
+**Write without being asked** when the user states a preference, makes or rejects a decision, sets a constraint, corrects you, or work produces a result worth keeping. Don't wait for "remember this", and don't batch writes to the end of the task -- write when it lands, while you still know why.
+
+**Write what you had to dig for.** Those triggers are things the *user* did; this one is you. Whatever you established by reading code, running an experiment, or ruling out a wrong answer is the most expensive thing in a session to rediscover. **That applies hardest to agents you spawn.** A subagent or workflow agent sees only the prompt you write it, so put "search Kaleidoscope first, record what you establish" in that prompt -- or write its findings yourself when it reports back.
+
+Never store secrets, transcripts, ordinary file contents, anything the code or git history already records, or ideas still in flux.
+
+A refusal names the field to fix and what to change it to: correct it and resend. One refusal is never a reason to stop using memory.
+
+Full write contract: `.claude/skills/use-kaleidoscope/SKILL.md`, or `kscope schema remember`.
+<!-- <<< kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+````
+
+The middle is elided on purpose. The block is about a page long, and a second
+copy of it living in this page's source is precisely what drifted the last time:
+the file offered above is the text, and it is the one checked against the
+source. [Read it in full](/snippets/CLAUDE.md).
 
 Nothing else in your file is touched, and nothing is added a second time if you
 run it twice.
 
-The block is a pointer, not the skill. It tells the agent to read the skill
-file, to use only `search` and `remember`, to retrieve at task start, to persist
-only verified durable changes, never to store secrets or transcripts, and to
-carry on normally if the tools are not there.
+## Where each file lands
 
-## The four targets
+The skill directory is not the same for every agent, and a skill file written to
+the wrong one is a file that is silently never loaded. `kscope init` writes the
+path the agent in front of it actually reads.
 
-| target | lands at | form |
+| what | lands at | form |
 |---|---|---|
-| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
-| `agents` | `AGENTS.md` in the project | one marked block, appended |
-| `claude` | `CLAUDE.md` in the project | one marked block, appended |
-| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+| the skill, for Claude Code | `.claude/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| the skill, for Codex and OpenCode | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| the block, for Claude Code | `CLAUDE.md` in the project | one marked block, appended |
+| the block, for Codex and OpenCode | `AGENTS.md` in the project | one marked block, appended |
+| the rule, for Cursor | `.cursor/rules/kaleidoscope.mdc` | the whole file, with frontmatter |
 
-In `AGENTS.md` and `CLAUDE.md` the block is delimited by an HTML comment pair.
-In `SKILL.md` and the Cursor rule the file *is* Kaleidoscope's, so the pair
-wraps the whole of it: the opening marker sits in the frontmatter as a `#`
-comment and the closing marker is the last line of the file. That marked pair is
-what makes a second install idempotent instead of duplicating, what makes
-removal exact, and what the manager checks before touching a file at all.
+Cursor has no skill row because it has no skill directory: asking for one there
+is refused rather than written somewhere it would not be read. All five paths are
+inside the project, which is what carries them into the worktree or the
+temporary clone an agent usually runs your work in.
 
-Six guarantees govern every one of those writes: it previews before writing; it
-asks you to confirm unless you explicitly bypass that; it leaves unrelated
-content alone; it writes atomically with a bounded backup; running it again
-changes nothing; and removal takes out only what it owns. A target that is
-unknown, conflicting, symlinked, hand-edited inside the markers, or changed
-underneath it is refused, not overwritten.
+In `AGENTS.md` and `CLAUDE.md` the block is delimited by an HTML comment pair. In
+the Cursor rule the file *is* Kaleidoscope's, so the pair wraps the whole of it:
+the opening marker sits in the frontmatter as a `#` comment and the closing
+marker is the last line. `SKILL.md` carries no marker anywhere — its frontmatter
+is `name` and `description` and nothing else — because a skill file is parsed by
+the agent that loads it, and a comment injected into that frontmatter is a file a
+strict reader can reject outright. What records ownership there is a receipt
+written beside it, `.kaleidoscope-instruction-owner.json`. Marker or receipt, the
+job is the same: it is what makes a second install idempotent instead of
+duplicating, what makes an exact removal possible, and what is read before a file
+is touched at all.
 
-## Doing it by hand, which is what you can do today
+Those writes are bounded on purpose. Each is atomic and leaves a bounded backup
+beside the file; unrelated content is left alone; running it again changes
+nothing; and a target that is unknown, conflicting, symlinked, hand-edited inside
+the markers, or changed underneath it is refused, not overwritten. A refusal
+costs you that one file and nothing else — a Cursor rule that cannot be written
+does not cost you your Claude Code registration — and none of it can undo the
+vault, which exists before any of this runs.
 
-There is no build to install yet, so the commands below are the reference for
-what they will do rather than something you can run. In the meantime the files
-above are the whole mechanism, and pasting them by hand works:
+Two things you may have read elsewhere are not on the command that ships. There
+is no preview-then-confirm step: `kscope init` applies as it goes and names each
+step as it takes it. And there is no removal command; taking the text back out is
+done by hand, by deleting the marked block including both of its comments, or the
+skill file and the receipt beside it.
 
-1. Save `SKILL.md` to `.agents/skills/use-kaleidoscope/SKILL.md` in your project.
-2. Paste the matching snippet into `AGENTS.md`, `CLAUDE.md`, or your Cursor rules
-   — **keep the two marker comments**. They are what lets Kaleidoscope adopt the
-   block later, and remove it exactly, instead of treating it as your own text.
+## Installing them
 
-## The commands, for when there is a build
+`kscope init` writes all of it, in the same run that creates the vault. It needs
+a key to run at all — [getting started](/docs/getting-started/) says how to ask
+for one.
 
 ```bash
-kaleidoscope instructions install skill  --project "$PWD"
+npm install -g @kleos-research/kaleidoscope
+cd ~/your-project
+kscope init
+```
+
+It looks for the configuration directory each agent creates in your home
+directory — `~/.claude` or `~/.claude.json`, `~/.codex`, `~/.cursor`,
+`~/.config/opencode` — and treats its existence as evidence that you run that
+agent, rather than guessing. For each one it finds it registers the memory
+server, writes the instruction file and installs the skill, printing a line per
+step. When it finds none it writes `AGENTS.md` alone and says that is what it
+did, because `AGENTS.md` is the one file every agent reads.
+
+## Doing it by hand
+
+If you ran `kscope init --no-wire`, or you use an agent this build has never
+heard of, the files above are the whole mechanism and pasting them works:
+
+1. Save `SKILL.md` to `.claude/skills/use-kaleidoscope/SKILL.md` for Claude Code,
+   or `.agents/skills/use-kaleidoscope/SKILL.md` for Codex or OpenCode.
+2. Paste the matching snippet into `AGENTS.md`, `CLAUDE.md`, or
+   `.cursor/rules/kaleidoscope.mdc` — **keep the two marker comments**. They are
+   what lets Kaleidoscope recognise the block as its own later, and remove it
+   exactly, instead of treating it as your own text and refusing to touch it.
+
+## The commands of the other program
+
+`kaleidoscope instructions install` writes one of these files at a time, and
+`instructions remove` takes one back out exactly. They belong to `kaleidoscope`,
+a second executable that is built only from the product source and published on
+no channel: you cannot obtain it, so you cannot run any of the lines below today.
+They are written down because that finer-grained half of the mechanism is real
+and is where this is going, not because there is a way to reach it.
+
+{/* not-yet-shipped */}
+
+```bash
+kaleidoscope instructions install skill  --host claude-code --project "$PWD"
 kaleidoscope instructions install agents --project "$PWD" --dry-run
 kaleidoscope instructions install agents --project "$PWD"
 kaleidoscope instructions install claude --project "$PWD"
@@ -111,11 +205,13 @@ kaleidoscope instructions remove cursor --project "$PWD" --dry-run
 kaleidoscope instructions remove cursor --project "$PWD"
 ```
 
-`--dry-run` prints the plan and changes nothing. Without `--yes` you are asked to
-confirm. `instructions remove` is the exact inverse of `instructions install`:
-it takes out the marked block and leaves the rest of the file as it was. If you
-edited inside the markers, it stops and hands the file back rather than
-overwriting your work.
+`install skill` requires `--host`, because the skill directory differs per agent
+and there is no sensible default to pick; the other three targets take no such
+flag. `--dry-run` prints the plan and changes nothing. Without `--yes` you are
+asked to confirm. `instructions remove` is the exact inverse of
+`instructions install`: it takes out the marked block and leaves the rest of the
+file as it was. If you edited inside the markers, it stops and hands the file
+back rather than overwriting your work.
 
 Full command reference: [the instructions commands](/docs/cli/instructions/).
 What the two tools actually do: [MCP reference](/docs/mcp/).

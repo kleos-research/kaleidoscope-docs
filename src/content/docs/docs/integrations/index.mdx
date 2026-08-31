@@ -1,19 +1,25 @@
 ---
 title: Editors, agents and frameworks
-description: The one command that connects each editor or agent to your local Kaleidoscope profile, and what every one of them sees.
+description: The one command that wires each editor or agent to your local Kaleidoscope vault, and what every one of them sees.
 ---
 
 Every editor and agent below talks to the same engine on your machine, over one
 long-lived process, and sees exactly two tools: `search` and `remember`. Connect
 five of them and they share one memory instead of starting five stores.
 
-| | connect it with |
+One command wires the editors. `kscope init`, run inside a project, creates that
+project's vault and then wires every agent whose own configuration
+directory already exists on this machine. What it writes is different for each
+one — a different configuration file, a different instruction file, a different
+place a skill lives — and that difference is what the pages below set out.
+
+| | wired by |
 |---|---|
-| [Claude Code](/docs/integrations/claude-code/) | `kscope connect claude` |
-| [Codex](/docs/integrations/codex/) | `kscope connect codex` |
-| [Cursor](/docs/integrations/cursor/) | `kscope connect cursor` |
-| [OpenCode](/docs/integrations/opencode/) | `kscope connect opencode` |
-| [Any other MCP client](/docs/integrations/generic-mcp/) | read the descriptor from `kscope config --json` |
+| [Claude Code](/docs/integrations/claude-code/) | `kscope init`, in the project |
+| [Codex](/docs/integrations/codex/) | `kscope init`, in the project |
+| [Cursor](/docs/integrations/cursor/) | `kscope init`, in the project |
+| [OpenCode](/docs/integrations/opencode/) | `kscope init`, in the project |
+| [Any other MCP client](/docs/integrations/generic-mcp/) | the descriptor from `kscope profile launch NAME` |
 
 Frameworks connect through their own MCP adapter, using the same descriptor:
 [Claude Agent SDK](/docs/integrations/claude-agent-sdk/) ·
@@ -22,9 +28,12 @@ Frameworks connect through their own MCP adapter, using the same descriptor:
 [LangGraph](/docs/integrations/langgraph/) ·
 [CrewAI](/docs/integrations/crewai/)
 
-There is no build to install yet, so none of these commands run today. What they
-do when there is one is described on each page.
+The build these pages describe is the one that is published:
+`npm install -g @kleos-research/kaleidoscope` gives you `kscope` today, and
+running it needs a key. [Install](/docs/packages/) covers both steps.
 [What has actually been run, and on what](/status/).
 
-Telling your agent to *use* the memory it can now reach is a separate step:
+`kscope init` also installs the skill that tells your agent when to read its
+memory and when to write to it — for Cursor, a project rule instead. What that
+document says, and how to install it by hand, is on
 [give your agent the skill](/docs/skill/).

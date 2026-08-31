@@ -1,30 +1,55 @@
 ---
 title: Codex
-description: Connect Codex to your local Kaleidoscope profile, with a dry run first and exact removal afterwards.
+description: What kscope init writes for Codex — the marked block in ~/.codex/config.toml, the AGENTS.md block, and the .agents skill.
 ---
 
-Codex reads the same local launch descriptor and the same profile as every other
-editor you connect. Kaleidoscope owns the change it makes to Codex's
-configuration, so you can preview it, and take it back out exactly.
+Codex reads the same local engine and the same profile as every other editor you
+wire. `kscope init` owns the change it makes to Codex's configuration, marks it,
+and leaves a receipt beside it, so you can see exactly what it put there.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect codex --profile default --project "$PWD" --dry-run
-kscope connect codex --profile default --project "$PWD"
-kaleidoscope instructions install agents --project "$PWD"
+cd ~/your-project
+kscope init
 ```
+
+Codex counts as present when `~/.codex` exists. Codex creates that directory
+itself, so its presence is evidence rather than a guess, and this command never
+creates it on the way to checking.
 
 ## What it writes
 
-What gets written names an absolute path to the local engine,
-`mcp --profile default`, and exactly `search` and `remember`. It does not carry
-your vault location, a provider key, or an account credential.
+The MCP entry goes in `~/.codex/config.toml`, inside a block that opens with
+`# >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 host=codex` and closes
+with the matching `<<<` line. Inside it is an `[mcp_servers.kaleidoscope]` table
+naming this executable's absolute path, `args = ["mcp", "--profile", "default"]`,
+startup and tool timeouts, and `enabled_tools = ["search", "remember"]` — Codex
+is the one editor whose own configuration states the tool list. Everything
+outside the block is a textual cut from your original file, so the rest of your
+TOML comes back byte for byte, comments and ordering included.
 
-## Disconnect
+The instruction block goes in `AGENTS.md` in the project, between marker
+comments. The skill goes in `.agents/skills/use-kaleidoscope/SKILL.md`, which is
+where Codex looks for one — the same path OpenCode reads, and not the one Claude
+Code reads.
 
-```bash
-kscope disconnect codex --project "$PWD"
-```
+What gets written does not carry your vault location, a provider key, or an
+account credential.
 
-It removes only what Kaleidoscope wrote, leaving the file as it was.
+If `~/.codex/config.toml` already contains an `[mcp_servers.kaleidoscope]` table
+that Kaleidoscope did not write, the change is refused and nothing is altered.
+The command cannot tell where its own text would end and yours begins, and
+guessing at that is worse than stopping.
+
+Restart Codex afterwards.
+
+## Removing it
+
+There is no `disconnect` on the command you have: the verb exists only in
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel. Removing the wiring is done by hand — the marked block in
+`~/.codex/config.toml`, the marked block in `AGENTS.md`, and
+`.agents/skills/use-kaleidoscope/` — with the receipt beside each one.
+[Connect an editor or agent](/docs/cli/connect/) has the whole list in one
+place.

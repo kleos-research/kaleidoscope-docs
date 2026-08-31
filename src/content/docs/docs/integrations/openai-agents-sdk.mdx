@@ -10,8 +10,11 @@ Kaleidoscope's two.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see [profiles and vaults](/docs/cli/profiles/).
 
 Create the MCP server from that descriptor as a managed resource around the run,
 and close it deterministically at the end. Do not open a fresh engine process

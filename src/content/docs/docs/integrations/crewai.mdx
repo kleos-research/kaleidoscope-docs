@@ -9,8 +9,11 @@ only the Kaleidoscope tools you choose to give the model.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see [profiles and vaults](/docs/cli/profiles/).
 
 Build the adapter from that descriptor, enter it once, select `search` and
 `remember`, run the crew, then close the context. Do not recreate the server for

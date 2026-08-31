@@ -6,15 +6,16 @@ description: The platforms Kaleidoscope is for, what is available today, and the
 Kaleidoscope targets macOS on Apple Silicon and Intel, Linux on x86_64 and
 arm64, and Windows on x86_64 and arm64.
 
-**None of them are available yet.** There is nothing to download, on any
-platform. When you install it,
-that list is what it will cover. [What is available today](/status/).
+**Four of those six are published today**, and `npm install -g
+@kleos-research/kaleidoscope` brings down the one built for your machine. You
+need a key to run it, and nothing is signed for release. Windows is the platform
+on the list you cannot install on yet. [What is available today](/status/).
 
-| platform | architectures |
-|---|---|
-| macOS | Apple Silicon, Intel |
-| Linux | x86_64, arm64 |
-| Windows | x86_64, arm64 |
+| platform | architectures | today |
+|---|---|---|
+| macOS | Apple Silicon, Intel | published on npm |
+| Linux | x86_64, arm64 | published on npm |
+| Windows | x86_64, arm64 | no package published |
 
 ## Windows creates no vault
 
@@ -24,9 +25,10 @@ way to the disk — and until that lands Kaleidoscope stops rather than writing
 memory it cannot stand behind.
 
 This is a deliberate refusal in the code, not a gap, and it is the one platform
-fact worth knowing before you plan around it. The rest of the Windows work is
-outstanding too, so do not read the refusal as the only thing between you and a
-working install there.
+fact worth knowing before you plan around it. There is no Windows package
+published for the install to bring down in the first place, and the rest of the
+Windows work is outstanding too, so do not read the refusal as the only thing
+between you and a working install there.
 
 ## What has actually been run
 

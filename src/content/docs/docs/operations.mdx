@@ -15,9 +15,16 @@ active and where it points, without printing credentials or any memory content:
 
 ```bash
 kscope profile list
-kscope config --profile default --json
-kscope doctor --project "$PWD"
+kscope where
+echo '{"mode":"inspect"}' | kscope call --profile default doctor
 ```
+
+`where` answers the narrower question: which vault a command that names none
+would resolve to from here, and where that answer came from. `doctor` in
+`inspect` mode reads health and writes nothing, and what it prints on stdout is
+counts and status fields — no memory content and no absolute paths. The line
+beside it on stderr is not part of that report: it names the resolved vault, by
+absolute path.
 
 ## Back up and restore
 
@@ -28,20 +35,34 @@ restore, or to move your memory to another machine or another path, put the
 directory back and point a profile at it:
 
 ```bash
-kscope init --profile default --root /absolute/path/to/the/vault
+kscope profile import restored /absolute/path/to/the/vault
 ```
+
+`profile import` reads the vault's own identity out of the vault and writes a
+profile pointing at it. It creates no vault and moves no canonical data, which
+is why it is the command for a directory you have put back rather than `init`,
+which will not initialise over a root that is already a vault: it leaves that
+directory exactly as it is and tells you so.
 
 ## Disconnect and uninstall
 
 These are four separate operations, and it matters that you know which one you
 are doing.
 
-- `kscope disconnect HOST` removes only the configuration Kaleidoscope
-  itself wrote into that editor. Other settings in the same file are left alone.
-- `kaleidoscope instructions remove` removes the agent guidance pointer, which
-  is a separate thing from the connection.
-- Uninstalling the package removes the executables.
-- `kaleidoscope logout` removes or revokes account credentials.
+- Removing an editor's connection means removing the Kaleidoscope entry from
+  that editor's configuration. `kscope init` wrote that entry and left a receipt
+  marking it as its own, so it is clear which block is yours to delete and which
+  settings in the same file to leave alone. There is no shipped command that
+  does the removal for you: `disconnect` and `teardown` are verbs of the
+  separate manager executable, which is published on no channel.
+- Removing the agent guidance — the instruction file and the skill that `init`
+  installed — is a separate act from removing the connection, and today it is
+  also done by hand.
+- Uninstalling the package removes the executables:
+  `npm uninstall -g @kleos-research/kaleidoscope`.
+- Removing account credentials would be the fourth. There is nothing to remove
+  today: there is no account to sign in to, and the commands that would sign you
+  out are in the unpublished manager.
 
 None of the four deletes a vault. Your memory survives all of them.
 
@@ -59,18 +80,22 @@ removes the files.
 Installing, updating, rolling back to the previous version, and uninstalling
 have each been run on a Mac with Apple Silicon and behaved correctly, and a
 vault kept alongside was byte-for-byte identical afterwards. That is the whole
-of what has been established. Nothing is signed for production, and there is no
-channel to update from yet, so this is not a supported update path — it is a
-mechanism we have run once, on one machine.
+of what has been established. npm is the channel, and naming a version —
+`npm install -g @kleos-research/kaleidoscope@<version>` — is how you pin one and
+how you go back to one. Nothing is signed for production, and the sequence above
+has been run once, on one machine, so read it as a mechanism we have tried
+rather than a supported update path.
 
 ## What gets installed
 
-Two things: a language package for npm or Python, and a second package built for
-your platform. The language package holds the client library and the
-`kscope` command; the platform package holds the manager and
-the engine, as object code. There is no install hook, runtime download,
-compiler, or source-build fallback — nothing is fetched or built on your machine
-after the download. The engine source is not in the package.
+Two things: the npm package `@kleos-research/kaleidoscope`, and a second package
+built for your platform. The npm package holds the client library and the
+`kscope` command; the platform package holds one program — the engine as object
+code, with the setup half of the manager compiled into it. There is no install
+hook, runtime download, compiler, or source-build fallback — nothing is fetched
+or built on your machine after the download. The engine source is not in the
+package. There is no Python package to install: `kscope-memory` on PyPI is a
+0.0.0 placeholder, and nothing else of ours is registered there.
 
 ## Encrypted vaults, on a Mac
 

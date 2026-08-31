@@ -315,20 +315,35 @@ class SourceContractTest(unittest.TestCase):
                 )
 
     def test_public_machine_records_have_no_private_coordinates(self) -> None:
-        values = "\n".join(
+        # The three records this site AUTHORS are held to everything.
+        authored = "\n".join(
             [
-                self.data("kaleidoscope-cli.txt").read_text(encoding="utf-8"),
                 self.data("mcp-reference.json").read_text(encoding="utf-8"),
                 self.data("status.json").read_text(encoding="utf-8"),
                 self.data("platform-support.json").read_text(encoding="utf-8"),
             ]
         )
         for marker in verify_site.PRIVATE_MARKERS:
-            self.assertNotIn(marker, values)
+            self.assertNotIn(marker, authored)
         for pattern in verify_site.BANNED_VOCABULARY:
             self.assertIsNone(
-                re.search(pattern, values.lower()),
+                re.search(pattern, authored.lower()),
                 f"internal vocabulary matching {pattern} in a public machine record",
+            )
+
+        # The CLI help is REPUBLISHED, not authored: it is `kscope --help`,
+        # captured verbatim from the executable the npm package installs. It is
+        # held to the path markers, which no published artifact may ever carry,
+        # and not to the house vocabulary or to the four environment names the
+        # shipped binary prints itself. Editing it to satisfy either would make
+        # it a paraphrase, and a paraphrase is the thing this file exists to
+        # stop being published.
+        republished = self.data("kaleidoscope-cli.txt").read_text(encoding="utf-8")
+        for marker in verify_site.PRIVATE_MARKERS:
+            self.assertNotIn(
+                marker,
+                republished,
+                f"{marker} in a republished artifact: no exemption reaches a path",
             )
         status = json.loads(self.data("status.json").read_text(encoding="utf-8"))
         # These three flipped when 0.0.5 published. The assertion is kept, not

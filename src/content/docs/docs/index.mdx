@@ -19,23 +19,34 @@ we will send you one. There is no account to create and no sign-in.
 - [Give your agent the skill](/docs/skill/) — the file that tells an agent
   Kaleidoscope exists, what it writes into your instruction file, and the four
   files offered for download.
-- [Install](/docs/packages/) — the two package names, what is inside each, and
-  why you cannot get them yet.
+- [Install](/docs/packages/) — the one command that installs it, what lands on
+  your disk, and what your machine needs.
 - [Concepts](/docs/concepts/) — profile, vault, engine, manager, account: which
   is which, and which owns what.
 
 ## The command line
 
-- [CLI overview](/docs/cli/) — the two global flags and the safety invariants
-  that govern every subcommand.
-- [Profiles and vaults](/docs/cli/profiles/) — `init` and the `profile`
-  commands.
-- [Connect an editor](/docs/cli/connect/) — `connect` and `disconnect`.
-- [Agent instructions](/docs/cli/instructions/) — `instructions install` and
-  `remove`, and the four targets.
-- [Diagnostics](/docs/cli/diagnostics/) — `config` and `doctor`.
-- [Account commands](/docs/cli/account/) — the whole account surface, none of
-  which runs yet.
+- [CLI overview](/docs/cli/) — the whole `kscope` surface grouped by what each
+  command is for, the flags there are, and the safety invariants that govern
+  every subcommand.
+- [Profiles and vaults](/docs/cli/profiles/) — `init`, `init-profile`, the
+  `profile` commands, and `where`.
+- [Connect an editor](/docs/cli/connect/) — `kscope init`, and what it writes
+  into your editor's configuration.
+- [Agent instructions](/docs/cli/instructions/) — the instruction file and the
+  skill `kscope init` installs, and where each editor reads them from.
+- [Diagnostics](/docs/cli/diagnostics/) — `where`, `gate`, `model` and
+  `call doctor`.
+- [Account commands](/docs/cli/account/) — the account surface, none of which
+  ships, and `activate`, which is what there is instead.
+
+Several verbs written down elsewhere are not in the command you can install.
+`connect`, `disconnect`, `config`, `doctor`, `teardown`, `profile use`,
+`instructions install` and every account command belong to a separate
+`kaleidoscope` executable that is published on no channel, so they are commands
+you cannot obtain rather than commands you can run. What ships in their place is
+`kscope init`, which does the wiring and installs the instruction file and the
+skill itself, and `kscope call doctor`, which is the diagnostic.
 
 ## Reference
 
@@ -68,8 +79,8 @@ we will send you one. There is no account to create and no sign-in.
   the one thing Windows does differently.
 - [Benchmarks](/docs/benchmarks/) — what we measured, in plain words, and what
   we did not measure.
-- [Release notes](/docs/release-notes/) — there have been none; this is where
-  they will appear.
+- [Release notes](/docs/release-notes/) — which version is current, and where
+  the versions after it will be listed.
 
 ## If you are a machine
 

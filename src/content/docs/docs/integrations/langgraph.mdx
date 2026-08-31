@@ -9,8 +9,11 @@ graph's tool node for the length of the run.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see [profiles and vaults](/docs/cli/profiles/).
 
 Open the adapter before you execute the graph, pass the two tools into the tool
 node, and close it once execution finishes. The same session is reused across

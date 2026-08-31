@@ -1,40 +1,56 @@
 ---
 title: Cursor
-description: What Kaleidoscope writes for Cursor, the second file its project rule lives in, and how to take both back out.
+description: What kscope init writes for Cursor — the MCP entry in ~/.cursor/mcp.json, the project rule, and why Cursor gets no skill.
 ---
 
 Cursor uses the same local command and the same two tools as every other editor.
-Kaleidoscope makes the change to Cursor's JSON reversible, and adds a small
-project rule only if you ask for one.
+`kscope init` wires it when it can see it, and what it writes for Cursor differs
+from every other editor in one way worth knowing about.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect cursor --profile default --project "$PWD" --dry-run
-kscope connect cursor --profile default --project "$PWD"
-kaleidoscope instructions install cursor --project "$PWD"
+cd ~/your-project
+kscope init
 ```
+
+Cursor counts as present when `~/.cursor` exists. Cursor creates that directory
+itself; this command does not create it in order to find it.
 
 ## What it writes
 
-The MCP server entry goes into Cursor's JSON configuration. Entries you added
-yourself are left untouched. A tampered marker, a name that conflicts, a
+The MCP server entry goes in `~/.cursor/mcp.json`, under `mcpServers` as
+`kaleidoscope`: this executable's absolute path and the arguments
+`mcp --profile default`. Entries you added yourself are left untouched, and a
+receipt is written beside the file. A tampered marker, a name that conflicts, a
 malformed file, a symlink, or a file being edited at the same time is refused
 and handed back to you rather than overwritten.
 
+The instructions go in `.cursor/rules/kaleidoscope.mdc` in the project, a rule
+file whose frontmatter carries `alwaysApply: true`, so Cursor reads it on every
+turn rather than when it happens to look.
+
+The entry carries no vault location, provider key or account credential.
+
 ## The one thing that is different here
 
-The project rule is a **second, separate file** from the MCP configuration.
-`connect cursor` writes the server entry; `instructions install cursor` writes
-the rule. They are installed and removed independently, so removing one leaves
-the other in place. If Cursor can see the tools but ignores them, it is usually
-the rule that is missing — see [give your agent the skill](/docs/skill/).
+Cursor is the only one that gets no skill. It has no skill directory to
+install one into, so `kscope init` does not attempt it, and the rule file is
+the whole of what tells Cursor how to use the memory it can now reach — where
+Claude Code, Codex and OpenCode get an instruction file *and* a
+`use-kaleidoscope` skill beside it.
 
-## Disconnect
+That makes the rule the thing to check first. If Cursor can see the tools but
+never uses them, it is usually `.cursor/rules/kaleidoscope.mdc` that is missing
+or has been edited — see [give your agent the skill](/docs/skill/).
 
-```bash
-kscope disconnect cursor --project "$PWD"
-kaleidoscope instructions remove cursor --project "$PWD"
-```
+## Removing it
 
-Each removes only what Kaleidoscope wrote. Run both if you installed both.
+There is no `disconnect` on the command you have: the verb exists only in
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel. Take the two pieces out by hand — the `kaleidoscope` entry in
+`~/.cursor/mcp.json` and `.cursor/rules/kaleidoscope.mdc` — each with the
+receipt written beside it. They were installed independently and they come out
+independently, so removing one leaves the other in place.
+[Connect an editor or agent](/docs/cli/connect/) has the whole list in one
+place.

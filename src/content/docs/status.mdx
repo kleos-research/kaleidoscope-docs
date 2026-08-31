@@ -5,6 +5,29 @@ description: Whether Kaleidoscope is available, whether anything is down, what v
 import status from '../../data/status.json';
 import release from '../../../public-docs-release.json';
 
+{(() => {
+  // The release version is authored in ONE place, public-docs-release.json,
+  // which the build reads fail-closed before Vite starts. This page renders
+  // that value and nothing else.
+  //
+  // src/data/status.json also carries the number, because it is static data
+  // served byte for byte at /status.json and inlined into llms-full.txt: it
+  // cannot import, so its copy has to be a literal. This is what keeps the
+  // literal honest. A bump that changes one file and forgets the other stops
+  // the build here, on the one page that would otherwise print both and let
+  // them disagree in public. It renders nothing.
+  if (status.packages.version !== release.release_version) {
+    throw new Error(
+      'the release version disagrees with itself: public-docs-release.json says ' +
+        release.release_version +
+        ' and src/data/status.json says ' +
+        status.packages.version +
+        '. public-docs-release.json is the author; change status.json to match it.',
+    );
+  }
+  return '';
+})()}
+
 <p class="k-meta">As of {status['as of']}</p>
 
 Kaleidoscope is installable and needs a key to run. Nothing is signed for
@@ -36,7 +59,9 @@ macOS and Linux, on Apple Silicon and x86_64. Windows is not supported yet.
 
 You need a key to run it — email
 [contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz). There is no
-Python package; `kaleidoscope-memory` was planned and never registered.
+Python package you can use: `kscope-memory` is registered on PyPI, but only as a
+0.0.0 placeholder that ships no working code and says as much in its own
+summary, and `kaleidoscope-memory` was planned and never registered.
 
 Nothing is signed for release, so what you install is unsigned software on your
 machine. That is on the list to fix.
@@ -61,17 +86,24 @@ this project has today:
 
 - [The two tools a model sees](/reference/kaleidoscope-mcp.json) — `search` and
   `remember`, and nothing else. No operator command is ever a model tool.
-- [The full command-line help](/reference/kaleidoscope-cli.txt) — every command
-  and flag of the local manager, verbatim.
+- [The full command-line help](/reference/kscope-cli.txt) — every command and
+  flag of `kscope`, verbatim. It is the help text of the one program that
+  installs: there is no second executable to install, so a command it does not
+  name is one no download of ours gives you. It is a page about commands rather
+  than a complete inventory of behaviour — `--no-wire`, for one, works and is
+  not on it.
 
 ## What we have actually run
 
 This is the part that is easy to overstate, so it is stated flatly.
 
 **Machines.** Kaleidoscope has been run on one kind of machine: a Mac with Apple
-Silicon. Everything else on the platform list has had a compiler check of the
-memory engine's source and nothing more — nothing was assembled into a program,
-nothing was linked, and nothing has been run there.
+Silicon. It is built and published for four — macOS on Apple Silicon and x86_64,
+Linux on arm64 and x86_64 — so on any of them there is something to install. A
+build existing for a platform is not the same as our having run it there, and on
+the other three we have not, which is what this section is for. Windows on x86_64 has had a compiler check of the
+memory engine's source and nothing more: nothing was assembled into a program for
+it, nothing was linked, and nothing has been run there.
 
 **Editors and agents.** From the command line, on that Mac:
 
@@ -99,5 +131,6 @@ and CrewAI have been run against stand-in models, never a live provider.
 editor's graphical interface, any platform other than a Mac with Apple Silicon,
 and any package installed from a registry.
 
-The same facts, in machine-readable form: [status.json](/status.json) and
-[platform-support.json](/platform-support.json).
+The same facts, in machine-readable form: [status.json](/status.json) for the
+status above, and [platform-support.json](/platform-support.json) for the
+platform matrix, which is stated there and nowhere else.

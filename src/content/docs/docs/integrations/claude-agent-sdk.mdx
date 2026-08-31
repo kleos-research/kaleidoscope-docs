@@ -10,8 +10,11 @@ process, for the whole run.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see [profiles and vaults](/docs/cli/profiles/).
 
 Put that descriptor in the SDK's own stdio MCP configuration. One client, opened
 around the run and closed at the end — not a fresh engine process per tool call.

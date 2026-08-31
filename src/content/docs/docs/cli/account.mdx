@@ -1,18 +1,44 @@
 ---
 title: Account commands
-description: login, status, logout, account, devices and profile account — the whole account surface, and why none of it runs today.
+description: login, status, logout, account, devices — an account surface that is not shipped yet, and the key command that is.
 ---
 
-None of the commands on this page work today. Every one that reaches the account
-service answers `provider not configured`, because no sign-in service is
-configured or published. They are listed so you can see the shape of what
-signing in will and will not do.
+None of the commands on this page ships. Every one of them belongs to
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel — so they are not commands that fail for you, they are commands you
+cannot obtain. Even built from source they would go no further: each one that
+reaches the account service answers `provider not configured`, because no sign-in
+service is configured or published either.
 
-You do not need an account to use Kaleidoscope. Your memory lives on your
-machine and has never needed one.
+They are written down here so you can see the shape of what signing in will and
+will not do when it arrives.
 
-## Sign in and out
+## What there is instead
 
+The alpha is opened by a key, not by an account. Email
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz) for one, and then:
+
+```bash
+kscope activate
+```
+
+`activate` takes the key from `KALEIDOSCOPE_API_KEY`, from the key file, or from
+standard input; stores it at the path `kscope gate` reports, so an engine your
+editor starts with an empty environment still finds it; and waits for the verdict
+rather than leaving the next command to discover an empty cache. It is the whole
+of the account-shaped surface on the executable you installed.
+
+You do not need an account to use Kaleidoscope. Your memory lives on your machine
+and has never needed one.
+
+## The surface, when it arrives
+
+Everything from here down is `kaleidoscope`, not `kscope`. None of it runs on the
+command you have.
+
+### Sign in and out
+
+{/* not-yet-shipped */}
 ```bash
 kaleidoscope login
 kaleidoscope login --device
@@ -28,14 +54,15 @@ machine with no browser.
 `logout` removes or revokes your credentials according to the scope you chose.
 `--all-devices` ends every session on the account; `--local-only` removes the
 credential from this machine and warns you that it has not revoked anything
-remotely. Neither changes which profile is active, and neither alters a byte of
-your vault.
+remotely. Neither changes which profile a command resolves to, and neither alters
+a byte of your vault.
 
 `kaleidoscope status` reports your account session on this machine. It is not
 related to the [status page](/status/), which is about what is available.
 
-## Linked sign-in providers
+### Linked sign-in providers
 
+{/* not-yet-shipped */}
 ```bash
 kaleidoscope account link PROVIDER
 kaleidoscope account identities
@@ -49,34 +76,40 @@ needs; it lists those IDs and nothing else.
 `account revoke-session` has the deliberately narrow meaning of revoking the
 session you are currently using. It does not deactivate an account.
 
-## Devices
+### Devices
 
+{/* not-yet-shipped */}
 ```bash
 kaleidoscope devices list
 kaleidoscope devices revoke DEVICE_UUID
 ```
 
-The devices attached to your account, and how to detach one. Revoking a device
-is an account operation; the vault on that device is untouched.
+The devices attached to your account, and how to detach one. Revoking a device is
+an account operation; the vault on that device is untouched.
 
-## Local account reference
+### Local account reference
 
+{/* not-yet-shipped */}
 ```bash
-kscope profile account show [NAME]
-kscope profile account bind ACCOUNT_UUID [NAME]
-kscope profile account unbind [NAME]
+kaleidoscope profile account show [NAME]
+kaleidoscope profile account bind ACCOUNT_UUID [NAME]
+kaleidoscope profile account unbind [NAME]
 ```
 
-These three are the exception: they work offline, because they never leave your
-machine. They write a non-secret account ID into your local profile and nothing
-more — they do not start the engine, contact any service, touch a vault, or
-store a credential.
+These three would work offline, because they never leave your machine: they write
+a non-secret account ID into a local profile and nothing more — no engine
+started, no service contacted, no vault touched, no credential stored. They are
+still manager commands, so they are still not commands you can run.
 
 ## The boundary
 
-Account traffic goes to a closed list of account-only routes and never touches
-the memory engine. A guard rejects memory fields, profile fields and absolute
-local paths before anything is sent.
+On the executable that ships there is no boundary to police, because there is no
+account traffic: `kscope` carries no account commands at all, and `activate`
+speaks only about your key.
+
+In the manager, account traffic goes to a closed list of account-only routes and
+never touches the memory engine. A guard rejects memory fields, profile fields
+and absolute local paths before anything is sent.
 
 What signing in would mean, and where a credential would be kept:
 [Account and devices](/docs/account/).

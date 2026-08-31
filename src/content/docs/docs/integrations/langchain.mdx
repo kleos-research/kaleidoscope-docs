@@ -9,8 +9,11 @@ a single adapter session.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see [profiles and vaults](/docs/cli/profiles/).
 
 Give that descriptor to the LangChain MCP adapter. Open the stdio adapter once
 around the agent run you intend, load the two tools, then close the adapter when

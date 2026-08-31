@@ -47,6 +47,18 @@ This creates the vault — a `.kaleidoscope` folder in your project, added to yo
 `.gitignore` — and wires up whichever agent you use. It knows Claude Code,
 Codex, Cursor and OpenCode, and it writes an `AGENTS.md` for anything else.
 
+For each agent it finds, it registers the memory server in that agent's own
+configuration and writes the instruction file that agent reads — a marked block
+in `CLAUDE.md` for Claude Code, in `AGENTS.md` for Codex and OpenCode, and the
+whole of `.cursor/rules/kaleidoscope.mdc` for Cursor. Those three also get the
+`use-kaleidoscope` skill installed where they look for skills; Cursor has
+nowhere to put one, so it gets the rule file and nothing more. It prints what it
+wired and then each step it took, so what changed is on your screen rather than
+left for you to find later.
+
+If you would rather write those entries yourself, `kscope init --no-wire`
+creates the vault and leaves every configuration file alone.
+
 It only touches the part of your editor's configuration that belongs to
 Kaleidoscope. If it finds a Kaleidoscope entry someone added by hand, it stops
 and tells you rather than overwriting your work.

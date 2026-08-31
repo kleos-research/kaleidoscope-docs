@@ -3,8 +3,8 @@ title: Diagnostics
 description: Where your vault is, whether the engine is complete, and whether your key is working.
 ---
 
-Four commands answer the questions you are likely to have when something looks
-wrong. None of them reads or changes a single memory.
+Four questions come up when something looks wrong. A command answers each, and
+none of those commands reads or changes a single memory.
 
 ## Where is my memory?
 
@@ -50,5 +50,12 @@ kscope vault-verify /path/to/.kaleidoscope
 
 Counts what is stored and reports whether the copies agree. It reads only.
 
-For a deeper report, `kscope call doctor` runs the full diagnostic and returns
-JSON. It is an operator command, so your agent is never offered it.
+For a deeper report, `call doctor` runs the full diagnostic and returns JSON.
+Like every `call`, it reads one JSON request from standard input, and `inspect`
+is the mode that only looks:
+
+```bash
+echo '{"mode":"inspect"}' | kscope call doctor
+```
+
+It is an operator command, so your agent is never offered it.

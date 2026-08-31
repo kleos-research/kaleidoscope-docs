@@ -1,35 +1,54 @@
 ---
 title: Claude Code
-description: Add Kaleidoscope to Claude Code as one local MCP server entry, plus an optional project pointer to the skill.
+description: What kscope init writes for Claude Code — the MCP entry in ~/.claude.json, the CLAUDE.md block, and the project skill.
 ---
 
-Claude Code gets one local MCP server definition from you, and optionally a
-short project pointer to the public skill. Everything Kaleidoscope writes is
-marked as its own, so it can take it back out.
+Claude Code is wired by the same command as everything else. `kscope init`, run
+in a project, sees Claude Code on this machine and does three things for it:
+registers the memory server, writes the instruction block, and installs the
+skill. Everything it writes is marked as its own, so you can find it again.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect claude --profile default --project "$PWD" --dry-run
-kscope connect claude --profile default --project "$PWD"
-kaleidoscope instructions install claude --project "$PWD"
+cd ~/your-project
+kscope init
 ```
+
+Claude Code counts as present when `~/.claude` or `~/.claude.json` exists. Both
+are written by Claude Code itself, and neither is a path this command would
+create on its way to looking, so its absence means Claude Code is left alone
+rather than given a configuration file it never asked for.
 
 ## What it writes
 
-Only the entry Kaleidoscope owns is written to `.mcp.json`; the rest of your
-file is left alone. If the ownership markers have been edited or the file is
-ambiguous, the change is refused rather than guessed at. The entry publishes
-only `search` and `remember`.
+The MCP entry goes in `~/.claude.json`, under `mcpServers` as `kaleidoscope`:
+`"type": "stdio"`, this executable's absolute path, and the arguments
+`mcp --profile default`. That file is Claude Code's own live configuration and
+is usually large; only the entry Kaleidoscope owns is written, the rest comes
+back as it was, and a receipt is left beside it in
+`~/.claude.json.kaleidoscope-owner.json`.
 
-`instructions install claude` is separate from the connection: it appends the
-marked pointer block to `CLAUDE.md`. See
-[give your agent the skill](/docs/skill/).
+The instruction block goes in `CLAUDE.md` in the project, between
+`kaleidoscope-manager` marker comments, with the rest of the file untouched.
 
-## Disconnect
+The skill goes in `.claude/skills/use-kaleidoscope/SKILL.md` in the project.
+That is where Claude Code looks for a skill; it does not read `.agents/skills/`,
+which is why this path differs from the one Codex and OpenCode get.
 
-```bash
-kscope disconnect claude --project "$PWD"
-```
+The server those entries start publishes only `search` and `remember`. Nothing
+written carries your vault location, a provider key, or an account credential.
 
-It removes only what Kaleidoscope wrote.
+Restart Claude Code afterwards. Until you do, it is still running with the
+configuration it started with.
+
+## Removing it
+
+There is no `disconnect` on the command you have: the verb exists only in
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel. So you take the wiring out by hand — the `kaleidoscope` entry in
+`~/.claude.json`, the marked block in `CLAUDE.md`, and
+`.claude/skills/use-kaleidoscope/` — along with the receipt beside each one,
+which is the record of what was put there.
+[Connect an editor or agent](/docs/cli/connect/) has the whole list in one
+place.

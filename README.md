@@ -41,8 +41,10 @@ by `npm run promote` and is never hand-edited.
 
 ## What the site says, and the rule that governs it
 
-Kaleidoscope is not released. Every page states status as **what a reader can
-and cannot do** — not as what an internal check verified. Concretely:
+Kaleidoscope is published: `npm install -g @kleos-research/kaleidoscope`
+installs the `kscope` command, and it needs a key to run. Every page states
+status as **what a reader can and cannot do** — not as what an internal check
+verified. Concretely:
 
 - Never claim something works that has not been run. `/status/` is the single
   place that says what has been run, on what, and what has not.
@@ -52,16 +54,28 @@ and cannot do** — not as what an internal check verified. Concretely:
   `src/data/platform-support.json` — which is the one place they were ever
   accurate. Pages state availability plainly instead. A `partly tested` row in
   the record must still say which part, and a test enforces it.
-- A compiler check is not a build. Four platforms have had a compiler check for
-  the memory engine and nothing else: nothing was assembled into a program for
-  them and nothing has ever run there. Calling that "builds for this target"
-  reads as a working build and is the one claim this repository has already had
-  to retract. `/docs/compatibility/` says Kaleidoscope *targets* those
-  platforms, and the verb is deliberate.
-- Pre-release honesty is required, not optional. Say plainly that nothing
-  installs from a registry, nothing is signed, sign-in does not work, and the
-  product terms are unreviewed drafts. The status strip carrying the first of
-  these is now checked on every page rather than trusted.
+- A compiler check is not a build, and the two must never be stated as one
+  thing. Four platform packages are built, published and installable; three of
+  the four targets that had only a compiler check were later built and published
+  and appear under both headings in `src/data/platform-support.json`, while
+  Windows on x86_64 had the compiler check and nothing more. Calling a compiler
+  check "builds for this target" reads as a working build and is the one claim
+  this repository has already had to retract. Neither heading establishes that
+  anything has ever *run* on a platform: that is a third column, and only macOS
+  on Apple Silicon is in it.
+- Saying what is missing is required, not optional. Nothing is signed for
+  release, there is no account to sign in to and no command that would use one,
+  the product terms are reviewed but not yet in force, and the full benchmark
+  method is not published. Say each of them plainly rather than letting a
+  reader infer it from silence. The status strip is checked on every page
+  rather than trusted.
+- A reader must never be handed a command they cannot run without being told
+  so. One executable ships, `kscope`; `connect`, `disconnect`, `config`,
+  `doctor` and `profile use` are verbs of `kaleidoscope`, a second program
+  published on no channel. The command gate in `verify_site.py` checks every
+  fenced shell line against the recorded surface in
+  `src/data/kscope-surface.json` so that this is enforced rather than
+  remembered.
 - Benchmark results are stated in plain words; the full method is not published
   yet, and **no page carries a statistic** — no confidence interval, no p-value,
   no "significant", no "±". Accuracy comes from choosing claims that need no
@@ -108,6 +122,22 @@ The four product terms under `src/data/legal/` and the agent skill at
 not edited from here. `site-manifest.json` binds each of them to the sha256 of
 the source it claims to reproduce, so an edit made "just on the website" fails
 the build.
+
+That binding compares the published file to a file in *this* repository, which
+catches an edit to the built page and nothing else. For the files this
+repository does not author, the copy was free to drift from the thing it is a
+copy of — and it had: the skill and the three instruction snippets were three
+generations behind the bytes `kscope init` actually installs.
+`PUBLIC_UPSTREAM_SOURCES` in `scripts/make_manifest.py` closes that half. Each
+entry records where the bytes came from and the sha256 they had when they were
+taken, the manifest step refuses when the local copy no longer matches, and
+`public_upstream_sha256` carries the record into the artifact. A recorded
+digest cannot notice that upstream has moved on; what it does is make the two
+disagree out loud the moment either side is edited, which is the failure that
+actually happened. Every bound source must be in exactly one of
+`PUBLIC_UPSTREAM_SOURCES`, `UNRECORDED_UPSTREAM` or `AUTHORED_HERE`, and one in
+none of them is refused, because the way this check stops working is a new file
+that quietly belongs to no category.
 
 ## The four gates
 
@@ -158,7 +188,7 @@ The property is three claims, enforced in three places.
    in CI still compares every collapsed file in full.
 
    **One weakening that nothing compensates for:** the artifact is not bound to
-   the MDX sources. `site-manifest.json`'s `public_source_sha256` covers the 12
+   the MDX sources. `site-manifest.json`'s `public_source_sha256` covers the 13
    verbatim republished files only, so a reader of the committed tree alone
    cannot tell which source revision produced it. Only CI's rebuild can. That is
    a real reduction against the old model, and it is not mitigated here.

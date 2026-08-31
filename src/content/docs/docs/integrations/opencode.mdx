@@ -1,43 +1,56 @@
 ---
 title: OpenCode
-description: Connect OpenCode using its stable v1 configuration, or ask explicitly for the beta v2 shape.
+description: What kscope init writes for OpenCode, which of the two configuration shapes it picks, and how it decides which.
 ---
 
 OpenCode stable v1 and beta v2 want different configuration shapes. Kaleidoscope
 never guesses which one you are on and never quietly moves you between them.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect opencode --profile default --project "$PWD" --dry-run
-kscope connect opencode --profile default --project "$PWD"
+cd ~/your-project
+kscope init
 ```
 
-Stable v1 is what you get if you say nothing.
-
-## The one thing that is different here
-
-The two configuration shapes are genuinely different, and which one you get is a
-flag:
-
-```bash
-kscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
-```
-
-The stable entry is a direct local command. Beta v2 uses the explicit server
-shape with code mode turned off, so `search` and `remember` stay visible to the
-model. If your file already contains both shapes, the change is refused rather
-than resolved for you.
+OpenCode counts as present when `~/.config/opencode` or `~/.opencode` exists.
+OpenCode creates those itself; this command does not create one in order to find
+it.
 
 ## What it writes
 
-One entry, in whichever shape applies, naming the local engine and
-`mcp --profile NAME`. It carries no vault location, provider key or credential.
+The MCP entry goes in `~/.config/opencode/opencode.json`. In the stable v1
+shape that is `mcp.kaleidoscope`, with `"type": "local"`, `"enabled": true`, and
+a `command` array holding this executable's absolute path followed by `mcp`,
+`--profile` and `default`. Only that entry is written; the rest of the file
+comes back as it was, and a receipt is left beside it.
 
-## Disconnect
+The instruction block goes in `AGENTS.md` in the project, and the skill in
+`.agents/skills/use-kaleidoscope/SKILL.md` — the same two paths Codex reads,
+because OpenCode reads them too.
 
-```bash
-kscope disconnect opencode --project "$PWD"
-```
+The entry carries no vault location, provider key or account credential.
 
-It removes only what Kaleidoscope wrote.
+## The one thing that is different here
+
+Which of the two shapes you get is read off your file rather than chosen for
+you. An `opencode.json` with no Kaleidoscope entry gets stable v1. One that
+already has an `mcp.servers` object — the beta v2 container — gets beta v2
+instead: the entry goes to `mcp.servers.kaleidoscope` and carries
+`"codemode": false`, so `search` and `remember` stay visible to the model as
+tools. If both shapes are present, or the shape in your file conflicts with the
+one Kaleidoscope already owns, the change is refused and handed back for you to
+resolve.
+
+The command you have takes no flag for this. `--opencode-version` belongs to
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel; on `kscope` the shape follows the file.
+
+## Removing it
+
+There is no `disconnect` on the command you have either. Take the wiring out by
+hand — the `kaleidoscope` entry in `~/.config/opencode/opencode.json`, the
+marked block in `AGENTS.md`, and `.agents/skills/use-kaleidoscope/` — with the
+receipt beside each one, which is the record of what was put there.
+[Connect an editor or agent](/docs/cli/connect/) has the whole list in one
+place.
