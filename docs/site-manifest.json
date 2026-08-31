@@ -122,8 +122,8 @@
     },
     {
       "path": "docs/compatibility/index.html",
-      "sha256": "7d735a2b95023bf54d936aa5c9a3b1200d352bf5a2136c5f7583f76a9fd680bb",
-      "size_bytes": 32035
+      "sha256": "a62779bd1de8d3e8250d3153d0d8a899df73d6dd63c7dbbbda0d23d13d44530e",
+      "size_bytes": 32228
     },
     {
       "path": "docs/concepts/index.html",
@@ -217,8 +217,8 @@
     },
     {
       "path": "docs/legal/security-policy/index.html",
-      "sha256": "92dad9a99192aaa5daecd9e646bf8f3d18846b8f3c0517c87486da46f3fb8a44",
-      "size_bytes": 56833
+      "sha256": "c6d727666c944dec2789ea2033a447c34e26c65ac5d92e53d8919141314a0508",
+      "size_bytes": 56793
     },
     {
       "path": "docs/legal/support-policy/index.html",
@@ -312,8 +312,8 @@
     },
     {
       "path": "legal/SECURITY-POLICY.txt",
-      "sha256": "6b9d1f4142f0e90dc7c860115631f4bc3e993ee8047d918bb22ab157ab225cf5",
-      "size_bytes": 27478
+      "sha256": "b05e2170adf7ca9690553ba065527f4192d3ea0ad8b4d188c70b7d85f11acaee",
+      "size_bytes": 27438
     },
     {
       "path": "legal/SUPPORT-POLICY.txt",
@@ -322,8 +322,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "0b38e6ed57e3af3624393e2f3c54b646b9246e5d0d517e3d7e2c472c1357afa4",
-      "size_bytes": 92065
+      "sha256": "ddd6be9f7f07659152c7b9297883d51d3c5049eab6335e2b9447d3e2336bc903",
+      "size_bytes": 92581
     },
     {
       "path": "llms.txt",
@@ -377,8 +377,8 @@
     },
     {
       "path": "status.json",
-      "sha256": "ad2323c261ffbd720051fdd6ab3658488a510342227bbe6d0f9cb66e7f87cc6c",
-      "size_bytes": 5803
+      "sha256": "c0487f15a8a608f745d07fa4c1cfa67dcdab4133e66181d4eb5b6ea069bd8edc",
+      "size_bytes": 6126
     }
   ],
   "mode": "public_docs",
@@ -389,7 +389,7 @@
     "legal/CC-BY-4.0.txt": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
     "legal/ENGINE-EULA.txt": "7639bf688ac6064bbe6b93fe7a43b677684500e293103ea25eb3caab7b297f0a",
     "legal/PRIVACY-NOTICE.txt": "2532e57e649d62e147aef79e8dc3fa6026c2f2644a74283d32d0d6cb937f40ec",
-    "legal/SECURITY-POLICY.txt": "6b9d1f4142f0e90dc7c860115631f4bc3e993ee8047d918bb22ab157ab225cf5",
+    "legal/SECURITY-POLICY.txt": "b05e2170adf7ca9690553ba065527f4192d3ea0ad8b4d188c70b7d85f11acaee",
     "legal/SUPPORT-POLICY.txt": "67f784785e2abb09fa2fc5de905b0cf5f8b55a267b0e9bfb3b63ff7e16f78ebb",
     "reference/kaleidoscope-cli.txt": "2d1b21ab01bc3bd2f3013b694648027c3ed635ce34a3a74d8c49d6656bffd583",
     "snippets/AGENTS.md": "86134dc05ebbcf60b4cafb9f884daa1b75d18e7ff67d1060ed8b1856052e9814",
