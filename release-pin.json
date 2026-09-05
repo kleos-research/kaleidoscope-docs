@@ -1,0 +1,105 @@
+{
+  "availability": "available_with_key",
+  "channels": {
+    "npm": {
+      "entry_package": "@kleos-research/kaleidoscope",
+      "platform_packages": {
+        "darwin-arm64": "@kleos-research/kaleidoscope-darwin-arm64",
+        "darwin-x64": "@kleos-research/kaleidoscope-darwin-x64",
+        "linux-arm64": "@kleos-research/kaleidoscope-linux-arm64",
+        "linux-x64": "@kleos-research/kaleidoscope-linux-x64"
+      }
+    }
+  },
+  "executables": {
+    "darwin-arm64": {
+      "bytes": 22993280,
+      "sha256": "24fc3a87f6007f3f0092172b89c01caf554ff32def4f388680d4d8d55c085d3e"
+    },
+    "darwin-x64": {
+      "bytes": 25340056,
+      "sha256": "d2bc528dc01c6ee747da80fd674f5f13a760ae3afc96257918a29e2aae6fa03c"
+    },
+    "linux-arm64": {
+      "bytes": 23149400,
+      "sha256": "c24f15514792ccb8b8e9b8217ec37bb173b7eecc102d565990248f957d9c8139"
+    },
+    "linux-x64": {
+      "bytes": 26384144,
+      "sha256": "dad7da1aa63b5643c917a428f4e52cf2f8b6180b29b7f82afda88957b51cd76c"
+    }
+  },
+  "platforms": [
+    {
+      "architecture": "Apple Silicon",
+      "built": true,
+      "native_build_runner": true,
+      "os": "macOS",
+      "published": true,
+      "slug": "darwin-arm64",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "architecture": "x86_64",
+      "built": true,
+      "native_build_runner": false,
+      "os": "macOS",
+      "published": true,
+      "slug": "darwin-x64",
+      "triple": "x86_64-apple-darwin"
+    },
+    {
+      "architecture": "arm64",
+      "built": true,
+      "native_build_runner": true,
+      "os": "Linux",
+      "published": true,
+      "slug": "linux-arm64",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "architecture": "x86_64",
+      "built": true,
+      "native_build_runner": true,
+      "os": "Linux",
+      "published": true,
+      "slug": "linux-x64",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "architecture": "arm64",
+      "built": false,
+      "native_build_runner": false,
+      "os": "Windows",
+      "published": false,
+      "slug": "win32-arm64",
+      "triple": "aarch64-pc-windows-msvc"
+    },
+    {
+      "architecture": "x86_64",
+      "built": false,
+      "native_build_runner": false,
+      "os": "Windows",
+      "published": false,
+      "slug": "win32-x64",
+      "triple": "x86_64-pc-windows-msvc"
+    }
+  ],
+  "public_contract": {
+    "mcp_protocol_revision": "2025-11-25",
+    "schema_version": "kaleidoscope.public-contract.v1",
+    "sha256": "23bf8bd4d2e95c81cba721e1f8616458a2a7a016f2e92645f26dd0d036ce627e"
+  },
+  "release_version": "0.0.5",
+  "released_on": "2026-08-30",
+  "schema_version": "kaleidoscope.docs-release-pin.v1",
+  "source_commit": "a26de88dfee9a6d18fe0cfe59cc01fd7c8f77f9c",
+  "vendored": {
+    "src/data/kaleidoscope-cli.txt": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+    "src/data/public/SKILL.md": "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e",
+    "src/data/public/snippets/AGENTS.md": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
+    "src/data/public/snippets/CLAUDE.md": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
+    "src/data/public/snippets/cursor-kaleidoscope.mdc": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc"
+  },
+  "what_this_is": "The one engine release this site describes, as its release job stated it. Written only by scripts/sync_from_release.py --apply, from the release manifest; every derived file under src/data and the release record beside this file are recomputed from it by --check on every push. Edit the engine, not this file."
+}

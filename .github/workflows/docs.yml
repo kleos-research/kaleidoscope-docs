@@ -61,6 +61,17 @@ jobs:
       - name: Install the pinned toolchain
         run: npm ci
 
+      # Before anything is built: the tree must agree with the one engine
+      # release it describes. The engine repository is private and is the only
+      # writer of release-pin.json; what this step proves, offline and with no
+      # token, is that every file derived from that pin -- the release record,
+      # the vendored skill, snippets and help text, and the three machine
+      # records under src/data -- is what the pin derives, byte for byte. A
+      # hand edit to any of them fails here by name, before a build can carry
+      # it into docs/.
+      - name: The tree agrees with the pinned engine release
+        run: python3 scripts/sync_from_release.py --check
+
       # clean -> astro build -> site-manifest.json -> verify_site.py.
       # The clean is not tidiness: a stale .astro/Vite cache silently ignored an
       # expressiveCode change across a full rebuild during prototyping, and on a

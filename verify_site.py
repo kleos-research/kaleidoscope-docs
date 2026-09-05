@@ -467,6 +467,10 @@ NOT_YET_SHIPPED_MARKER = "{/* not-yet-shipped */}"
 # what the kscope-memory placeholder on PyPI says about itself — and a gate
 # that fired on it would be teaching people to delete a fact.
 RELEASE_RECORD = "public-docs-release.json"
+# The pinned engine release, written only by scripts/sync_from_release.py
+# --apply. Beside the release record and, like it, outside the scanned source
+# roots: it carries the source commit and the asset digests.
+RELEASE_PIN = "release-pin.json"
 AVAILABLE_AVAILABILITY = "available_with_key"
 UNAVAILABILITY_PHRASINGS = (
     "kaleidoscope is not released",
@@ -661,6 +665,57 @@ def scan_vocabulary(relative: str, text: str, failures: list[str]) -> None:
         found = re.search(pattern, lowered)
         if found:
             failures.append(f"internal vocabulary {found.group(0)!r} in {relative}")
+
+
+def load_release_pin(source_root: Path, failures: list[str]) -> dict | None:
+    """Read the pinned engine release, or refuse.
+
+    `release-pin.json` is written only by `scripts/sync_from_release.py
+    --apply`, from the engine's release manifest, and it is the record the
+    platform inventory in status.json and platform-support.json is derived
+    from. The verifier used to hold those two files to lists written out
+    here, which made this file a second author of the platform matrix: the
+    first release that built a different set of platforms would have been
+    refused for disagreeing with a literal. The pin lives at the root, outside
+    the scanned source roots, because it carries a commit hash and digests.
+
+    Fail closed. A missing or malformed pin means the inventory has no record
+    to be checked against, and a check with no reference passes everything.
+    """
+    path = source_root / RELEASE_PIN
+    if not path.is_file():
+        failures.append(
+            f"missing {RELEASE_PIN} — the platform inventory has no record of what the "
+            "engine release built, so status.json and platform-support.json cannot be checked"
+        )
+        return None
+    try:
+        pin = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        failures.append(f"{RELEASE_PIN} is not valid JSON")
+        return None
+    rows = pin.get("platforms") if isinstance(pin, dict) else None
+    if not isinstance(rows, list) or not all(
+        isinstance(row, dict)
+        and isinstance(row.get("os"), str)
+        and isinstance(row.get("architecture"), str)
+        and all(
+            isinstance(row.get(key), bool)
+            for key in ("built", "published", "native_build_runner")
+        )
+        for row in rows
+    ):
+        failures.append(
+            f"{RELEASE_PIN} carries no platform rows this verifier can read; "
+            "regenerate it with scripts/sync_from_release.py --apply"
+        )
+        return None
+    return pin
+
+
+def pinned_platforms(pin: dict, flag: str) -> list[str]:
+    """'macOS, Apple Silicon' for every pinned row carrying `flag`, in the pin's order."""
+    return [f"{row['os']}, {row['architecture']}" for row in pin["platforms"] if row[flag]]
 
 
 def load_kscope_surface(source_root: Path, failures: list[str]) -> dict | None:
@@ -1026,6 +1081,7 @@ def verify(
         failures.append("canonical public skill digest changed")
 
     # ---------------------------------------------------- the machine records
+    release_pin = load_release_pin(Path(source_root), failures)
     status_path = actual.get("status.json")
     if status_path is None:
         failures.append("missing status.json")
@@ -1050,12 +1106,14 @@ def verify(
             # NOT flipped, and the one a reader most needs before installing.
             if packages.get("signed for release") is not False:
                 failures.append("status.json must keep packages 'signed for release' false")
-            if sorted(packages.get("the platform package is built for") or []) != [
-                "Linux, arm64",
-                "Linux, x86_64",
-                "macOS, Apple Silicon",
-                "macOS, x86_64",
-            ]:
+            # The platforms come from the pinned release, not from a list kept
+            # here: the sync script derives this field from the pin's rows and
+            # its --check holds the source file to that; this holds the BUILT
+            # copy to the same record, so the two cannot disagree about which
+            # platforms a package was published for.
+            if release_pin is not None and sorted(
+                packages.get("the platform package is built for") or []
+            ) != sorted(pinned_platforms(release_pin, "published")):
                 failures.append("status.json has the wrong built-for platform")
             licences = status.get("licences", {})
             if "not yet in force" not in licences.get("the product terms", ""):
@@ -1144,8 +1202,15 @@ def verify(
                 != "kaleidoscope.docs-platform-support.v1"
             ):
                 failures.append("platform-support.json has the wrong schema")
-            if platforms.get("run on") != ["macOS, Apple Silicon"]:
-                failures.append("platform-support.json has the wrong run-on list")
+            # "run on" is deliberately NOT checked against the pin. The pin's
+            # `native_build_runner` says the release job builds that slug on its
+            # own architecture rather than cross-compiling, which is a fact about
+            # a build machine and not evidence that anyone has run the product
+            # there. Checking one against the other briefly made this file claim
+            # three platforms had been run on while status.mdx said one, and the
+            # verifier agreed with the wrong half. Whether it has been run
+            # somewhere is testing evidence, authored here, and no release
+            # manifest knows it.
             checked = platforms.get("compiler checked only", {})
             # The claim these four rows carry is a compiler check and nothing
             # more. Published once as "the code builds for this target", it read

@@ -1,8 +1,8 @@
 {
   "schema_version": "kaleidoscope.docs-kscope-surface.v1",
   "what_this_is": "The command surface of the one executable this product publishes. It is here so that the command gate in verify_site.py has something to check a fenced command line against, rather than a list written out inside the verifier where nobody would think to look when the binary changes. When kscope gains or loses a verb, this file is edited first and the pages follow.",
-  "measured_on": "2026-08-31",
-  "measured_against": "kscope 0.0.5, installed from @kleos-research/kaleidoscope on npm, by reading its own help output and the help of each verb",
+  "measured_on": "2026-08-30",
+  "measured_against": "kscope 0.0.5, installed from @kleos-research/kaleidoscope on npm: the verbs, the profile subcommands and the call operations are read from its own help text, republished beside this file as kaleidoscope-cli.txt",
   "executable": "kscope",
   "global_flags": [
     "--help",

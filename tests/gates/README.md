@@ -7,7 +7,8 @@ that the refusal arrives — then put it back.
 ```sh
 python3 tests/gates/plant_violations.py    # 48 planted violations + a control
 node    tests/gates/gate_c_refusals.mjs    # every gate (c) refusal + a control
-python3 -m unittest discover -s tests      # includes test_new_gates.py, below
+python3 -m unittest discover -s tests      # includes test_new_gates.py and
+                                           # test_release_sync.py, below
 ```
 
 Each exits non-zero if any planted violation goes uncaught **or if the control
@@ -77,3 +78,20 @@ has to open.
 `test_new_gates.py` drives all three directly, with a scrap of authored text
 rather than a whole tree, and asserts both halves: what each gate refuses and
 what it must go on accepting.
+
+## The release sync
+
+`scripts/sync_from_release.py --check` is the gate that runs first in CI. The
+engine repository is private and is the only writer of `release-pin.json`; the
+check recomputes every file derived from that pin -- `public-docs-release.json`,
+the vendored skill, snippets and help text, and the three machine records under
+`src/data` -- offline, and refuses by name on any difference.
+
+`test_release_sync.py` drives it the way `plant_violations.py` drives the
+verifier: copy the tree, assemble a release-assets directory from the copy's
+own vendored files, run `--apply` against it, and confirm the unmodified result
+is ACCEPTED. Then one thing at a time: one byte of the vendored `SKILL.md`, the
+version in `status.json`, the pin itself removed, a manifest whose digest
+disagrees with its own asset, an asset carrying a developer path. Each must be
+REFUSED with a message naming the file, and a refused `--apply` must leave the
+tree exactly as it found it.
