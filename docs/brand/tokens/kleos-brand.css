@@ -1,0 +1,62 @@
+/* Kleos brand tokens — from "Kleos Brand System", turn 2a ("Ledger, inverted").
+ *
+ * Two themes, one system. The inversion costs exactly one extra value: brass
+ * needs a darker cut on bone to clear contrast. Everything else is shared.
+ *
+ * Which theme a surface gets is decided by the domain map, not by taste:
+ *   kleosresearch.xyz         -> .theme-kleos-light      (the lab, on paper)
+ *   memory.kleosresearch.xyz  -> .theme-kaleidoscope-dark (the product, on ink)
+ */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap'); */
+
+:root {
+  /* Type — Kleos & Kaleidoscope.
+   * Newsreader carries both wordmarks and long-form; mono carries metadata. */
+  --font-serif: Newsreader, Georgia, "Times New Roman", serif;
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  /* 0xCopilot runs its own stack — a different product, deliberately. */
+  --font-copilot-display: "Space Grotesk", system-ui, sans-serif;
+  --font-copilot-body: "Instrument Sans", system-ui, sans-serif;
+
+  /* Wordmark metrics. Newsreader regular, never bold, always letterspaced. */
+  --wordmark-kleos-tracking: 0.055em;   /* .05em under 14px, .06em at 14px */
+  --wordmark-kleos-weight: 400;
+  --wordmark-kaleidoscope-tracking: 0;  /* sentence case, untracked */
+
+  /* Fixed points — these do not vary by theme. */
+  --icon-tile: #0e0d0c;        /* Kaleidoscope app-icon tile */
+  --copilot-tile: #17161c;     /* 0xCopilot icon tile, every size, always */
+  --copilot-sky: #5fb2ec;      /* the mark's hub dot */
+  --copilot-sky-hi: #9bd4ff;   /* gradient top */
+  --copilot-sky-lo: #4593d8;   /* gradient bottom */
+  --copilot-sky-text: #2f79b5; /* sky as TEXT on paper only — not the brand colour */
+}
+
+/* The lab, on paper. kleosresearch.xyz — home, research index, papers. */
+.theme-kleos-light,
+[data-theme="kleos-light"] {
+  --bg: #f4f2ec;
+  --raised: #eae7e0;
+  --rule: #d8d4c9;
+  --muted: #6a675f;
+  --ink: #141310;
+  --brass: #8a6a22; /* darkened cut — same hue, contrast-safe on bone */
+
+  color-scheme: light;
+}
+
+/* The product, on ink. memory.kleosresearch.xyz — app, download, docs. */
+.theme-kaleidoscope-dark,
+[data-theme="kaleidoscope-dark"] {
+  --bg: #0b0b0c;
+  --raised: #131315;
+  --rule: #232325;
+  --muted: #8c887f;
+  --ink: #eae7e0;
+  --brass: #cfa757;
+
+  color-scheme: dark;
+}
