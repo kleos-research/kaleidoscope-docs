@@ -1,30 +1,56 @@
 ---
 title: Editors, agents and frameworks
-description: The one command that connects each editor or agent to your local Kaleidoscope profile, and what every one of them sees.
+description: Wire an editor with kscope init, or any other MCP client with the descriptor from kscope profile launch.
 ---
 
-Every editor and agent below talks to the same engine on your machine, over one
-long-lived process, and sees exactly two tools: `search` and `remember`. Connect
-five of them and they share one memory instead of starting five stores.
+Every page here assumes `kscope` is installed and activated —
+[Getting started](/docs/getting-started/) covers both.
 
-| | connect it with |
+Everything on this page reaches one engine on your machine and sees the same two
+tools, `search` and `remember`.
+
+## Editors
+
+```bash
+cd ~/your-project
+kscope init
+kscope profile import default ~/your-project/.kaleidoscope
+```
+
+Restart the editor, then ask it to search your memory.
+
+`kscope init` wires every editor whose configuration directory already exists.
+`kscope init --no-wire` creates the vault and writes no editor configuration.
+
+| Editor | MCP entry | Instructions | Skill |
+|---|---|---|---|
+| [Claude Code](/docs/integrations/claude-code/) | `~/.claude.json` | `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
+| [Codex](/docs/integrations/codex/) | `~/.codex/config.toml` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| [Cursor](/docs/integrations/cursor/) | `~/.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
+| [OpenCode](/docs/integrations/opencode/) | `~/.config/opencode/opencode.json` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+
+Cursor gets a rule file and no skill.
+
+## Everything else
+
+Other MCP clients and agent frameworks read the same launch descriptor.
+
+```bash
+kscope profile launch default
+```
+
+| Client | Page |
 |---|---|
-| [Claude Code](/docs/integrations/claude-code/) | `kscope connect claude` |
-| [Codex](/docs/integrations/codex/) | `kscope connect codex` |
-| [Cursor](/docs/integrations/cursor/) | `kscope connect cursor` |
-| [OpenCode](/docs/integrations/opencode/) | `kscope connect opencode` |
-| [Any other MCP client](/docs/integrations/generic-mcp/) | read the descriptor from `kscope config --json` |
+| Any MCP client | [Any other MCP client](/docs/integrations/generic-mcp/) |
+| Claude Agent SDK | [Claude Agent SDK](/docs/integrations/claude-agent-sdk/) |
+| OpenAI Agents SDK | [OpenAI Agents SDK](/docs/integrations/openai-agents-sdk/) |
+| LangChain | [LangChain](/docs/integrations/langchain/) |
+| LangGraph | [LangGraph](/docs/integrations/langgraph/) |
+| CrewAI | [CrewAI](/docs/integrations/crewai/) |
 
-Frameworks connect through their own MCP adapter, using the same descriptor:
-[Claude Agent SDK](/docs/integrations/claude-agent-sdk/) ·
-[OpenAI Agents SDK](/docs/integrations/openai-agents-sdk/) ·
-[LangChain](/docs/integrations/langchain/) ·
-[LangGraph](/docs/integrations/langgraph/) ·
-[CrewAI](/docs/integrations/crewai/)
+## Before any of it
 
-There is no build to install yet, so none of these commands run today. What they
-do when there is one is described on each page.
-[What has actually been run, and on what](/status/).
-
-Telling your agent to *use* the memory it can now reach is a separate step:
-[give your agent the skill](/docs/skill/).
+`npm install -g @kleos-research/kaleidoscope` gives you `kscope`, and running it
+needs a key. [Install](/docs/packages/) covers both steps.
+[Give your agent the skill](/docs/skill/) is the file that tells an agent when to
+read its memory and when to write to it.

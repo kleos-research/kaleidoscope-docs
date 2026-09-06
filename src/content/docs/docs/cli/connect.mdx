@@ -1,37 +1,92 @@
 ---
 title: Connect an editor or agent
-description: kscope init — creating a project's memory and wiring it into whichever editor or agent you use.
+description: kscope init — create a project's memory and wire it into Claude Code, Codex, Cursor or OpenCode.
 ---
 
-One command does both jobs. `kscope init`, run inside a project, creates that
-project's memory and writes the entry your editor or agent needs to find it.
+`kscope init` creates the project's memory and writes the entry your editor
+needs to find it. Run both commands:
 
 ```bash
 cd ~/your-project
 kscope init
+kscope profile import default ~/your-project/.kaleidoscope
 ```
 
-It tells you what it did, line by line: the vault it created, the `.gitignore`
-rule it added, and each editor it wired. It knows Claude Code, Codex, Cursor and
-OpenCode. If it recognises none of them it writes an `AGENTS.md` instead, which
-most other agents will read.
+The entry `init` writes starts the engine with `--profile default`, and creating
+the vault does not create that profile. The second command writes it. Skip it
+and your editor shows `profile does not exist` and nothing else.
 
-Restart your editor afterwards. Until you do, it is still running with the
-configuration it started with.
+Restart your editor. Until you do it is still running with the configuration it
+started with.
 
-## It will not overwrite your work
+## What you should see
 
-Kaleidoscope only touches the block it owns, and it leaves a receipt beside each
-one. If it finds a Kaleidoscope entry that does not match its receipt — because
-you edited it, or added one by hand — it stops, changes nothing, and tells you
-which file to look at. That is the intended behaviour, not a failure: the
-alternative is silently replacing something you wrote on purpose.
+```
+kscope: created vault ~/your-project/.kaleidoscope (repository default)
+kscope: wrote /.kaleidoscope/ to a new ~/your-project/.gitignore
+kscope: wired codex, claude-code, cursor, opencode
+kscope:   register the MCP server with codex
+kscope:   agents for codex
+kscope:   skill for codex
+...
+kscope: restart your agent, then ask it to search your memory.
+```
+
+One line per step, and a named failure for any step that could not be written.
+`init` wires an agent only when that agent's configuration directory already
+exists on this machine. If it finds none it writes an `AGENTS.md`, which most
+other agents read, and says so.
+
+## What lands where
+
+| Agent | MCP entry | Instructions | Skill |
+|---|---|---|---|
+| Claude Code | `~/.claude.json` | a marked block in `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
+| Codex | `~/.codex/config.toml` | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| Cursor | `~/.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
+| OpenCode | `~/.config/opencode/opencode.json` | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+
+MCP entries go in your home directory; instructions and skills go in the
+project, where git carries them into the worktree or clone your agent works in.
+
+Each file gets a receipt beside it — `.kaleidoscope-owner.json` for a host
+configuration, `.kaleidoscope-instruction-owner.json` for an instruction file or
+skill. A file that already existed is copied to `<name>.kaleidoscope-backup`
+first.
+
+Nothing written carries a vault path, a provider key or an account credential.
+The entry names this executable, a profile, and the two tools `search` and
+`remember`.
+
+## Running it again
+
+`kscope init` again is safe. A root that is already a vault is reported and left
+exactly as it is; the wiring is re-checked and repaired.
+
+If a Kaleidoscope block no longer matches its receipt — you edited inside the
+markers, or wrote an entry by hand — that step stops and names the file. The
+other steps still run.
+
+To create the vault and write no editor configuration at all:
+
+```bash
+kscope init --no-wire
+```
 
 ## Removing it
 
-There is no `disconnect`. Deleting the `.kaleidoscope` folder removes that
-project's memory, and `npm uninstall -g @kleos-research/kaleidoscope` removes
-the command. Editor entries that point at a vault which no longer exists are
-harmless, and re-running `kscope init` rewrites them.
+There is no `disconnect` verb on `kscope`, so remove the wiring by hand. Delete
+each of these with the receipt beside it:
 
-[Operations](/docs/operations/) covers moving and backing up a vault.
+- the `kaleidoscope` entry under `mcpServers` in `~/.claude.json`,
+  `~/.cursor/mcp.json` and `~/.config/opencode/opencode.json`
+- the block between the `kaleidoscope-manager` markers in `~/.codex/config.toml`
+- the marked block in `CLAUDE.md` or `AGENTS.md`
+- `.claude/skills/use-kaleidoscope/`, `.agents/skills/use-kaleidoscope/` and
+  `.cursor/rules/kaleidoscope.mdc`
+
+`npm uninstall -g @kleos-research/kaleidoscope` removes the command itself.
+
+None of that touches your memory. An entry pointing at a vault that no longer
+exists is harmless, and `kscope init` writes the wiring back.
+[Operations](/docs/operations/) covers moving, backing up and deleting a vault.

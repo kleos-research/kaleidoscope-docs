@@ -12,6 +12,12 @@
  *    installs, and what a reader actually needs to know is that it will not
  *    run until they have a key. Gate (h) now asserts THAT, so the site cannot
  *    quietly go back to publishing a command nobody can use.
+ *
+ *    The 0.0.5 above is history and not a version this component states: the
+ *    strip renders no release version at all, and the one place that number is
+ *    authored is public-docs-release.json, which the build reads before Vite
+ *    starts. Do not bump the sentence above when the release moves; it is about
+ *    the release that first made the old copy false.
  * 2. The legal review-draft band, when the page's frontmatter says
  *    `legalDraft: true`.
  *

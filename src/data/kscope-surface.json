@@ -1,0 +1,77 @@
+{
+  "schema_version": "kaleidoscope.docs-kscope-surface.v1",
+  "what_this_is": "The command surface of the one executable this product publishes. It is here so that the command gate in verify_site.py has something to check a fenced command line against, rather than a list written out inside the verifier where nobody would think to look when the binary changes. When kscope gains or loses a verb, this file is edited first and the pages follow.",
+  "measured_on": "2026-08-30",
+  "measured_against": "kscope 0.0.5, installed from @kleos-research/kaleidoscope on npm: the verbs, the profile subcommands and the call operations are read from its own help text, republished beside this file as kaleidoscope-cli.txt",
+  "executable": "kscope",
+  "global_flags": [
+    "--help",
+    "-h",
+    "--version",
+    "-V"
+  ],
+  "verbs": [
+    "activate",
+    "call",
+    "context",
+    "gate",
+    "init",
+    "init-profile",
+    "licences",
+    "mcp",
+    "model",
+    "profile",
+    "public-contract",
+    "schema",
+    "serve",
+    "vault-close",
+    "vault-create",
+    "vault-delete",
+    "vault-encrypted-delete",
+    "vault-encrypted-preview",
+    "vault-export-device",
+    "vault-import-device",
+    "vault-migrate",
+    "vault-open",
+    "vault-preview",
+    "vault-recover",
+    "vault-verify",
+    "where"
+  ],
+  "subcommands": {
+    "profile": [
+      "create",
+      "import",
+      "launch",
+      "list",
+      "remove",
+      "show"
+    ]
+  },
+  "call_operations": [
+    "address_maintenance",
+    "doctor",
+    "feedback",
+    "maintenance",
+    "memory_import",
+    "memory_lifecycle",
+    "ontology",
+    "remember",
+    "search"
+  ],
+  "flags_that_take_a_value": [
+    "--profile"
+  ],
+  "tools_a_model_sees": [
+    "remember",
+    "search"
+  ],
+  "what_the_gate_does_not_check": "Flags. The verb, a profile subcommand and a call operation are checked because each names a thing the binary either has or has not; flags come and go between releases, and a gate that guessed at them would be switched off by the first person it was wrong about. `--no-wire` on `init` is real and absent from the binary's own help, which is the sort of thing a flag list would have got wrong.",
+  "not_yet_shipped": {
+    "executable": "kaleidoscope",
+    "what_it_is": "A second program. It is built only inside the private product repository and is published on no channel, so a reader cannot obtain it at any price. Its verbs — connect, disconnect, config, doctor, instructions, login, logout, and the account and device commands — are worth describing, because they are where this product is going, but a reader who copies one gets a command not found and no explanation.",
+    "fence_marker": "{/* not-yet-shipped */}",
+    "how_the_marker_works": "Put the marker on a line of its own directly above the fence; blank lines between the two are allowed. It is an MDX comment, so it renders nothing and changes no page. What it does is tell the command gate that the block below was written knowingly, by somebody who had read this file. Without it, a fenced line invoking kaleidoscope is refused.",
+    "what_the_marker_is_not": "It is not permission to leave the reader uninformed. The gate can see a marker; it cannot see whether the sentence beside the block says the command is not available yet. A marked block with no such sentence still hands somebody a command they cannot run, and the marker will not have made that better."
+  }
+}

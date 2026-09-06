@@ -1,35 +1,72 @@
 ---
 title: Claude Code
-description: Add Kaleidoscope to Claude Code as one local MCP server entry, plus an optional project pointer to the skill.
+description: Wire Claude Code with kscope init — the MCP entry in ~/.claude.json, the CLAUDE.md block, and the project skill.
 ---
 
-Claude Code gets one local MCP server definition from you, and optionally a
-short project pointer to the public skill. Everything Kaleidoscope writes is
-marked as its own, so it can take it back out.
+Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
+key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
+starts it.
 
-## Connect it
+`kscope init` wires Claude Code when `~/.claude` or `~/.claude.json` exists.
 
-```bash
-kscope connect claude --profile default --project "$PWD" --dry-run
-kscope connect claude --profile default --project "$PWD"
-kaleidoscope instructions install claude --project "$PWD"
-```
-
-## What it writes
-
-Only the entry Kaleidoscope owns is written to `.mcp.json`; the rest of your
-file is left alone. If the ownership markers have been edited or the file is
-ambiguous, the change is refused rather than guessed at. The entry publishes
-only `search` and `remember`.
-
-`instructions install claude` is separate from the connection: it appends the
-marked pointer block to `CLAUDE.md`. See
-[give your agent the skill](/docs/skill/).
-
-## Disconnect
+## Wire it
 
 ```bash
-kscope disconnect claude --project "$PWD"
+cd ~/your-project
+kscope init
+kscope profile import default ~/your-project/.kaleidoscope
 ```
 
-It removes only what Kaleidoscope wrote.
+Run both, in that order. Skip the import and Claude Code reports
+`profile does not exist`.
+
+Restart Claude Code, then ask it to search your memory.
+
+## What init writes
+
+| What | Where |
+|---|---|
+| MCP entry | `~/.claude.json`, under `mcpServers` as `kaleidoscope` |
+| Instructions | `CLAUDE.md`, between `kaleidoscope-manager` markers |
+| Skill | `.claude/skills/use-kaleidoscope/SKILL.md` |
+| Receipt | `~/.claude.json.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
+| Backup | `~/.claude.json.kaleidoscope-backup`, when the file was already there |
+
+```json
+{
+  "mcpServers": {
+    "kaleidoscope": {
+      "type": "stdio",
+      "command": "/absolute/path/to/kscope",
+      "args": ["mcp", "--profile", "default"]
+    }
+  }
+}
+```
+
+Skills go to `.claude/skills/` here. Codex and OpenCode read `.agents/skills/`.
+
+## Check it
+
+```bash
+kscope profile launch default
+```
+
+```json
+{"version":1,"transport":"stdio","command":"/absolute/path/to/kscope","args":["mcp","--profile","default"],"tools":["search","remember"],"environment":{}}
+```
+
+Match `command` and `args` against the entry in `~/.claude.json`. Claude Code's
+tool list should hold `search` and `remember` under `kaleidoscope`, and nothing
+else.
+
+## Remove it
+
+Delete each of these, and the receipt beside it:
+
+- the `kaleidoscope` entry under `mcpServers` in `~/.claude.json`
+- the marked block in `CLAUDE.md`
+- `.claude/skills/use-kaleidoscope/`
+
+Your memory stays. [Connect an editor or agent](/docs/cli/connect/) covers every
+editor at once.

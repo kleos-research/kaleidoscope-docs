@@ -1,43 +1,86 @@
 ---
 title: OpenCode
-description: Connect OpenCode using its stable v1 configuration, or ask explicitly for the beta v2 shape.
+description: Wire OpenCode with kscope init — the entry in opencode.json, the AGENTS.md block, the .agents skill, and which of the two config shapes you get.
 ---
 
-OpenCode stable v1 and beta v2 want different configuration shapes. Kaleidoscope
-never guesses which one you are on and never quietly moves you between them.
+Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
+key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
+starts it.
 
-## Connect it
+`kscope init` wires OpenCode when `~/.config/opencode` or `~/.opencode` exists.
 
-```bash
-kscope connect opencode --profile default --project "$PWD" --dry-run
-kscope connect opencode --profile default --project "$PWD"
-```
-
-Stable v1 is what you get if you say nothing.
-
-## The one thing that is different here
-
-The two configuration shapes are genuinely different, and which one you get is a
-flag:
+## Wire it
 
 ```bash
-kscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
+cd ~/your-project
+kscope init
+kscope profile import default ~/your-project/.kaleidoscope
 ```
 
-The stable entry is a direct local command. Beta v2 uses the explicit server
-shape with code mode turned off, so `search` and `remember` stay visible to the
-model. If your file already contains both shapes, the change is refused rather
-than resolved for you.
+Run both, in that order. Skip the import and OpenCode reports
+`profile does not exist`.
 
-## What it writes
+Restart OpenCode, then ask it to search your memory.
 
-One entry, in whichever shape applies, naming the local engine and
-`mcp --profile NAME`. It carries no vault location, provider key or credential.
+## What init writes
 
-## Disconnect
+| What | Where |
+|---|---|
+| MCP entry | `~/.config/opencode/opencode.json` |
+| Instructions | `AGENTS.md`, between marker comments |
+| Skill | `.agents/skills/use-kaleidoscope/SKILL.md` |
+| Receipt | `~/.config/opencode/opencode.json.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
+| Backup | `~/.config/opencode/opencode.json.kaleidoscope-backup`, when the file was already there |
+
+Skills go to `.agents/skills/` here, the same path Codex reads; Claude Code
+reads `.claude/skills/`.
+
+## Which shape you get
+
+OpenCode has two configuration shapes. `init` reads yours and follows it.
+
+| Your `opencode.json` | Entry goes to | Fields |
+|---|---|---|
+| no `mcp.servers` object | `mcp.kaleidoscope` | `type`, `enabled`, `command` |
+| has an `mcp.servers` object | `mcp.servers.kaleidoscope` | `type`, `command`, `codemode: false` |
+
+Both carry `"type": "local"` and a `command` array of the engine's absolute path
+followed by `mcp`, `--profile`, `default`. `"codemode": false` keeps `search`
+and `remember` visible to the model as tools.
+
+```json
+{
+  "mcp": {
+    "kaleidoscope": {
+      "type": "local",
+      "enabled": true,
+      "command": ["/absolute/path/to/kscope", "mcp", "--profile", "default"]
+    }
+  }
+}
+```
+
+If both shapes are present, or your file conflicts with the shape Kaleidoscope
+already owns, that step fails and the file is not changed. There is no flag to
+override it.
+
+## Check it
 
 ```bash
-kscope disconnect opencode --project "$PWD"
+kscope profile list
+kscope profile launch default
 ```
 
-It removes only what Kaleidoscope wrote.
+`launch` prints the command, the arguments and the tool list — `search` and
+`remember` — that the entry in `opencode.json` should match.
+
+## Remove it
+
+Delete each of these, and the receipt beside it:
+
+- the `kaleidoscope` entry in `~/.config/opencode/opencode.json`
+- the marked block in `AGENTS.md`
+- `.agents/skills/use-kaleidoscope/`
+
+Your memory stays. [Connect an editor or agent](/docs/cli/connect/) covers every
+editor at once.

@@ -1,7 +1,9 @@
 ---
 title: Install
-description: The npm package, what it installs, and what your machine needs.
+description: The npm package, what it puts on your disk, and what your machine needs.
 ---
+import release from '../../../../public-docs-release.json';
+import status from '../../../data/status.json';
 
 ```bash
 npm install -g @kleos-research/kaleidoscope
@@ -15,35 +17,68 @@ you one.
 
 | | |
 |---|---|
-| operating system | macOS or Linux |
-| architecture | Apple Silicon or x86_64 |
+| Operating system | macOS or Linux |
+| Architecture | arm64 (Apple Silicon) or x86_64 |
 | Node.js | 18 or newer |
 
-Windows is not supported yet. The package will install there, but creating a
-vault is refused on purpose until the filesystem work is done.
+Windows is not supported yet. [Platforms](/docs/compatibility/) has the full
+matrix.
 
-There is no Python package. `kaleidoscope-memory` on PyPI was planned and never
-registered; if you find that name, it is not us.
+## What lands on your disk
 
-## What it puts on your disk
+Two packages, both at version {release.release_version}.
 
-Two things. The first is the `kscope` command and a small amount of JavaScript
-that picks the right binary for your machine. The second is a package built for
-your platform, which carries the part that stores and searches your memory.
+| Package | Carries |
+|---|---|
+| `@kleos-research/kaleidoscope` | the `kscope` command, and the launcher that picks your platform's binary |
+| one platform package, below | the memory engine as object code, with the setup work `kscope init` does compiled into it |
+
+npm installs the platform package that matches your machine and skips the other
+three.
+
+<div class="table-scroll" tabindex="0">
+  <table>
+    <thead>
+      <tr><th scope="col">Machine</th><th scope="col">Platform package</th></tr>
+    </thead>
+    <tbody>
+      {status.packages.npm['platform packages'].map((name) => {
+        const suffix = name.split('kaleidoscope-').pop();
+        const machine = {
+          'darwin-arm64': 'macOS, Apple Silicon',
+          'darwin-x64': 'macOS, x86_64',
+          'linux-arm64': 'Linux, arm64',
+          'linux-x64': 'Linux, x86_64',
+        }[suffix] || suffix;
+        return (
+          <tr><td>{machine}</td><td><code>{name}</code></td></tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
 
 There is no install hook, no download at install time, no compiler step and no
-source-build fallback. Installing puts files on your disk and does nothing else.
+source build. Installing puts files on your disk and does nothing else.
 
-The part that stores and searches your memory is proprietary object code, and
-its source is not in the package. A native binary is still inspectable —
-shipping object code is not a claim that it cannot be read. Everything around
-it is Apache-2.0: the command-line tool, both SDKs, every integration and the
-agent skill.
+## Licences
+
+The memory engine is proprietary object code, and its source is not in the
+package. Everything around it is Apache-2.0: the command-line tool, both SDKs,
+every integration and the agent skill.
 
 ## Signing
 
 Nothing is signed for release. There is no Apple signing and no notarisation,
-and the native code is ad-hoc signed only. That is worth knowing before you
-install, and it is on the list to fix.
+and the native code is ad-hoc signed only. It is on the list to fix.
 
-[What works today](/status/) · [Which platforms this is for](/docs/compatibility/)
+## There is no Python package
+
+`kscope-memory` on PyPI is a 0.0.0 placeholder whose own summary says it is not
+yet released. `kaleidoscope-memory` was planned and never registered — if you
+find that name, it is not us.
+
+Next: [Getting started](/docs/getting-started/) activates your key and gives a project a memory.
+
+[What works today](/status/) · [Platforms](/docs/compatibility/) ·
+[Release notes](/docs/release-notes/)

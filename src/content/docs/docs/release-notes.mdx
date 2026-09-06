@@ -1,15 +1,24 @@
 ---
 title: Release notes
-description: Kaleidoscope has not been released. This is where release notes will be published, and what each entry will contain.
+description: Which version is current, where the versions after it will be listed, and what each entry will contain.
 ---
+import release from '../../../../public-docs-release.json';
 
-Kaleidoscope has not been released, so there are no release notes yet. When it
-is released, every version will be listed here, newest first.
+The current version is {release.release_version}. It was published to npm as
+`@kleos-research/kaleidoscope`, alongside a package for each of the four
+platforms it is built for — macOS on Apple Silicon and x86_64, Linux on arm64
+and x86_64. It gives you the `kscope` command, it needs a key to run, and
+nothing in it is signed for release. [Install](/docs/packages/) is how you get
+it.
+
+There is no entry below for it, and none for the versions before it. Notes begin
+with the next version, and from there every version will be listed here, newest
+first.
 
 Each entry will say which platforms that version runs on, which editor and agent
 versions it was checked against, what changed, what broke or was removed, whether
 anything you already have needs to be moved or reconfigured, and any security
 fixes it carries.
 
-Until then, [Status](/status/) is the current picture: what is available, what
-is not, and what has actually been run.
+Until the second one, [Status](/status/) is the current picture: what is
+available, what is not, and what has actually been run.

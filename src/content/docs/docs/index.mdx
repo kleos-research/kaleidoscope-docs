@@ -1,75 +1,77 @@
 ---
 title: Kaleidoscope documentation
-description: The map of the Kaleidoscope documentation — which page answers which question, from the first five commands to the two-tool contract, the boundaries and what is available.
+description: The map of the Kaleidoscope documentation — which page answers which question, from the first four commands to the two tools an agent sees.
 ---
 
-Kaleidoscope is local memory for agents. Your memory lives in a vault on your
-machine, and every editor or agent you connect shares one profile through a
-command-line tool and a long-lived process that offers exactly two tools.
+Kaleidoscope is local memory for agents. Memories live in a vault on your
+machine, and every editor you connect reads that vault through one command,
+`kscope`.
 
-Install it with `npm install -g @kleos-research/kaleidoscope`. You need a key to
-run it — email [contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz) and
-we will send you one. There is no account to create and no sign-in.
-[What works today](/status/) is the plain answer to what is covered.
+```bash
+npm install -g @kleos-research/kaleidoscope
+```
+
+Running it needs a key — email
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz). There is no
+account to create and no sign-in.
 
 ## Start here
 
-- [Getting started](/docs/getting-started/) — install it, activate your key, and
-  give a project a memory.
-- [Give your agent the skill](/docs/skill/) — the file that tells an agent
-  Kaleidoscope exists, what it writes into your instruction file, and the four
-  files offered for download.
-- [Install](/docs/packages/) — the two package names, what is inside each, and
-  why you cannot get them yet.
-- [Concepts](/docs/concepts/) — profile, vault, engine, manager, account: which
-  is which, and which owns what.
+| | |
+|---|---|
+| [Getting started](/docs/getting-started/) | Install, activate, give a project a memory |
+| [Give your agent the skill](/docs/skill/) | The skill file, where it lands, and how to download it |
+| [Install](/docs/packages/) | What lands on your disk, and what your machine needs |
+| [Concepts](/docs/concepts/) | Profile, vault, engine, manager, account |
 
 ## The command line
 
-- [CLI overview](/docs/cli/) — the two global flags and the safety invariants
-  that govern every subcommand.
-- [Profiles and vaults](/docs/cli/profiles/) — `init` and the `profile`
-  commands.
-- [Connect an editor](/docs/cli/connect/) — `connect` and `disconnect`.
-- [Agent instructions](/docs/cli/instructions/) — `instructions install` and
-  `remove`, and the four targets.
-- [Diagnostics](/docs/cli/diagnostics/) — `config` and `doctor`.
-- [Account commands](/docs/cli/account/) — the whole account surface, none of
-  which runs yet.
+| | |
+|---|---|
+| [CLI reference](/docs/cli/) | Every `kscope` verb and the flags it takes |
+| [Profiles and vaults](/docs/cli/profiles/) | `init`, `init-profile`, the `profile` commands, `where` |
+| [Connect an editor](/docs/cli/connect/) | `kscope init`, and what it writes where |
+| [Agent instructions](/docs/cli/instructions/) | The instruction file and skill, per editor |
+| [Diagnostics](/docs/cli/diagnostics/) | `where`, `gate`, `model`, `call doctor` |
+| [Account commands](/docs/cli/account/) | What `activate` does instead |
+
+`kscope` is the one executable published. Verbs written about elsewhere —
+`connect`, `disconnect`, `config`, `doctor`, `teardown`, `profile use`,
+`instructions install`, and the account surface — belong to a second program
+that ships on no channel; [the CLI reference](/docs/cli/) gives what to run in
+their place.
 
 ## Reference
 
-- [MCP](/docs/mcp/) — the two tools a model sees, their fields, and a correct
-  call of each.
-- [Editors, agents and frameworks](/docs/integrations/) — find yours and the one
-  command that connects it.
+| | |
+|---|---|
+| [MCP](/docs/mcp/) | The two tools a model sees, their fields, and a call of each |
+| [Editors, agents and frameworks](/docs/integrations/) | Find yours and the command that connects it |
 
 ## Operate
 
-- [Operations](/docs/operations/) — back up, restore, move, and the four
-  different things "remove Kaleidoscope" can mean.
-- [Account and devices](/docs/account/) — what an account would be for, and what
-  it never touches.
-- [Troubleshooting](/docs/troubleshooting/) — the six failures that actually
-  happen, and what causes each.
+| | |
+|---|---|
+| [Operations](/docs/operations/) | Back up, restore, move, and remove |
+| [Account and devices](/docs/account/) | What an account would be for |
+| [Troubleshooting](/docs/troubleshooting/) | The failures that actually happen |
 
 ## Boundaries
 
-- [Security](/docs/security/) — what is isolated from what, what is not signed,
-  and how to report a vulnerability.
-- [Privacy](/docs/privacy/) — what stays on your machine, what leaves it, and
-  what this website itself does.
-- [Licenses and terms](/docs/legal/) — which licences are in force, and which
-  terms are reviewed drafts, not yet in force.
+| | |
+|---|---|
+| [Security](/docs/security/) | What is isolated, what is unsigned, how to report a flaw |
+| [Privacy](/docs/privacy/) | What stays on your machine, and what this site does |
+| [Licences and terms](/docs/legal/) | Which licences are in force |
 
 ## Availability
 
-- [Platforms](/docs/compatibility/) — which platforms Kaleidoscope is for, and
-  the one thing Windows does differently.
-- [Benchmarks](/docs/benchmarks/) — what we measured, in plain words, and what
-  we did not measure.
-- [Release notes](/docs/release-notes/) — there have been none; this is where
-  they will appear.
+| | |
+|---|---|
+| [Platforms](/docs/compatibility/) | Which platforms Kaleidoscope is for |
+| [Benchmarks](/docs/benchmarks/) | What we measured, and what we did not |
+| [Release notes](/docs/release-notes/) | Which version is current |
+| [What works today](/status/) | What has actually been run |
 
 ## If you are a machine
 

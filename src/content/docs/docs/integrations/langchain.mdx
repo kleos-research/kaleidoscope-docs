@@ -1,33 +1,40 @@
 ---
 title: LangChain
-description: Use LangChain's MCP adapter to load Kaleidoscope's two tools into one session, without adding a second memory store.
+description: Load Kaleidoscope's two tools into one LangChain MCP adapter session, without adding a second memory store.
 ---
 
-Use the official LangChain MCP adapter to load the two Kaleidoscope tools inside
-a single adapter session.
+Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
+key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
+starts it.
 
-## Connect it
+Use the official LangChain MCP adapter, one session for the whole run.
+
+## Get the descriptor
 
 ```bash
-kscope config --profile default --json
+cd ~/your-project
+kscope init --no-wire
+kscope profile import default ~/your-project/.kaleidoscope
+kscope profile launch default
 ```
 
-Give that descriptor to the LangChain MCP adapter. Open the stdio adapter once
-around the agent run you intend, load the two tools, then close the adapter when
-the run is over.
+Copy `command` and `args` into the adapter's server definition.
+[Any other MCP client](/docs/integrations/generic-mcp/) explains each field.
 
-## What it writes
+## Wire it in
 
-Nothing on your disk. Your model-provider credentials are supplied by your own
-application and never pass through Kaleidoscope.
+Open the stdio adapter before the agent run, load `search` and `remember`, and
+close it when the run is over.
 
-## The one thing that is different here
+Do not wrap Kaleidoscope as a `BaseStore`, and do not attach a second LangChain
+memory alongside it.
 
-Kaleidoscope is not a `BaseStore` implementation, and you should not wrap it as
-one. Do not add a parallel LangChain memory, and do not summarize messages into
-a second store. If two things can answer "what do I know", they will disagree.
-The MCP server stays the one owner.
+## Check it
 
-## Disconnect
+The adapter should have loaded `search` and `remember`, and your agent should
+have no other memory component attached.
 
-Close the adapter. Remove the descriptor from your application configuration.
+## Remove it
+
+Close the adapter and delete the server definition from your application
+configuration.

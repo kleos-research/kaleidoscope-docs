@@ -1,36 +1,239 @@
-Kaleidoscope public local manager
+Kaleidoscope local memory runtime
 
 Usage:
-  kaleidoscope [--engine PATH] init [--root PATH] [--profile NAME]
-                                      [--durability process-local|durable-local]
-  kaleidoscope [--engine PATH] profile list
-  kaleidoscope [--engine PATH] profile show NAME
-  kaleidoscope [--engine PATH] profile use NAME
-  kaleidoscope [--engine PATH] profile remove NAME
-  kaleidoscope profile account show [NAME]
-  kaleidoscope profile account bind ACCOUNT_UUID [NAME]
-  kaleidoscope profile account unbind [NAME]
-  kaleidoscope [--engine PATH] config [--profile NAME] [--json]
-  kaleidoscope [--engine PATH] connect HOST [--scope user|project]
-                                      [--profile NAME] [--project PATH]
-                                      [--opencode-version stable-v1|beta-v2]
-                                      [--dry-run] [--yes]
-  kaleidoscope [--engine PATH] disconnect HOST [--scope user|project]
-                                      [--project PATH] [--dry-run] [--yes]
-  kaleidoscope instructions install TARGET [--project PATH] [--dry-run] [--yes]
-  kaleidoscope instructions remove TARGET [--project PATH] [--dry-run] [--yes]
-  kaleidoscope [--engine PATH] doctor [--project PATH]
-  kaleidoscope login [--device]
-  kaleidoscope status [--json]
-  kaleidoscope logout [--all-devices] [--local-only]
-  kaleidoscope account link PROVIDER
-  kaleidoscope account identities
-  kaleidoscope account unlink EXTERNAL_IDENTITY_UUID
-  kaleidoscope account revoke-session
-  kaleidoscope devices list
-  kaleidoscope devices revoke DEVICE_UUID
-  kaleidoscope --version
 
-Instruction TARGET is skill, agents, claude, or cursor.
-The manager edits host configuration only after preview and confirmation.
-Project scope is the default. Use --dry-run for an effect-free plan.
+AGENT -- the whole surface an agent needs. Two verbs, one door.
+
+  kscope call search                         read;  one JSON request on stdin
+  kscope call remember                       write; one JSON request on stdin
+  kscope schema remember                     the write contract, before writing
+  kscope schema [OPERATION]                  every operation this build has
+
+  Those two resolve the vault from this directory. Name another one with
+  `--profile`, which is what an editor or harness is started with:
+
+  kscope call --profile <NAME> search
+  kscope call --profile <NAME> remember
+
+Everything below is an OPERATOR command: setup, inspection, and vault
+lifecycle, run by a person or an installer and not by the agent using the
+vault. `search` and `remember` are the only two published as MCP tools, and
+the only two an agent is ever expected to choose between.
+
+OPERATOR -- what this build is
+
+  kscope --help
+  kscope --version
+  kscope model
+  kscope gate
+  kscope activate
+  kscope licences
+  kscope public-contract
+
+OPERATOR -- bring a vault into existence
+
+  kscope init [process-local|durable-local]
+  kscope init <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
+  kscope init-profile <NAME> <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
+
+OPERATOR -- profiles, a named non-secret pointer to one vault
+
+  kscope profile create <NAME> <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope profile import <NAME> <ROOT> [process-local|durable-local]
+  kscope profile list
+  kscope profile show <NAME>
+  kscope profile remove <NAME>
+  kscope profile launch <NAME>
+
+OPERATOR -- which vault a command that names none resolves to
+
+  kscope where
+  kscope where --root-only
+
+OPERATOR -- maintain a local vault
+
+  kscope vault-migrate <ROOT>
+  kscope vault-verify <ROOT> [--cross-backend]
+  kscope vault-preview <ROOT>
+  kscope vault-delete <ROOT>
+
+OPERATOR -- encrypted repository vaults, a frozen macOS preview
+
+  kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>
+  kscope vault-open <REPOSITORY>
+  kscope vault-close <REPOSITORY>
+  kscope vault-recover <REPOSITORY>
+  kscope vault-export-device <REPOSITORY> <NEW_PACKAGE_DIRECTORY>
+  kscope vault-import-device <PACKAGE_DIRECTORY> <REPOSITORY>
+  kscope vault-encrypted-preview <REPOSITORY>
+  kscope vault-encrypted-delete <REPOSITORY>
+
+OPERATOR -- run an engine for an agent, addressed three ways
+
+  kscope mcp --profile <NAME>
+  kscope serve --profile <NAME>
+  kscope context --profile <NAME>
+  kscope call --profile <NAME> <OPERATION>
+
+  kscope mcp [process-local|durable-local]
+  kscope serve [process-local|durable-local]
+  kscope context [process-local|durable-local]
+  kscope call <OPERATION> [process-local|durable-local]
+
+  kscope mcp <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope serve <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope context <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope call <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> <OPERATION> [process-local|durable-local]
+
+The four commands that address a vault accept the four ids or none of them.
+Naming none resolves them: KSCOPE_ROOT, else `.kaleidoscope/` under the
+repository's main checkout, else `.kaleidoscope/` under the working directory --
+and then the vault's own workspace record for the workspace, principal and
+journal, so naming the root names all four. KSCOPE_WORKSPACE,
+KSCOPE_PRINCIPAL and KSCOPE_JOURNAL override that record field by field, and
+are how a vault holding more than one workspace is disambiguated.
+
+Arguments always win, and win completely: an invocation naming the four ids
+never reads the environment at all. That is what keeps every existing caller
+byte-identical.
+
+A resolved root that is not a vault is REFUSED by those four commands, naming
+the path and where the path came from. They never create one: `kscope init` is
+the only way a vault comes into existence, because a wrong root is not an
+error, it is a different vault.
+
+Init itself accepts the same two shapes. Naming ROOT and RFC3339_CREATED_AT is
+unchanged in every respect, and is what a harness uses when a vault's created_at
+has to be controlled. Naming neither resolves the root by the rules above, uses
+the current time, and defaults to process-local -- durable-local fresh-root
+initialization is refused before any effect, so it is asked for rather than
+defaulted to. The resolved root and its provenance are printed on stderr,
+unprompted.
+
+A resolved root that is ALREADY a vault is refused too, and nothing there is
+touched: a second init on an existing root mints a fresh workspace inside it,
+and a vault holding two workspaces can no longer be addressed without naming
+one. The refusal reports the ids it already has.
+
+The resolved form also ensures the repository ignores the vault. `git
+check-ignore` decides whether an existing rule already covers it, in which case
+nothing is written; otherwise one commented rule is APPENDED, never reordering
+or rewriting the file, and never adding a trailing newline the file did not
+have. Outside a git repository nothing is written and no repository is created;
+the vault is simply reported as not ignored. What was done is named on stderr
+and in the gitignore field on stdout.
+
+A version-1 profile is a non-secret pointer to one existing vault identity. It
+stores an absolute root, workspace, principal, journal and durability under the
+platform configuration directory's `kaleidoscope/profiles`, or exactly under
+KSCOPE_PROFILE_HOME when that override is set. Profile names are portable and
+path-safe; profile files are atomic, owner-only on Unix and validated against
+the vault each time they are loaded. `profile import` derives the identity from
+the selected vault; `profile create` verifies the explicit tuple. Neither one
+creates or relocates canonical vault data.
+
+`init-profile` is the native fresh-bootstrap primitive. It initializes the
+explicit root, then writes the named profile. If the second step fails, it does
+not delete the committed vault; the refusal reports the exact root and a
+machine-readable recovery argv for `kscope profile import`. Durable-local is
+never silently downgraded and remains refused before initialization effects.
+
+`profile launch` prints a versioned stdio launch descriptor pointing directly
+at this absolute engine executable with `mcp --profile NAME`. The descriptor
+names only `search` and `remember` and contains no vault coordinates or secret.
+Explicit four-coordinate invocations remain the compatibility authority and do
+not read KSCOPE_PROFILE_HOME.
+
+The where command prints the address these rules resolve to, as JSON, and
+resolves nothing else. Every command that resolved rather than was told also
+prints the same on stderr, unprompted, because a caller relying on a default
+cannot check a root it did not type. stdout stays exactly what it was.
+
+The licences command prints the attribution for third-party material this
+executable redistributes inside itself. The embedded embedding table is
+MinishLab's, under MIT, and MIT requires its notice to accompany every copy --
+which a one-file release cannot do with a NOTICE beside the binary. `licenses`
+is accepted as a spelling. The output states what it does not yet cover.
+
+The model command prints one JSON object naming the semantic embedding model
+this executable carries, its table dtype, and the SHA-256 of its two files, or
+reports that this build has none. A release must report one: the release
+installer refuses a package whose executable does not.
+
+The gate command prints one JSON object naming what this build carries of the
+alpha entitlement gate: enforcing or absent, the commands the gate refuses,
+and where a key file would be read from. It reads no key, opens no vault and
+reports no authorization decision. The gate never refuses this command, so an
+operator holding a refused binary can still find out why it was refused.
+
+The activate command is how a machine becomes entitled. It takes the key from
+KALEIDOSCOPE_API_KEY, from the key file, or from standard input; stores it at
+the path the gate command reports, so an engine a host starts with an empty
+environment finds it; and waits for the verdict rather than leaving the next
+command to discover an empty cache. It is never gated, because a gate across
+the only route to becoming entitled is closed to everyone not already through
+it. It exits 0 only when the key reached the disk: a key that could not be
+stored is a refusal naming the path, and a build carrying no gate refuses as
+well rather than reporting an activation it did not perform.
+
+`-h` and `-V` are accepted as short forms of `--help` and `--version`.
+
+The public-contract command prints a small source-free JSON seed for release
+contract generation. It opens no vault and loads no model.
+
+The vault-recover command reads a JSON object containing recovery_key from
+stdin. The two delete commands require their preview command's
+confirmation_token in a JSON object on stdin. Encrypted repository vaults are
+a frozen macOS-preview feature.
+
+The optional serve command uses a Unix-domain socket and is unavailable on
+non-Unix platforms. The stdio mcp command and process-scoped call command do
+not depend on it.
+
+The vault-migrate command builds the storage engine's index over a vault
+written by the older fs-v0 engine. It creates, moves, copies and deletes no
+content file, re-runs safely, works on a vault whose journal has rotated, and
+is undone by deleting one file -- until the first write through the engine.
+Run vault-verify after it and before writing. Neither command reads the
+journal, so both work on a vault this executable cannot otherwise open.
+
+The context command reads one search JSON request from stdin and prints only
+the concise model-visible memory text. call search returns the bounded public
+result, including final rank and fused score on selected hits; private
+policy/ranker feature vectors, the signed decision payload and engine
+diagnostics are omitted. The documented public workflow has no supported
+outcome-attribution path until a future authenticated manager/controller
+interface exchanges a keyed opaque handle. This is an API contract, not an
+authentication claim about the local vault.
+
+The call command reads one JSON request from stdin. OPERATION is one of:
+
+  AGENT     search | remember
+  OPERATOR  feedback | memory_lifecycle | memory_import | address_maintenance
+            maintenance | ontology | doctor
+
+Only the two agent verbs are published as MCP tools. search merges what were
+recall, compile and read_memory: a query ranks and a memory_id addresses. A
+ranked search always writes the exposure row and bounds the served set --
+ledger: false was a second door and is refused, so a measurement that must not
+write to a vault has to clone it first. Its four knobs are top_k,
+candidate_pool, bfs_depth and max_facts, each with a published default and
+ceiling.
+
+The schema command prints one OPERATION's full descriptive parameters and
+closed values. MCP derives a versioned compact, omission-first inputSchema from
+the same operation semantics. The two preserve the same non-null machine
+constraints but are intentionally not byte-identical: the native decoder
+accepts legacy explicit null while MCP omits absent optionals. Pass no OPERATION
+to list them.
+
+Exit codes. 0 means applied: everything asked for happened, and for a remember
+carrying items every submitted item was written. 2 means refused: nothing was
+applied, stdout carries a refusal envelope rather than a per-item report, and
+the repair is to fix the request and re-send it whole. 3 means applied in part:
+the response says status partial, some items were written and at least one was
+not, and stdout carries results -- one entry per submitted item, in submission
+order, each with its own status and reason. Re-send only the items whose status
+is not a write; re-sending the batch re-submits memories the vault already
+holds. 3 exists so that a caller reading $? can tell those two repairs apart
+without parsing the body, which is the parse an exit code exists to avoid.

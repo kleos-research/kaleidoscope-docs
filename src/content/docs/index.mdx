@@ -11,11 +11,9 @@ head:
 ---
 
 {/*
-  No `hero:` block. Starlight's splash hero renders a product-name headline, a
-  small tagline and a filled button; kleosresearch.xyz opens with a mono
-  eyebrow, a Newsreader thesis and lede paragraphs. The two sites already share
-  fonts and tokens, so composition was the only thing making them look
-  unrelated. Markup below matches the lab site; styles live in brand.css.
+  No `hero:` block. Starlight's splash hero renders a product-name headline and
+  a filled button; the markup below matches kleosresearch.xyz instead. Styles
+  live in brand.css.
 */}
 
 <div class="k-hero not-content">
@@ -23,9 +21,9 @@ head:
 
   <h1>Your agent forgets. This is where it remembers.</h1>
 
-  <p class="k-lede">Every new session, your coding agent starts from nothing. It re-asks questions you already answered, re-reads code it already understood, and repeats mistakes you already paid for. Kaleidoscope gives it a memory that stays on your machine and follows you between tools.</p>
+  <p class="k-lede">Every session your coding agent starts from nothing. It re-asks what you answered, re-reads code it understood, and repeats mistakes you already paid for.</p>
 
-  <p class="k-lede">Your agent gets two things it can do: look something up, and write something down. Everything it stores lives in a folder in your project. No server, no account, and nothing leaves your disk.</p>
+  <p class="k-lede">Kaleidoscope gives it a memory that stays on your machine and follows you between tools. Your agent gets two tools: look something up, and write something down.</p>
 
   <div class="k-actions">
     <a href="/docs/getting-started/">Get started</a>
@@ -38,38 +36,35 @@ head:
 
 ```bash
 npm install -g @kleos-research/kaleidoscope
-```
-
-Then activate it with your key and give a project a memory:
-
-```bash
 export KALEIDOSCOPE_API_KEY=<your key>
 kscope activate
 cd ~/your-project && kscope init
 ```
 
-You need a key to run it. Email [contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz)
-and we will send you one. Full walkthrough in
-[getting started](/docs/getting-started/).
+Restart your editor, then ask it what you decided last week.
+
+No key yet? Email
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz).
+[Getting started](/docs/getting-started/) walks the same four steps slowly.
 
 ## What you get
 
-**It stays on your machine.** Your memory is a folder inside your project. The
-part that stores and searches it runs on your laptop and needs no network, so
-what you write down is not something we can read.
+**It stays on your machine.** Your memory is a folder inside your project,
+served by a process on your laptop. Nothing is uploaded.
 
-**One memory, every tool.** Claude Code, Codex, Cursor and OpenCode all read the
-same vault. Something your agent learned in one of them is there in the next.
+**One memory, every tool.** Claude Code, Codex, Cursor and OpenCode read the
+same vault. What your agent learned in one is there in the next.
 
-**Your agent drives it.** `kscope init` wires up whichever tool you use, and
-from then on you just talk normally — ask it what you decided last week, or tell
-it to remember something. The two commands it uses are the only two it sees.
+**Your agent drives it.** `kscope init` wires whichever editors you already
+have. After that you talk normally, and it decides when to read and when to
+write.
 
 ## Where to go next
 
-- [Getting started](/docs/getting-started/) — install, activate, and give a
-  project a memory.
-- [Give your agent the skill](/docs/skill/) — a file that teaches an agent how
-  to use its memory well.
-- [What works today](/status/) — which platforms and tools are covered.
-- [Documentation](/docs/) — everything else.
+| | |
+|---|---|
+| [Getting started](/docs/getting-started/) | Install, activate, give a project a memory |
+| [Give your agent the skill](/docs/skill/) | Teach an agent to use its memory well |
+| [Editors and agents](/docs/integrations/) | Find yours |
+| [What works today](/status/) | Platforms and tools we have run |
+| [Documentation](/docs/) | Everything else |

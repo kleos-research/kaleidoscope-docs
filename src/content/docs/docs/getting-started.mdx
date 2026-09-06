@@ -3,10 +3,7 @@ title: Getting started
 description: Install Kaleidoscope, activate it with your key, and give a project a memory your agent can use.
 ---
 
-Four steps. They take about two minutes, and the third one is where the useful
-part happens.
-
-You need macOS or Linux and Node.js 18 or newer.
+Four steps, about two minutes. You need macOS or Linux and Node.js 18 or newer.
 
 ## 1. Install
 
@@ -14,58 +11,66 @@ You need macOS or Linux and Node.js 18 or newer.
 npm install -g @kleos-research/kaleidoscope
 ```
 
-This gives you the `kscope` command. It also pulls in a second package built
-for your platform, which carries the part that stores and searches your memory.
+You get the `kscope` command and the engine built for your platform.
 
-## 2. Activate it with your key
-
-Kaleidoscope needs a key to run. If you do not have one, email
-[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz).
+## 2. Activate your key
 
 ```bash
 export KALEIDOSCOPE_API_KEY=<your key>
 kscope activate
 ```
 
-You should see `"entitled":true` and a fragment of your key. `activate` also
-saves the key, so that `export` is a one-off — new terminals will find it.
+Look for `"entitled":true` and a fragment of your key. `activate` stores the
+key, so new terminals find it without the `export`.
 
-If you would rather not put the key in your shell at all, write it into a file
-by hand instead. On macOS that is
-`~/Library/Application Support/kaleidoscope/entitlement/api-key`; on Linux it is
-the same path under `$XDG_CONFIG_HOME`, or `~/.config`. The file holds the key
-and nothing else, and it must be readable only by you (`chmod 600`).
+No key yet? Email
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz). To keep the key
+out of your shell, write it instead into the `api-key` file at the path
+`kscope gate` prints, at mode `600`.
 
 ## 3. Give a project a memory
 
 ```bash
 cd ~/your-project
 kscope init
+kscope profile import default ~/your-project/.kaleidoscope
 ```
 
-This creates the vault — a `.kaleidoscope` folder in your project, added to your
-`.gitignore` — and wires up whichever agent you use. It knows Claude Code,
-Codex, Cursor and OpenCode, and it writes an `AGENTS.md` for anything else.
+Expect output like this:
 
-It only touches the part of your editor's configuration that belongs to
-Kaleidoscope. If it finds a Kaleidoscope entry someone added by hand, it stops
-and tells you rather than overwriting your work.
+```
+kscope: created vault ~/your-project/.kaleidoscope (repository default)
+kscope: wrote /.kaleidoscope/ to a new ~/your-project/.gitignore
+kscope: wired codex, claude-code, cursor, opencode
+kscope:   register the MCP server with codex
+kscope:   agents for codex
+...
+kscope: restart your agent, then ask it to search your memory.
+```
 
-## 4. Restart your agent, then just talk to it
+The `wired` line names the editors `init` found on this machine; it skips any
+whose configuration directory does not exist. `profile import` names the new
+vault `default`, which is the profile the wiring starts each editor with.
 
-Your agent now has two things it can do: look something up, and write something
-down. You do not call those yourself. Ask it what you decided about a design
-last week, or tell it to remember that you prefer a particular approach, and it
-will use them.
+To create the vault and write no configuration, run `kscope init --no-wire`.
+[Connect an editor](/docs/cli/connect/) lists what lands where, per editor.
 
-If it does not seem to know its memory is there, the most reliable fix is to
+## 4. Restart your agent, then talk to it
+
+Your agent now has two tools, `search` and `remember`. You never call them
+yourself.
+
+Ask it what you decided about a design last week. Tell it you prefer a
+particular approach. It picks the tool.
+
+If it does not seem to know its memory is there,
 [give it the skill](/docs/skill/) — a short file that teaches it when to read
-and when to write. Otherwise, see
+and when to write. Otherwise see
 [Troubleshooting](/docs/troubleshooting/).
 
 ## Removing it
 
-Your memory is a folder. Deleting `.kaleidoscope` from a project deletes that
-project's memory and nothing else; `npm uninstall -g @kleos-research/kaleidoscope`
-removes the command and leaves every vault alone.
-[Operations](/docs/operations/) covers moving and inspecting a vault.
+Delete `.kaleidoscope` from a project to delete that project's memory.
+`npm uninstall -g @kleos-research/kaleidoscope` removes the command and leaves
+every vault alone. [Operations](/docs/operations/) covers moving and inspecting
+a vault.

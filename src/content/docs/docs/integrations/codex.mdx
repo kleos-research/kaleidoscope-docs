@@ -1,30 +1,79 @@
 ---
 title: Codex
-description: Connect Codex to your local Kaleidoscope profile, with a dry run first and exact removal afterwards.
+description: Wire Codex with kscope init — the marked block in ~/.codex/config.toml, the AGENTS.md block, and the .agents skill.
 ---
 
-Codex reads the same local launch descriptor and the same profile as every other
-editor you connect. Kaleidoscope owns the change it makes to Codex's
-configuration, so you can preview it, and take it back out exactly.
+Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
+key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
+starts it.
 
-## Connect it
+`kscope init` wires Codex when `~/.codex` exists.
 
-```bash
-kscope connect codex --profile default --project "$PWD" --dry-run
-kscope connect codex --profile default --project "$PWD"
-kaleidoscope instructions install agents --project "$PWD"
-```
-
-## What it writes
-
-What gets written names an absolute path to the local engine,
-`mcp --profile default`, and exactly `search` and `remember`. It does not carry
-your vault location, a provider key, or an account credential.
-
-## Disconnect
+## Wire it
 
 ```bash
-kscope disconnect codex --project "$PWD"
+cd ~/your-project
+kscope init
+kscope profile import default ~/your-project/.kaleidoscope
 ```
 
-It removes only what Kaleidoscope wrote, leaving the file as it was.
+Run both, in that order. Skip the import and Codex reports
+`profile does not exist`.
+
+Restart Codex, then ask it to search your memory.
+
+## What init writes
+
+| What | Where |
+|---|---|
+| MCP entry | `~/.codex/config.toml`, inside a `kaleidoscope-manager` marker block |
+| Instructions | `AGENTS.md`, between marker comments |
+| Skill | `.agents/skills/use-kaleidoscope/SKILL.md` |
+| Receipt | `~/.codex/config.toml.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
+| Backup | `~/.codex/config.toml.kaleidoscope-backup`, when the file was already there |
+
+```toml
+# >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 host=codex
+[mcp_servers.kaleidoscope]
+command = "/absolute/path/to/kscope"
+args = ["mcp", "--profile", "default"]
+enabled = true
+required = false
+startup_timeout_sec = 10
+tool_timeout_sec = 30
+enabled_tools = ["search", "remember"]
+default_tools_approval_mode = "writes"
+
+[mcp_servers.kaleidoscope.tools.search]
+approval_mode = "approve"
+# <<< kaleidoscope-manager owner=kaleidoscope-manager-v1
+```
+
+`enabled_tools` names the two tools in Codex's own configuration. Skills go to
+`.agents/skills/` here, the same path OpenCode reads; Claude Code reads
+`.claude/skills/`.
+
+If `~/.codex/config.toml` already holds an `[mcp_servers.kaleidoscope]` table
+outside a marker block, that step fails and the file is not changed. Delete the
+table by hand and run `kscope init` again.
+
+## Check it
+
+```bash
+kscope profile list
+kscope profile launch default
+```
+
+`launch` prints the command, the arguments and the tool list — `search` and
+`remember` — that the table in `~/.codex/config.toml` should match.
+
+## Remove it
+
+Delete each of these, and the receipt beside it:
+
+- the marker block in `~/.codex/config.toml`
+- the marked block in `AGENTS.md`
+- `.agents/skills/use-kaleidoscope/`
+
+Your memory stays. [Connect an editor or agent](/docs/cli/connect/) covers every
+editor at once.

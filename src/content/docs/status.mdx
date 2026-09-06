@@ -1,32 +1,35 @@
 ---
 title: Status
-description: Whether Kaleidoscope is available, whether anything is down, what version is current, and what has actually been run.
+description: What ships today, what version is current, and what has been run.
 ---
 import status from '../../data/status.json';
+import platforms from '../../data/platform-support.json';
 import release from '../../../public-docs-release.json';
+
+{(() => {
+  // public-docs-release.json is the author of the release version, and this
+  // page renders it. src/data/status.json is served byte for byte at
+  // /status.json and cannot import, so it carries a literal copy. A bump that
+  // changes one file and forgets the other stops the build here. Renders
+  // nothing.
+  if (status.packages.version !== release.release_version) {
+    throw new Error(
+      'the release version disagrees with itself: public-docs-release.json says ' +
+        release.release_version +
+        ' and src/data/status.json says ' +
+        status.packages.version +
+        '. public-docs-release.json is the author; change status.json to match it.',
+    );
+  }
+  return '';
+})()}
 
 <p class="k-meta">As of {status['as of']}</p>
 
-Kaleidoscope is installable and needs a key to run. Nothing is signed for
-release, and there is no account to sign in to. That is the whole status, and
-the rest of this page says what each part of it means.
+Kaleidoscope installs from npm and runs on your machine. It needs a key.
+Nothing is signed for release, and there is no account to sign in to.
 
-## Is anything down?
-
-No, and there is nothing that could be.
-
-Kaleidoscope runs on your machine. The engine that stores and ranks your memory
-is a local process; there is no server between you and it, no API endpoint, no
-hosted memory, and no account service you depend on to read your own vault. A
-status page for a local program has no uptime to report, and we would rather say
-that than invent a green tick.
-
-If a hosted service ever exists, its status will be published here, and this
-section will say something other than "there is nothing that could be down."
-
-## Can I install it?
-
-Yes.
+## Install
 
 ```bash
 npm install -g @kleos-research/kaleidoscope
@@ -34,46 +37,58 @@ npm install -g @kleos-research/kaleidoscope
 
 macOS and Linux, on Apple Silicon and x86_64. Windows is not supported yet.
 
-You need a key to run it — email
-[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz). There is no
-Python package; `kaleidoscope-memory` was planned and never registered.
+Email [contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz) for a key,
+then follow [Getting started](/docs/getting-started/).
 
-Nothing is signed for release, so what you install is unsigned software on your
-machine. That is on the list to fix.
-
-## Do I need an account?
-
-No, and there is no way to make one. Your key is all that is needed, and your
-vault has never depended on an account.
-
-## What version is current
+## What is current
 
 | | |
 |---|---|
 | Package | {release.release_version} on npm |
 | Documentation | updated {status['as of']} |
-| Signed builds | none |
+| Signed builds | none, so what you install is unsigned software |
+| Accounts | none, and none to create |
+| Python package | none — `kscope-memory` on PyPI is a 0.0.0 placeholder with no working code, and `kaleidoscope-memory` was never registered |
 
-## Two contracts you can check right now
+Nothing here is hosted, so there is no uptime to report. If a hosted service
+ships, its status appears on this page.
 
-They are published as files, and they are the closest thing to a live interface
-this project has today:
+## Machines
 
-- [The two tools a model sees](/reference/kaleidoscope-mcp.json) — `search` and
-  `remember`, and nothing else. No operator command is ever a model tool.
-- [The full command-line help](/reference/kaleidoscope-cli.txt) — every command
-  and flag of the local manager, verbatim.
+<div class="table-scroll" tabindex="0">
+  <table>
+    <thead>
+      <tr><th scope="col">Machine</th><th scope="col">Built and published</th><th scope="col">Run by us</th></tr>
+    </thead>
+    <tbody>
+      {platforms['built and published'].platforms.map((row) => (
+        <tr>
+          <td>{row.platform}, {row.architecture}</td>
+          <td>yes</td>
+          <td>{platforms['run on'].includes(`${row.platform}, ${row.architecture}`) ? 'yes' : 'no'}</td>
+        </tr>
+      ))}
+      {platforms['compiler checked only'].platforms
+        .filter((row) => !platforms['built and published'].platforms.some(
+          (built) => built.platform === row.platform && built.architecture === row.architecture,
+        ))
+        .map((row) => (
+          <tr>
+            <td>{row.platform}, {row.architecture}</td>
+            <td>no</td>
+            <td>no</td>
+          </tr>
+        ))}
+    </tbody>
+  </table>
+</div>
 
-## What we have actually run
+Windows has had a compiler check of the memory engine's source and nothing
+more. Nothing was built there and nothing has run there.
 
-This is the part that is easy to overstate, so it is stated flatly.
+## Editors and agents
 
-**Machines.** Kaleidoscope has been run on one kind of machine: a Mac with Apple
-Silicon. Everything else on the platform list has had a compiler check of the
-memory engine's source and nothing more — nothing was assembled into a program,
-nothing was linked, and nothing has been run there.
-
-**Editors and agents.** From the command line, on that Mac:
+From the command line, on that Mac:
 
 <div class="table-scroll" tabindex="0">
   <table>
@@ -92,12 +107,24 @@ nothing was linked, and nothing has been run there.
   </table>
 </div>
 
-**Frameworks.** LangChain, LangGraph, the Claude Agent SDK, the OpenAI Agents SDK
-and CrewAI have been run against stand-in models, never a live provider.
+LangChain, LangGraph, the Claude Agent SDK, the OpenAI Agents SDK and CrewAI
+have been run against stand-in models, never a live provider.
 
-**Not done at all:** any run against a live model provider, anything through an
-editor's graphical interface, any platform other than a Mac with Apple Silicon,
-and any package installed from a registry.
+Not run at all:
 
-The same facts, in machine-readable form: [status.json](/status.json) and
+<ul>
+  {status.hosts['not run at all'].map((item) => (
+    <li>{item}</li>
+  ))}
+</ul>
+
+## Contracts you can read now
+
+- [The two tools a model sees](/reference/kaleidoscope-mcp.json) — `search` and
+  `remember`, and nothing else.
+- [The full command-line help](/reference/kscope-cli.txt) — every command of
+  `kscope`, verbatim. It lists commands rather than flags: `--no-wire` on
+  `kscope init` is real and is not on it.
+
+The same facts in machine-readable form: [status.json](/status.json) and
 [platform-support.json](/platform-support.json).

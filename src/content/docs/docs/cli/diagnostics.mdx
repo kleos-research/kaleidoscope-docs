@@ -1,19 +1,30 @@
 ---
 title: Diagnostics
-description: Where your vault is, whether the engine is complete, and whether your key is working.
+description: Which vault you are talking to, whether your key works, whether the engine is complete, and whether the vault is intact.
 ---
 
-Four commands answer the questions you are likely to have when something looks
-wrong. None of them reads or changes a single memory.
+Four commands answer the four questions that come up when something looks
+wrong. None of them reads or changes a memory.
 
-## Where is my memory?
+| Question | Command | Healthy answer |
+|---|---|---|
+| Which vault is this? | `kscope where` | the root you expected |
+| Is my key working? | `kscope gate` | `"status":"enforcing"` and a key file path |
+| Is the engine complete? | `kscope model` | `"status":"bundled"` |
+| Is the vault intact? | `kscope vault-verify ROOT` | `"status":"complete"` |
+
+## Which vault is this?
 
 ```bash
 kscope where
 ```
 
-Prints the vault this directory resolves to, and the workspace it belongs to.
-Run it when you are not sure which project's memory your agent is talking to.
+Prints the vault this directory resolves to, the workspace, principal and
+journal inside it, and where each of those came from. Run it when you are not
+sure which project's memory your agent is talking to.
+
+`--root-only` narrows the output to the root and the project it was resolved
+from.
 
 ## Is my key working?
 
@@ -21,16 +32,23 @@ Run it when you are not sure which project's memory your agent is talking to.
 kscope gate
 ```
 
-Says whether this build checks a licence, which commands need one, and where it
-looks for your key. If a command has been refused, this is the page that tells
-you why in one line.
+Reports whether this build enforces the licence check, which commands the check
+refuses, and the directory it reads the key from. It reads no key and makes no
+authorization decision, so it answers even on a binary that is refusing
+everything else.
 
 ```bash
 kscope activate
 ```
 
-Re-checks the key you already have and stores it. `"entitled":true` means you
-are set up.
+Installs a key and waits for the verdict. It takes the key as an argument, from
+`KALEIDOSCOPE_API_KEY`, from the key file, or from standard input.
+`"entitled":true` means you are set up.
+
+| | Commands |
+|---|---|
+| Need a key | `mcp`, `serve`, `context`, `call` |
+| Work without one | `where`, `schema`, `model`, `gate`, `vault-preview`, `vault-verify`, `vault-migrate` |
 
 ## Is the engine complete?
 
@@ -38,17 +56,25 @@ are set up.
 kscope model
 ```
 
-Should print `"status":"bundled"`. Anything else means the part that understands
-what your memories mean is missing, and search will quietly get worse rather
-than fail — which is why it is worth checking directly.
+Prints the semantic embedding model this build carries, its dimensions, and the
+SHA-256 of its two files. Anything but `"status":"bundled"` means search gets
+quietly worse rather than failing, so check it directly.
 
-## Is my vault healthy?
+## Is the vault intact?
 
 ```bash
-kscope vault-verify /path/to/.kaleidoscope
+kscope vault-verify ~/your-project/.kaleidoscope
 ```
 
-Counts what is stored and reports whether the copies agree. It reads only.
+Counts what is stored and reports whether the copies agree. It reads only. Add
+`--cross-backend` to widen the check.
 
-For a deeper report, `kscope call doctor` runs the full diagnostic and returns
-JSON. It is an operator command, so your agent is never offered it.
+For the full report, `call doctor` reads one JSON request from standard input
+and returns JSON. `inspect` is the mode that only looks:
+
+```bash
+echo '{"mode":"inspect"}' | kscope call doctor
+```
+
+`call` needs a key. It is an operator command, so your agent is never offered
+it.

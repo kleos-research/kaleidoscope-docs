@@ -16,7 +16,12 @@ def fresh():
     shutil.copytree(REPO / "dist", WORK / "dist")
     for d in ("src", "scripts"):
         shutil.copytree(REPO / d, WORK / d)
-    for f in ("verify_site.py", "astro.config.mjs", "public-docs-release.json"):
+    # `release-pin.json` joins the list because the platform gate reads it. A
+    # root-level file the verifier needs and this harness does not copy makes
+    # the CONTROL fail, and a harness whose control fails proves nothing about
+    # the plants that follow it.
+    for f in ("verify_site.py", "astro.config.mjs", "public-docs-release.json",
+              "release-pin.json"):
         shutil.copy2(REPO / f, WORK / f)
     return WORK
 
@@ -27,10 +32,38 @@ def run(mode="public_docs"):
         capture_output=True, text=True)
     return r.returncode, (r.stdout + r.stderr).strip()
 
-def show(label, rc, out, expect_fail=True):
-    ok = (rc != 0) if expect_fail else (rc == 0)
+def show(label, rc, out, expect_fail=True, expect=None, absent=None):
+    """Report one plant.
+
+    Three ways to judge a run, in increasing strength:
+
+      - the default, and what every plant here used before the 0.0.5 audit:
+        the verifier exited nonzero. That is enough only while the tree is
+        otherwise clean, and it stops being enough the moment ANY unrelated
+        failure exists — every plant then "passes" without proving anything.
+      - `expect`: a refusal naming this plant must appear. A plant judged this
+        way is meaningful even when the rest of the tree is red, which is the
+        state a repository is in for most of the time anybody is working on it.
+        Pass a tuple to require several substrings in the SAME refusal line:
+        that is what separates "some page somewhere said this" from "the page
+        I planted into said this", and the difference only shows up once an
+        unrelated page is failing for the same reason.
+      - `absent`: no refusal naming this string may appear. This is how a
+        NEGATIVE control is written — the thing that proves a gate is not
+        simply refusing everything put in front of it.
+    """
     lines = [l for l in out.splitlines() if l.startswith("FAIL") or l.startswith("verified")]
-    body = "\n".join("      " + l for l in lines[:3]) or "      (no output)"
+    if absent is not None:
+        matched = [l for l in lines if absent in l]
+        ok = not matched
+        shown = matched or [f"(nothing named {absent!r} — the gate held its shape)"]
+    elif expect is not None:
+        wanted = expect if isinstance(expect, tuple) else (expect,)
+        matched = [l for l in lines if all(w in l for w in wanted)]
+        ok, shown = bool(matched), matched or lines
+    else:
+        ok, shown = ((rc != 0) if expect_fail else (rc == 0)), lines
+    body = "\n".join("      " + l for l in shown[:3]) or "      (no output)"
     print(f"  [{'CAUGHT' if ok else 'MISSED'}] {label}")
     print(body)
     return ok
@@ -41,10 +74,20 @@ def sub(path, old, new, count=1):
     assert old in t, f"anchor not found in {path}: {old[:60]}"
     p.write_text(t.replace(old, new, count))
 
+def append(path, text):
+    """Add to the end of a file rather than editing a line somebody else owns.
+
+    The gates added after the 0.0.5 audit read authored pages that are under
+    active edit. A plant anchored to a sentence in one of them breaks as soon as
+    that sentence is rewritten, and a broken plant reads as a broken gate.
+    """
+    p = WORK / path
+    p.write_text(p.read_text() + text)
+
 PLANTS = []
-def plant(label):
+def plant(label, expect=None, absent=None):
     def deco(fn):
-        PLANTS.append((label, fn)); return fn
+        PLANTS.append((label, fn, expect, absent)); return fn
     return deco
 
 # ---- gate (a) private markers -------------------------------------------
@@ -185,10 +228,17 @@ def _():
     p.write_text(json.dumps(d, indent=2, sort_keys=True))
 
 # ---- source-side, NEW ------------------------------------------------------
-@plant("source: NEW — the CLAUDE.md fence stops matching the file it claims to be")
+# Re-anchored after the snippet was rewritten upstream: the old anchor carried
+# the sentence that followed the heading, so it went with the new text and the
+# plant stopped planting anything. The heading alone is the snippet's own first
+# line, republished byte for byte, so the page cannot stop containing it without
+# this gate firing for real — which makes it the one part of the fence safe to
+# anchor to.
+@plant("source: NEW — the CLAUDE.md fence stops matching the file it claims to be",
+       expect="the CLAUDE.md fence is not byte-identical")
 def _(): sub("src/content/docs/docs/skill.mdx",
-             "## Kaleidoscope memory\n\nFor nontrivial tasks",
-             "## Kaleidoscope Memory\n\nFor nontrivial tasks", 1)
+             "## Kaleidoscope memory",
+             "## Kaleidoscope Memory", 1)
 
 # ---- links / seo -----------------------------------------------------------
 @plant("links: a broken internal link")
@@ -208,6 +258,59 @@ def _(): (WORK/"dist/.nojekyll").unlink()
 @plant("scan: no source tree, so the source half cannot run")
 def _(): shutil.rmtree(WORK/"src/styles")
 
+# ---- gate (i) the command gate --------------------------------------------
+# These plant into /docs/privacy/, which has no fenced commands of its own, so
+# the refusal they produce can only be theirs. `sub` into a CLI page would be a
+# plant anchored to a sentence three other people are rewriting this week.
+PAGE = "src/content/docs/docs/privacy.mdx"
+
+@plant("(i) NEW — a fenced command names a kscope verb the binary has not",
+       expect="verb 'doctor'")
+def _(): append(PAGE, "\n```sh\nkscope doctor\n```\n")
+
+@plant("(i) NEW — `kscope profile use`, a verb of the OTHER binary",
+       expect="profile has no subcommand 'use'")
+def _(): append(PAGE, "\n```sh\nkscope profile use work\n```\n")
+
+@plant("(i) NEW — a call operation that does not exist",
+       expect="call has no operation 'compile'")
+def _(): append(PAGE, "\n```sh\nkscope call --profile default compile\n```\n")
+
+@plant("(i) NEW — an unobtainable `kaleidoscope` command, block unmarked",
+       expect="is not published on any channel")
+def _(): append(PAGE, "\n```sh\nkaleidoscope connect claude --project \"$PWD\"\n```\n")
+
+@plant("(i) NEW — NEGATIVE CONTROL: the same command, block marked, is allowed",
+       absent="privacy.mdx:")
+def _(): append(PAGE, "\n{/* not-yet-shipped */}\n```sh\nkaleidoscope connect claude\n```\n")
+
+@plant("(i) NEW — the recorded surface goes missing, so the gate cannot run",
+       expect="missing src/data/kscope-surface.json")
+def _(): (WORK/"src/data/kscope-surface.json").unlink()
+
+# ---- gate (j) the availability gate ---------------------------------------
+@plant("(j) NEW — a page says the product cannot be had, and npm disagrees",
+       expect="kaleidoscope is not released")
+def _(): append(PAGE, "\nKaleidoscope is not released, so there is nothing to try yet.\n")
+
+@plant("(j) NEW — the release record goes missing, so the gate cannot run",
+       expect="missing public-docs-release.json")
+def _(): (WORK/"public-docs-release.json").unlink()
+
+# ---- gate (k) the version gate --------------------------------------------
+@plant("(k) NEW — a second authored file states the release version",
+       expect="states the release version")
+def _(): append("src/content/docs/docs/security.mdx",
+                "\nThe version this page was written against is 0.0.5.\n")
+
+@plant("(k) NEW — a package pin left behind at the previous version",
+       expect="names Kaleidoscope at version '0.0.4'")
+def _(): append(PAGE, "\nInstall @kleos-research/kaleidoscope@0.0.4 to reproduce this.\n")
+
+@plant("(k) NEW — the file of record stops stating the version at all",
+       expect="does not state the release version")
+def _(): sub("src/data/status.json", '"version": "0.0.5"', '"version": "9.9.9"', 1)
+
 def main():
     print("=" * 74)
     print("CONTROL — the artifact as promoted, unmodified")
@@ -219,9 +322,25 @@ def main():
     print(f"{len(PLANTS)} PLANTED VIOLATIONS — each is one mutation of that same tree")
     print("=" * 74)
     caught = 0
-    for label, fn in PLANTS:
-        fresh(); fn(); rc, out = run()
-        if show(label, rc, out): caught += 1
+    for label, fn, expect, absent in PLANTS:
+        fresh()
+        # A plant is anchored to a sentence somebody else owns, and sentences
+        # get rewritten. When the anchor is gone the mutation raises, and
+        # letting that end the run would mean every plant BELOW it silently
+        # stops being exercised — the failure would read as "the harness is
+        # broken" rather than "this one plant no longer plants anything". So
+        # it is reported where it stands, counted as not caught, and the rest
+        # of the run continues. It is still a failure: a plant that mutates
+        # nothing proves nothing, and re-anchoring it is the repair.
+        try:
+            fn()
+        except Exception as e:
+            print(f"  [BROKEN] {label}")
+            print(f"      the mutation could not be applied: {e}")
+            print("      re-anchor this plant; until then its gate is unproven")
+            continue
+        rc, out = run()
+        if show(label, rc, out, expect=expect, absent=absent): caught += 1
     print()
     print("=" * 74)
     print(f"control accepted: {control_ok}   planted: {len(PLANTS)}   caught: {caught}   MISSED: {len(PLANTS)-caught}")

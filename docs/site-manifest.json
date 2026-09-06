@@ -12,8 +12,8 @@
     },
     {
       "path": "404.html",
-      "sha256": "1966993e48a299af6f1968a48313d50e4a8929366d9806348893520737f4e908",
-      "size_bytes": 26957
+      "sha256": "89b10bc6bf7de927128acd4e2a2402549c7ee6e48da2619f9a4108ef6bef7874",
+      "size_bytes": 26924
     },
     {
       "path": "CNAME",
@@ -22,8 +22,8 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "c688db1b84ee20b6786d6109c68fbf8a21fd87486b9fe37e525d85170b77c9ad",
-      "size_bytes": 4136
+      "sha256": "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e",
+      "size_bytes": 8847
     },
     {
       "path": "_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js",
@@ -36,9 +36,9 @@
       "size_bytes": 36
     },
     {
-      "path": "_astro/common.CZ10dqwM.css",
-      "sha256": "201011173fe40da5e562283be647bc098423b8637ff72e94ddb7110afa137ba5",
-      "size_bytes": 47433
+      "path": "_astro/common.BancJ92E.css",
+      "sha256": "bb2e33126616053c5c61b0bc48fa42219a0fa741644c726103554709a7b702a9",
+      "size_bytes": 49783
     },
     {
       "path": "_astro/ec.0vx5m.js",
@@ -67,8 +67,8 @@
     },
     {
       "path": "agent-instructions.md",
-      "sha256": "2478b40c4eb3a82682240423c845f29a08bebc509f72d55797f08543fb13948c",
-      "size_bytes": 1649
+      "sha256": "3c4d99aee28ed5ecd7ab7cda1310967d6b6c95282da4bd96f61c8eee9ac66e36",
+      "size_bytes": 3886
     },
     {
       "path": "apple-touch-icon.png",
@@ -82,58 +82,58 @@
     },
     {
       "path": "docs/account/index.html",
-      "sha256": "168c889f286bf723d43206c183e5533342ee2f99a4ae6021ee258094933dbbbe",
-      "size_bytes": 37761
+      "sha256": "e087238d83e80e26246245f2f0645ce15cdf0c42c50f1ddf45f1f8a29a09d436",
+      "size_bytes": 37728
     },
     {
       "path": "docs/benchmarks/index.html",
-      "sha256": "1271cd45c04597f3db6e74102f326c8cba3e2949ad7ddb16aca9bc6e8b08782c",
-      "size_bytes": 38898
+      "sha256": "30d00b4eabe2e09495fa0ae038688067098c183316a6b16798c8337fd98daf95",
+      "size_bytes": 38865
     },
     {
       "path": "docs/cli/account/index.html",
-      "sha256": "a32cc11e70d85ec67844ba50bc4106f487be8a9cabcf724a5152c35ab32fd424",
-      "size_bytes": 42535
+      "sha256": "165a6eb193d8ce1c3b13eef4d5be072c083a8966b87de144b1a550cec72f713a",
+      "size_bytes": 45485
     },
     {
       "path": "docs/cli/connect/index.html",
-      "sha256": "3af4e13826b9c880fb32ff2f42a05bd393c3660e298f831be8905ec0af84a716",
-      "size_bytes": 32999
+      "sha256": "e48598d5134f1bfbfae626e5ff196850bb14d8645d69f0172ae0fdc472540300",
+      "size_bytes": 40822
     },
     {
       "path": "docs/cli/diagnostics/index.html",
-      "sha256": "a4c3662e278e0642e704c95b359f661f0d114cc03d3d93ff1b611abeaa586a3a",
-      "size_bytes": 37262
+      "sha256": "bc2b77dc932518f1c6602036b9703db06ef8d32284ec149fd3efbf5dc2c974de",
+      "size_bytes": 39967
     },
     {
       "path": "docs/cli/index.html",
-      "sha256": "da2462c006992b92c725c1b3d4308b90cfd29578ef33688c920c672593067c5b",
-      "size_bytes": 35498
+      "sha256": "7aaf333ca72978b89114de9d1aadc021d33c8ff8649e2ad5beec3b677f3fd4c4",
+      "size_bytes": 41518
     },
     {
       "path": "docs/cli/instructions/index.html",
-      "sha256": "72d9ce5fd486cc7264e2cbe364089237610c7b5908516596683a20db7ae30c8e",
-      "size_bytes": 40209
+      "sha256": "02f1f75bf5c3784e8fae089a6c99dbef0c4d26ac1cde2906326011b67e35e6dd",
+      "size_bytes": 35638
     },
     {
       "path": "docs/cli/profiles/index.html",
-      "sha256": "bb0350b8617260baffde2127d718cb1f25af8a9643edb418d10beaace296c668",
-      "size_bytes": 40228
+      "sha256": "e575effe0b7a0c1f478efd40229b6c269ba9c60a53036b98f6bbd126d01dfbd2",
+      "size_bytes": 43669
     },
     {
       "path": "docs/compatibility/index.html",
-      "sha256": "a62779bd1de8d3e8250d3153d0d8a899df73d6dd63c7dbbbda0d23d13d44530e",
-      "size_bytes": 32228
+      "sha256": "4f2f222b1194432b3b1ab9f2c3bb3d79dd0a7f4850238024ca90c81e206a8feb",
+      "size_bytes": 33867
     },
     {
       "path": "docs/concepts/index.html",
-      "sha256": "f13ea815dfdc9d4bb5d22bc60d74193000c13b6217719184199d45e96a7fbb65",
-      "size_bytes": 37568
+      "sha256": "436b5bd146431b9e8973caed1ccf1dc66a2eb783dc5bbb9ef97e02234957dbb1",
+      "size_bytes": 37447
     },
     {
       "path": "docs/getting-started/index.html",
-      "sha256": "ade274bed42cc72376f275472c291137f38b22d09b2a7904a390d03eb5bbdd82",
-      "size_bytes": 39357
+      "sha256": "5a777b3fefa574c993a9a36ae01a1dcc18df66d0d665368eca023957fa8f7253",
+      "size_bytes": 40693
     },
     {
       "path": "docs/hosted/index.html",
@@ -142,123 +142,123 @@
     },
     {
       "path": "docs/index.html",
-      "sha256": "7bd13b5b7a8e060882425157bdb125d1eb3e96faa25cdc86d4904692ae3f98b1",
-      "size_bytes": 39660
+      "sha256": "b50d1e9692f8a76d87bea4565e22aa1c2197a74261cfc0d8ae1341b6db65107b",
+      "size_bytes": 41335
     },
     {
       "path": "docs/integrations/claude-agent-sdk/index.html",
-      "sha256": "dabc9cbb092303b8572b9b21ac14e7b5e4cb1dbf17be0f05197f2591dd4ff185",
-      "size_bytes": 35695
+      "sha256": "1583fad8b6c2857e7ea244dd19d545e8e83e9fdcedbc03194c5c7df41141883f",
+      "size_bytes": 36192
     },
     {
       "path": "docs/integrations/claude-code/index.html",
-      "sha256": "97142a7b8c930dfde077baf2c0c242c8118e8bbc3eba3ee8168ab66d2255a5b0",
-      "size_bytes": 35992
+      "sha256": "fd73b32f208b22a61b046cd322c6aa0fd56ffe642ee0ef696a3b6030685b7a01",
+      "size_bytes": 42229
     },
     {
       "path": "docs/integrations/codex/index.html",
-      "sha256": "7878880cb54d27815dfbfdf61e9354fb6a8b8d39a158bd38d1edacac8bd748ca",
-      "size_bytes": 35656
+      "sha256": "cebfc9b30b7940226c7d87037ecff5931a6b538a66adc1f1a4c1f927e24659a3",
+      "size_bytes": 41531
     },
     {
       "path": "docs/integrations/crewai/index.html",
-      "sha256": "4bcb908ce26bd039efa06c7a799f297c9274d2d39355ad348147b55b99e66052",
-      "size_bytes": 33338
+      "sha256": "5175cdb2a8c198d88a3d5683ecc2f5ce6226402aff1f05ed3a5ccf7709dc0a70",
+      "size_bytes": 35577
     },
     {
       "path": "docs/integrations/cursor/index.html",
-      "sha256": "e1c4c5ba77fc79c41b35de2f21d64fc1960befcda4f42e24784cbe96ce0923c0",
-      "size_bytes": 38137
+      "sha256": "7feb760fd601a7f6d8af594d663a35317fa9028999950f7735afdd8775f43707",
+      "size_bytes": 42399
     },
     {
       "path": "docs/integrations/generic-mcp/index.html",
-      "sha256": "f6e63f1708d047a4eb9d94d6618c0afcd138b0b0b744d700a6557399e68ce274",
-      "size_bytes": 35309
+      "sha256": "774cc1d35ec3e2c5b2a57772ac9f7209483ffbe52ab3e3e03e688828341ba9e9",
+      "size_bytes": 39373
     },
     {
       "path": "docs/integrations/index.html",
-      "sha256": "346b06b0a6e59de04d1ddc21fa3acb0912714efc6ecd41156eb3123d7a63129c",
-      "size_bytes": 29937
+      "sha256": "ce29994567ba095d63d9238b1f5d7d44e6d01b5b31340fbd14e6ea7a82e2709f",
+      "size_bytes": 36550
     },
     {
       "path": "docs/integrations/langchain/index.html",
-      "sha256": "4cb89d19ac887f2383952ea1a0a31e4ecd5114dfbe796402011f45a77c66e651",
-      "size_bytes": 35019
+      "sha256": "8fa823e98dff8b86e4e4ffe641269f22e9e2b6164e7a06a906fc38183f9a40a4",
+      "size_bytes": 35737
     },
     {
       "path": "docs/integrations/langgraph/index.html",
-      "sha256": "751dc454dabc52f959c16689601a605e41924012326e39c843d3bd6bb4b75811",
-      "size_bytes": 34860
+      "sha256": "2540b8be936c7fbbcf1b74d52ad1a9525fbf53da3febe727f8dbb84ea8ef8713",
+      "size_bytes": 35754
     },
     {
       "path": "docs/integrations/openai-agents-sdk/index.html",
-      "sha256": "e0d8813063d8de3a2590e14248b21a0194c46b591d25ccc099b90ff2c3e9ed4e",
-      "size_bytes": 35036
+      "sha256": "2b2cbc5310e6ba65156b4266a1d8f4964970786b29ae301f0be9edeabb4cdda3",
+      "size_bytes": 35712
     },
     {
       "path": "docs/integrations/opencode/index.html",
-      "sha256": "405d1de2909d6551e7b8b78f21845c9a819c56da4de25ebc5baa9126ff782489",
-      "size_bytes": 38115
+      "sha256": "6b7fe42273dcf4c338dbe64de444a07baf982f91f36df0b64a0ea83613c632c3",
+      "size_bytes": 42960
     },
     {
       "path": "docs/legal/engine-eula/index.html",
-      "sha256": "1f310c11a829bde60fe2833f15d60dfaadb0e64ac978c3250fa3173c708bb504",
-      "size_bytes": 67223
+      "sha256": "aaa60cc6ae1eee91e12f6c5e132fdddf8031e27c6cdc39cf09782e69b7373203",
+      "size_bytes": 67190
     },
     {
       "path": "docs/legal/index.html",
-      "sha256": "a4edc4fc276b99d4f28cf58bbc81b2dcc15abf65041e1fe424ccafa8926a86c6",
-      "size_bytes": 36169
+      "sha256": "7c07be99506d5fb1533296ce12e9ac20a61a6356adb0cd3130136d7219bc1be3",
+      "size_bytes": 36118
     },
     {
       "path": "docs/legal/privacy-notice/index.html",
-      "sha256": "87aaa44bb8758408ff0ab7b772725f1e841542cfb0c5e9a3ae63afb52f6fa7b7",
-      "size_bytes": 67062
+      "sha256": "7a1014f83d1efea70bc4caf399115876917a07aa51a7788525a831aec8d162b6",
+      "size_bytes": 67029
     },
     {
       "path": "docs/legal/security-policy/index.html",
-      "sha256": "c6d727666c944dec2789ea2033a447c34e26c65ac5d92e53d8919141314a0508",
-      "size_bytes": 56793
+      "sha256": "87a029c19f64c9c369cca78f4ce9d679e75d06cbf9c7f10159c7a8cdedd7701f",
+      "size_bytes": 56760
     },
     {
       "path": "docs/legal/support-policy/index.html",
-      "sha256": "aeb62f4b9ac328a2c0db88ced519f05e13e2d253d54b66f73b06e0d886549a45",
-      "size_bytes": 46429
+      "sha256": "623aedac924a53c50cbdf5b896a2ae98aad84300545f6cc5fcbe6b74b6a3002e",
+      "size_bytes": 46396
     },
     {
       "path": "docs/mcp/index.html",
-      "sha256": "4ac29c6632b5401fa6f293668757f2e0f712b4cb7a175161fa6549bd659a820a",
-      "size_bytes": 46033
+      "sha256": "538e5fa8998c144a7b6a726a634ddfdf0bc74daa5e9f0710f1544f0b4a299bf8",
+      "size_bytes": 48423
     },
     {
       "path": "docs/operations/index.html",
-      "sha256": "ba030ebe05e45709c0a92ec8f8c373fc37c2570db611688d134a71ef84dbad48",
-      "size_bytes": 42681
+      "sha256": "ef015ccd65e78fc12c72f47d25322c2fad8a6252e3e3f36ab79e3bf9ff1a03a4",
+      "size_bytes": 43524
     },
     {
       "path": "docs/packages/index.html",
-      "sha256": "a43542426c6925ad6d0ce911ee51fa99474227bb8e8a297d16d82253830ac86a",
-      "size_bytes": 34347
+      "sha256": "813ffbbcea4f84bbd09f3aea4b35256d06115570ac63edb475d8d663453919a8",
+      "size_bytes": 37754
     },
     {
       "path": "docs/privacy/index.html",
-      "sha256": "381b11fbfed12509a64ddc3e0ccdd8ff8d5bc4ff902f508ee01a2387d39fd06d",
-      "size_bytes": 39537
+      "sha256": "668838da2acbc83f2230b12923f0dd66f6dd3d53ba5c060c8106b5aebaf83329",
+      "size_bytes": 37066
     },
     {
       "path": "docs/release-notes/index.html",
-      "sha256": "c0c56f699a54978eb80eeff436f52cc48d6a7284f42e1fab67ace109ea058e05",
-      "size_bytes": 28563
+      "sha256": "c04d3f9d2f3c9bc229be649bf0eb8691a93a627dfca70ec8d99fd247a0e47207",
+      "size_bytes": 28957
     },
     {
       "path": "docs/security/index.html",
-      "sha256": "a047331a7d4acd79728b361fcf5c2219f08b5095f5659b51df98fd7dc37e68d5",
-      "size_bytes": 37485
+      "sha256": "2533a30acfb7e25268da5925e71640b5cf3cce0597a14739d25e28fcacddc68e",
+      "size_bytes": 36940
     },
     {
       "path": "docs/skill/index.html",
-      "sha256": "6e8b9f709daa1322705cdcc6b9f3422b4793ff3d9654ba5c0c18331e52f1da4c",
-      "size_bytes": 47498
+      "sha256": "7e74b863d8a4c4b69b26545e7b56b4ff401a8e7eb9bc7c8a330a078d578e22da",
+      "size_bytes": 54139
     },
     {
       "path": "docs/status/index.html",
@@ -267,8 +267,8 @@
     },
     {
       "path": "docs/troubleshooting/index.html",
-      "sha256": "f784a93c4f9367277ccaab4b8e17d6342f64f90f3e1b9fe8c06782e8028d914e",
-      "size_bytes": 40112
+      "sha256": "2d9f3043dd924310bdfb7f5955bbb11ef70c0d30ef1ce79822b377651b679143",
+      "size_bytes": 53445
     },
     {
       "path": "documentation-license.txt",
@@ -292,8 +292,8 @@
     },
     {
       "path": "index.html",
-      "sha256": "68e1238170af8d26660e5a45e72c9accc9a72d2f1dd6f1fc20df65163d21b524",
-      "size_bytes": 16815
+      "sha256": "ce2fba42a6df809fc5b960397e6abab12201e3e90685385190dc072407c0e712",
+      "size_bytes": 16313
     },
     {
       "path": "legal/CC-BY-4.0.txt",
@@ -322,8 +322,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "ddd6be9f7f07659152c7b9297883d51d3c5049eab6335e2b9447d3e2336bc903",
-      "size_bytes": 92581
+      "sha256": "48afa1dd74756e5c26362d3aed13d492cdaa6b87239ce051d2c0c16177544444",
+      "size_bytes": 122831
     },
     {
       "path": "llms.txt",
@@ -332,18 +332,23 @@
     },
     {
       "path": "platform-support.json",
-      "sha256": "06b5e5e96f464679473162b98f441b85ec02487e125246ab5683e9240a0f51e1",
-      "size_bytes": 1414
+      "sha256": "7ae8bd2ae5d134580352709fb1b1c00c50d6b2be57e2f2f7c39723a4b323da3e",
+      "size_bytes": 2396
     },
     {
       "path": "reference/kaleidoscope-cli.txt",
-      "sha256": "2d1b21ab01bc3bd2f3013b694648027c3ed635ce34a3a74d8c49d6656bffd583",
-      "size_bytes": 1796
+      "sha256": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+      "size_bytes": 12226
     },
     {
       "path": "reference/kaleidoscope-mcp.json",
-      "sha256": "5e36e874ab183582cf5f05f104ff496a5906028be7ff36414aa8b3809f9f9cc3",
-      "size_bytes": 1164
+      "sha256": "f98ef0725adfaf01d0a2a384927400475b86233af5440e846b64189819d202b5",
+      "size_bytes": 2155
+    },
+    {
+      "path": "reference/kscope-cli.txt",
+      "sha256": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+      "size_bytes": 12226
     },
     {
       "path": "robots.txt",
@@ -357,48 +362,81 @@
     },
     {
       "path": "snippets/AGENTS.md",
-      "sha256": "86134dc05ebbcf60b4cafb9f884daa1b75d18e7ff67d1060ed8b1856052e9814",
-      "size_bytes": 610
+      "sha256": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
+      "size_bytes": 2258
     },
     {
       "path": "snippets/CLAUDE.md",
-      "sha256": "1200d1fa27bf830a26c7115ef135514badc4bd040963e1e30684699dc3ed1207",
-      "size_bytes": 610
+      "sha256": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
+      "size_bytes": 2276
     },
     {
       "path": "snippets/cursor-kaleidoscope.mdc",
-      "sha256": "26a965c079a6183628f70a06c350f6f24f101376ced8876bd8cb2081e6c5c645",
-      "size_bytes": 675
+      "sha256": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc",
+      "size_bytes": 2350
     },
     {
       "path": "status/index.html",
-      "sha256": "eb3a85b0674a0d63e1f7aef9b2a148f763a2a61094e717a447b9a4917f5bba41",
-      "size_bytes": 40629
+      "sha256": "47b25226893d48af7f29f169f7e68fe2122152dd9f67de1bb70fbd4d84a82c13",
+      "size_bytes": 38480
     },
     {
       "path": "status.json",
-      "sha256": "c0487f15a8a608f745d07fa4c1cfa67dcdab4133e66181d4eb5b6ea069bd8edc",
-      "size_bytes": 6126
+      "sha256": "4ec7ab31756197029fc42aecb3a2d39f89d3cdf5765fb72ca91281d30a58bb9b",
+      "size_bytes": 5508
     }
   ],
   "mode": "public_docs",
   "public_source_sha256": {
-    "SKILL.md": "c688db1b84ee20b6786d6109c68fbf8a21fd87486b9fe37e525d85170b77c9ad",
-    "agent-instructions.md": "2478b40c4eb3a82682240423c845f29a08bebc509f72d55797f08543fb13948c",
+    "SKILL.md": "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e",
+    "agent-instructions.md": "3c4d99aee28ed5ecd7ab7cda1310967d6b6c95282da4bd96f61c8eee9ac66e36",
     "documentation-license.txt": "9990924724715776775d1f5c4147fae3efa70f7d409cdfbf5eadf498a8376eb4",
     "legal/CC-BY-4.0.txt": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
     "legal/ENGINE-EULA.txt": "7639bf688ac6064bbe6b93fe7a43b677684500e293103ea25eb3caab7b297f0a",
     "legal/PRIVACY-NOTICE.txt": "2532e57e649d62e147aef79e8dc3fa6026c2f2644a74283d32d0d6cb937f40ec",
     "legal/SECURITY-POLICY.txt": "b05e2170adf7ca9690553ba065527f4192d3ea0ad8b4d188c70b7d85f11acaee",
     "legal/SUPPORT-POLICY.txt": "67f784785e2abb09fa2fc5de905b0cf5f8b55a267b0e9bfb3b63ff7e16f78ebb",
-    "reference/kaleidoscope-cli.txt": "2d1b21ab01bc3bd2f3013b694648027c3ed635ce34a3a74d8c49d6656bffd583",
-    "snippets/AGENTS.md": "86134dc05ebbcf60b4cafb9f884daa1b75d18e7ff67d1060ed8b1856052e9814",
-    "snippets/CLAUDE.md": "1200d1fa27bf830a26c7115ef135514badc4bd040963e1e30684699dc3ed1207",
-    "snippets/cursor-kaleidoscope.mdc": "26a965c079a6183628f70a06c350f6f24f101376ced8876bd8cb2081e6c5c645"
+    "reference/kaleidoscope-cli.txt": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+    "reference/kscope-cli.txt": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+    "snippets/AGENTS.md": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
+    "snippets/CLAUDE.md": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
+    "snippets/cursor-kaleidoscope.mdc": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc"
+  },
+  "public_upstream_sha256": {
+    "SKILL.md": {
+      "sha256": "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e",
+      "what": "the skill file `kscope init` installs",
+      "where": "kaleidoscope: crates/kaleidoscope-manager/skills/use-kaleidoscope/SKILL.md"
+    },
+    "reference/kaleidoscope-cli.txt": {
+      "sha256": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+      "what": "the help text of the executable the package installs",
+      "where": "@kleos-research/kaleidoscope@0.0.5: `kscope --help`"
+    },
+    "reference/kscope-cli.txt": {
+      "sha256": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+      "what": "the help text of the executable the package installs",
+      "where": "@kleos-research/kaleidoscope@0.0.5: `kscope --help`"
+    },
+    "snippets/AGENTS.md": {
+      "sha256": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
+      "what": "the block `kscope init` appends to AGENTS.md",
+      "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/AGENTS.md"
+    },
+    "snippets/CLAUDE.md": {
+      "sha256": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
+      "what": "the block `kscope init` appends to CLAUDE.md",
+      "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/CLAUDE.md"
+    },
+    "snippets/cursor-kaleidoscope.mdc": {
+      "sha256": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc",
+      "what": "the rule file `kscope init` writes for Cursor",
+      "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/cursor-kaleidoscope.mdc"
+    }
   },
   "release": {
     "availability": "available_with_key",
-    "public_contract_sha256": "a2357ed6c00e3e143d08581590571447e31d24fd0e7d2466d28a211a0515c75e",
+    "public_contract_sha256": "23bf8bd4d2e95c81cba721e1f8616458a2a7a016f2e92645f26dd0d036ce627e",
     "release_version": "0.0.5",
     "updated_at": "2026-08-30"
   },

@@ -1,54 +1,56 @@
 ---
 title: Agent instructions
-description: instructions install and remove — the four targets, what each one writes, and why the marked block matters.
+description: The instruction block and the skill kscope init writes into your project, and where each agent reads them.
 ---
 
-`instructions` puts the Kaleidoscope skill, or a short pointer to it, into the
-files your agent already reads. It is the command behind
-[give your agent the skill](/docs/skill/), which shows the files themselves and
-offers them for download.
-
-## Install
+An agent uses memory only if something told it to. `kscope init` writes two
+things into your project for that: a marked block in the instruction file your
+agent already reads, and the skill itself.
 
 ```bash
-kaleidoscope instructions install skill  --project "$PWD"
-kaleidoscope instructions install agents --project "$PWD" --dry-run
-kaleidoscope instructions install agents --project "$PWD"
-kaleidoscope instructions install claude --project "$PWD"
-kaleidoscope instructions install cursor --project "$PWD"
+cd ~/your-project
+kscope init
 ```
 
-## The four targets
+There is no separate command and no flag to remember. The steps go past as it
+works — `claude for claude-code`, `skill for claude-code`, `agents for codex` —
+one line each, and a named failure for any that could not be written.
 
-| target | lands at | form |
+## Where each agent reads them
+
+| Agent | Instruction file | Skill |
 |---|---|---|
-| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
-| `agents` | `AGENTS.md` in the project | one marked block, appended |
-| `claude` | `CLAUDE.md` in the project | one marked block, appended |
-| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+| Claude Code | a marked block in `CLAUDE.md` | `.claude/skills/use-kaleidoscope/SKILL.md` |
+| Codex | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/SKILL.md` |
+| OpenCode | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/SKILL.md` |
+| Cursor | `.cursor/rules/kaleidoscope.mdc`, the whole file | none: Cursor reads no skill directory |
+| none detected | a marked block in `AGENTS.md` | none |
 
-A target is one of exactly those four words. There is no target that writes to
-every file at once, and there is no automatic install: nothing writes to
-`AGENTS.md` or `CLAUDE.md` as a side effect of connecting a host or starting the
-engine.
+The skill directory differs per agent, and a skill written to the wrong one is a
+file the agent never loads. `kscope init` writes the path the agent in front of
+it reads.
 
-## Remove
+All of it goes into the project, none into your home directory. Git is what
+carries these files into the worktree or clone your agent works in.
 
-```bash
-kaleidoscope instructions remove cursor --project "$PWD" --dry-run
-kaleidoscope instructions remove cursor --project "$PWD"
-```
+[Give your agent the skill](/docs/skill/) has both files for download if you
+would rather install one yourself.
 
-`remove` is the exact inverse of `install`. It takes out the block Kaleidoscope
-owns and leaves the rest of the file as it was.
+## The markers
 
-## Why the block has markers
+Everything appended to an existing file sits between two ownership comments, and
+every file Kaleidoscope owns outright gets a
+`.kaleidoscope-instruction-owner.json` receipt beside it.
 
-Everything appended to an existing file sits between two ownership comments.
-That pair is what makes a second install idempotent instead of duplicating, what
-makes removal exact, and what the manager reads before it touches the file at
-all. If you have edited the text between the markers, the command stops and
-hands the file back rather than overwriting your work.
+That pair is read before the file is touched. It is what makes a second
+`kscope init` update the block instead of duplicating it, and what makes an
+exact removal possible.
 
-`--dry-run` prints the plan and changes nothing. Without `--yes`, you are asked
-to confirm.
+Edit the text between the markers and that one step stops and hands the file
+back rather than overwriting your work. The remaining steps still run.
+
+## Installing or removing one on its own
+
+Not on `kscope`. Installing is what `kscope init` does; removing is by hand, and
+[connect an editor or agent](/docs/cli/connect/#removing-it) lists the files to
+delete.

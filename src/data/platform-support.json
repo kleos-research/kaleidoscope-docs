@@ -1,8 +1,29 @@
 {
+  "built and published": {
+    "meaning": "A program was built for this platform, packaged, and published to npm. You can install it and run it.",
+    "platforms": [
+      {
+        "architecture": "Apple Silicon",
+        "platform": "macOS"
+      },
+      {
+        "architecture": "x86_64",
+        "platform": "macOS"
+      },
+      {
+        "architecture": "arm64",
+        "platform": "Linux"
+      },
+      {
+        "architecture": "x86_64",
+        "platform": "Linux"
+      }
+    ]
+  },
   "compiler checked only": {
     "checked from": "macOS, Apple Silicon",
-    "covers": "the memory engine only, not the command-line tool you would run and not the client libraries",
-    "meaning": "The compiler accepts the memory engine's source for this platform when it is asked from a Mac. Nothing was ever assembled into a program for it, nothing was linked, and nothing has been run there.",
+    "covers": "the memory engine's source only, not the client libraries",
+    "meaning": "A compiler check is a check and not a build. The compiler accepts the memory engine's source for this target when it is asked from a Mac, and that is the whole of the claim. Nothing was ever assembled into a program by it, nothing was linked, and nothing has been run there on the strength of it. Three of the four targets below were later built, packaged and published, and they appear again under 'built and published'; Windows on x86_64 was not, and creating a vault there is refused on purpose until that work is done.",
     "platforms": [
       {
         "architecture": "x86_64",
@@ -27,10 +48,9 @@
     ]
   },
   "does not establish": [
-    "that a program was ever built for these platforms",
-    "that anything runs there",
-    "that an installer, a credential store or an editor works there",
-    "that any build is available for them"
+    "that anything has been run on a platform listed only as built and published",
+    "that an installer, a credential store or an editor has been tried there",
+    "that a program was ever built for a platform listed only as compiler checked"
   ],
   "not checked at all": [
     {
@@ -42,5 +62,5 @@
     "macOS, Apple Silicon"
   ],
   "schema_version": "kaleidoscope.docs-platform-support.v1",
-  "what this is": "Which machines Kaleidoscope has been run on, and which ones have only had a compiler check."
+  "what this is": "The whole platform matrix, stated once and in one place: which machines Kaleidoscope is built and published for, which it has been run on, and which have only had a compiler check. /status.json defers to this record rather than repeating it."
 }
