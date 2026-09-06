@@ -12,8 +12,8 @@
     },
     {
       "path": "404.html",
-      "sha256": "89b10bc6bf7de927128acd4e2a2402549c7ee6e48da2619f9a4108ef6bef7874",
-      "size_bytes": 26924
+      "sha256": "0ec678cb81879e0793ade3f2a6fa575d802154760db9755a933ec4975527f2e8",
+      "size_bytes": 27059
     },
     {
       "path": "CNAME",
@@ -81,59 +81,399 @@
       "size_bytes": 46885
     },
     {
+      "path": "brand/0xcopilot/app-icon.svg",
+      "sha256": "b3652898d1fac19d76f9e456b78f31140ffcbcd1a6a4fe5514ac8aa7ec43dcea",
+      "size_bytes": 1023
+    },
+    {
+      "path": "brand/0xcopilot/turbine-mark-16.svg",
+      "sha256": "0eafb29c20d95aaa1fd739deab055cdb1b35087025854a6360eb3b9b247ebcb3",
+      "size_bytes": 718
+    },
+    {
+      "path": "brand/0xcopilot/turbine-mark-32.svg",
+      "sha256": "2ad22766a35cf5309ff9e8810d9f4b27c77762372a219d35b6fb5a8f0c83c93e",
+      "size_bytes": 954
+    },
+    {
+      "path": "brand/0xcopilot/turbine-mark.svg",
+      "sha256": "4d5f206671d5a35cce781af4fa8e81192497ee888832d57256b89c46a4a08cfb",
+      "size_bytes": 958
+    },
+    {
+      "path": "brand/kaleidoscope/app-icon-1024.svg",
+      "sha256": "18163fb37c9bdf8dd6610768bd5223d53227a723d3afe97e0530308cd33b82d1",
+      "size_bytes": 738
+    },
+    {
+      "path": "brand/kaleidoscope/app-icon-128.svg",
+      "sha256": "89d582ceeec426bdaaf19d58fb9f325d9a6cc631e85f749e21cfefb43177737d",
+      "size_bytes": 734
+    },
+    {
+      "path": "brand/kaleidoscope/app-icon-16.svg",
+      "sha256": "04b1456b6ada77513bb94dd8f34b641009a08ffc2db4b820d2e0c591e7e64319",
+      "size_bytes": 685
+    },
+    {
+      "path": "brand/kaleidoscope/app-icon-32.svg",
+      "sha256": "0d346d7b00661036e366e417484263a24eb46750e9be6696a4af06c4083a460f",
+      "size_bytes": 682
+    },
+    {
+      "path": "brand/kaleidoscope/app-icon-64.svg",
+      "sha256": "833380a727457841f0ae2e61b4d885cc2a9986586f3c8549480b8b7e893fae19",
+      "size_bytes": 722
+    },
+    {
+      "path": "brand/kaleidoscope/favicon.svg",
+      "sha256": "0d346d7b00661036e366e417484263a24eb46750e9be6696a4af06c4083a460f",
+      "size_bytes": 682
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-16-brass-on-bone.svg",
+      "sha256": "7733511fc8dc8a913185b555c4918b6749200d59e831a48da556d8acad398c7c",
+      "size_bytes": 535
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-16-brass.svg",
+      "sha256": "25f0fe85dc931ac95e5581edb28d4acb1d407cb881a8bd11cc54dc50fccc0618",
+      "size_bytes": 535
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-16.svg",
+      "sha256": "7c92ba7afc1cba57f436b7279b0f2b5517ebc39d7cd90a5c4b8a76a2575c0129",
+      "size_bytes": 540
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-32-brass-on-bone.svg",
+      "sha256": "605aac29425418deb76923c11b031b6f7c733c097df3c254070b7dd8cfe9e79a",
+      "size_bytes": 536
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-32-brass.svg",
+      "sha256": "478661f4142d1a7fa84cce3ce9aa04ce2a1b0d0b2cb9ece989c51b4f65772063",
+      "size_bytes": 536
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-32.svg",
+      "sha256": "547f9e4d1388dba1b2ed50fd839c432cc3e46089c17594705a1900b6701cee08",
+      "size_bytes": 541
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-64-brass-on-bone.svg",
+      "sha256": "4723c9e1db63cb54f5fcd1e99794a2c5c05d744b8a81de6e5d3ac85b494375f9",
+      "size_bytes": 576
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-64-brass.svg",
+      "sha256": "5897acba6c3c4ffdcdd9a3235a83dd40b47d6efb594a0b0d972868ed922d2683",
+      "size_bytes": 576
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-64.svg",
+      "sha256": "3359b53951a989c18b01ce0c716cd8e8059c81ce9fa2333a25a25917706f178e",
+      "size_bytes": 581
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-brass-on-bone.svg",
+      "sha256": "bbe0ea603c97c29897f51e9286ccf5b15a201d9a92c805d4917724d80f9cc4f4",
+      "size_bytes": 578
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark-brass.svg",
+      "sha256": "09a40df4bd762d2d77ecaea8f0e212ab0836f6f0f3b392b196e534a47e09d56d",
+      "size_bytes": 578
+    },
+    {
+      "path": "brand/kaleidoscope/kaleidoscope-mark.svg",
+      "sha256": "c955548d84a9a8d1e2e50075df12d681b70d7f728213c28614ba5034e3ca3d07",
+      "size_bytes": 583
+    },
+    {
+      "path": "brand/kleos/avatar-16.svg",
+      "sha256": "2ff5c3ed28f097c17ec76aba1d809838358c7b91fe35ed8f06a07cd7ce5be1e5",
+      "size_bytes": 466
+    },
+    {
+      "path": "brand/kleos/avatar-180.svg",
+      "sha256": "e4fefc36e30783ca495351c0e3cc006d183ad7e4d15535ae5fa02c348e7954d7",
+      "size_bytes": 472
+    },
+    {
+      "path": "brand/kleos/avatar-32.svg",
+      "sha256": "9ea3a6f6b83a9288ae5446cec867bff6642af8e39dc3a01cd902f2bab7c792c0",
+      "size_bytes": 551
+    },
+    {
+      "path": "brand/kleos/avatar-40.svg",
+      "sha256": "12e3d9be2b2f61f9806df0e1addd1ded07b082734101132538b2f86d3a4be36d",
+      "size_bytes": 525
+    },
+    {
+      "path": "brand/kleos/avatar-64.svg",
+      "sha256": "11882705633e22555709a1728827c9d9411a209529cb51ae80ad122f6edfeafa",
+      "size_bytes": 550
+    },
+    {
+      "path": "brand/kleos/favicon.svg",
+      "sha256": "9ea3a6f6b83a9288ae5446cec867bff6642af8e39dc3a01cd902f2bab7c792c0",
+      "size_bytes": 551
+    },
+    {
+      "path": "brand/kleos/kleos-mark-16-bone.svg",
+      "sha256": "32466d53fbe93a47907556a242f7f3c48cec633fea0b64eab6d3c3913d2e6ac6",
+      "size_bytes": 348
+    },
+    {
+      "path": "brand/kleos/kleos-mark-16-ink.svg",
+      "sha256": "838eb937921fa853d4814e3187f8930ee06825b6072e19d5cfe0d447317fbbc3",
+      "size_bytes": 348
+    },
+    {
+      "path": "brand/kleos/kleos-mark-16.svg",
+      "sha256": "fa20dca9e8652240a34f56e8e5d1623f61addbf7087c0bc026c930286d9761cb",
+      "size_bytes": 353
+    },
+    {
+      "path": "brand/kleos/kleos-mark-32-bone.svg",
+      "sha256": "30f2c0711a83a5303e6c056c9ec258f616b511a64037493abdd09e32858ea6d9",
+      "size_bytes": 348
+    },
+    {
+      "path": "brand/kleos/kleos-mark-32-ink.svg",
+      "sha256": "b0a14a037d41f6a246d218055f8f5d5ec6e0afd64df62ae1ac953e11b8f28911",
+      "size_bytes": 348
+    },
+    {
+      "path": "brand/kleos/kleos-mark-32.svg",
+      "sha256": "61fe98f92b577abdad28562cf84bc6b6466f95d6729f42386681c5258d1c7e95",
+      "size_bytes": 353
+    },
+    {
+      "path": "brand/kleos/kleos-mark-40-bone.svg",
+      "sha256": "feaf757b60cb9cc5ca6b4717b9e08e80381a1bfcd426e2a9e5577b1387aeb772",
+      "size_bytes": 348
+    },
+    {
+      "path": "brand/kleos/kleos-mark-40-ink.svg",
+      "sha256": "6928071a5090713c3ebc96e2f849b3d4d7f84fd1dbef66fcf9fdf13a77e7b11c",
+      "size_bytes": 348
+    },
+    {
+      "path": "brand/kleos/kleos-mark-40.svg",
+      "sha256": "023295c63c5a4e4ddfc850b6cee8cb20c5953cd2c0a9ca6fdab9083ec0bb2159",
+      "size_bytes": 353
+    },
+    {
+      "path": "brand/kleos/kleos-mark-bone.svg",
+      "sha256": "b64477b5569ed0f7401b65d694f868386becbb0981ed6d38705a362ec70f65af",
+      "size_bytes": 343
+    },
+    {
+      "path": "brand/kleos/kleos-mark-ink.svg",
+      "sha256": "6da68eec90046451b046100e115f2f3945a7b0653867eb1b40b162a3ffa455d2",
+      "size_bytes": 343
+    },
+    {
+      "path": "brand/kleos/kleos-mark.svg",
+      "sha256": "954213d510aab43f207ec7c623cab4e072017f6a68f756deb26b676935055d2b",
+      "size_bytes": 348
+    },
+    {
+      "path": "brand/png/0xcopilot-app-icon-1024.png",
+      "sha256": "6c9c376c7f83950aa9b37b7497f361c7a7874b54cc39025b9da47bfffaec0639",
+      "size_bytes": 61366
+    },
+    {
+      "path": "brand/png/0xcopilot-app-icon-256.png",
+      "sha256": "972afa4edaa6d6748ed41156c0791c2ded81038c56535abb8b7250ac37e729ad",
+      "size_bytes": 11234
+    },
+    {
+      "path": "brand/png/0xcopilot-app-icon-64.png",
+      "sha256": "c336bb1cfe28f353279702889f579d21eac6921c026f5998f7f1fea4e762353f",
+      "size_bytes": 2359
+    },
+    {
+      "path": "brand/png/kaleidoscope-app-icon-1024.png",
+      "sha256": "d74a36477714ff4aa06878216b33b55ededd872ebc0ed85e9701788a03b300bd",
+      "size_bytes": 14812
+    },
+    {
+      "path": "brand/png/kaleidoscope-app-icon-128.png",
+      "sha256": "ed9c9fd07dc6aca3d0aea8e864d3af146925a0ffa609b938fd7ea0240b0fd9c1",
+      "size_bytes": 1608
+    },
+    {
+      "path": "brand/png/kaleidoscope-app-icon-16.png",
+      "sha256": "87061617cdac011e4f57f98984aa7688a0b24759d830600969f6d2f44a1c4340",
+      "size_bytes": 359
+    },
+    {
+      "path": "brand/png/kaleidoscope-app-icon-256.png",
+      "sha256": "0cd318b541b3a79b6a910d10bf9dba355ca6850a6031378d3072b3c84299e6bd",
+      "size_bytes": 3048
+    },
+    {
+      "path": "brand/png/kaleidoscope-app-icon-32.png",
+      "sha256": "bf35e5b0474b913771406d6a5f2dc3e15a0eabf71447a2deccb140907fb9bf23",
+      "size_bytes": 479
+    },
+    {
+      "path": "brand/png/kaleidoscope-app-icon-512.png",
+      "sha256": "f64f5e0f64ef02b759301e9984ca4ec67cc52dad71d6d9ec7d4927565223f6f1",
+      "size_bytes": 6611
+    },
+    {
+      "path": "brand/png/kaleidoscope-app-icon-64.png",
+      "sha256": "363cae16d45ec21a4878ad6e54ef5b03242b8fb92e47bb7f1c154445715bc878",
+      "size_bytes": 863
+    },
+    {
+      "path": "brand/png/kaleidoscope-favicon-16.png",
+      "sha256": "6fe5baabf5cec83b8d3162143f99a2da5b0a757c05161ac13aa4beeaeb0eabe0",
+      "size_bytes": 378
+    },
+    {
+      "path": "brand/png/kaleidoscope-favicon-180.png",
+      "sha256": "320828c176d880ebb0f2e80e050e3f403c2e33848302f7cac665d11ef979b73e",
+      "size_bytes": 2333
+    },
+    {
+      "path": "brand/png/kaleidoscope-favicon-32.png",
+      "sha256": "ecd861db7d63d8cb1111f0baa534ba6ccc4b2d811ed968aab64fd98826622752",
+      "size_bytes": 553
+    },
+    {
+      "path": "brand/png/kaleidoscope-mark-brass-1024.png",
+      "sha256": "bd17e2b18c02cc1dd6b20c51be0cc8b4510b54fce2095b106f40678c8e6e0840",
+      "size_bytes": 6358
+    },
+    {
+      "path": "brand/png/kaleidoscope-mark-brass-256.png",
+      "sha256": "32862a2c0360d997dcf19339380eae00834a56cace98796167b3065f17ab7a0b",
+      "size_bytes": 928
+    },
+    {
+      "path": "brand/png/kaleidoscope-mark-brass-64.png",
+      "sha256": "95355453d59118bb46b8122f848f84255538efdf5c3f8674ad8b9b0334af3632",
+      "size_bytes": 365
+    },
+    {
+      "path": "brand/png/kleos-avatar-400.png",
+      "sha256": "5fac2ff283e593611dadf596b3aabdcf8ab6e5538186fd73cc65769f71623c99",
+      "size_bytes": 17972
+    },
+    {
+      "path": "brand/png/kleos-favicon-16.png",
+      "sha256": "b72fac14ee1dad669cdfcbf2315babc7cfb1d5b978e64bc96bb0b475f3a74f78",
+      "size_bytes": 359
+    },
+    {
+      "path": "brand/png/kleos-favicon-180.png",
+      "sha256": "688e95d77d1024250cd3cf040345f838a3c42b96f42a50139de59a5ac7f96cb0",
+      "size_bytes": 708
+    },
+    {
+      "path": "brand/png/kleos-favicon-32.png",
+      "sha256": "a922e633dbbefa942ab76fa56f94eacdded66cfcaf120aa17f401c6e174b3c18",
+      "size_bytes": 653
+    },
+    {
+      "path": "brand/png/kleos-mark-bone-1024.png",
+      "sha256": "986c795a715209d40d9d6e33110b097e7f6aa001ceefc0d00700393b048cc6bf",
+      "size_bytes": 4996
+    },
+    {
+      "path": "brand/png/kleos-mark-bone-256.png",
+      "sha256": "885cc589f800b52cf4121b2caa7670bf91317fb01c0526238d96b2309e39c6dd",
+      "size_bytes": 581
+    },
+    {
+      "path": "brand/png/kleos-mark-bone-64.png",
+      "sha256": "bcca55ab3d19f5107cd60d8e66c806f5c571945ed754b19497e720f2bff11345",
+      "size_bytes": 250
+    },
+    {
+      "path": "brand/png/kleos-mark-ink-1024.png",
+      "sha256": "23a8e8d6b07d0062bd635c60576fd3ee4daa411ebfd815701db1efe6f6d4e9ff",
+      "size_bytes": 4994
+    },
+    {
+      "path": "brand/png/kleos-mark-ink-256.png",
+      "sha256": "f20e5019a0074e366290b42aab0a57482892b8d9c1c72472414afdf4bb54de2c",
+      "size_bytes": 579
+    },
+    {
+      "path": "brand/png/kleos-mark-ink-64.png",
+      "sha256": "04dd534dbdf07ad220f8176e463c28d8958479732e33be61418c5c62d759dec1",
+      "size_bytes": 237
+    },
+    {
+      "path": "brand/tokens/kleos-brand.css",
+      "sha256": "5235cd93a6fc947323f45598aa7576acb8b2d12afb77a7874f1ea14e0623c499",
+      "size_bytes": 2517
+    },
+    {
       "path": "docs/account/index.html",
-      "sha256": "e087238d83e80e26246245f2f0645ce15cdf0c42c50f1ddf45f1f8a29a09d436",
-      "size_bytes": 37728
+      "sha256": "160ca013b9e96f2acbd362692b2f4c0082a821ee1fb6714cb8cbd97a02ed982e",
+      "size_bytes": 37863
     },
     {
       "path": "docs/benchmarks/index.html",
-      "sha256": "30d00b4eabe2e09495fa0ae038688067098c183316a6b16798c8337fd98daf95",
-      "size_bytes": 38865
+      "sha256": "1be6d5106e2aafd9b2b53e36f74c40cfd5aa0aa9734678c79766c93e7a62d185",
+      "size_bytes": 39000
+    },
+    {
+      "path": "docs/brand/index.html",
+      "sha256": "28dc1116e4fce5fe873ba8d4911e7b068e175de878691a2fc83201f66a0235fc",
+      "size_bytes": 78778
     },
     {
       "path": "docs/cli/account/index.html",
-      "sha256": "165a6eb193d8ce1c3b13eef4d5be072c083a8966b87de144b1a550cec72f713a",
-      "size_bytes": 45485
+      "sha256": "90429e2335b053336a2dfe5ec6097e9dd865f8ced385af5a688925f38e89145f",
+      "size_bytes": 45620
     },
     {
       "path": "docs/cli/connect/index.html",
-      "sha256": "e48598d5134f1bfbfae626e5ff196850bb14d8645d69f0172ae0fdc472540300",
-      "size_bytes": 40822
+      "sha256": "a8aec954b01959ab59d98365660dd6f1149f5533dc48a81a18c3b9e6f95e2556",
+      "size_bytes": 40957
     },
     {
       "path": "docs/cli/diagnostics/index.html",
-      "sha256": "bc2b77dc932518f1c6602036b9703db06ef8d32284ec149fd3efbf5dc2c974de",
-      "size_bytes": 39967
+      "sha256": "6bf3e8e8abeea3c5100a30de99a1d08084192ad6ca75805694deb5c1441150e8",
+      "size_bytes": 40102
     },
     {
       "path": "docs/cli/index.html",
-      "sha256": "7aaf333ca72978b89114de9d1aadc021d33c8ff8649e2ad5beec3b677f3fd4c4",
-      "size_bytes": 41518
+      "sha256": "4bb4a8a9e10d3213b1d14b0402fff75e5b2b603061e5434823c56614413f448b",
+      "size_bytes": 41653
     },
     {
       "path": "docs/cli/instructions/index.html",
-      "sha256": "02f1f75bf5c3784e8fae089a6c99dbef0c4d26ac1cde2906326011b67e35e6dd",
-      "size_bytes": 35638
+      "sha256": "302c4ad9ea6d361bc2ceba618ed8378047ae989bc51011225e117d843e4c757c",
+      "size_bytes": 35773
     },
     {
       "path": "docs/cli/profiles/index.html",
-      "sha256": "e575effe0b7a0c1f478efd40229b6c269ba9c60a53036b98f6bbd126d01dfbd2",
-      "size_bytes": 43669
+      "sha256": "9e04655328e4eacbc8bea8a7bb11ca3559cc5f18dd8a2d0a1a913863cc185493",
+      "size_bytes": 43804
     },
     {
       "path": "docs/compatibility/index.html",
-      "sha256": "4f2f222b1194432b3b1ab9f2c3bb3d79dd0a7f4850238024ca90c81e206a8feb",
-      "size_bytes": 33867
+      "sha256": "0361260b513a542fde44a8befe0a8998f7bde146396644417e3beb0addc2798c",
+      "size_bytes": 34002
     },
     {
       "path": "docs/concepts/index.html",
-      "sha256": "436b5bd146431b9e8973caed1ccf1dc66a2eb783dc5bbb9ef97e02234957dbb1",
-      "size_bytes": 37447
+      "sha256": "f62284461c65670d379a4c6b4b7d44fc057b67dcb7f560a2b5f8d121ca786271",
+      "size_bytes": 37582
     },
     {
       "path": "docs/getting-started/index.html",
-      "sha256": "5a777b3fefa574c993a9a36ae01a1dcc18df66d0d665368eca023957fa8f7253",
-      "size_bytes": 40693
+      "sha256": "218014719d49fa17f02cbc8863622503002eba760241f3c78f73503ba5e7acce",
+      "size_bytes": 40828
     },
     {
       "path": "docs/hosted/index.html",
@@ -142,123 +482,123 @@
     },
     {
       "path": "docs/index.html",
-      "sha256": "b50d1e9692f8a76d87bea4565e22aa1c2197a74261cfc0d8ae1341b6db65107b",
-      "size_bytes": 41335
+      "sha256": "6937915a553a5777b2edb504b91535192d633fc70c123dbbeb899c8e481fa32f",
+      "size_bytes": 41598
     },
     {
       "path": "docs/integrations/claude-agent-sdk/index.html",
-      "sha256": "1583fad8b6c2857e7ea244dd19d545e8e83e9fdcedbc03194c5c7df41141883f",
-      "size_bytes": 36192
+      "sha256": "26fbe6744cb3d9574fabbaaaf632511a756e4f90b10f74ffeb0d13f9fd2b738f",
+      "size_bytes": 36327
     },
     {
       "path": "docs/integrations/claude-code/index.html",
-      "sha256": "fd73b32f208b22a61b046cd322c6aa0fd56ffe642ee0ef696a3b6030685b7a01",
-      "size_bytes": 42229
+      "sha256": "effc7bf8e5075484005eb5c255921577539014201e99902d9caed4f23cc90122",
+      "size_bytes": 42364
     },
     {
       "path": "docs/integrations/codex/index.html",
-      "sha256": "cebfc9b30b7940226c7d87037ecff5931a6b538a66adc1f1a4c1f927e24659a3",
-      "size_bytes": 41531
+      "sha256": "e510bebe54887f9006f6bae9a8b0b59b5c926391b0f9ee98f8659663b65b2cd0",
+      "size_bytes": 41666
     },
     {
       "path": "docs/integrations/crewai/index.html",
-      "sha256": "5175cdb2a8c198d88a3d5683ecc2f5ce6226402aff1f05ed3a5ccf7709dc0a70",
-      "size_bytes": 35577
+      "sha256": "06425ee852d40257ca4a4b7217d18cd01ba2334d2b0a75f8dc10212e770a1515",
+      "size_bytes": 35709
     },
     {
       "path": "docs/integrations/cursor/index.html",
-      "sha256": "7feb760fd601a7f6d8af594d663a35317fa9028999950f7735afdd8775f43707",
-      "size_bytes": 42399
+      "sha256": "a70120e4a74ce9288b773feaf390543d475df1ef278d56f01b59fb2725f43c83",
+      "size_bytes": 42534
     },
     {
       "path": "docs/integrations/generic-mcp/index.html",
-      "sha256": "774cc1d35ec3e2c5b2a57772ac9f7209483ffbe52ab3e3e03e688828341ba9e9",
-      "size_bytes": 39373
+      "sha256": "08b70baf7c54043131036e85ee1a15889520e705f3f9f2f28702c45a5d6457eb",
+      "size_bytes": 39508
     },
     {
       "path": "docs/integrations/index.html",
-      "sha256": "ce29994567ba095d63d9238b1f5d7d44e6d01b5b31340fbd14e6ea7a82e2709f",
-      "size_bytes": 36550
+      "sha256": "ab84acb0a0778c1d18b1e5a881cf8c749cc28d8e3273f888933bb43e1f024996",
+      "size_bytes": 36685
     },
     {
       "path": "docs/integrations/langchain/index.html",
-      "sha256": "8fa823e98dff8b86e4e4ffe641269f22e9e2b6164e7a06a906fc38183f9a40a4",
-      "size_bytes": 35737
+      "sha256": "4dac1517b8846ff4285b6c33b711555966a628b293343e4afb71ee9f50eb55c1",
+      "size_bytes": 35872
     },
     {
       "path": "docs/integrations/langgraph/index.html",
-      "sha256": "2540b8be936c7fbbcf1b74d52ad1a9525fbf53da3febe727f8dbb84ea8ef8713",
-      "size_bytes": 35754
+      "sha256": "ef35125538f1874cf972468490e3022e9ff10c826ad4b7d546fd267add9d0d89",
+      "size_bytes": 35889
     },
     {
       "path": "docs/integrations/openai-agents-sdk/index.html",
-      "sha256": "2b2cbc5310e6ba65156b4266a1d8f4964970786b29ae301f0be9edeabb4cdda3",
-      "size_bytes": 35712
+      "sha256": "f212eeff723d3fc364057c30322828cf7b1719ea410af4d60727ceab9eecc389",
+      "size_bytes": 35847
     },
     {
       "path": "docs/integrations/opencode/index.html",
-      "sha256": "6b7fe42273dcf4c338dbe64de444a07baf982f91f36df0b64a0ea83613c632c3",
-      "size_bytes": 42960
+      "sha256": "59ecb328b16c0fab93b96a7f9f2aec2a0f817d667bfd63c31d576cab72a5d761",
+      "size_bytes": 43095
     },
     {
       "path": "docs/legal/engine-eula/index.html",
-      "sha256": "aaa60cc6ae1eee91e12f6c5e132fdddf8031e27c6cdc39cf09782e69b7373203",
-      "size_bytes": 67190
+      "sha256": "396c76d7b0defd3656659be9a3d6aaf89350ade4f4838f6c2fa077bfbaf5f1dd",
+      "size_bytes": 67325
     },
     {
       "path": "docs/legal/index.html",
-      "sha256": "7c07be99506d5fb1533296ce12e9ac20a61a6356adb0cd3130136d7219bc1be3",
-      "size_bytes": 36118
+      "sha256": "1afef6f5ae3684c199043a69f11fea763831bbd0d39eeb7596abe0434eb35ac0",
+      "size_bytes": 36253
     },
     {
       "path": "docs/legal/privacy-notice/index.html",
-      "sha256": "7a1014f83d1efea70bc4caf399115876917a07aa51a7788525a831aec8d162b6",
-      "size_bytes": 67029
+      "sha256": "da2c6a848382986a4fb98619c2fddd41298952cc92c1de77751a8efc237bb495",
+      "size_bytes": 67164
     },
     {
       "path": "docs/legal/security-policy/index.html",
-      "sha256": "87a029c19f64c9c369cca78f4ce9d679e75d06cbf9c7f10159c7a8cdedd7701f",
-      "size_bytes": 56760
+      "sha256": "90e6646b839688b42eb6437ce7bb1d3348cbebc5d39f7c8194facfb5170c3d4f",
+      "size_bytes": 56895
     },
     {
       "path": "docs/legal/support-policy/index.html",
-      "sha256": "623aedac924a53c50cbdf5b896a2ae98aad84300545f6cc5fcbe6b74b6a3002e",
-      "size_bytes": 46396
+      "sha256": "bfc986d7ffc661bda658dc39f314140a2d383f28a9bc713d0cc20193d023d1dd",
+      "size_bytes": 46531
     },
     {
       "path": "docs/mcp/index.html",
-      "sha256": "538e5fa8998c144a7b6a726a634ddfdf0bc74daa5e9f0710f1544f0b4a299bf8",
-      "size_bytes": 48423
+      "sha256": "4b56459605647b7ada4467ebf65dbc646fe7974ff130956d7637884bed2870f0",
+      "size_bytes": 48558
     },
     {
       "path": "docs/operations/index.html",
-      "sha256": "ef015ccd65e78fc12c72f47d25322c2fad8a6252e3e3f36ab79e3bf9ff1a03a4",
-      "size_bytes": 43524
+      "sha256": "ae9d3c9860810b1641d2431194f177d49c10f537a5e8d10c4f4cdeeee90e05be",
+      "size_bytes": 43651
     },
     {
       "path": "docs/packages/index.html",
-      "sha256": "813ffbbcea4f84bbd09f3aea4b35256d06115570ac63edb475d8d663453919a8",
-      "size_bytes": 37754
+      "sha256": "2997ec0817c91dd49e23addada0c9fe7e9126fcc7bf2bd233a4a21102e036f09",
+      "size_bytes": 37889
     },
     {
       "path": "docs/privacy/index.html",
-      "sha256": "668838da2acbc83f2230b12923f0dd66f6dd3d53ba5c060c8106b5aebaf83329",
-      "size_bytes": 37066
+      "sha256": "6e0fd2a1c46acc8bdd8145d35df57d6363672c6020dfb1d50c396e2eb5cb1f29",
+      "size_bytes": 37201
     },
     {
       "path": "docs/release-notes/index.html",
-      "sha256": "c04d3f9d2f3c9bc229be649bf0eb8691a93a627dfca70ec8d99fd247a0e47207",
-      "size_bytes": 28957
+      "sha256": "705a68101144928e4c8f1e16071d74821b93cc48d33149ca076d4f97f9b3242b",
+      "size_bytes": 29092
     },
     {
       "path": "docs/security/index.html",
-      "sha256": "2533a30acfb7e25268da5925e71640b5cf3cce0597a14739d25e28fcacddc68e",
-      "size_bytes": 36940
+      "sha256": "262c3bbd28c7d358534e7c21138ae49ee79db7fdd05da94d63355f26e5162388",
+      "size_bytes": 37075
     },
     {
       "path": "docs/skill/index.html",
-      "sha256": "7e74b863d8a4c4b69b26545e7b56b4ff401a8e7eb9bc7c8a330a078d578e22da",
-      "size_bytes": 54139
+      "sha256": "0b7d067de489d744d5ef22d2d3cd34e9c8bce3b3bc1a450e08961a9b4e0cb162",
+      "size_bytes": 54274
     },
     {
       "path": "docs/status/index.html",
@@ -267,8 +607,8 @@
     },
     {
       "path": "docs/troubleshooting/index.html",
-      "sha256": "2d9f3043dd924310bdfb7f5955bbb11ef70c0d30ef1ce79822b377651b679143",
-      "size_bytes": 53445
+      "sha256": "d8b10c2b812e7874b7d9de19c067ca52d3614bf9033c2a82ecb79737a73bb6ce",
+      "size_bytes": 53580
     },
     {
       "path": "documentation-license.txt",
@@ -322,8 +662,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "48afa1dd74756e5c26362d3aed13d492cdaa6b87239ce051d2c0c16177544444",
-      "size_bytes": 122831
+      "sha256": "ac629fca6b21e85b467ed1e5bdde2b2d4f7e647d426adedeccfd7a5c1f93895e",
+      "size_bytes": 136828
     },
     {
       "path": "llms.txt",
@@ -357,8 +697,8 @@
     },
     {
       "path": "sitemap.xml",
-      "sha256": "aa6d56da58490048b82a674dc4681fb168b88cf873ac99a07d73165fcc3a3304",
-      "size_bytes": 2715
+      "sha256": "db99071e7794685ab38c7ed22f877eeb14e0549d47ffc8579b2e3c2206a987a3",
+      "size_bytes": 2784
     },
     {
       "path": "snippets/AGENTS.md",
@@ -377,8 +717,8 @@
     },
     {
       "path": "status/index.html",
-      "sha256": "47b25226893d48af7f29f169f7e68fe2122152dd9f67de1bb70fbd4d84a82c13",
-      "size_bytes": 38480
+      "sha256": "ed1dbaec72975ba396cf7c291ebd1959dc1b3db714bb49f2f602e063c64ff9de",
+      "size_bytes": 38615
     },
     {
       "path": "status.json",
