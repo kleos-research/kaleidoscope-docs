@@ -16,7 +16,12 @@ def fresh():
     shutil.copytree(REPO / "dist", WORK / "dist")
     for d in ("src", "scripts"):
         shutil.copytree(REPO / d, WORK / d)
-    for f in ("verify_site.py", "astro.config.mjs", "public-docs-release.json"):
+    # `release-pin.json` joins the list because the platform gate reads it. A
+    # root-level file the verifier needs and this harness does not copy makes
+    # the CONTROL fail, and a harness whose control fails proves nothing about
+    # the plants that follow it.
+    for f in ("verify_site.py", "astro.config.mjs", "public-docs-release.json",
+              "release-pin.json"):
         shutil.copy2(REPO / f, WORK / f)
     return WORK
 
