@@ -1,4 +1,5 @@
 {
+  "checked against": "kscope 0.0.5, on 2026-08-31. The two field lists below are the `inputSchema` of each tool in the `tools/list` result of `kscope mcp`. That command needs a key, so every statement here was also checked against three that do not: `kscope schema search` and `kscope schema remember` print the same two field sets, and `kscope public-contract` prints the batch bound, the stdio transport, and `operator_commands_in_mcp: false`. A reader without a key can still check this file.",
   "model_tools": [
     {
       "fields": [
@@ -24,11 +25,9 @@
       "addressing": "exactly_one_of_query_or_memory_id",
       "fields": [
         "as_of",
-        "bfs_depth",
         "candidate_pool",
         "channels",
         "ledger",
-        "max_facts",
         "maximum_context_bytes",
         "memory_id",
         "query",
@@ -44,10 +43,9 @@
   ],
   "operator_commands_are_model_tools": false,
   "protocol_revision": "2025-11-25",
-  "publicly available": false,
   "release_readiness_claimed": false,
-  "released": false,
   "schema_version": "kaleidoscope.docs-mcp-reference.v2",
   "transport": "stdio",
-  "what this is": "The two tools an agent sees when it connects to Kaleidoscope, and the fields each one takes."
+  "what this is": "The two tools an agent sees when it connects to Kaleidoscope, and the fields each one takes.",
+  "what this is not": "The schema itself. This file is written here and checked against the engine; the engine's tools/list is the authority, and a build may accept less than this file lists. Read the schema your own host discovered before you rely on a field. Two fields that `kscope --help` names as knobs of the command-line `call search` -- bfs_depth and max_facts -- are refused by the MCP inputSchema and are therefore absent above. Whether Kaleidoscope is released, and to whom, is not stated here: that is one fact and it lives in the release metadata this site is built from."
 }

@@ -115,23 +115,34 @@ What works today is the plain answer to what is covered.
 - Give your agent the skill — the file that tells an agent
   Kaleidoscope exists, what it writes into your instruction file, and the four
   files offered for download.
-- Install — the two package names, what is inside each, and
-  why you cannot get them yet.
+- Install — the one command that installs it, what lands on
+  your disk, and what your machine needs.
 - Concepts — profile, vault, engine, manager, account: which
   is which, and which owns what.
 
 ## The command line
 
-- CLI overview — the two global flags and the safety invariants
-  that govern every subcommand.
-- Profiles and vaults — `init` and the `profile`
-  commands.
-- Connect an editor — `connect` and `disconnect`.
-- Agent instructions — `instructions install` and
-  `remove`, and the four targets.
-- Diagnostics — `config` and `doctor`.
-- Account commands — the whole account surface, none of
-  which runs yet.
+- CLI overview — the whole `kscope` surface grouped by what each
+  command is for, the flags there are, and the safety invariants that govern
+  every subcommand.
+- Profiles and vaults — `init`, `init-profile`, the
+  `profile` commands, and `where`.
+- Connect an editor — `kscope init`, and what it writes
+  into your editor's configuration.
+- Agent instructions — the instruction file and the
+  skill `kscope init` installs, and where each editor reads them from.
+- Diagnostics — `where`, `gate`, `model` and
+  `call doctor`.
+- Account commands — the account surface, none of which
+  ships, and `activate`, which is what there is instead.
+
+Several verbs written down elsewhere are not in the command you can install.
+`connect`, `disconnect`, `config`, `doctor`, `teardown`, `profile use`,
+`instructions install` and every account command belong to a separate
+`kaleidoscope` executable that is published on no channel, so they are commands
+you cannot obtain rather than commands you can run. What ships in their place is
+`kscope init`, which does the wiring and installs the instruction file and the
+skill itself, and `kscope call doctor`, which is the diagnostic.
 
 ## Reference
 
@@ -164,8 +175,8 @@ What works today is the plain answer to what is covered.
   the one thing Windows does differently.
 - Benchmarks — what we measured, in plain words, and what
   we did not measure.
-- Release notes — there have been none; this is where
-  they will appear.
+- Release notes — which version is current, and where
+  the versions after it will be listed.
 
 ## If you are a machine
 
@@ -335,8 +346,17 @@ connects your editor or agent to it, and tells you what is wrong when something
 does not work. Read this as the reference for the
 command surface rather than a set of steps to follow now.
 
-`kscope` is the engine executable. It is installed alongside `kscope` and
-you do not normally run it yourself.
+`kscope` is the whole of Kaleidoscope you can install: the engine that stores
+and searches your memory, with the setup half of the manager compiled into the
+same executable. There is no second command to install beside it, and nothing
+here asks you to run one.
+
+There is a second executable, `kaleidoscope`, and it is where several verbs you
+may have seen written down actually live: `connect`, `disconnect`, `config`,
+`doctor`, `teardown`, `profile use`, `instructions install` and the whole
+account surface. It is built only from source and is published on no channel, so
+those are commands you cannot obtain rather than commands you can run. Where a
+page here describes one, it says so.
 
 Read the full `kscope` help text.
 
@@ -344,42 +364,87 @@ Read the full `kscope` help text.
 
 | | |
 |---|---|
-| Profiles and vaults | `init`, `profile list`, `profile show`, `profile use`, `profile remove` |
+| Profiles and vaults | `init`, `init-profile`, `profile create`, `import`, `list`, `show`, `remove`, `launch`, `where` |
 | Connect an editor | `init` |
-| Agent instructions | `instructions install`, `instructions remove` |
-| Diagnostics | `where`, `gate`, `model`, `vault-verify` |
-| Account and devices | `login`, `status`, `logout`, `account`, `devices`, `profile account` |
+| Agent instructions | `init` |
+| Diagnostics | `where`, `gate`, `model`, `vault-verify`, `call doctor` |
+| Account and devices | nothing that ships; `activate` is what there is |
 
-## The two global flags
+`kscope init` is the command that sets you up, which is why it appears three
+times: it creates the vault, and then it tells every agent on this
+machine that the vault exists — the memory server, the instruction file, and the
+skill, once per agent.
 
-`--engine PATH` points the manager at a specific engine executable instead of
-the one it would find for itself. It is accepted by every command that has to
-start or validate the engine: `init`, `profile`, `config`, `connect`,
-`disconnect` and `doctor`. The account commands do not take it, because they
-never touch the engine.
+Two groups have no page of their own. The vault lifecycle commands —
+`vault-migrate`, `vault-verify`, `vault-preview`, `vault-delete`, and the frozen
+macOS preview of encrypted repository vaults — belong with
+Operations. The four commands that address a vault
+directly, `mcp`, `serve`, `context` and `call`, belong with the
+MCP reference; the help text is exhaustive about how each of them
+decides which vault it means.
 
-`--version` prints the manager's version and exits.
+## The flags there are
 
-Two more flags appear on every command that writes to a file, and they matter
-enough to have their own section below: `--dry-run` and `--yes`.
+`--profile NAME` names the vault to work in. `mcp`, `serve`, `context` and
+`call` take it, it is what an editor or agent is started with, and nothing
+else accepts it. `kscope init` does not: it works on the directory you are in,
+or on a root you name as a positional argument.
 
-## Safety invariants
+`--no-wire` makes `kscope init` create the vault and stop, for someone who keeps
+host configuration under their own control. It works on the build that ships,
+although `--help` does not list it.
 
-These hold for every subcommand, not just the ones documented with them.
+`--root-only` narrows `kscope where` to the vault root and the project it was
+resolved from. `--cross-backend` widens `kscope vault-verify`.
 
-- Any command that changes a host file can be previewed with `--dry-run`, which
-  changes nothing, and asks you to confirm before it writes. `--yes` is how you
-  say yes in advance; there is no way to write without one or the other.
-- An unknown, conflicting, symlinked, tampered, or concurrently edited target is
-  refused rather than overwritten. You get the file back as it was and a reason.
-- Changes are backed up, and removal is recorded so that running it twice is
-  safe.
+`--help` and `--version` print the surface and the version; `-h` and `-V` are
+accepted for both.
+
+There is no `--engine`, no `--dry-run` and no `--yes` on this executable, and no
+`--profile`, `--root`, `--host`, `--scope` or `--project` on `kscope init`.
+Those are flags of the unpublished manager. An unrecognised argument is not an
+error you can act on: `kscope` prints its help text and leaves everything alone.
+
+## Where the wiring goes, and why
+
+The memory server entry goes in your home directory — `~/.claude.json`,
+`~/.codex/config.toml`, `~/.cursor/mcp.json`,
+`~/.config/opencode/opencode.json`. That is not a default you can change on the
+shipped build; it is the only behaviour it has. The reason is that an agent
+agent usually runs your work in a git worktree or a temporary clone, and an
+entry stored inside one project directory is not read from there at all.
+
+The instruction file and the skill go the other way, always into the project:
+git is what carries them into that worktree or clone, and a `CLAUDE.md` in your
+home directory would inject Kaleidoscope into every unrelated project you ever
+open.
+
+## What holds for everything that writes
+
+These hold for every file `kscope init` touches, not just one of them.
+
+- Kaleidoscope writes only the block it owns, marked by an ownership comment on
+  either side wherever the file format has room for comments, and it leaves a
+  receipt beside every file it wrote — `config.toml.kaleidoscope-owner.json`
+  beside a host configuration, `CLAUDE.md.kaleidoscope-instruction-owner.json`
+  beside an instruction file.
+- If what it finds no longer matches that receipt — because you edited inside
+  the markers, or wrote an entry of your own by hand — it stops at that file,
+  changes nothing there, and reports that one step as failed by name. The other
+  steps still happen: a Cursor rule it cannot write must not cost you your
+  Claude Code registration.
+- A file it changes rather than creates is copied first, to
+  `.kaleidoscope-backup` beside it, and the rest of the file is left
+  exactly as it was.
 - The configuration written for your editor or agent contains no tokens, no
-  provider keys, and no vault location.
-- Account traffic goes to a closed list of account-only routes. It is separate
-  from the local memory connection, and nothing about your memory travels on it.
-- Project scope is the default. `--scope user` is how you ask for the
-  machine-wide file instead.
+  provider keys, and no vault location. It names this executable, a profile, and
+  the two tools `search` and `remember`.
+- Running `kscope init` again is safe. A root that is already a vault is left
+  exactly as it is — it says so, and touches nothing inside it — while the
+  wiring is re-checked and repaired.
+- The account boundary other pages describe needs no policing here. This
+  executable carries no account commands, so there is no account traffic to keep
+  away from your memory in the first place.
 
 ---
 
@@ -388,15 +453,40 @@ These hold for every subcommand, not just the ones documented with them.
 URL: https://memory.kleosresearch.xyz/docs/cli/account/
 Updated: 2026-08-30
 
-None of the commands on this page work today. Every one that reaches the account
-service answers `provider not configured`, because no sign-in service is
-configured or published. They are listed so you can see the shape of what
-signing in will and will not do.
+None of the commands on this page ships. Every one of them belongs to
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel — so they are not commands that fail for you, they are commands you
+cannot obtain. Even built from source they would go no further: each one that
+reaches the account service answers `provider not configured`, because no sign-in
+service is configured or published either.
 
-You do not need an account to use Kaleidoscope. Your memory lives on your
-machine and has never needed one.
+They are written down here so you can see the shape of what signing in will and
+will not do when it arrives.
 
-## Sign in and out
+## What there is instead
+
+The alpha is opened by a key, not by an account. Email
+contact@kleosresearch.xyz for one, and then:
+
+```bash
+kscope activate
+```
+
+`activate` takes the key from `KALEIDOSCOPE_API_KEY`, from the key file, or from
+standard input; stores it at the path `kscope gate` reports, so an engine your
+editor starts with an empty environment still finds it; and waits for the verdict
+rather than leaving the next command to discover an empty cache. It is the whole
+of the account-shaped surface on the executable you installed.
+
+You do not need an account to use Kaleidoscope. Your memory lives on your machine
+and has never needed one.
+
+## The surface, when it arrives
+
+Everything from here down is `kaleidoscope`, not `kscope`. None of it runs on the
+command you have.
+
+### Sign in and out
 
 ```bash
 kaleidoscope login
@@ -413,13 +503,13 @@ machine with no browser.
 `logout` removes or revokes your credentials according to the scope you chose.
 `--all-devices` ends every session on the account; `--local-only` removes the
 credential from this machine and warns you that it has not revoked anything
-remotely. Neither changes which profile is active, and neither alters a byte of
-your vault.
+remotely. Neither changes which profile a command resolves to, and neither alters
+a byte of your vault.
 
 `kaleidoscope status` reports your account session on this machine. It is not
 related to the status page, which is about what is available.
 
-## Linked sign-in providers
+### Linked sign-in providers
 
 ```bash
 kaleidoscope account link PROVIDER
@@ -434,34 +524,38 @@ needs; it lists those IDs and nothing else.
 `account revoke-session` has the deliberately narrow meaning of revoking the
 session you are currently using. It does not deactivate an account.
 
-## Devices
+### Devices
 
 ```bash
 kaleidoscope devices list
 kaleidoscope devices revoke DEVICE_UUID
 ```
 
-The devices attached to your account, and how to detach one. Revoking a device
-is an account operation; the vault on that device is untouched.
+The devices attached to your account, and how to detach one. Revoking a device is
+an account operation; the vault on that device is untouched.
 
-## Local account reference
+### Local account reference
 
 ```bash
-kscope profile account show [NAME]
-kscope profile account bind ACCOUNT_UUID [NAME]
-kscope profile account unbind [NAME]
+kaleidoscope profile account show [NAME]
+kaleidoscope profile account bind ACCOUNT_UUID [NAME]
+kaleidoscope profile account unbind [NAME]
 ```
 
-These three are the exception: they work offline, because they never leave your
-machine. They write a non-secret account ID into your local profile and nothing
-more — they do not start the engine, contact any service, touch a vault, or
-store a credential.
+These three would work offline, because they never leave your machine: they write
+a non-secret account ID into a local profile and nothing more — no engine
+started, no service contacted, no vault touched, no credential stored. They are
+still manager commands, so they are still not commands you can run.
 
 ## The boundary
 
-Account traffic goes to a closed list of account-only routes and never touches
-the memory engine. A guard rejects memory fields, profile fields and absolute
-local paths before anything is sent.
+On the executable that ships there is no boundary to police, because there is no
+account traffic: `kscope` carries no account commands at all, and `activate`
+speaks only about your key.
+
+In the manager, account traffic goes to a closed list of account-only routes and
+never touches the memory engine. A guard rejects memory fields, profile fields
+and absolute local paths before anything is sent.
 
 What signing in would mean, and where a credential would be kept:
 Account and devices.
@@ -482,12 +576,29 @@ kscope init
 ```
 
 It tells you what it did, line by line: the vault it created, the `.gitignore`
-rule it added, and each editor it wired. It knows Claude Code, Codex, Cursor and
-OpenCode. If it recognises none of them it writes an `AGENTS.md` instead, which
-most other agents will read.
+rule it added, and then a step for each thing it wired — the memory server
+registered with an agent, the instruction file written for it, and the skill
+installed where that agent reads skills. It knows Claude Code, Codex, Cursor
+and OpenCode, and it wires the ones whose configuration directory already exists
+on this machine. If it recognises none of them it writes an `AGENTS.md` instead,
+which most other agents will read, and says so.
 
 Restart your editor afterwards. Until you do, it is still running with the
 configuration it started with.
+
+## The profile the entry names
+
+The entry `kscope init` writes starts this executable with `--profile default`,
+and creating the vault does not create that profile. Write it once, naming the
+vault `init` just made:
+
+```bash
+kscope profile import default ~/your-project/.kaleidoscope
+```
+
+Until that profile exists, anything started with `--profile default` refuses
+with `profile does not exist`, and the refusal is all your editor will show you.
+Profiles and vaults has the rest of it.
 
 ## It will not overwrite your work
 
@@ -499,12 +610,32 @@ alternative is silently replacing something you wrote on purpose.
 
 ## Removing it
 
-There is no `disconnect`. Deleting the `.kaleidoscope` folder removes that
-project's memory, and `npm uninstall -g @kleos-research/kaleidoscope` removes
-the command. Editor entries that point at a vault which no longer exists are
-harmless, and re-running `kscope init` rewrites them.
+There is no `disconnect` on the command you have. The verb exists, but only in
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel — so removing the wiring is something you do by hand. Everything
+`kscope init` writes is marked and receipted so that you can.
 
-Operations covers moving and backing up a vault.
+The memory server entry is in your home directory, one file per agent: the
+`kaleidoscope` entry under `mcpServers` in `~/.claude.json`, in
+`~/.cursor/mcp.json` and in `~/.config/opencode/opencode.json`, and the block
+between the `kaleidoscope-manager` marker comments in `~/.codex/config.toml`.
+Delete the entry or the marked block, and the `.kaleidoscope-owner.json` receipt
+beside the file, which is the record of what was put there.
+
+The instruction file and the skill are in the project: the marked block in
+`CLAUDE.md` or `AGENTS.md`, `.claude/skills/use-kaleidoscope/` for Claude Code,
+`.agents/skills/use-kaleidoscope/` for Codex and OpenCode, and
+`.cursor/rules/kaleidoscope.mdc` for Cursor. Each of those has a receipt beside
+it too. `npm uninstall -g @kleos-research/kaleidoscope` removes the command
+itself, and nothing else.
+
+None of that touches your memory, and none of it needs to: unwiring an editor is
+not a way to delete a vault, and deleting a vault is not a way to unwire an
+editor. An entry pointing at a vault that no longer exists is harmless, and
+re-running `kscope init` writes the wiring back.
+
+Operations covers moving a vault, backing it up, and
+deleting one on purpose.
 
 ---
 
@@ -513,8 +644,8 @@ Operations covers moving and backing up a vault.
 URL: https://memory.kleosresearch.xyz/docs/cli/diagnostics/
 Updated: 2026-08-30
 
-Four commands answer the questions you are likely to have when something looks
-wrong. None of them reads or changes a single memory.
+Four questions come up when something looks wrong. A command answers each, and
+none of those commands reads or changes a single memory.
 
 ## Where is my memory?
 
@@ -560,8 +691,15 @@ kscope vault-verify /path/to/.kaleidoscope
 
 Counts what is stored and reports whether the copies agree. It reads only.
 
-For a deeper report, `kscope call doctor` runs the full diagnostic and returns
-JSON. It is an operator command, so your agent is never offered it.
+For a deeper report, `call doctor` runs the full diagnostic and returns JSON.
+Like every `call`, it reads one JSON request from standard input, and `inspect`
+is the mode that only looks:
+
+```bash
+echo '{"mode":"inspect"}' | kscope call doctor
+```
+
+It is an operator command, so your agent is never offered it.
 
 ---
 
@@ -570,55 +708,64 @@ JSON. It is an operator command, so your agent is never offered it.
 URL: https://memory.kleosresearch.xyz/docs/cli/instructions/
 Updated: 2026-08-30
 
-`instructions` puts the Kaleidoscope skill, or a short pointer to it, into the
-files your agent already reads. It is the command behind
-give your agent the skill, which shows the files themselves and
-offers them for download.
+An agent only uses memory if something told it to. Kaleidoscope writes two
+things into your project for that: a short marked block in whichever instruction
+file your agent already reads, and the skill itself. It is the same pair shown
+in give your agent the skill, which offers both files for
+download.
 
-## Install
+There is no separate command for it, and no flag to remember. `kscope init`
+installs them as part of the run that creates the vault, once for each agent
+it finds:
 
 ```bash
-kaleidoscope instructions install skill  --project "$PWD"
-kaleidoscope instructions install agents --project "$PWD" --dry-run
-kaleidoscope instructions install agents --project "$PWD"
-kaleidoscope instructions install claude --project "$PWD"
-kaleidoscope instructions install cursor --project "$PWD"
+cd ~/your-project
+kscope init
 ```
 
-## The four targets
+The steps go past as it works — `claude for claude-code`, `skill for
+claude-code`, `agents for codex`, one line each, and a named failure if one of
+them could not be written.
 
-| target | lands at | form |
+## Where each agent reads them
+
+The skill directory is not the same for every agent, and a skill written to
+the wrong one is a file the agent silently never loads. `kscope init` writes
+the path the agent in front of it actually reads.
+
+| agent | instruction file | skill |
 |---|---|---|
-| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
-| `agents` | `AGENTS.md` in the project | one marked block, appended |
-| `claude` | `CLAUDE.md` in the project | one marked block, appended |
-| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+| Claude Code | a marked block in `CLAUDE.md` | `.claude/skills/use-kaleidoscope/SKILL.md` |
+| Codex | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/SKILL.md` |
+| OpenCode | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/SKILL.md` |
+| Cursor | `.cursor/rules/kaleidoscope.mdc`, the whole file | none: Cursor has no skill directory |
+| none detected | a marked block in `AGENTS.md` | none |
 
-A target is one of exactly those four words. There is no target that writes to
-every file at once, and there is no automatic install: nothing writes to
-`AGENTS.md` or `CLAUDE.md` as a side effect of connecting a host or starting the
-engine.
+All of it goes into the project, and none of it into your home directory. Git is
+what carries these files into the worktree or the temporary clone an agent
+agent usually runs your work in, and a `CLAUDE.md` in your home directory would
+inject Kaleidoscope into every unrelated project you ever open.
 
-## Remove
+## Installing one on its own, and taking one back out
 
-```bash
-kaleidoscope instructions remove cursor --project "$PWD" --dry-run
-kaleidoscope instructions remove cursor --project "$PWD"
-```
-
-`remove` is the exact inverse of `install`. It takes out the block Kaleidoscope
-owns and leaves the rest of the file as it was.
+`kaleidoscope instructions install TARGET` and `instructions remove TARGET` are
+the commands for writing one of these files at a time, or removing one exactly.
+They belong to `kaleidoscope`, the manager executable, which is built from source
+and published on no channel: you cannot install it, so you cannot run them. On
+the command that ships, installing is something `kscope init` does for you and
+removing is done by hand — connect an editor or
+agent lists the files to look in.
 
 ## Why the block has markers
 
-Everything appended to an existing file sits between two ownership comments.
-That pair is what makes a second install idempotent instead of duplicating, what
-makes removal exact, and what the manager reads before it touches the file at
-all. If you have edited the text between the markers, the command stops and
-hands the file back rather than overwriting your work.
-
-`--dry-run` prints the plan and changes nothing. Without `--yes`, you are asked
-to confirm.
+Everything appended to an existing file sits between two ownership comments, and
+every file Kaleidoscope owns outright gets a receipt beside it. That pair is what
+makes a second `kscope init` idempotent instead of duplicating, what makes an
+exact removal possible, and what is read before the file is touched at all. If
+you have edited the text between the markers, that one step stops and hands the
+file back rather than overwriting your work — and the remaining steps still run,
+because a Cursor rule that cannot be written must not cost you your Claude Code
+registration.
 
 ---
 
@@ -627,64 +774,123 @@ to confirm.
 URL: https://memory.kleosresearch.xyz/docs/cli/profiles/
 Updated: 2026-08-30
 
-A profile is one memory store on your machine: a vault directory at a path you
-chose, plus the settings needed to open it. Everything else in Kaleidoscope
-points at a profile by name.
+A vault is one memory store on your machine: a directory at a path you chose. A
+profile is a name for one of them — an absolute root, the three identifiers
+inside it, and the durability, written where this executable can find them again.
+An editor or agent is started with a profile name; nothing else is.
 
-## Create a profile
+## Create a vault
 
 ```bash
-kscope init --root /absolute/path/to/your/kaleidoscope-memory --profile default
-kscope init --root /absolute/path --profile work --durability durable-local
+cd ~/your-project
+kscope init
 ```
 
-`--root` is the vault directory. It must be an absolute path; a missing or
-invalid root is refused rather than created for you, so nothing is silently
-written to the wrong place. `--profile` names the profile, and `default` is the
-name every other command assumes if you do not say otherwise.
+`init` with nothing after it resolves the root — `KSCOPE_ROOT`, else
+`.kaleidoscope/` under the repository's main checkout, else `.kaleidoscope/`
+under the working directory — creates the vault there, and prints the path it
+chose along with where the path came from, so a default you did not type is
+never silent. A root that is already a vault is left exactly as it is, and told
+about rather than initialised over. Add `--no-wire` to create the vault and stop
+there, without touching any editor's configuration.
 
-`--durability` chooses how hard the engine works to get writes onto the disk.
-`process-local` is the ordinary choice. `durable-local` asks for the stronger
-guarantee and is refused unless the engine can prove the platform supports it,
-rather than being accepted and quietly downgraded.
+```bash
+kscope init /absolute/path/to/vault 2026-08-30T09:00:00Z
+```
 
-## List, inspect, switch, remove
+Naming the root and an RFC 3339 timestamp is the form for a program that has to
+control the moment a vault records as its creation. It makes the vault and stops;
+it wires nothing.
+
+Durability is the last word on either form, and `process-local` is both the
+default and the only value any release has accepted. Asking for the other one:
+
+```bash
+kscope init durable-local
+```
+
+is refused, and the refusal is worth reading rather than working around:
+`durable-local is not available in this build, so nothing was created`. It is a
+property of the build and not of your machine or your disk, and the engine says
+so — it refuses before writing anything rather than quietly giving you
+`process-local` under a stronger name. What `process-local` promises is that a
+vault stays complete-or-absent across a process crash or a hard kill; it makes
+no promise about a write acknowledged in the moment before the machine loses
+power.
+
+## Name a vault, so an editor can be started with it
+
+```bash
+kscope profile import default ~/your-project/.kaleidoscope
+kscope init-profile work /absolute/path/to/vault 2026-08-30T09:00:00Z
+kscope profile create work /absolute/path/to/vault WORKSPACE_ID PRINCIPAL_ID JOURNAL
+```
+
+`profile import` reads the identity out of a vault that already exists and writes
+it under the name you give. It is the one to run after `kscope init`, and it is
+how the profile called `default` comes to exist: the wiring `init` writes names
+that profile, and creating a vault does not create it. Until it does exist,
+anything started with `--profile default` refuses with `profile does not exist`.
+
+`init-profile` is the same two things in the other order — it initialises the root
+you name and then writes the profile. If the second step fails it does not delete
+the vault it has just committed; the refusal reports the exact root and the
+`kscope profile import` command that finishes the job.
+
+`profile create` takes the identifiers explicitly and verifies them against the
+vault, for a caller that already holds them. `kscope where` is where they come
+from for a vault you have.
+
+Neither one creates or relocates canonical vault data, and none of the three
+stores a secret. A profile is a pointer.
+
+## List, inspect, remove
 
 ```bash
 kscope profile list
 kscope profile show default
-kscope profile use work
+kscope profile launch default
 kscope profile remove work
 ```
 
-`profile list` shows the profiles this machine knows and which one is active.
-`profile show` prints one of them. `profile use` changes which profile is active
-for commands that do not name one.
+`profile list` shows the profiles this machine knows, each validated against its
+vault as it is read. `profile show` prints one of them. `profile launch` prints
+the launch descriptor an editor entry is made of: this executable's absolute
+path, `mcp --profile NAME`, and the two tool names `search` and `remember`. It
+carries no vault coordinates and no key.
 
 `profile remove` forgets a profile. It does not delete the vault the profile
 pointed at — your memory is a directory on your disk and it stays there. Getting
 rid of the memory itself is a separate, deliberate act; see
 Operations.
 
-## Bind a profile to an account
+## There is no active profile
+
+Nothing on this executable makes one profile current. `profile use` is a
+manager command, and the manager is published on no channel, so there is neither
+a `kscope profile use` to run nor anything that would remember the answer.
+
+A command that names no profile is not lost, though. `mcp`, `serve`, `context`
+and `call` resolve a vault from where you are, by the same rules `init` uses, and
+`where` prints the address they will arrive at before you rely on it.
 
 ```bash
-kscope profile account show [NAME]
-kscope profile account bind ACCOUNT_UUID [NAME]
-kscope profile account unbind [NAME]
+kscope where
 ```
 
-These write a local, non-secret account reference into a profile and nothing
-more. They do not start the engine, contact any service, touch a vault, or store
-a credential. They are the only account-shaped commands that work offline,
-because they never leave your machine. The rest are on
+## Binding a profile to an account
+
+`profile account show`, `bind` and `unbind` write a local, non-secret account
+reference into a profile and nothing more. They are manager commands too, so they
+are not on the executable you installed. The command that ships carries nothing
+account-shaped except `kscope activate`, which stores your key; the rest is on
 the account page.
 
 ## What a profile is not
 
 It is not a copy of your memory, and it is not a credential store. Deleting a
-profile, switching profiles, or reinstalling Kaleidoscope leaves every byte of
-every vault exactly where it was.
+profile, naming a different one, or reinstalling Kaleidoscope leaves every byte
+of every vault exactly where it was.
 
 ---
 
@@ -696,15 +902,16 @@ Updated: 2026-08-30
 Kaleidoscope targets macOS on Apple Silicon and Intel, Linux on x86_64 and
 arm64, and Windows on x86_64 and arm64.
 
-**None of them are available yet.** There is nothing to download, on any
-platform. When you install it,
-that list is what it will cover. What is available today.
+**Four of those six are published today**, and `npm install -g
+@kleos-research/kaleidoscope` brings down the one built for your machine. You
+need a key to run it, and nothing is signed for release. Windows is the platform
+on the list you cannot install on yet. What is available today.
 
-| platform | architectures |
-|---|---|
-| macOS | Apple Silicon, Intel |
-| Linux | x86_64, arm64 |
-| Windows | x86_64, arm64 |
+| platform | architectures | today |
+|---|---|---|
+| macOS | Apple Silicon, Intel | published on npm |
+| Linux | x86_64, arm64 | published on npm |
+| Windows | x86_64, arm64 | no package published |
 
 ## Windows creates no vault
 
@@ -714,9 +921,10 @@ way to the disk — and until that lands Kaleidoscope stops rather than writing
 memory it cannot stand behind.
 
 This is a deliberate refusal in the code, not a gap, and it is the one platform
-fact worth knowing before you plan around it. The rest of the Windows work is
-outstanding too, so do not read the refusal as the only thing between you and a
-working install there.
+fact worth knowing before you plan around it. There is no Windows package
+published for the install to bring down in the first place, and the rest of the
+Windows work is outstanding too, so do not read the refusal as the only thing
+between you and a working install there.
 
 ## What has actually been run
 
@@ -745,20 +953,32 @@ part of the public CLI, client, integration, or skill surfaces.
 
 ## Manager and profile
 
-The `kscope` command creates profiles, validates the engine launch
-descriptor, edits host configuration safely, runs offline diagnostics, installs
-agent guidance, and carries the account and device commands. A profile may hold
+The manager is the half of Kaleidoscope that sets things up rather than storing
+anything, and most of it is compiled into the `kscope` command you install.
+`kscope init` creates a vault, edits host configuration safely, and installs
+agent guidance; `kscope profile create`, `import`, `list`, `show` and `remove`
+manage profiles; `kscope profile launch` prints the engine launch descriptor a
+host is started with; and `kscope call doctor` is the offline diagnostic.
+
+The account and device half is not in that command. Signing in, binding a
+profile to an account, and listing or revoking devices belong to a separate
+`kaleidoscope` executable, which is published on no channel — so those are
+commands you cannot obtain, rather than commands you can run. A profile may hold
 one explicit account UUID reference locally; that changes neither its vault
 identity nor its credentials.
 
 ## What gets installed
 
-You install one package for your language — the npm package or the Python
-package — and it brings in a second package built for your platform. The
-language package holds the full public client, the typed resolver that finds the
-installed payload, and the `kscope` command. The platform
-package holds the manager and the proprietary engine as object code. Neither one
-contains engine source, and neither downloads anything at install time.
+You install one package, `@kleos-research/kaleidoscope` from npm, and it brings
+in a second package built for your platform. The npm package holds the full
+public client, the typed resolver that finds the installed payload, and the
+`kscope` command. The platform package holds a single program: the proprietary
+engine as object code, with the setup half of the manager compiled into it.
+Neither one contains engine source, and neither downloads anything at install
+time.
+
+A Python package is intended and not published. `kscope-memory` on PyPI is a
+0.0.0 placeholder that says so itself, so there is no Python route in today.
 
 ## One profile, every tool
 
@@ -768,10 +988,12 @@ merely because their configuration formats differ.
 
 ## Account identity
 
-Signing in is designed to link a product account and a device. The account
-protocol rejects memory fields and absolute local paths before transport.
-Signing out or unlinking is not a vault operation, and must not be read as
-consent to upload memory.
+Signing in is designed to link a product account and a device. None of it is
+something you can do today: there is no service to sign in to, and the commands
+that would do it are in the manager executable that is published on no channel.
+The account protocol rejects memory fields and absolute local paths before
+transport. Signing out or unlinking is not a vault operation, and must not be
+read as consent to upload memory.
 
 ## Hosted memory
 
@@ -831,6 +1053,18 @@ This creates the vault — a `.kaleidoscope` folder in your project, added to yo
 `.gitignore` — and wires up whichever agent you use. It knows Claude Code,
 Codex, Cursor and OpenCode, and it writes an `AGENTS.md` for anything else.
 
+For each agent it finds, it registers the memory server in that agent's own
+configuration and writes the instruction file that agent reads — a marked block
+in `CLAUDE.md` for Claude Code, in `AGENTS.md` for Codex and OpenCode, and the
+whole of `.cursor/rules/kaleidoscope.mdc` for Cursor. Those three also get the
+`use-kaleidoscope` skill installed where they look for skills; Cursor has
+nowhere to put one, so it gets the rule file and nothing more. It prints what it
+wired and then each step it took, so what changed is on your screen rather than
+left for you to find later.
+
+If you would rather write those entries yourself, `kscope init --no-wire`
+creates the vault and leaves every configuration file alone.
+
 It only touches the part of your editor's configuration that belongs to
 Kaleidoscope. If it finds a Kaleidoscope entry someone added by hand, it stops
 and tells you rather than overwriting your work.
@@ -865,13 +1099,19 @@ Every editor and agent below talks to the same engine on your machine, over one
 long-lived process, and sees exactly two tools: `search` and `remember`. Connect
 five of them and they share one memory instead of starting five stores.
 
-| | connect it with |
+One command wires the editors. `kscope init`, run inside a project, creates that
+project's vault and then wires every agent whose own configuration
+directory already exists on this machine. What it writes is different for each
+one — a different configuration file, a different instruction file, a different
+place a skill lives — and that difference is what the pages below set out.
+
+| | wired by |
 |---|---|
-| Claude Code | `kscope connect claude` |
-| Codex | `kscope connect codex` |
-| Cursor | `kscope connect cursor` |
-| OpenCode | `kscope connect opencode` |
-| Any other MCP client | read the descriptor from `kscope config --json` |
+| Claude Code | `kscope init`, in the project |
+| Codex | `kscope init`, in the project |
+| Cursor | `kscope init`, in the project |
+| OpenCode | `kscope init`, in the project |
+| Any other MCP client | the descriptor from `kscope profile launch NAME` |
 
 Frameworks connect through their own MCP adapter, using the same descriptor:
 Claude Agent SDK ·
@@ -880,11 +1120,14 @@ LangChain ·
 LangGraph ·
 CrewAI
 
-There is no build to install yet, so none of these commands run today. What they
-do when there is one is described on each page.
+The build these pages describe is the one that is published:
+`npm install -g @kleos-research/kaleidoscope` gives you `kscope` today, and
+running it needs a key. Install covers both steps.
 What has actually been run, and on what.
 
-Telling your agent to *use* the memory it can now reach is a separate step:
+`kscope init` also installs the skill that tells your agent when to read its
+memory and when to write to it — for Cursor, a project rule instead. What that
+document says, and how to install it by hand, is on
 give your agent the skill.
 
 ---
@@ -901,8 +1144,11 @@ process, for the whole run.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see profiles and vaults.
 
 Put that descriptor in the SDK's own stdio MCP configuration. One client, opened
 around the run and closed at the end — not a fresh engine process per tool call.
@@ -937,36 +1183,55 @@ else was changed.
 URL: https://memory.kleosresearch.xyz/docs/integrations/claude-code/
 Updated: 2026-08-30
 
-Claude Code gets one local MCP server definition from you, and optionally a
-short project pointer to the public skill. Everything Kaleidoscope writes is
-marked as its own, so it can take it back out.
+Claude Code is wired by the same command as everything else. `kscope init`, run
+in a project, sees Claude Code on this machine and does three things for it:
+registers the memory server, writes the instruction block, and installs the
+skill. Everything it writes is marked as its own, so you can find it again.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect claude --profile default --project "$PWD" --dry-run
-kscope connect claude --profile default --project "$PWD"
-kaleidoscope instructions install claude --project "$PWD"
+cd ~/your-project
+kscope init
 ```
+
+Claude Code counts as present when `~/.claude` or `~/.claude.json` exists. Both
+are written by Claude Code itself, and neither is a path this command would
+create on its way to looking, so its absence means Claude Code is left alone
+rather than given a configuration file it never asked for.
 
 ## What it writes
 
-Only the entry Kaleidoscope owns is written to `.mcp.json`; the rest of your
-file is left alone. If the ownership markers have been edited or the file is
-ambiguous, the change is refused rather than guessed at. The entry publishes
-only `search` and `remember`.
+The MCP entry goes in `~/.claude.json`, under `mcpServers` as `kaleidoscope`:
+`"type": "stdio"`, this executable's absolute path, and the arguments
+`mcp --profile default`. That file is Claude Code's own live configuration and
+is usually large; only the entry Kaleidoscope owns is written, the rest comes
+back as it was, and a receipt is left beside it in
+`~/.claude.json.kaleidoscope-owner.json`.
 
-`instructions install claude` is separate from the connection: it appends the
-marked pointer block to `CLAUDE.md`. See
-give your agent the skill.
+The instruction block goes in `CLAUDE.md` in the project, between
+`kaleidoscope-manager` marker comments, with the rest of the file untouched.
 
-## Disconnect
+The skill goes in `.claude/skills/use-kaleidoscope/SKILL.md` in the project.
+That is where Claude Code looks for a skill; it does not read `.agents/skills/`,
+which is why this path differs from the one Codex and OpenCode get.
 
-```bash
-kscope disconnect claude --project "$PWD"
-```
+The server those entries start publishes only `search` and `remember`. Nothing
+written carries your vault location, a provider key, or an account credential.
 
-It removes only what Kaleidoscope wrote.
+Restart Claude Code afterwards. Until you do, it is still running with the
+configuration it started with.
+
+## Removing it
+
+There is no `disconnect` on the command you have: the verb exists only in
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel. So you take the wiring out by hand — the `kaleidoscope` entry in
+`~/.claude.json`, the marked block in `CLAUDE.md`, and
+`.claude/skills/use-kaleidoscope/` — along with the receipt beside each one,
+which is the record of what was put there.
+Connect an editor or agent has the whole list in one
+place.
 
 ---
 
@@ -975,31 +1240,56 @@ It removes only what Kaleidoscope wrote.
 URL: https://memory.kleosresearch.xyz/docs/integrations/codex/
 Updated: 2026-08-30
 
-Codex reads the same local launch descriptor and the same profile as every other
-editor you connect. Kaleidoscope owns the change it makes to Codex's
-configuration, so you can preview it, and take it back out exactly.
+Codex reads the same local engine and the same profile as every other editor you
+wire. `kscope init` owns the change it makes to Codex's configuration, marks it,
+and leaves a receipt beside it, so you can see exactly what it put there.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect codex --profile default --project "$PWD" --dry-run
-kscope connect codex --profile default --project "$PWD"
-kaleidoscope instructions install agents --project "$PWD"
+cd ~/your-project
+kscope init
 ```
+
+Codex counts as present when `~/.codex` exists. Codex creates that directory
+itself, so its presence is evidence rather than a guess, and this command never
+creates it on the way to checking.
 
 ## What it writes
 
-What gets written names an absolute path to the local engine,
-`mcp --profile default`, and exactly `search` and `remember`. It does not carry
-your vault location, a provider key, or an account credential.
+The MCP entry goes in `~/.codex/config.toml`, inside a block that opens with
+`# >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 host=codex` and closes
+with the matching `<<<` line. Inside it is an `[mcp_servers.kaleidoscope]` table
+naming this executable's absolute path, `args = ["mcp", "--profile", "default"]`,
+startup and tool timeouts, and `enabled_tools = ["search", "remember"]` — Codex
+is the one editor whose own configuration states the tool list. Everything
+outside the block is a textual cut from your original file, so the rest of your
+TOML comes back byte for byte, comments and ordering included.
 
-## Disconnect
+The instruction block goes in `AGENTS.md` in the project, between marker
+comments. The skill goes in `.agents/skills/use-kaleidoscope/SKILL.md`, which is
+where Codex looks for one — the same path OpenCode reads, and not the one Claude
+Code reads.
 
-```bash
-kscope disconnect codex --project "$PWD"
-```
+What gets written does not carry your vault location, a provider key, or an
+account credential.
 
-It removes only what Kaleidoscope wrote, leaving the file as it was.
+If `~/.codex/config.toml` already contains an `[mcp_servers.kaleidoscope]` table
+that Kaleidoscope did not write, the change is refused and nothing is altered.
+The command cannot tell where its own text would end and yours begins, and
+guessing at that is worse than stopping.
+
+Restart Codex afterwards.
+
+## Removing it
+
+There is no `disconnect` on the command you have: the verb exists only in
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel. Removing the wiring is done by hand — the marked block in
+`~/.codex/config.toml`, the marked block in `AGENTS.md`, and
+`.agents/skills/use-kaleidoscope/` — with the receipt beside each one.
+Connect an editor or agent has the whole list in one
+place.
 
 ---
 
@@ -1014,8 +1304,11 @@ only the Kaleidoscope tools you choose to give the model.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see profiles and vaults.
 
 Build the adapter from that descriptor, enter it once, select `search` and
 `remember`, run the crew, then close the context. Do not recreate the server for
@@ -1040,40 +1333,56 @@ URL: https://memory.kleosresearch.xyz/docs/integrations/cursor/
 Updated: 2026-08-30
 
 Cursor uses the same local command and the same two tools as every other editor.
-Kaleidoscope makes the change to Cursor's JSON reversible, and adds a small
-project rule only if you ask for one.
+`kscope init` wires it when it can see it, and what it writes for Cursor differs
+from every other editor in one way worth knowing about.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect cursor --profile default --project "$PWD" --dry-run
-kscope connect cursor --profile default --project "$PWD"
-kaleidoscope instructions install cursor --project "$PWD"
+cd ~/your-project
+kscope init
 ```
+
+Cursor counts as present when `~/.cursor` exists. Cursor creates that directory
+itself; this command does not create it in order to find it.
 
 ## What it writes
 
-The MCP server entry goes into Cursor's JSON configuration. Entries you added
-yourself are left untouched. A tampered marker, a name that conflicts, a
+The MCP server entry goes in `~/.cursor/mcp.json`, under `mcpServers` as
+`kaleidoscope`: this executable's absolute path and the arguments
+`mcp --profile default`. Entries you added yourself are left untouched, and a
+receipt is written beside the file. A tampered marker, a name that conflicts, a
 malformed file, a symlink, or a file being edited at the same time is refused
 and handed back to you rather than overwritten.
 
+The instructions go in `.cursor/rules/kaleidoscope.mdc` in the project, a rule
+file whose frontmatter carries `alwaysApply: true`, so Cursor reads it on every
+turn rather than when it happens to look.
+
+The entry carries no vault location, provider key or account credential.
+
 ## The one thing that is different here
 
-The project rule is a **second, separate file** from the MCP configuration.
-`connect cursor` writes the server entry; `instructions install cursor` writes
-the rule. They are installed and removed independently, so removing one leaves
-the other in place. If Cursor can see the tools but ignores them, it is usually
-the rule that is missing — see give your agent the skill.
+Cursor is the only one that gets no skill. It has no skill directory to
+install one into, so `kscope init` does not attempt it, and the rule file is
+the whole of what tells Cursor how to use the memory it can now reach — where
+Claude Code, Codex and OpenCode get an instruction file *and* a
+`use-kaleidoscope` skill beside it.
 
-## Disconnect
+That makes the rule the thing to check first. If Cursor can see the tools but
+never uses them, it is usually `.cursor/rules/kaleidoscope.mdc` that is missing
+or has been edited — see give your agent the skill.
 
-```bash
-kscope disconnect cursor --project "$PWD"
-kaleidoscope instructions remove cursor --project "$PWD"
-```
+## Removing it
 
-Each removes only what Kaleidoscope wrote. Run both if you installed both.
+There is no `disconnect` on the command you have: the verb exists only in
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel. Take the two pieces out by hand — the `kaleidoscope` entry in
+`~/.cursor/mcp.json` and `.cursor/rules/kaleidoscope.mdc` — each with the
+receipt written beside it. They were installed independently and they come out
+independently, so removing one leaves the other in place.
+Connect an editor or agent has the whole list in one
+place.
 
 ---
 
@@ -1086,11 +1395,14 @@ Any standard MCP client can ask Kaleidoscope for its launch descriptor and keep
 one initialized session open for the whole run. You do not have to hand-write
 the command.
 
-## Connect it
+## Get the descriptor
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can be
+printed — see profiles and vaults.
 
 What comes back is deliberately closed: an absolute command,
 `mcp --profile NAME`, `stdio`, exactly two tools, and an empty environment. Give
@@ -1098,9 +1410,11 @@ that to your client as its server definition.
 
 ## What it writes
 
-Nothing. There is no `connect` support for a client Kaleidoscope does not know
-by name, so you place the descriptor in your own configuration and you own that
-file. Do not add your vault location or a token to it.
+Nothing. `kscope init` knows four editors by name — Claude Code, Codex, Cursor
+and OpenCode — and wires only those; if it recognises none of them it writes an
+`AGENTS.md` and leaves your configuration alone. So you place the descriptor in
+your own file, and you own that file. Do not add your vault location or a token
+to it.
 
 ## The one thing that is different here
 
@@ -1126,8 +1440,11 @@ a single adapter session.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see profiles and vaults.
 
 Give that descriptor to the LangChain MCP adapter. Open the stdio adapter once
 around the agent run you intend, load the two tools, then close the adapter when
@@ -1162,8 +1479,11 @@ graph's tool node for the length of the run.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see profiles and vaults.
 
 Open the adapter before you execute the graph, pass the two tools into the tool
 node, and close it once execution finishes. The same session is reused across
@@ -1198,8 +1518,11 @@ Kaleidoscope's two.
 ## Connect it
 
 ```bash
-kscope config --profile default --json
+kscope profile launch default
 ```
+
+`default` there is a profile name, and the profile has to exist before it can
+be printed — see profiles and vaults.
 
 Create the MCP server from that descriptor as a managed resource around the run,
 and close it deterministically at the end. Do not open a fresh engine process
@@ -1230,41 +1553,54 @@ Updated: 2026-08-30
 OpenCode stable v1 and beta v2 want different configuration shapes. Kaleidoscope
 never guesses which one you are on and never quietly moves you between them.
 
-## Connect it
+## Wire it
 
 ```bash
-kscope connect opencode --profile default --project "$PWD" --dry-run
-kscope connect opencode --profile default --project "$PWD"
+cd ~/your-project
+kscope init
 ```
 
-Stable v1 is what you get if you say nothing.
-
-## The one thing that is different here
-
-The two configuration shapes are genuinely different, and which one you get is a
-flag:
-
-```bash
-kscope connect opencode --profile default --project "$PWD" --opencode-version beta-v2 --dry-run
-```
-
-The stable entry is a direct local command. Beta v2 uses the explicit server
-shape with code mode turned off, so `search` and `remember` stay visible to the
-model. If your file already contains both shapes, the change is refused rather
-than resolved for you.
+OpenCode counts as present when `~/.config/opencode` or `~/.opencode` exists.
+OpenCode creates those itself; this command does not create one in order to find
+it.
 
 ## What it writes
 
-One entry, in whichever shape applies, naming the local engine and
-`mcp --profile NAME`. It carries no vault location, provider key or credential.
+The MCP entry goes in `~/.config/opencode/opencode.json`. In the stable v1
+shape that is `mcp.kaleidoscope`, with `"type": "local"`, `"enabled": true`, and
+a `command` array holding this executable's absolute path followed by `mcp`,
+`--profile` and `default`. Only that entry is written; the rest of the file
+comes back as it was, and a receipt is left beside it.
 
-## Disconnect
+The instruction block goes in `AGENTS.md` in the project, and the skill in
+`.agents/skills/use-kaleidoscope/SKILL.md` — the same two paths Codex reads,
+because OpenCode reads them too.
 
-```bash
-kscope disconnect opencode --project "$PWD"
-```
+The entry carries no vault location, provider key or account credential.
 
-It removes only what Kaleidoscope wrote.
+## The one thing that is different here
+
+Which of the two shapes you get is read off your file rather than chosen for
+you. An `opencode.json` with no Kaleidoscope entry gets stable v1. One that
+already has an `mcp.servers` object — the beta v2 container — gets beta v2
+instead: the entry goes to `mcp.servers.kaleidoscope` and carries
+`"codemode": false`, so `search` and `remember` stay visible to the model as
+tools. If both shapes are present, or the shape in your file conflicts with the
+one Kaleidoscope already owns, the change is refused and handed back for you to
+resolve.
+
+The command you have takes no flag for this. `--opencode-version` belongs to
+`kaleidoscope`, the manager executable, which is built from source and published
+on no channel; on `kscope` the shape follows the file.
+
+## Removing it
+
+There is no `disconnect` on the command you have either. Take the wiring out by
+hand — the `kaleidoscope` entry in `~/.config/opencode/opencode.json`, the
+marked block in `AGENTS.md`, and `.agents/skills/use-kaleidoscope/` — with the
+receipt beside each one, which is the record of what was put there.
+Connect an editor or agent has the whole list in one
+place.
 
 ---
 
@@ -1340,9 +1676,10 @@ Your editor or agent sees exactly two tools from Kaleidoscope: `search` and
 `remember`. Nothing else is callable by a model. This page is what you need to
 write a correct call to either one.
 
-There is no way to install Kaleidoscope yet, so you cannot connect a host of
-your own today — see Install. The contract below is the one
-that runs locally.
+To connect a host of your own you need the package and a key — see
+Install — and then `kscope init` in the project, which
+registers the server with every editor and agent it finds. The contract below is
+the one that runs locally, against the vault that command created.
 
 Read the machine-readable tool reference.
 
@@ -1439,9 +1776,16 @@ active and where it points, without printing credentials or any memory content:
 
 ```bash
 kscope profile list
-kscope config --profile default --json
-kscope doctor --project "$PWD"
+kscope where
+echo '{"mode":"inspect"}' | kscope call --profile default doctor
 ```
+
+`where` answers the narrower question: which vault a command that names none
+would resolve to from here, and where that answer came from. `doctor` in
+`inspect` mode reads health and writes nothing, and what it prints on stdout is
+counts and status fields — no memory content and no absolute paths. The line
+beside it on stderr is not part of that report: it names the resolved vault, by
+absolute path.
 
 ## Back up and restore
 
@@ -1452,20 +1796,34 @@ restore, or to move your memory to another machine or another path, put the
 directory back and point a profile at it:
 
 ```bash
-kscope init --profile default --root /absolute/path/to/the/vault
+kscope profile import restored /absolute/path/to/the/vault
 ```
+
+`profile import` reads the vault's own identity out of the vault and writes a
+profile pointing at it. It creates no vault and moves no canonical data, which
+is why it is the command for a directory you have put back rather than `init`,
+which will not initialise over a root that is already a vault: it leaves that
+directory exactly as it is and tells you so.
 
 ## Disconnect and uninstall
 
 These are four separate operations, and it matters that you know which one you
 are doing.
 
-- `kscope disconnect HOST` removes only the configuration Kaleidoscope
-  itself wrote into that editor. Other settings in the same file are left alone.
-- `kaleidoscope instructions remove` removes the agent guidance pointer, which
-  is a separate thing from the connection.
-- Uninstalling the package removes the executables.
-- `kaleidoscope logout` removes or revokes account credentials.
+- Removing an editor's connection means removing the Kaleidoscope entry from
+  that editor's configuration. `kscope init` wrote that entry and left a receipt
+  marking it as its own, so it is clear which block is yours to delete and which
+  settings in the same file to leave alone. There is no shipped command that
+  does the removal for you: `disconnect` and `teardown` are verbs of the
+  separate manager executable, which is published on no channel.
+- Removing the agent guidance — the instruction file and the skill that `init`
+  installed — is a separate act from removing the connection, and today it is
+  also done by hand.
+- Uninstalling the package removes the executables:
+  `npm uninstall -g @kleos-research/kaleidoscope`.
+- Removing account credentials would be the fourth. There is nothing to remove
+  today: there is no account to sign in to, and the commands that would sign you
+  out are in the unpublished manager.
 
 None of the four deletes a vault. Your memory survives all of them.
 
@@ -1483,18 +1841,22 @@ removes the files.
 Installing, updating, rolling back to the previous version, and uninstalling
 have each been run on a Mac with Apple Silicon and behaved correctly, and a
 vault kept alongside was byte-for-byte identical afterwards. That is the whole
-of what has been established. Nothing is signed for production, and there is no
-channel to update from yet, so this is not a supported update path — it is a
-mechanism we have run once, on one machine.
+of what has been established. npm is the channel, and naming a version —
+`npm install -g @kleos-research/kaleidoscope@` — is how you pin one and
+how you go back to one. Nothing is signed for production, and the sequence above
+has been run once, on one machine, so read it as a mechanism we have tried
+rather than a supported update path.
 
 ## What gets installed
 
-Two things: a language package for npm or Python, and a second package built for
-your platform. The language package holds the client library and the
-`kscope` command; the platform package holds the manager and
-the engine, as object code. There is no install hook, runtime download,
-compiler, or source-build fallback — nothing is fetched or built on your machine
-after the download. The engine source is not in the package.
+Two things: the npm package `@kleos-research/kaleidoscope`, and a second package
+built for your platform. The npm package holds the client library and the
+`kscope` command; the platform package holds one program — the engine as object
+code, with the setup half of the manager compiled into it. There is no install
+hook, runtime download, compiler, or source-build fallback — nothing is fetched
+or built on your machine after the download. The engine source is not in the
+package. There is no Python package to install: `kscope-memory` on PyPI is a
+0.0.0 placeholder, and nothing else of ours is registered there.
 
 ## Encrypted vaults, on a Mac
 
@@ -1524,14 +1886,18 @@ you one.
 | | |
 |---|---|
 | operating system | macOS or Linux |
-| architecture | Apple Silicon or x86_64 |
+| architecture | arm64 (Apple Silicon) or x86_64 |
 | Node.js | 18 or newer |
 
-Windows is not supported yet. The package will install there, but creating a
-vault is refused on purpose until the filesystem work is done.
+Windows is not supported yet. No Windows package is published, so there is no
+executable for the install to bring down, and creating a vault is refused in the
+code as well until the filesystem work is done.
 
-There is no Python package. `kaleidoscope-memory` on PyPI was planned and never
-registered; if you find that name, it is not us.
+There is no Python package you can use. `kscope-memory` on PyPI is registered,
+but only as a 0.0.0 placeholder whose own summary says "Local memory for AI
+agents. Not yet released." — installing it gets you nothing.
+`kaleidoscope-memory` was planned and never registered; if you find that name,
+it is not us.
 
 ## What it puts on your disk
 
@@ -1605,9 +1971,15 @@ no calls to any model provider. Storing, searching and reading your memory all
 work with your machine offline.
 
 One thing does reach the network: checking that your key is still valid. That
-check sends your key and nothing else — no memory content, no queries, no
-results, no file paths. It runs in the background and caches its answer, so it
-is not on the path of anything you do.
+check sends three things — your key, the platform you are running on, and the
+version of the component that makes the check. Nothing else goes with it: no memory
+content, no queries, no results, no file paths. The key travels in the
+request's authorization header, and the body is those other two fields and no
+more. A test in the engine holds the body to exactly those two fields and fails
+if anything about your memory is added to it. That test is the positive half:
+it proves what this build sends, and the enforcement that a future build cannot
+quietly send more lives in the service that receives it. The check runs in the background and caches its
+answer, so it is not on the path of anything you do.
 
 There is no account to create and no sign-in.
 
@@ -1641,16 +2013,24 @@ URL: https://memory.kleosresearch.xyz/docs/release-notes/
 Release: 0.0.5
 Updated: 2026-08-30
 
-Kaleidoscope has not been released, so there are no release notes yet. When it
-is released, every version will be listed here, newest first.
+The current version is 0.0.5. It was published to npm as
+`@kleos-research/kaleidoscope`, alongside a package for each of the four
+platforms it is built for — macOS on Apple Silicon and x86_64, Linux on arm64
+and x86_64. It gives you the `kscope` command, it needs a key to run, and
+nothing in it is signed for release. Install is how you get
+it.
+
+There is no entry below for it, and none for the versions before it. Notes begin
+with the next version, and from there every version will be listed here, newest
+first.
 
 Each entry will say which platforms that version runs on, which editor and agent
 versions it was checked against, what changed, what broke or was removed, whether
 anything you already have needs to be moved or reconfigured, and any security
 fixes it carries.
 
-Until then, Status is the current picture: what is available, what
-is not, and what has actually been run.
+Until the second one, Status is the current picture: what is
+available, what is not, and what has actually been run.
 
 ---
 
@@ -1722,94 +2102,186 @@ Updated: 2026-08-30
 
 An agent only uses memory if something told it to. Kaleidoscope ships one skill
 file and a short pointer for whichever instruction file your project already has,
-and it installs them as a block it owns, so it can take them out again exactly.
+and it installs them as a block it owns, so what it wrote can always be told
+apart from what you wrote.
 
-Nothing is written to `CLAUDE.md` or `AGENTS.md` as a side effect of installing,
-running or connecting anything. It is a command a human runs, it previews before
-it writes, and it has an exact inverse.
+Installing the package writes none of it, and neither does running the memory
+server. `kscope init` writes it, it is a command a person runs, it says on your
+screen what it did, and `kscope init --no-wire` is how you tell it to create the
+vault and leave every file of yours alone. That flag works and is absent from
+the binary's own `--help`, which is worth knowing before you go looking for it
+there.
 
 ## The four files
 
-Every one is published here, byte for byte, as the manager would install it.
+Every one is published here, byte for byte, as `kscope init` installs it.
+
+They are copies, and the thing that makes the claim checkable is that they are
+copies of something named. The originals are
+`crates/kaleidoscope-manager/skills/use-kaleidoscope/SKILL.md` and
+`crates/kaleidoscope-manager/snippets/` in the product source, compiled into the
+executable, so the bytes `kscope init` writes are those and no others.
+`/site-manifest.json` records, for each of the four, the
+sha256 of the source it was taken from, under `public_upstream_sha256`, and the
+build refuses to publish a copy that no longer matches its digest. The digests
+live in that file rather than in this sentence because a digest is something to
+check with, not something to read: download a file below, take its sha256, and
+compare. This page has been wrong about these bytes before, and a claim that
+nothing re-checks is how that happened.
 
 SKILL.md — https://memory.kleosresearch.xyz/SKILL.md
 
-The skill itself — about 600 words telling an agent how to use `search` and
+The skill itself — about 1,500 words telling an agent how to use `search` and
 `remember`, when to retrieve, what is worth persisting, and what never to store.
-Goes to `.agents/skills/use-kaleidoscope/SKILL.md`.
+Claude Code reads it at `.claude/skills/use-kaleidoscope/SKILL.md`; Codex and
+OpenCode read `.agents/skills/use-kaleidoscope/SKILL.md`. It is the same file
+either way.
 
 AGENTS.md snippet — https://memory.kleosresearch.xyz/snippets/AGENTS.md
 
-One paragraph pointing at the skill, wrapped in its markers. Appended to your
-project's `AGENTS.md`.
+The marked block for your project's `AGENTS.md`, which Codex and OpenCode read.
+It points at the skill and states the rules in short, so an agent that never
+opens the skill still has them.
 
 CLAUDE.md snippet — https://memory.kleosresearch.xyz/snippets/CLAUDE.md
 
-The same paragraph for `CLAUDE.md`.
+The same block for `CLAUDE.md`, differing where it must: it names the skill path
+Claude Code reads, which is not the one `AGENTS.md` names.
 
 Cursor rule — https://memory.kleosresearch.xyz/snippets/cursor-kaleidoscope.mdc
 
-The same paragraph as a Cursor project rule, with `alwaysApply: true`.
+The same block as a Cursor project rule, with `alwaysApply: true`. It names no
+skill file, because Cursor has no skill directory to read one from, and points
+at `kscope schema remember` for the write contract instead.
 
 ## What gets added to your file
 
-This is the whole of it. The two comments are the point: they mark where
-Kaleidoscope's text starts and stops.
+The two comments are the point: they mark where Kaleidoscope's text starts and
+stops.
 
-```md title="CLAUDE.md" wrap
+````md title="CLAUDE.md" wrap
 <!-- >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
 ## Kaleidoscope memory
 
-For nontrivial tasks, read and follow `.agents/skills/use-kaleidoscope/SKILL.md` before using Kaleidoscope. Use only the public `search` and `remember` tools for agent work. Retrieve at task start, persist only verified durable semantic deltas, never store secrets or transcripts, and leave the required exposure record. If the skill or authenticated tools are unavailable, continue without inventing memory operations.
-<!-- <<< kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+This project's memory across sessions: decisions made, preferences stated, constraints, corrections, and what past work produced. `search` reads it, `remember` writes it. All local -- no network, nothing leaves this machine.
+
+**Prefer the CLI when you have a shell.** One invocation costs a couple of dozen tokens; the MCP tool definitions sit in your context all session (~1,800) whether or not you call them. Use the MCP `search`/`remember` tools only when you have no shell -- same engine, same vault.
+
+```bash
+echo '{"query":"how we handle retries","top_k":5}' | kscope call --profile default search
+kscope schema remember   # the write contract, when you need it
 ```
+
+**Search before you go looking.** Before grepping, reading your way around the code, or asking the user how this project works -- search first. Code shows what *is*; memory shows what was *decided*, and why. A question already settled here must not be asked twice.
+
+**Write without being asked** when the user states a preference, makes or rejects a decision, sets a constraint, corrects you, or work produces a result worth keeping. Don't wait for "remember this", and don't batch writes to the end of the task -- write when it lands, while you still know why.
+
+**Write what you had to dig for.** Those triggers are things the *user* did; this one is you. Whatever you established by reading code, running an experiment, or ruling out a wrong answer is the most expensive thing in a session to rediscover. **That applies hardest to agents you spawn.** A subagent or workflow agent sees only the prompt you write it, so put "search Kaleidoscope first, record what you establish" in that prompt -- or write its findings yourself when it reports back.
+
+Never store secrets, transcripts, ordinary file contents, anything the code or git history already records, or ideas still in flux.
+
+A refusal names the field to fix and what to change it to: correct it and resend. One refusal is never a reason to stop using memory.
+
+Full write contract: `.claude/skills/use-kaleidoscope/SKILL.md`, or `kscope schema remember`.
+<!-- <<< kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
+````
+
+The middle is elided on purpose. The block is about a page long, and a second
+copy of it living in this page's source is precisely what drifted the last time:
+the file offered above is the text, and it is the one checked against the
+source. [Read it in full](/snippets/CLAUDE.md).
 
 Nothing else in your file is touched, and nothing is added a second time if you
 run it twice.
 
-The block is a pointer, not the skill. It tells the agent to read the skill
-file, to use only `search` and `remember`, to retrieve at task start, to persist
-only verified durable changes, never to store secrets or transcripts, and to
-carry on normally if the tools are not there.
+## Where each file lands
 
-## The four targets
+The skill directory is not the same for every agent, and a skill file written to
+the wrong one is a file that is silently never loaded. `kscope init` writes the
+path the agent in front of it actually reads.
 
-| target | lands at | form |
+| what | lands at | form |
 |---|---|---|
-| `skill` | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
-| `agents` | `AGENTS.md` in the project | one marked block, appended |
-| `claude` | `CLAUDE.md` in the project | one marked block, appended |
-| `cursor` | a Cursor project rule (`.mdc`) | the whole file, with frontmatter |
+| the skill, for Claude Code | `.claude/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| the skill, for Codex and OpenCode | `.agents/skills/use-kaleidoscope/SKILL.md` | the whole file |
+| the block, for Claude Code | `CLAUDE.md` in the project | one marked block, appended |
+| the block, for Codex and OpenCode | `AGENTS.md` in the project | one marked block, appended |
+| the rule, for Cursor | `.cursor/rules/kaleidoscope.mdc` | the whole file, with frontmatter |
 
-In `AGENTS.md` and `CLAUDE.md` the block is delimited by an HTML comment pair.
-In `SKILL.md` and the Cursor rule the file *is* Kaleidoscope's, so the pair
-wraps the whole of it: the opening marker sits in the frontmatter as a `#`
-comment and the closing marker is the last line of the file. That marked pair is
-what makes a second install idempotent instead of duplicating, what makes
-removal exact, and what the manager checks before touching a file at all.
+Cursor has no skill row because it has no skill directory: asking for one there
+is refused rather than written somewhere it would not be read. All five paths are
+inside the project, which is what carries them into the worktree or the
+temporary clone an agent usually runs your work in.
 
-Six guarantees govern every one of those writes: it previews before writing; it
-asks you to confirm unless you explicitly bypass that; it leaves unrelated
-content alone; it writes atomically with a bounded backup; running it again
-changes nothing; and removal takes out only what it owns. A target that is
-unknown, conflicting, symlinked, hand-edited inside the markers, or changed
-underneath it is refused, not overwritten.
+In `AGENTS.md` and `CLAUDE.md` the block is delimited by an HTML comment pair. In
+the Cursor rule the file *is* Kaleidoscope's, so the pair wraps the whole of it:
+the opening marker sits in the frontmatter as a `#` comment and the closing
+marker is the last line. `SKILL.md` carries no marker anywhere — its frontmatter
+is `name` and `description` and nothing else — because a skill file is parsed by
+the agent that loads it, and a comment injected into that frontmatter is a file a
+strict reader can reject outright. What records ownership there is a receipt
+written beside it, `.kaleidoscope-instruction-owner.json`. Marker or receipt, the
+job is the same: it is what makes a second install idempotent instead of
+duplicating, what makes an exact removal possible, and what is read before a file
+is touched at all.
 
-## Doing it by hand, which is what you can do today
+Those writes are bounded on purpose. Each is atomic and leaves a bounded backup
+beside the file; unrelated content is left alone; running it again changes
+nothing; and a target that is unknown, conflicting, symlinked, hand-edited inside
+the markers, or changed underneath it is refused, not overwritten. A refusal
+costs you that one file and nothing else — a Cursor rule that cannot be written
+does not cost you your Claude Code registration — and none of it can undo the
+vault, which exists before any of this runs.
 
-There is no build to install yet, so the commands below are the reference for
-what they will do rather than something you can run. In the meantime the files
-above are the whole mechanism, and pasting them by hand works:
+Two things you may have read elsewhere are not on the command that ships. There
+is no preview-then-confirm step: `kscope init` applies as it goes and names each
+step as it takes it. And there is no removal command; taking the text back out is
+done by hand, by deleting the marked block including both of its comments, or the
+skill file and the receipt beside it.
 
-1. Save `SKILL.md` to `.agents/skills/use-kaleidoscope/SKILL.md` in your project.
-2. Paste the matching snippet into `AGENTS.md`, `CLAUDE.md`, or your Cursor rules
-   — **keep the two marker comments**. They are what lets Kaleidoscope adopt the
-   block later, and remove it exactly, instead of treating it as your own text.
+## Installing them
 
-## The commands, for when there is a build
+`kscope init` writes all of it, in the same run that creates the vault. It needs
+a key to run at all — [getting started](/docs/getting-started/) says how to ask
+for one.
 
 ```bash
-kaleidoscope instructions install skill  --project "$PWD"
+npm install -g @kleos-research/kaleidoscope
+cd ~/your-project
+kscope init
+```
+
+It looks for the configuration directory each agent creates in your home
+directory — `~/.claude` or `~/.claude.json`, `~/.codex`, `~/.cursor`,
+`~/.config/opencode` — and treats its existence as evidence that you run that
+agent, rather than guessing. For each one it finds it registers the memory
+server, writes the instruction file and installs the skill, printing a line per
+step. When it finds none it writes `AGENTS.md` alone and says that is what it
+did, because `AGENTS.md` is the one file every agent reads.
+
+## Doing it by hand
+
+If you ran `kscope init --no-wire`, or you use an agent this build has never
+heard of, the files above are the whole mechanism and pasting them works:
+
+1. Save `SKILL.md` to `.claude/skills/use-kaleidoscope/SKILL.md` for Claude Code,
+   or `.agents/skills/use-kaleidoscope/SKILL.md` for Codex or OpenCode.
+2. Paste the matching snippet into `AGENTS.md`, `CLAUDE.md`, or
+   `.cursor/rules/kaleidoscope.mdc` — **keep the two marker comments**. They are
+   what lets Kaleidoscope recognise the block as its own later, and remove it
+   exactly, instead of treating it as your own text and refusing to touch it.
+
+## The commands of the other program
+
+`kaleidoscope instructions install` writes one of these files at a time, and
+`instructions remove` takes one back out exactly. They belong to `kaleidoscope`,
+a second executable that is built only from the product source and published on
+no channel: you cannot obtain it, so you cannot run any of the lines below today.
+They are written down because that finer-grained half of the mechanism is real
+and is where this is going, not because there is a way to reach it.
+
+```bash
+kaleidoscope instructions install skill  --host claude-code --project "$PWD"
 kaleidoscope instructions install agents --project "$PWD" --dry-run
 kaleidoscope instructions install agents --project "$PWD"
 kaleidoscope instructions install claude --project "$PWD"
@@ -1819,11 +2291,13 @@ kaleidoscope instructions remove cursor --project "$PWD" --dry-run
 kaleidoscope instructions remove cursor --project "$PWD"
 ```
 
-`--dry-run` prints the plan and changes nothing. Without `--yes` you are asked to
-confirm. `instructions remove` is the exact inverse of `instructions install`:
-it takes out the marked block and leaves the rest of the file as it was. If you
-edited inside the markers, it stops and hands the file back rather than
-overwriting your work.
+`install skill` requires `--host`, because the skill directory differs per agent
+and there is no sensible default to pick; the other three targets take no such
+flag. `--dry-run` prints the plan and changes nothing. Without `--yes` you are
+asked to confirm. `instructions remove` is the exact inverse of
+`instructions install`: it takes out the marked block and leaves the rest of the
+file as it was. If you edited inside the markers, it stops and hands the file
+back rather than overwriting your work.
 
 Full command reference: the instructions commands.
 What the two tools actually do: MCP reference.
@@ -1836,18 +2310,25 @@ The same text as a single file: agent-instructions.md.
 URL: https://memory.kleosresearch.xyz/docs/troubleshooting/
 Updated: 2026-08-30
 
-Start with `kscope doctor` when your profile, engine, or host
-configuration is misbehaving. Account commands fail on their own separate
-boundary, so read that section before you conclude that anything local is
-broken.
+Start with `kscope where` when your profile, engine, or host configuration is
+misbehaving: it prints the vault a command that names none would resolve to from
+here, and where that answer came from. It needs no key, which is why it is the
+first thing to try. The fuller check is
+`echo '' | kscope call doctor`, which reads health and writes
+nothing — but `call` is one of the commands the key gates, so a refusal there is
+about your key rather than about your vault. Signing in sits on its own separate
+boundary and is not a local failure at all, so read that section below before
+you conclude anything here is broken.
 
 ## The host cannot find the tools
 
-1. Confirm the active profile is the one you expect.
-2. Preview the connection with `--dry-run` and read only the block Kaleidoscope
-   owns.
-3. Restart the host after a successful connect — most hosts read their
-   configuration once, at startup.
+1. Confirm the active profile is the one you expect, with `kscope profile list`
+   and `kscope where`.
+2. Open the host's own configuration file and read only the block Kaleidoscope
+   owns — `kscope init` marks the entry it wrote as its own, so which block that
+   is does not have to be guessed.
+3. Restart the host after `kscope init` — most hosts read their configuration
+   once, at startup.
 4. Confirm the tools it discovered are exactly `search` and `remember`.
 
 ## OpenCode configuration is refused
@@ -1855,26 +2336,40 @@ broken.
 The stable and beta-v2 configuration shapes differ. Kaleidoscope adopts an
 existing shape when it is unambiguous, or the version you named explicitly; it
 never quietly rewrites stable configuration into beta. Remove any duplicate
-Kaleidoscope entry and run the dry run again.
+Kaleidoscope entry and run `kscope init` again.
 
 ## A profile points to the wrong place
 
-Do not edit the profile by hand. Import the vault you meant to use, or
-initialise a new one at an explicit path. A missing or invalid root is refused
-rather than created for you, so nothing is silently written to the wrong place.
+Do not edit the profile by hand. `kscope profile import NAME ROOT` reads the
+identity out of the vault you meant to use and writes a profile pointing at it;
+`kscope init ROOT RFC3339_CREATED_AT` makes a new vault at an explicit path, and
+that second argument is a timestamp — `2026-08-30T09:00:00Z` — not a name. A
+missing or invalid root is refused rather than created for you, so nothing is
+silently written to the wrong place.
 
-## Login says provider not configured
+## You cannot sign in
 
-That is expected today. No sign-in service is published, so every remote account
-command refuses. Do not invent an endpoint, and do not delete or recreate your
-vault to try to fix it — your account status and your local memory are separate,
-and you do not need an account to use your memory.
+There is nothing to sign in to, and what you installed does not try. `kscope`
+carries no login, logout, or account command at all — those are verbs of a
+separate `kaleidoscope` manager executable that is published on no channel, so
+they are commands you cannot obtain rather than commands that fail. Your key is
+what entitles the machine, and `kscope activate` is how it gets there. Do not
+delete or recreate your vault over this: your account status and your local
+memory were never connected, and you do not need an account to use your memory.
 
 ## The install did not work
 
-No public installation channel exists. The archives, tarballs, and wheels that
-exist are private test builds signed with a test-only key; they are not
-downloadable releases, and there is nowhere to fetch them from.
+The install is `npm install -g @kleos-research/kaleidoscope`, and npm picks the
+platform package for your machine out of the four that are published — macOS on
+Apple Silicon and x86_64, Linux on arm64 and x86_64. On Windows there is no
+package to bring down, so the install has nothing to give you.
+
+If `kscope` installed but refuses to run, the key is a likelier cause than the
+download. `kscope gate` prints what this build gates and the path it reads a key
+from, without reading the key or opening a vault, and `kscope activate` is what
+puts the key there. Nothing is signed for release either, so an operating-system
+refusal to launch an unsigned binary is about the missing signature and not a
+corrupt install.
 
 ## The agent can see the tools but never uses them
 
@@ -1886,7 +2381,10 @@ give your agent the skill.
 
 Strip local paths, account identifiers, provider keys, tokens, memory content,
 queries, results, and vault locations before you send anything to anyone. Use
-the redacted `doctor` output, which is the artifact meant for that.
+what `kscope call doctor` prints on stdout in `inspect` mode, which is the
+artifact meant for that: counts and status fields, and no memory content or
+absolute paths. The line it writes to stderr beside it is not part of that — it
+names the vault it resolved, by absolute path.
 
 ---
 
@@ -1927,7 +2425,9 @@ macOS and Linux, on Apple Silicon and x86_64. Windows is not supported yet.
 
 You need a key to run it — email
 contact@kleosresearch.xyz. There is no
-Python package; `kaleidoscope-memory` was planned and never registered.
+Python package you can use: `kscope-memory` is registered on PyPI, but only as a
+0.0.0 placeholder that ships no working code and says as much in its own
+summary, and `kaleidoscope-memory` was planned and never registered.
 
 Nothing is signed for release, so what you install is unsigned software on your
 machine. That is on the list to fix.
@@ -1952,17 +2452,24 @@ this project has today:
 
 - The two tools a model sees — `search` and
   `remember`, and nothing else. No operator command is ever a model tool.
-- The full command-line help — every command
-  and flag of the local manager, verbatim.
+- The full command-line help — every command and
+  flag of `kscope`, verbatim. It is the help text of the one program that
+  installs: there is no second executable to install, so a command it does not
+  name is one no download of ours gives you. It is a page about commands rather
+  than a complete inventory of behaviour — `--no-wire`, for one, works and is
+  not on it.
 
 ## What we have actually run
 
 This is the part that is easy to overstate, so it is stated flatly.
 
 **Machines.** Kaleidoscope has been run on one kind of machine: a Mac with Apple
-Silicon. Everything else on the platform list has had a compiler check of the
-memory engine's source and nothing more — nothing was assembled into a program,
-nothing was linked, and nothing has been run there.
+Silicon. It is built and published for four — macOS on Apple Silicon and x86_64,
+Linux on arm64 and x86_64 — so on any of them there is something to install. A
+build existing for a platform is not the same as our having run it there, and on
+the other three we have not, which is what this section is for. Windows on x86_64 has had a compiler check of the
+memory engine's source and nothing more: nothing was assembled into a program for
+it, nothing was linked, and nothing has been run there.
 
 **Editors and agents.** From the command line, on that Mac:
 
@@ -1980,8 +2487,9 @@ and CrewAI have been run against stand-in models, never a live provider.
 editor's graphical interface, any platform other than a Mac with Apple Silicon,
 and any package installed from a registry.
 
-The same facts, in machine-readable form: status.json and
-platform-support.json.
+The same facts, in machine-readable form: status.json for the
+status above, and platform-support.json for the
+platform matrix, which is stated there and nowhere else.
 
 ---
 
@@ -1990,67 +2498,197 @@ platform-support.json.
 URL: https://memory.kleosresearch.xyz/SKILL.md
 
 ---
-# >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=skill
 name: use-kaleidoscope
-description: Use Kaleidoscope's local memory to retrieve relevant prior context and persist verified durable decisions, preferences, constraints, corrections, procedures, relationships, and outcomes during nontrivial tasks.
+description: Kaleidoscope is the user's local memory for this project — the decisions, preferences, constraints and outcomes a new session would otherwise have to rediscover or ask about twice. Use this skill at the start of any nontrivial task; before you grep the codebase or ask the user how something works; whenever the user states a preference, makes a decision, sets a constraint, or corrects you; when a piece of work produces a result worth keeping; and whenever the user says remember, save, note, forget or "what did we decide". Use it too when a Kaleidoscope call is refused, or when you cannot find its tools — it says what to do instead of quietly working without memory.
 ---
 
 # Use Kaleidoscope
 
-Use the connected local Kaleidoscope MCP server as a compact continuity layer. It is not a transcript store, a substitute for repository inspection, or authority to expand the user's task.
+Kaleidoscope remembers things about *this project* so you do not have to work
+them out again: what was decided and why, what the user prefers, what has
+already been tried and rejected, what a past piece of work actually produced.
 
-## Public boundary
+Two things you can do. **Read it** with `search`. **Write to it** with
+`remember`. That is the whole surface.
 
-The agent-facing server publishes exactly two tools: `search` and `remember`.
+Everything is local. No network call, nothing leaves this machine.
 
-- Use `search` for ranked retrieval at task start or an addressed read when the tool schema supports one.
-- Use `remember` to create or correct a verified durable semantic delta.
-- Do not attempt controller-only operations through MCP. The public search response does not expose the authenticated attribution handle those operations would require.
-- Do not construct direct vault-coordinate commands. The selected native profile owns the root, workspace, principal, and journal coordinates outside host configuration.
+## How to call it
 
-If the tools are unavailable or unauthenticated, continue the user's task without fabricating memory operations.
+**If you have a shell, use the CLI.** It is much the cheaper route — one
+command costs a couple of dozen tokens, while the MCP tool definitions sit in
+your context all session whether you use them or not.
 
-## Retrieve
+```bash
+# read
+echo '{"query":"why we chose this database","top_k":5}' | kscope call --profile default search
 
-At the beginning of a nontrivial task, issue one bounded search for the decisions, preferences, constraints, procedures, relationships, or outcomes that could change the work. Prefer a compact query describing the actual goal and its important nouns over a broad request for everything.
+# the write contract, whenever you need it
+kscope schema remember
+```
 
-Search again only after a material goal change, a contradiction, or evidence that the initial selection is stale or incomplete. Treat retrieved memories as fallible context: reconcile them with the user's current instructions and observable repository state. The current user request wins when they conflict.
+If your harness gives you `search` and `remember` as tools and you have no
+shell, use those instead. Same engine, same vault, same answers. Your harness
+may show them under a prefix — Claude Code prefixes every tool with its server
+— so use whatever name your own tool list shows.
 
-A ranked search records the exposure associated with what it returns. Do not duplicate that record through unsupported operator calls.
+## Reading: search first, then go looking
 
-## Persist durable deltas
+**Before you grep, before you read your way around the codebase, and before you
+ask the user how something works — search.**
 
-After each user message and verified milestone, check whether the work produced a durable delta that a later task would otherwise need to rediscover. Good candidates include:
+That includes: why is this built this way, what did we decide about X, what does
+the user prefer, what did we already try. The code tells you what *is*.
+Kaleidoscope tells you what was *decided*, and why — which the code cannot.
 
-- an accepted product or architecture decision;
-- a clearly stated user preference or constraint;
-- a correction to prior durable context;
-- a reusable procedure with a proven outcome;
-- an attributable implementation or evaluation outcome backed by tests or another observable result.
+Ask for what you actually need, in plain words:
 
-Do not store tentative brainstorming, secrets, credentials, tokens, transcripts, ordinary file contents, generated logs, or claims that have not been verified. A definitive user statement is evidence for their preference or decision; an implementation claim requires observable evidence.
+```bash
+echo '{"query":"retry and backoff policy for the payments client","top_k":5}' \
+  | kscope call --profile default search
+```
 
-Keep independently correctable deltas separate. Connect them with facts when the relationship matters instead of merging unrelated claims merely to reduce tool calls.
+One search at the start of a task is usually enough. Search again if the goal
+changes, if something you read contradicts it, or if what came back was clearly
+stale.
 
-## Follow the live write schema
+Treat what you get back as good context, not as gospel. If a memory disagrees
+with what the user is telling you right now, **the user wins** — and that
+disagreement is itself worth writing down.
 
-Treat the connected `remember` tool schema as the authority for allowed memory types, fields, and bounds. Do not copy a vocabulary from prose or invent unsupported fields.
+And the point of all this: **a question already answered here is one you must
+not ask the user a second time.**
 
-For a semantic delta:
+## Writing: save it when it happens
 
-- provide its required title and content in the shape published by the tool;
-- express relationships as facts with subject, predicate, and object;
-- declare every fact entity with a concise `is` gloss used for matching;
-- propose a genuinely new predicate only when the live schema supports it, including its meaning and endpoint kinds;
-- resolve dates into the supported time fields and grains rather than making dates into entities;
-- use the schema's update form when correcting an existing memory instead of writing a contradictory duplicate.
+Call `remember` without being asked. The moments that matter:
 
-Batch only related candidates when bounded batch fields are present. Never omit a known relationship just because the vocabulary is dynamic.
+- the user states a preference — *"always use X"*, *"never do Y"*
+- a decision gets made or rejected
+- the user sets a constraint — a budget, a deadline, a rule
+- the user corrects something you did or said
+- a piece of work produces a result worth keeping
+- **you worked something out** — see below
 
-## Finish
+"Remember this", "save this" and "note that" are obvious triggers, but do not
+wait for them. And **do not save everything up for the end of the task** — write
+when the decision lands, while you still know why it was made.
 
-Before handing off, make one final delta check. Persist only newly verified durable knowledge; do not write a ceremonial task summary when no durable delta exists.
-# <<< kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=skill
+### Write what you had to dig for
+
+Every trigger above is something the *user* did. This one is about you.
+
+If you established something by reading code, running an experiment, or ruling
+out a wrong answer — how a mechanism actually works, why the obvious fix does
+not work, what a confusing result really meant — **write it down before you move
+on.**
+
+That research is the most expensive thing in the session and the easiest to
+lose. The next agent starts with none of it and pays the same cost again: the
+same files read, the same false leads followed, the same tokens spent reaching
+the same conclusion. Half an hour of digging is worth one `remember` call.
+
+Save the conclusion and what makes it true — the mechanism, the file that
+decides it, the measurement — not the transcript of getting there. A finding
+that reversed something you believed earlier is worth *more* than a
+confirmation, not less: record what was wrong and what actually holds.
+
+### Especially around subagents and workflows
+
+**A subagent cannot see any of this.** Not this skill, not the block in
+`CLAUDE.md`, not the vault. Its entire world is the prompt you write it. So the
+instruction does not travel down that edge unless you carry it:
+
+- put **"search Kaleidoscope before you start"** and **"record what you
+  establish before you return"** into the prompt itself, next to whatever else
+  that agent needs to know
+- if you forgot, write the findings yourself the moment the agent returns —
+  while you still have its report in front of you
+
+A workflow is the worst place to skip this and the easiest place to skip it. It
+is where the most research per token in a whole session happens: you fan out to
+gather what you do not know, derive something from it, and decide what to do
+next. By default none of that is kept. The parent receives a summary, the
+reasoning is discarded with the transcript, and the next session starts from
+nothing and pays to derive it again.
+
+The asymmetry is what makes it worth a rule: **carrying the instruction costs
+two lines in a prompt you were already writing. Not carrying it costs the whole
+investigation.**
+
+A write looks like this, and this exact payload works:
+
+```json
+{
+  "mode": "create",
+  "content_md": "# We chose Postgres over DynamoDB\n\nRelational queries across orders and users were the deciding factor; the team already runs Postgres in two other services.",
+  "semantic_delta": {
+    "memory_type": "decision",
+    "title": "We chose Postgres over DynamoDB",
+    "facts": [
+      {"subject": "the orders service", "predicate": "stores_data_in", "object": "postgres"},
+      {"subject": "the team", "predicate": "rejected", "object": "dynamodb"}
+    ],
+    "entities": [
+      {"n": "the orders service", "kind": "artifact", "is": "the service that owns order records in this repository"},
+      {"n": "postgres", "kind": "tool", "is": "the relational database chosen for primary storage"},
+      {"n": "dynamodb", "kind": "tool", "is": "the key-value store considered and rejected"},
+      {"n": "the team", "kind": "org", "is": "the engineers working on this repository"}
+    ]
+  }
+}
+```
+
+Four things are worth knowing, because they are easy to get wrong:
+
+- **Write the `title` yourself.** It is not taken from your markdown.
+- **Every entity needs an `is`.** It is not a comment — it is how Kaleidoscope
+  works out whether your "postgres" is the same thing as one written last month.
+  A vague gloss makes a worse match.
+- **Dates are not entities.** Put them in `occurred_at`, or a fact's
+  `from`/`until`. Work out the actual date yourself; the store does not read
+  "last Tuesday".
+- **To change your mind, revise the memory** rather than writing a second one
+  that contradicts the first. Use `mode: "update"`, or `corrections` and
+  `contradicts`.
+
+Got several things to record from one piece of work? Send them as separate
+items in one call — one memory per idea, so each can be corrected later on its
+own. Do not mash unrelated findings together to save a call.
+
+`kscope schema remember` prints the full contract with every accepted value. It
+is the authority; prefer it to any document, including this one.
+
+## What not to save
+
+- secrets, credentials, API keys, tokens
+- transcripts of the conversation
+- ordinary file contents, logs, command output
+- anything the code or git history already records
+- ideas you are still turning over — wait until they settle
+
+If you would not want to read it back in three months, do not write it.
+
+## When something goes wrong
+
+**A refused call tells you what to fix.** It names the field and usually the
+corrected value. Fix it and send it again.
+
+One refusal is never a reason to stop using memory for the rest of the session.
+That is the single most expensive mistake you can make here: the user loses
+everything the rest of the session would have remembered, and they will not know
+it happened.
+
+If the tools genuinely are not there, carry on with the task, tell the user that
+memory was unreachable so they can fix it, and do not invent memory operations.
+
+## Before you finish
+
+Take one look back: did this task settle anything a future session would
+otherwise have to work out again? If so, write it now.
+
+If nothing durable happened, write nothing. A memory that says "I did some work"
+helps no one.
 
 ---
 
@@ -2058,42 +2696,245 @@ Before handing off, make one final delta check. Persist only newly verified dura
 
 URL: https://memory.kleosresearch.xyz/reference/kaleidoscope-cli.txt
 
-Kaleidoscope public local manager
+Kaleidoscope local memory runtime
 
 Usage:
-  kaleidoscope [--engine PATH] init [--root PATH] [--profile NAME]
-                                      [--durability process-local|durable-local]
-  kaleidoscope [--engine PATH] profile list
-  kaleidoscope [--engine PATH] profile show NAME
-  kaleidoscope [--engine PATH] profile use NAME
-  kaleidoscope [--engine PATH] profile remove NAME
-  kaleidoscope profile account show [NAME]
-  kaleidoscope profile account bind ACCOUNT_UUID [NAME]
-  kaleidoscope profile account unbind [NAME]
-  kaleidoscope [--engine PATH] config [--profile NAME] [--json]
-  kaleidoscope [--engine PATH] connect HOST [--scope user|project]
-                                      [--profile NAME] [--project PATH]
-                                      [--opencode-version stable-v1|beta-v2]
-                                      [--dry-run] [--yes]
-  kaleidoscope [--engine PATH] disconnect HOST [--scope user|project]
-                                      [--project PATH] [--dry-run] [--yes]
-  kaleidoscope instructions install TARGET [--project PATH] [--dry-run] [--yes]
-  kaleidoscope instructions remove TARGET [--project PATH] [--dry-run] [--yes]
-  kaleidoscope [--engine PATH] doctor [--project PATH]
-  kaleidoscope login [--device]
-  kaleidoscope status [--json]
-  kaleidoscope logout [--all-devices] [--local-only]
-  kaleidoscope account link PROVIDER
-  kaleidoscope account identities
-  kaleidoscope account unlink EXTERNAL_IDENTITY_UUID
-  kaleidoscope account revoke-session
-  kaleidoscope devices list
-  kaleidoscope devices revoke DEVICE_UUID
-  kaleidoscope --version
 
-Instruction TARGET is skill, agents, claude, or cursor.
-The manager edits host configuration only after preview and confirmation.
-Project scope is the default. Use --dry-run for an effect-free plan.
+AGENT -- the whole surface an agent needs. Two verbs, one door.
+
+  kscope call search                         read;  one JSON request on stdin
+  kscope call remember                       write; one JSON request on stdin
+  kscope schema remember                     the write contract, before writing
+  kscope schema [OPERATION]                  every operation this build has
+
+  Those two resolve the vault from this directory. Name another one with
+  `--profile`, which is what an editor or harness is started with:
+
+  kscope call --profile <NAME> search
+  kscope call --profile <NAME> remember
+
+Everything below is an OPERATOR command: setup, inspection, and vault
+lifecycle, run by a person or an installer and not by the agent using the
+vault. `search` and `remember` are the only two published as MCP tools, and
+the only two an agent is ever expected to choose between.
+
+OPERATOR -- what this build is
+
+  kscope --help
+  kscope --version
+  kscope model
+  kscope gate
+  kscope activate
+  kscope licences
+  kscope public-contract
+
+OPERATOR -- bring a vault into existence
+
+  kscope init [process-local|durable-local]
+  kscope init <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
+  kscope init-profile <NAME> <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
+
+OPERATOR -- profiles, a named non-secret pointer to one vault
+
+  kscope profile create <NAME> <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope profile import <NAME> <ROOT> [process-local|durable-local]
+  kscope profile list
+  kscope profile show <NAME>
+  kscope profile remove <NAME>
+  kscope profile launch <NAME>
+
+OPERATOR -- which vault a command that names none resolves to
+
+  kscope where
+  kscope where --root-only
+
+OPERATOR -- maintain a local vault
+
+  kscope vault-migrate <ROOT>
+  kscope vault-verify <ROOT> [--cross-backend]
+  kscope vault-preview <ROOT>
+  kscope vault-delete <ROOT>
+
+OPERATOR -- encrypted repository vaults, a frozen macOS preview
+
+  kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>
+  kscope vault-open <REPOSITORY>
+  kscope vault-close <REPOSITORY>
+  kscope vault-recover <REPOSITORY>
+  kscope vault-export-device <REPOSITORY> <NEW_PACKAGE_DIRECTORY>
+  kscope vault-import-device <PACKAGE_DIRECTORY> <REPOSITORY>
+  kscope vault-encrypted-preview <REPOSITORY>
+  kscope vault-encrypted-delete <REPOSITORY>
+
+OPERATOR -- run an engine for an agent, addressed three ways
+
+  kscope mcp --profile <NAME>
+  kscope serve --profile <NAME>
+  kscope context --profile <NAME>
+  kscope call --profile <NAME> <OPERATION>
+
+  kscope mcp [process-local|durable-local]
+  kscope serve [process-local|durable-local]
+  kscope context [process-local|durable-local]
+  kscope call <OPERATION> [process-local|durable-local]
+
+  kscope mcp <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope serve <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope context <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
+  kscope call <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> <OPERATION> [process-local|durable-local]
+
+The four commands that address a vault accept the four ids or none of them.
+Naming none resolves them: KSCOPE_ROOT, else `.kaleidoscope/` under the
+repository's main checkout, else `.kaleidoscope/` under the working directory --
+and then the vault's own workspace record for the workspace, principal and
+journal, so naming the root names all four. KSCOPE_WORKSPACE,
+KSCOPE_PRINCIPAL and KSCOPE_JOURNAL override that record field by field, and
+are how a vault holding more than one workspace is disambiguated.
+
+Arguments always win, and win completely: an invocation naming the four ids
+never reads the environment at all. That is what keeps every existing caller
+byte-identical.
+
+A resolved root that is not a vault is REFUSED by those four commands, naming
+the path and where the path came from. They never create one: `kscope init` is
+the only way a vault comes into existence, because a wrong root is not an
+error, it is a different vault.
+
+Init itself accepts the same two shapes. Naming ROOT and RFC3339_CREATED_AT is
+unchanged in every respect, and is what a harness uses when a vault's created_at
+has to be controlled. Naming neither resolves the root by the rules above, uses
+the current time, and defaults to process-local -- durable-local fresh-root
+initialization is refused before any effect, so it is asked for rather than
+defaulted to. The resolved root and its provenance are printed on stderr,
+unprompted.
+
+A resolved root that is ALREADY a vault is refused too, and nothing there is
+touched: a second init on an existing root mints a fresh workspace inside it,
+and a vault holding two workspaces can no longer be addressed without naming
+one. The refusal reports the ids it already has.
+
+The resolved form also ensures the repository ignores the vault. `git
+check-ignore` decides whether an existing rule already covers it, in which case
+nothing is written; otherwise one commented rule is APPENDED, never reordering
+or rewriting the file, and never adding a trailing newline the file did not
+have. Outside a git repository nothing is written and no repository is created;
+the vault is simply reported as not ignored. What was done is named on stderr
+and in the gitignore field on stdout.
+
+A version-1 profile is a non-secret pointer to one existing vault identity. It
+stores an absolute root, workspace, principal, journal and durability under the
+platform configuration directory's `kaleidoscope/profiles`, or exactly under
+KSCOPE_PROFILE_HOME when that override is set. Profile names are portable and
+path-safe; profile files are atomic, owner-only on Unix and validated against
+the vault each time they are loaded. `profile import` derives the identity from
+the selected vault; `profile create` verifies the explicit tuple. Neither one
+creates or relocates canonical vault data.
+
+`init-profile` is the native fresh-bootstrap primitive. It initializes the
+explicit root, then writes the named profile. If the second step fails, it does
+not delete the committed vault; the refusal reports the exact root and a
+machine-readable recovery argv for `kscope profile import`. Durable-local is
+never silently downgraded and remains refused before initialization effects.
+
+`profile launch` prints a versioned stdio launch descriptor pointing directly
+at this absolute engine executable with `mcp --profile NAME`. The descriptor
+names only `search` and `remember` and contains no vault coordinates or secret.
+Explicit four-coordinate invocations remain the compatibility authority and do
+not read KSCOPE_PROFILE_HOME.
+
+The where command prints the address these rules resolve to, as JSON, and
+resolves nothing else. Every command that resolved rather than was told also
+prints the same on stderr, unprompted, because a caller relying on a default
+cannot check a root it did not type. stdout stays exactly what it was.
+
+The licences command prints the attribution for third-party material this
+executable redistributes inside itself. The embedded embedding table is
+MinishLab's, under MIT, and MIT requires its notice to accompany every copy --
+which a one-file release cannot do with a NOTICE beside the binary. `licenses`
+is accepted as a spelling. The output states what it does not yet cover.
+
+The model command prints one JSON object naming the semantic embedding model
+this executable carries, its table dtype, and the SHA-256 of its two files, or
+reports that this build has none. A release must report one: the release
+installer refuses a package whose executable does not.
+
+The gate command prints one JSON object naming what this build carries of the
+alpha entitlement gate: enforcing or absent, the commands the gate refuses,
+and where a key file would be read from. It reads no key, opens no vault and
+reports no authorization decision. The gate never refuses this command, so an
+operator holding a refused binary can still find out why it was refused.
+
+The activate command is how a machine becomes entitled. It takes the key from
+KALEIDOSCOPE_API_KEY, from the key file, or from standard input; stores it at
+the path the gate command reports, so an engine a host starts with an empty
+environment finds it; and waits for the verdict rather than leaving the next
+command to discover an empty cache. It is never gated, because a gate across
+the only route to becoming entitled is closed to everyone not already through
+it. It exits 0 only when the key reached the disk: a key that could not be
+stored is a refusal naming the path, and a build carrying no gate refuses as
+well rather than reporting an activation it did not perform.
+
+`-h` and `-V` are accepted as short forms of `--help` and `--version`.
+
+The public-contract command prints a small source-free JSON seed for release
+contract generation. It opens no vault and loads no model.
+
+The vault-recover command reads a JSON object containing recovery_key from
+stdin. The two delete commands require their preview command's
+confirmation_token in a JSON object on stdin. Encrypted repository vaults are
+a frozen macOS-preview feature.
+
+The optional serve command uses a Unix-domain socket and is unavailable on
+non-Unix platforms. The stdio mcp command and process-scoped call command do
+not depend on it.
+
+The vault-migrate command builds the storage engine's index over a vault
+written by the older fs-v0 engine. It creates, moves, copies and deletes no
+content file, re-runs safely, works on a vault whose journal has rotated, and
+is undone by deleting one file -- until the first write through the engine.
+Run vault-verify after it and before writing. Neither command reads the
+journal, so both work on a vault this executable cannot otherwise open.
+
+The context command reads one search JSON request from stdin and prints only
+the concise model-visible memory text. call search returns the bounded public
+result, including final rank and fused score on selected hits; private
+policy/ranker feature vectors, the signed decision payload and engine
+diagnostics are omitted. The documented public workflow has no supported
+outcome-attribution path until a future authenticated manager/controller
+interface exchanges a keyed opaque handle. This is an API contract, not an
+authentication claim about the local vault.
+
+The call command reads one JSON request from stdin. OPERATION is one of:
+
+  AGENT     search | remember
+  OPERATOR  feedback | memory_lifecycle | memory_import | address_maintenance
+            maintenance | ontology | doctor
+
+Only the two agent verbs are published as MCP tools. search merges what were
+recall, compile and read_memory: a query ranks and a memory_id addresses. A
+ranked search always writes the exposure row and bounds the served set --
+ledger: false was a second door and is refused, so a measurement that must not
+write to a vault has to clone it first. Its four knobs are top_k,
+candidate_pool, bfs_depth and max_facts, each with a published default and
+ceiling.
+
+The schema command prints one OPERATION's full descriptive parameters and
+closed values. MCP derives a versioned compact, omission-first inputSchema from
+the same operation semantics. The two preserve the same non-null machine
+constraints but are intentionally not byte-identical: the native decoder
+accepts legacy explicit null while MCP omits absent optionals. Pass no OPERATION
+to list them.
+
+Exit codes. 0 means applied: everything asked for happened, and for a remember
+carrying items every submitted item was written. 2 means refused: nothing was
+applied, stdout carries a refusal envelope rather than a per-item report, and
+the repair is to fix the request and re-send it whole. 3 means applied in part:
+the response says status partial, some items were written and at least one was
+not, and stdout carries results -- one entry per submitted item, in submission
+order, each with its own status and reason. Re-send only the items whose status
+is not a write; re-sending the batch re-submits memories the vault already
+holds. 3 exists so that a caller reading $? can tell those two repairs apart
+without parsing the body, which is the parse an exit code exists to avoid.
 
 ---
 
@@ -2102,6 +2943,7 @@ Project scope is the default. Use --dry-run for an effect-free plan.
 URL: https://memory.kleosresearch.xyz/reference/kaleidoscope-mcp.json
 
 {
+  "checked against": "kscope 0.0.5, on 2026-08-31. The two field lists below are the `inputSchema` of each tool in the `tools/list` result of `kscope mcp`. That command needs a key, so every statement here was also checked against three that do not: `kscope schema search` and `kscope schema remember` print the same two field sets, and `kscope public-contract` prints the batch bound, the stdio transport, and `operator_commands_in_mcp: false`. A reader without a key can still check this file.",
   "model_tools": [
     {
       "fields": [
@@ -2127,11 +2969,9 @@ URL: https://memory.kleosresearch.xyz/reference/kaleidoscope-mcp.json
       "addressing": "exactly_one_of_query_or_memory_id",
       "fields": [
         "as_of",
-        "bfs_depth",
         "candidate_pool",
         "channels",
         "ledger",
-        "max_facts",
         "maximum_context_bytes",
         "memory_id",
         "query",
@@ -2147,12 +2987,11 @@ URL: https://memory.kleosresearch.xyz/reference/kaleidoscope-mcp.json
   ],
   "operator_commands_are_model_tools": false,
   "protocol_revision": "2025-11-25",
-  "publicly available": false,
   "release_readiness_claimed": false,
-  "released": false,
   "schema_version": "kaleidoscope.docs-mcp-reference.v2",
   "transport": "stdio",
-  "what this is": "The two tools an agent sees when it connects to Kaleidoscope, and the fields each one takes."
+  "what this is": "The two tools an agent sees when it connects to Kaleidoscope, and the fields each one takes.",
+  "what this is not": "The schema itself. This file is written here and checked against the engine; the engine's tools/list is the authority, and a build may accept less than this file lists. Read the schema your own host discovered before you rely on a field. Two fields that `kscope --help` names as knobs of the command-line `call search` -- bfs_depth and max_facts -- are refused by the MCP inputSchema and are therefore absent above. Whether Kaleidoscope is released, and to whom, is not stated here: that is one fact and it lives in the release metadata this site is built from."
 }
 
 ---
@@ -2220,66 +3059,16 @@ URL: https://memory.kleosresearch.xyz/status.json
     "published to a registry": true,
     "signed for release": false,
     "the client package contains": "the kscope command and the launcher that picks your platform's binary",
-    "the platform package contains": "the local manager and the memory engine, as proprietary object code",
+    "the platform package contains": "one program, the memory engine, as proprietary object code. The setup work that kscope init performs is compiled into that same program, so there is no second executable to install.",
     "the platform package is built for": [
       "macOS, Apple Silicon",
       "macOS, x86_64",
       "Linux, arm64",
       "Linux, x86_64"
     ],
-    "there is no Python package": "kaleidoscope-memory was planned and never registered",
+    "there are no account or sign-in commands": "Signing in, linking an account, listing devices and revoking a session are verbs of a second program, which is not published on any channel. Nothing you can install carries them. A key is all Kaleidoscope asks for, and your vault has never depended on an account.",
+    "there is no Python package": "kscope-memory is registered on PyPI, but only as a 0.0.0 placeholder that ships no working code; its own summary says it is not yet released. kaleidoscope-memory was planned and never registered.",
     "version": "0.0.5"
-  },
-  "platforms": {
-    "built and published": {
-      "meaning": "A program was built for this platform, packaged, and published to npm. You can install it and run it.",
-      "platforms": [
-        {
-          "architecture": "Apple Silicon",
-          "platform": "macOS"
-        },
-        {
-          "architecture": "x86_64",
-          "platform": "macOS"
-        },
-        {
-          "architecture": "arm64",
-          "platform": "Linux"
-        },
-        {
-          "architecture": "x86_64",
-          "platform": "Linux"
-        }
-      ]
-    },
-    "compiler checked only": {
-      "checked from": "macOS, Apple Silicon",
-      "covers": "the memory engine only, not the command-line tool you would run and not the client libraries",
-      "meaning": "The compiler accepts the memory engine's source for this platform when it is asked from a Mac. Nothing was ever assembled into a program for it, nothing was linked, and nothing has been run there. Creating a vault on Windows is refused on purpose until that work is done.",
-      "platforms": [
-        {
-          "architecture": "x86_64",
-          "platform": "Windows",
-          "result": "passed"
-        }
-      ]
-    },
-    "does not establish": [
-      "that anything has been run on a platform listed only as built and published",
-      "that an installer, a credential store or an editor has been tried there",
-      "that a program was ever built for a compiler-checked platform"
-    ],
-    "not checked at all": [
-      {
-        "architecture": "arm64",
-        "platform": "Windows"
-      }
-    ],
-    "run on": [
-      "macOS, Apple Silicon"
-    ],
-    "schema_version": "kaleidoscope.docs-platform-support.v1",
-    "what this is": "Which machines Kaleidoscope is built and published for, which it has been run on, and which have only had a compiler check."
   },
   "publicly available": true,
   "released": true,
@@ -2294,6 +3083,7 @@ URL: https://memory.kleosresearch.xyz/status.json
     "support offered": false
   },
   "summary": "Kaleidoscope is installable from npm and needs a key to run. Nothing is signed for release, and there is no account to sign in to.",
+  "the platform matrix": "Which machines a program is built and published for, which have been run on, and which have only had a compiler check is stated once, at /platform-support.json. What this record carries about platforms is the package inventory below — which platform packages exist — and not the build, run or compiler-check status of any of them.",
   "what you can do today": [
     "Install Kaleidoscope: npm install -g @kleos-research/kaleidoscope.",
     "Run it with a key, which we send by email on request.",
@@ -2303,7 +3093,8 @@ URL: https://memory.kleosresearch.xyz/status.json
   "what you cannot do today": [
     "Run it on Windows: creating a vault there is refused until the filesystem work lands.",
     "Run it without a key: email contact@kleosresearch.xyz and we will send you one.",
-    "Install a Python package: there is none, and kaleidoscope-memory on PyPI is not us.",
+    "Run kscope connect, kscope disconnect, kscope config, kscope doctor or kscope profile use: those verbs belong to a second program that is not published on any channel. What ships is kscope, and kscope init does the setup.",
+    "Install a Python package: kscope-memory on PyPI is a 0.0.0 placeholder with no working code in it, and kaleidoscope-memory was never registered.",
     "Verify a signature: nothing is signed for release.",
     "Use hosted memory: there is no service, endpoint, API or waitlist.",
     "Reproduce our benchmark results: the full method is not published yet.",
@@ -2318,10 +3109,31 @@ URL: https://memory.kleosresearch.xyz/status.json
 URL: https://memory.kleosresearch.xyz/platform-support.json
 
 {
+  "built and published": {
+    "meaning": "A program was built for this platform, packaged, and published to npm. You can install it and run it.",
+    "platforms": [
+      {
+        "architecture": "Apple Silicon",
+        "platform": "macOS"
+      },
+      {
+        "architecture": "x86_64",
+        "platform": "macOS"
+      },
+      {
+        "architecture": "arm64",
+        "platform": "Linux"
+      },
+      {
+        "architecture": "x86_64",
+        "platform": "Linux"
+      }
+    ]
+  },
   "compiler checked only": {
     "checked from": "macOS, Apple Silicon",
-    "covers": "the memory engine only, not the command-line tool you would run and not the client libraries",
-    "meaning": "The compiler accepts the memory engine's source for this platform when it is asked from a Mac. Nothing was ever assembled into a program for it, nothing was linked, and nothing has been run there.",
+    "covers": "the memory engine's source only, not the client libraries",
+    "meaning": "A compiler check is a check and not a build. The compiler accepts the memory engine's source for this target when it is asked from a Mac, and that is the whole of the claim. Nothing was ever assembled into a program by it, nothing was linked, and nothing has been run there on the strength of it. Three of the four targets below were later built, packaged and published, and they appear again under 'built and published'; Windows on x86_64 was not, and creating a vault there is refused on purpose until that work is done.",
     "platforms": [
       {
         "architecture": "x86_64",
@@ -2346,10 +3158,9 @@ URL: https://memory.kleosresearch.xyz/platform-support.json
     ]
   },
   "does not establish": [
-    "that a program was ever built for these platforms",
-    "that anything runs there",
-    "that an installer, a credential store or an editor works there",
-    "that any build is available for them"
+    "that anything has been run on a platform listed only as built and published",
+    "that an installer, a credential store or an editor has been tried there",
+    "that a program was ever built for a platform listed only as compiler checked"
   ],
   "not checked at all": [
     {
@@ -2361,5 +3172,5 @@ URL: https://memory.kleosresearch.xyz/platform-support.json
     "macOS, Apple Silicon"
   ],
   "schema_version": "kaleidoscope.docs-platform-support.v1",
-  "what this is": "Which machines Kaleidoscope has been run on, and which ones have only had a compiler check."
+  "what this is": "The whole platform matrix, stated once and in one place: which machines Kaleidoscope is built and published for, which it has been run on, and which have only had a compiler check. /status.json defers to this record rather than repeating it."
 }
