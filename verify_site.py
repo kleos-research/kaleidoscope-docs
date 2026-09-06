@@ -273,6 +273,7 @@ EXPECTED_HTML = {
     "docs/integrations/langchain/index.html",
     "docs/integrations/langgraph/index.html",
     "docs/integrations/crewai/index.html",
+    "docs/brand/index.html",
     # Operate
     "docs/operations/index.html",
     "docs/account/index.html",

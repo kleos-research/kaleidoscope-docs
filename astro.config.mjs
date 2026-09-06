@@ -301,6 +301,7 @@ export default defineConfig({
                 { slug: 'docs/integrations/crewai' },
               ],
             },
+            { slug: 'docs/brand' },
           ],
         },
         {
