@@ -12,8 +12,8 @@
     },
     {
       "path": "404.html",
-      "sha256": "1966993e48a299af6f1968a48313d50e4a8929366d9806348893520737f4e908",
-      "size_bytes": 26957
+      "sha256": "89b10bc6bf7de927128acd4e2a2402549c7ee6e48da2619f9a4108ef6bef7874",
+      "size_bytes": 26924
     },
     {
       "path": "CNAME",
@@ -36,9 +36,9 @@
       "size_bytes": 36
     },
     {
-      "path": "_astro/common.CZ10dqwM.css",
-      "sha256": "201011173fe40da5e562283be647bc098423b8637ff72e94ddb7110afa137ba5",
-      "size_bytes": 47433
+      "path": "_astro/common.BancJ92E.css",
+      "sha256": "bb2e33126616053c5c61b0bc48fa42219a0fa741644c726103554709a7b702a9",
+      "size_bytes": 49783
     },
     {
       "path": "_astro/ec.0vx5m.js",
@@ -82,58 +82,58 @@
     },
     {
       "path": "docs/account/index.html",
-      "sha256": "168c889f286bf723d43206c183e5533342ee2f99a4ae6021ee258094933dbbbe",
-      "size_bytes": 37761
+      "sha256": "e087238d83e80e26246245f2f0645ce15cdf0c42c50f1ddf45f1f8a29a09d436",
+      "size_bytes": 37728
     },
     {
       "path": "docs/benchmarks/index.html",
-      "sha256": "1271cd45c04597f3db6e74102f326c8cba3e2949ad7ddb16aca9bc6e8b08782c",
-      "size_bytes": 38898
+      "sha256": "30d00b4eabe2e09495fa0ae038688067098c183316a6b16798c8337fd98daf95",
+      "size_bytes": 38865
     },
     {
       "path": "docs/cli/account/index.html",
-      "sha256": "96455c719be6fb4069251222f8f982d85ae5c660df2fbaeeb1272a1ae90d16cd",
-      "size_bytes": 47263
+      "sha256": "165a6eb193d8ce1c3b13eef4d5be072c083a8966b87de144b1a550cec72f713a",
+      "size_bytes": 45485
     },
     {
       "path": "docs/cli/connect/index.html",
-      "sha256": "7e72f752a0850d1c21ce6045d90387ae7eb802be48c30cc0e9812b7f8cd778cb",
-      "size_bytes": 37460
+      "sha256": "e48598d5134f1bfbfae626e5ff196850bb14d8645d69f0172ae0fdc472540300",
+      "size_bytes": 40822
     },
     {
       "path": "docs/cli/diagnostics/index.html",
-      "sha256": "ae3c1013ce1eb220f73ae82b1bc23eba54a23d762c3832be76a846fe5cafe2f4",
-      "size_bytes": 38192
+      "sha256": "bc2b77dc932518f1c6602036b9703db06ef8d32284ec149fd3efbf5dc2c974de",
+      "size_bytes": 39967
     },
     {
       "path": "docs/cli/index.html",
-      "sha256": "4888d965c43d2c0d52f538f1e154b500d1a6abc06fc0fc686912cce09f389edb",
-      "size_bytes": 41061
+      "sha256": "7aaf333ca72978b89114de9d1aadc021d33c8ff8649e2ad5beec3b677f3fd4c4",
+      "size_bytes": 41518
     },
     {
       "path": "docs/cli/instructions/index.html",
-      "sha256": "55085004edfdf14b3ad96b3d589dcf97edd45ab1f18b13b14996191c3aa7fef1",
-      "size_bytes": 36707
+      "sha256": "02f1f75bf5c3784e8fae089a6c99dbef0c4d26ac1cde2906326011b67e35e6dd",
+      "size_bytes": 35638
     },
     {
       "path": "docs/cli/profiles/index.html",
-      "sha256": "74937d370a71161432df16707ffeab27569ac3e436fefd0339fe1226089984ab",
-      "size_bytes": 47885
+      "sha256": "e575effe0b7a0c1f478efd40229b6c269ba9c60a53036b98f6bbd126d01dfbd2",
+      "size_bytes": 43669
     },
     {
       "path": "docs/compatibility/index.html",
-      "sha256": "302c8c2b4c2ddcb37183c6f01dbecf3afbf797e6e7b4cf400f6755ea3f886a9c",
-      "size_bytes": 32563
+      "sha256": "4f2f222b1194432b3b1ab9f2c3bb3d79dd0a7f4850238024ca90c81e206a8feb",
+      "size_bytes": 33867
     },
     {
       "path": "docs/concepts/index.html",
-      "sha256": "602422a7aadc290b4bd57ee2f32fb04bbe29613564a577179b10a00cf8bd6ca6",
-      "size_bytes": 38726
+      "sha256": "436b5bd146431b9e8973caed1ccf1dc66a2eb783dc5bbb9ef97e02234957dbb1",
+      "size_bytes": 37447
     },
     {
       "path": "docs/getting-started/index.html",
-      "sha256": "52cad8ca8cfe0113080297a9ccd34716a97c53f10a0597953744e0145a3457b3",
-      "size_bytes": 40197
+      "sha256": "5a777b3fefa574c993a9a36ae01a1dcc18df66d0d665368eca023957fa8f7253",
+      "size_bytes": 40693
     },
     {
       "path": "docs/hosted/index.html",
@@ -142,123 +142,123 @@
     },
     {
       "path": "docs/index.html",
-      "sha256": "8a1b69cca19ae0933ccdb96578bd3692fd28a7b092c00b946fae45d8dd281dd6",
-      "size_bytes": 40761
+      "sha256": "b50d1e9692f8a76d87bea4565e22aa1c2197a74261cfc0d8ae1341b6db65107b",
+      "size_bytes": 41335
     },
     {
       "path": "docs/integrations/claude-agent-sdk/index.html",
-      "sha256": "81d50fd1eccbd7b14931c85a9d2ac3bc3d123bd75b571173fec4f0026b914219",
-      "size_bytes": 35792
+      "sha256": "1583fad8b6c2857e7ea244dd19d545e8e83e9fdcedbc03194c5c7df41141883f",
+      "size_bytes": 36192
     },
     {
       "path": "docs/integrations/claude-code/index.html",
-      "sha256": "637fb6ea136753a9d6beafa5678549ba963a30095da7e9ff08090212e86c2ef2",
-      "size_bytes": 35343
+      "sha256": "fd73b32f208b22a61b046cd322c6aa0fd56ffe642ee0ef696a3b6030685b7a01",
+      "size_bytes": 42229
     },
     {
       "path": "docs/integrations/codex/index.html",
-      "sha256": "b38cca697453cf7cd2b6a0538e081ba5e3b4a39d88bc4713a843c568e4eab804",
-      "size_bytes": 35222
+      "sha256": "cebfc9b30b7940226c7d87037ecff5931a6b538a66adc1f1a4c1f927e24659a3",
+      "size_bytes": 41531
     },
     {
       "path": "docs/integrations/crewai/index.html",
-      "sha256": "c956f2f7909085ed8cf15b5749c184a6f33f786d9636bb88770db16d2228e269",
-      "size_bytes": 33435
+      "sha256": "5175cdb2a8c198d88a3d5683ecc2f5ce6226402aff1f05ed3a5ccf7709dc0a70",
+      "size_bytes": 35577
     },
     {
       "path": "docs/integrations/cursor/index.html",
-      "sha256": "ea7326b9784e6de739b252068791f52c449b8e11fe95b6ba853d4a9bfbb791bf",
-      "size_bytes": 36620
+      "sha256": "7feb760fd601a7f6d8af594d663a35317fa9028999950f7735afdd8775f43707",
+      "size_bytes": 42399
     },
     {
       "path": "docs/integrations/generic-mcp/index.html",
-      "sha256": "4fedebb6bbff6bab7bc24c8f5c9b50e83ce01a1bf1ae6f674998c40a21afc21a",
-      "size_bytes": 35689
+      "sha256": "774cc1d35ec3e2c5b2a57772ac9f7209483ffbe52ab3e3e03e688828341ba9e9",
+      "size_bytes": 39373
     },
     {
       "path": "docs/integrations/index.html",
-      "sha256": "504b97d4f63d338619ff8d334084d1f5c15b2fb9cd29dde10dff285b82bad237",
-      "size_bytes": 30638
+      "sha256": "ce29994567ba095d63d9238b1f5d7d44e6d01b5b31340fbd14e6ea7a82e2709f",
+      "size_bytes": 36550
     },
     {
       "path": "docs/integrations/langchain/index.html",
-      "sha256": "46d5c253440212c1224bd7258e5d581711d4ab73c35b205960e29fe7be12b361",
-      "size_bytes": 35116
+      "sha256": "8fa823e98dff8b86e4e4ffe641269f22e9e2b6164e7a06a906fc38183f9a40a4",
+      "size_bytes": 35737
     },
     {
       "path": "docs/integrations/langgraph/index.html",
-      "sha256": "dbcfec84ca2c1623846183f5ff881b1184780372cce9319fa8bd090ae4fc4f5b",
-      "size_bytes": 34957
+      "sha256": "2540b8be936c7fbbcf1b74d52ad1a9525fbf53da3febe727f8dbb84ea8ef8713",
+      "size_bytes": 35754
     },
     {
       "path": "docs/integrations/openai-agents-sdk/index.html",
-      "sha256": "621df5f00f8684f9419e4f57b49f469ffa90411a2837a0a450e250f401cf1f8b",
-      "size_bytes": 35133
+      "sha256": "2b2cbc5310e6ba65156b4266a1d8f4964970786b29ae301f0be9edeabb4cdda3",
+      "size_bytes": 35712
     },
     {
       "path": "docs/integrations/opencode/index.html",
-      "sha256": "76c7ff0eeaaeebfb1f04eaabf2619b911d90f3cf7af4766da29eaafcc185bb94",
-      "size_bytes": 36773
+      "sha256": "6b7fe42273dcf4c338dbe64de444a07baf982f91f36df0b64a0ea83613c632c3",
+      "size_bytes": 42960
     },
     {
       "path": "docs/legal/engine-eula/index.html",
-      "sha256": "1f310c11a829bde60fe2833f15d60dfaadb0e64ac978c3250fa3173c708bb504",
-      "size_bytes": 67223
+      "sha256": "aaa60cc6ae1eee91e12f6c5e132fdddf8031e27c6cdc39cf09782e69b7373203",
+      "size_bytes": 67190
     },
     {
       "path": "docs/legal/index.html",
-      "sha256": "a4edc4fc276b99d4f28cf58bbc81b2dcc15abf65041e1fe424ccafa8926a86c6",
-      "size_bytes": 36169
+      "sha256": "7c07be99506d5fb1533296ce12e9ac20a61a6356adb0cd3130136d7219bc1be3",
+      "size_bytes": 36118
     },
     {
       "path": "docs/legal/privacy-notice/index.html",
-      "sha256": "87aaa44bb8758408ff0ab7b772725f1e841542cfb0c5e9a3ae63afb52f6fa7b7",
-      "size_bytes": 67062
+      "sha256": "7a1014f83d1efea70bc4caf399115876917a07aa51a7788525a831aec8d162b6",
+      "size_bytes": 67029
     },
     {
       "path": "docs/legal/security-policy/index.html",
-      "sha256": "c6d727666c944dec2789ea2033a447c34e26c65ac5d92e53d8919141314a0508",
-      "size_bytes": 56793
+      "sha256": "87a029c19f64c9c369cca78f4ce9d679e75d06cbf9c7f10159c7a8cdedd7701f",
+      "size_bytes": 56760
     },
     {
       "path": "docs/legal/support-policy/index.html",
-      "sha256": "aeb62f4b9ac328a2c0db88ced519f05e13e2d253d54b66f73b06e0d886549a45",
-      "size_bytes": 46429
+      "sha256": "623aedac924a53c50cbdf5b896a2ae98aad84300545f6cc5fcbe6b74b6a3002e",
+      "size_bytes": 46396
     },
     {
       "path": "docs/mcp/index.html",
-      "sha256": "562d882b2ac9ca48670d006ff1c45d631c3dce0f35e08d8fdd9dce9a7f34e09d",
-      "size_bytes": 46171
+      "sha256": "538e5fa8998c144a7b6a726a634ddfdf0bc74daa5e9f0710f1544f0b4a299bf8",
+      "size_bytes": 48423
     },
     {
       "path": "docs/operations/index.html",
-      "sha256": "5939df4d033301fd956c5883c6e07c83f4086d9645b89aa7625db3372f2f4e3d",
-      "size_bytes": 44384
+      "sha256": "ef015ccd65e78fc12c72f47d25322c2fad8a6252e3e3f36ab79e3bf9ff1a03a4",
+      "size_bytes": 43524
     },
     {
       "path": "docs/packages/index.html",
-      "sha256": "cc71706a3aa5fdf82f9bc702d3071adc2416d7d0ef2d5e8870d8cc2d3939bc41",
-      "size_bytes": 34630
+      "sha256": "813ffbbcea4f84bbd09f3aea4b35256d06115570ac63edb475d8d663453919a8",
+      "size_bytes": 37754
     },
     {
       "path": "docs/privacy/index.html",
-      "sha256": "82bae7f2c38ad21d08ca0fff8ab864262e4430e60933f29cd977b743c9b661ac",
-      "size_bytes": 40054
+      "sha256": "668838da2acbc83f2230b12923f0dd66f6dd3d53ba5c060c8106b5aebaf83329",
+      "size_bytes": 37066
     },
     {
       "path": "docs/release-notes/index.html",
-      "sha256": "d8d4deac95d566b65e05601bdc07a34c8ffd2b146a4ea431f98b5e92780b4b6f",
-      "size_bytes": 28990
+      "sha256": "c04d3f9d2f3c9bc229be649bf0eb8691a93a627dfca70ec8d99fd247a0e47207",
+      "size_bytes": 28957
     },
     {
       "path": "docs/security/index.html",
-      "sha256": "a047331a7d4acd79728b361fcf5c2219f08b5095f5659b51df98fd7dc37e68d5",
-      "size_bytes": 37485
+      "sha256": "2533a30acfb7e25268da5925e71640b5cf3cce0597a14739d25e28fcacddc68e",
+      "size_bytes": 36940
     },
     {
       "path": "docs/skill/index.html",
-      "sha256": "76fda4170368f8190a9330edd80960a34a5c3325144e5b19d7cd237d3eadcd62",
-      "size_bytes": 61571
+      "sha256": "7e74b863d8a4c4b69b26545e7b56b4ff401a8e7eb9bc7c8a330a078d578e22da",
+      "size_bytes": 54139
     },
     {
       "path": "docs/status/index.html",
@@ -267,8 +267,8 @@
     },
     {
       "path": "docs/troubleshooting/index.html",
-      "sha256": "2589b3b07b51447f05d614f5995d5683b6db771db09fde7b7eca78879339f3ed",
-      "size_bytes": 42106
+      "sha256": "2d9f3043dd924310bdfb7f5955bbb11ef70c0d30ef1ce79822b377651b679143",
+      "size_bytes": 53445
     },
     {
       "path": "documentation-license.txt",
@@ -292,8 +292,8 @@
     },
     {
       "path": "index.html",
-      "sha256": "68e1238170af8d26660e5a45e72c9accc9a72d2f1dd6f1fc20df65163d21b524",
-      "size_bytes": 16815
+      "sha256": "ce2fba42a6df809fc5b960397e6abab12201e3e90685385190dc072407c0e712",
+      "size_bytes": 16313
     },
     {
       "path": "legal/CC-BY-4.0.txt",
@@ -322,8 +322,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "134bb7957b4396ad06c896dab776441a2f3e4b504775599cf0045b0ab1038806",
-      "size_bytes": 139480
+      "sha256": "48afa1dd74756e5c26362d3aed13d492cdaa6b87239ce051d2c0c16177544444",
+      "size_bytes": 122831
     },
     {
       "path": "llms.txt",
@@ -377,8 +377,8 @@
     },
     {
       "path": "status/index.html",
-      "sha256": "f4ef166120909fb4cd62f82347865dfd35d948846cccc87be4034a1bf76ea040",
-      "size_bytes": 41491
+      "sha256": "47b25226893d48af7f29f169f7e68fe2122152dd9f67de1bb70fbd4d84a82c13",
+      "size_bytes": 38480
     },
     {
       "path": "status.json",

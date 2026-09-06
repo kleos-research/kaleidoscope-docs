@@ -1,35 +1,40 @@
 ---
 title: LangGraph
-description: Put Kaleidoscope's two tools in a LangGraph tool node without turning it into a graph store or a checkpointer.
+description: Put Kaleidoscope's two tools in a LangGraph tool node, without turning it into a graph store or a checkpointer.
 ---
 
-LangGraph uses the same one-session MCP adapter as LangChain, placed in your
-graph's tool node for the length of the run.
+Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
+key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
+starts it.
 
-## Connect it
+The same one-session MCP adapter as LangChain, placed in your graph's tool node.
+
+## Get the descriptor
 
 ```bash
+cd ~/your-project
+kscope init --no-wire
+kscope profile import default ~/your-project/.kaleidoscope
 kscope profile launch default
 ```
 
-`default` there is a profile name, and the profile has to exist before it can
-be printed — see [profiles and vaults](/docs/cli/profiles/).
+Copy `command` and `args` into the adapter's server definition.
+[Any other MCP client](/docs/integrations/generic-mcp/) explains each field.
 
-Open the adapter before you execute the graph, pass the two tools into the tool
-node, and close it once execution finishes. The same session is reused across
-node calls.
+## Wire it in
 
-## What it writes
+Open the adapter before you execute the graph, pass `search` and `remember` into
+the tool node, and close it once execution finishes. Node calls reuse the same
+session.
 
-Nothing on your disk. Provider credentials stay in your own application.
+Do not use Kaleidoscope as a checkpointer or a `BaseStore`.
 
-## The one thing that is different here
+## Check it
 
-Kaleidoscope is not a LangGraph checkpointer and not a `BaseStore`. Keep graph
-state and durable memory separate, so you never end up with two things that both
-claim to be the record.
+The tool node should hold `search` and `remember`, and your checkpointer should
+be something else.
 
-## Disconnect
+## Remove it
 
-Close the adapter after the graph finishes, and remove the descriptor from your
-own configuration.
+Close the adapter after the graph finishes and delete the server definition from
+your own configuration.

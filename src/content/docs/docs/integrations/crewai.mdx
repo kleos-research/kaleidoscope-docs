@@ -1,31 +1,38 @@
 ---
 title: CrewAI
-description: Run Kaleidoscope as one persistent MCP adapter context for a CrewAI crew, exposing only two tools.
+description: Run Kaleidoscope as one stdio MCP adapter context for a whole CrewAI crew run, exposing two tools.
 ---
 
-CrewAI uses one stdio MCP adapter context for the whole crew run, and exposes
-only the Kaleidoscope tools you choose to give the model.
+Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
+key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
+starts it.
 
-## Connect it
+One adapter context for the whole crew run, not one per task.
+
+## Get the descriptor
 
 ```bash
+cd ~/your-project
+kscope init --no-wire
+kscope profile import default ~/your-project/.kaleidoscope
 kscope profile launch default
 ```
 
-`default` there is a profile name, and the profile has to exist before it can
-be printed — see [profiles and vaults](/docs/cli/profiles/).
+Copy `command` and `args` into the adapter's server definition.
+[Any other MCP client](/docs/integrations/generic-mcp/) explains each field.
 
-Build the adapter from that descriptor, enter it once, select `search` and
-`remember`, run the crew, then close the context. Do not recreate the server for
-each task.
+## Wire it in
 
-## What it writes
+Build the adapter from the descriptor, enter the context once, select `search`
+and `remember`, run the crew, then close the context. Do not recreate the server
+for each task.
 
-Nothing on your disk. CrewAI owns your provider configuration and your crew
-state; Kaleidoscope owns only the local memory, and never receives a
-model-provider credential or an account token.
+## Check it
 
-## Disconnect
+Your agents should hold `search` and `remember`, from one adapter context shared
+across the crew.
 
-Close the adapter context at the end of the crew run and remove the descriptor
+## Remove it
+
+Close the adapter context at the end of the run and delete the server definition
 from your own configuration.

@@ -1,80 +1,137 @@
 ---
 title: Troubleshooting
-description: Fix the six things that go wrong with Kaleidoscope — tool discovery, OpenCode configuration, a misplaced profile, sign-in, installation, and safe diagnostics.
+description: What you saw, what it means, and what to run — missing tools, a missing profile, a key refusal, the wrong vault, and wiring that failed.
 ---
 
-Start with `kscope where` when your profile, engine, or host configuration is
-misbehaving: it prints the vault a command that names none would resolve to from
-here, and where that answer came from. It needs no key, which is why it is the
-first thing to try. The fuller check is
-`echo '{"mode":"inspect"}' | kscope call doctor`, which reads health and writes
-nothing — but `call` is one of the commands the key gates, so a refusal there is
-about your key rather than about your vault. Signing in sits on its own separate
-boundary and is not a local failure at all, so read that section below before
-you conclude anything here is broken.
+Every heading below is a symptom. Find the one that matches what you saw.
 
-## The host cannot find the tools
+Two commands answer most of it, and neither needs a key:
 
-1. Confirm the active profile is the one you expect, with `kscope profile list`
-   and `kscope where`.
-2. Open the host's own configuration file and read only the block Kaleidoscope
-   owns — `kscope init` marks the entry it wrote as its own, so which block that
-   is does not have to be guessed.
-3. Restart the host after `kscope init` — most hosts read their configuration
-   once, at startup.
-4. Confirm the tools it discovered are exactly `search` and `remember`.
+```bash
+kscope where
+kscope gate
+```
+
+## Your agent does not list `search` and `remember`
+
+Restart the editor first. Most read their configuration once, at startup, so an
+editor that was running during `kscope init` has not seen it.
+
+Then check the vault and the profile the editor starts:
+
+```bash
+kscope where
+kscope profile list
+```
+
+`profile list` must show `default` with `"valid":true`. The tools an agent sees
+are exactly `search` and `remember` — anything else is another server.
+
+## Your editor says `profile does not exist`
+
+Creating a vault does not create the profile the editor's entry names. Write it:
+
+```bash
+kscope profile import default ~/your-project/.kaleidoscope
+```
+
+Restart the editor.
+
+## A command refuses with `E_NO_KEY`
+
+```
+kscope: this build requires an alpha entitlement and no key was found.
+```
+
+Install your key, then run the command again:
+
+```bash
+kscope activate <KEY>
+```
+
+Your vault is untouched by the refusal. No key yet? Email
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz).
+
+| | Commands |
+|---|---|
+| Need a key | `mcp`, `serve`, `context`, `call` |
+| Work without one | `where`, `schema`, `model`, `gate`, `vault-preview`, `vault-verify`, `vault-migrate` |
+
+## Your agent is reading the wrong project's memory
+
+```bash
+kscope where
+```
+
+`root_source` says how that vault was chosen. The common answers:
+
+| `root_source` | Means | Fix |
+|---|---|---|
+| `environment` | `KSCOPE_ROOT` is set | unset it, or point it at the vault you want |
+| `repository_default` | the `.kaleidoscope` in this checkout | run from the project you meant |
+| `vault_ancestor` | a vault in a parent directory | create one in this project with `kscope init` |
+
+An editor started with `--profile NAME` uses that profile's root and ignores all
+three.
+
+## `kscope init` wired no editor
+
+It wires an agent only when that agent's configuration directory already exists
+on this machine. Finding none, it writes an `AGENTS.md`, which most other agents
+read, and says so.
+
+Install the editor, then run `kscope init` again. To create a vault and write no
+configuration at all, run `kscope init --no-wire`.
+
+## One wiring step says FAILED
+
+```
+kscope:   claude for claude-code — FAILED: host configuration conflict: the
+manager-owned instruction block has been hand-edited and no longer matches its
+owner receipt
+```
+
+Something inside a marked block changed after `kscope init` wrote it. The other
+steps still ran. Either delete that block and run `kscope init` again, or
+overwrite it with `kscope init --force`, which prints the bytes it discards
+first.
 
 ## OpenCode configuration is refused
 
-The stable and beta-v2 configuration shapes differ. Kaleidoscope adopts an
-existing shape when it is unambiguous, or the version you named explicitly; it
-never quietly rewrites stable configuration into beta. Remove any duplicate
-Kaleidoscope entry and run `kscope init` again.
+OpenCode has two configuration shapes, `stable-v1` and `beta-v2`. `kscope init`
+adopts the one already in your file and never rewrites stable into beta. When
+both are present it stops and asks for manual review.
 
-## A profile points to the wrong place
+Remove the duplicate Kaleidoscope entry from `~/.config/opencode/opencode.json`,
+then run `kscope init` again.
 
-Do not edit the profile by hand. `kscope profile import NAME ROOT` reads the
-identity out of the vault you meant to use and writes a profile pointing at it;
-`kscope init ROOT RFC3339_CREATED_AT` makes a new vault at an explicit path, and
-that second argument is a timestamp — `2026-08-30T09:00:00Z` — not a name. A
-missing or invalid root is refused rather than created for you, so nothing is
-silently written to the wrong place.
+## There is no `kscope login`
 
-## You cannot sign in
+`kscope` has no login, logout, or account verb. Your key is what entitles the
+machine, and `kscope activate` puts it in place.
 
-There is nothing to sign in to, and what you installed does not try. `kscope`
-carries no login, logout, or account command at all — those are verbs of a
-separate `kaleidoscope` manager executable that is published on no channel, so
-they are commands you cannot obtain rather than commands that fail. Your key is
-what entitles the machine, and `kscope activate` is how it gets there. Do not
-delete or recreate your vault over this: your account status and your local
-memory were never connected, and you do not need an account to use your memory.
+Do not delete or recreate a vault over this. Your memory never depended on an
+account.
 
-## The install did not work
+## The install left you without `kscope`
 
-The install is `npm install -g @kleos-research/kaleidoscope`, and npm picks the
-platform package for your machine out of the four that are published — macOS on
-Apple Silicon and x86_64, Linux on arm64 and x86_64. On Windows there is no
-package to bring down, so the install has nothing to give you.
+You need macOS or Linux, on Apple Silicon or x86_64, with Node.js 18 or newer.
+Windows is not supported yet — [Platforms](/docs/compatibility/).
 
-If `kscope` installed but refuses to run, the key is a likelier cause than the
-download. `kscope gate` prints what this build gates and the path it reads a key
-from, without reading the key or opening a vault, and `kscope activate` is what
-puts the key there. Nothing is signed for release either, so an operating-system
-refusal to launch an unsigned binary is about the missing signature and not a
-corrupt install.
+If `kscope` installed but will not launch, nothing is signed for release, so an
+operating-system refusal to run unsigned code is the likely cause. If it
+launches and then refuses, read the key section above.
 
-## The agent can see the tools but never uses them
+## Your agent has the tools and never uses them
 
-Discovering `search` and `remember` is not the same as being told to use them.
-Install the skill and the pointer block for your project:
+The tools are there; nothing has told the agent when to reach for them. Install
+the skill and the instruction block:
 [give your agent the skill](/docs/skill/).
 
-## Before sharing diagnostics
+## Before you share diagnostics
 
-Strip local paths, account identifiers, provider keys, tokens, memory content,
-queries, results, and vault locations before you send anything to anyone. Use
-what `kscope call doctor` prints on stdout in `inspect` mode, which is the
-artifact meant for that: counts and status fields, and no memory content or
-absolute paths. The line it writes to stderr beside it is not part of that — it
-names the vault it resolved, by absolute path.
+Strip local paths, account identifiers, provider keys, tokens, queries, results
+and memory content out of anything you send.
+
+A command that resolved a vault rather than being told one prints that absolute
+path on stderr, unprompted. Cut that line too.

@@ -1,63 +1,56 @@
 ---
 title: Agent instructions
-description: The instruction file and the skill — what kscope init writes for each agent, where each one lands, and why the block is marked.
+description: The instruction block and the skill kscope init writes into your project, and where each agent reads them.
 ---
 
-An agent only uses memory if something told it to. Kaleidoscope writes two
-things into your project for that: a short marked block in whichever instruction
-file your agent already reads, and the skill itself. It is the same pair shown
-in [give your agent the skill](/docs/skill/), which offers both files for
-download.
-
-There is no separate command for it, and no flag to remember. `kscope init`
-installs them as part of the run that creates the vault, once for each agent
-it finds:
+An agent uses memory only if something told it to. `kscope init` writes two
+things into your project for that: a marked block in the instruction file your
+agent already reads, and the skill itself.
 
 ```bash
 cd ~/your-project
 kscope init
 ```
 
-The steps go past as it works — `claude for claude-code`, `skill for
-claude-code`, `agents for codex`, one line each, and a named failure if one of
-them could not be written.
+There is no separate command and no flag to remember. The steps go past as it
+works — `claude for claude-code`, `skill for claude-code`, `agents for codex` —
+one line each, and a named failure for any that could not be written.
 
 ## Where each agent reads them
 
-The skill directory is not the same for every agent, and a skill written to
-the wrong one is a file the agent silently never loads. `kscope init` writes
-the path the agent in front of it actually reads.
-
-| agent | instruction file | skill |
+| Agent | Instruction file | Skill |
 |---|---|---|
 | Claude Code | a marked block in `CLAUDE.md` | `.claude/skills/use-kaleidoscope/SKILL.md` |
 | Codex | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/SKILL.md` |
 | OpenCode | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/SKILL.md` |
-| Cursor | `.cursor/rules/kaleidoscope.mdc`, the whole file | none: Cursor has no skill directory |
+| Cursor | `.cursor/rules/kaleidoscope.mdc`, the whole file | none: Cursor reads no skill directory |
 | none detected | a marked block in `AGENTS.md` | none |
 
-All of it goes into the project, and none of it into your home directory. Git is
-what carries these files into the worktree or the temporary clone an agent
-agent usually runs your work in, and a `CLAUDE.md` in your home directory would
-inject Kaleidoscope into every unrelated project you ever open.
+The skill directory differs per agent, and a skill written to the wrong one is a
+file the agent never loads. `kscope init` writes the path the agent in front of
+it reads.
 
-## Installing one on its own, and taking one back out
+All of it goes into the project, none into your home directory. Git is what
+carries these files into the worktree or clone your agent works in.
 
-`kaleidoscope instructions install TARGET` and `instructions remove TARGET` are
-the commands for writing one of these files at a time, or removing one exactly.
-They belong to `kaleidoscope`, the manager executable, which is built from source
-and published on no channel: you cannot install it, so you cannot run them. On
-the command that ships, installing is something `kscope init` does for you and
-removing is done by hand — [connect an editor or
-agent](/docs/cli/connect/#removing-it) lists the files to look in.
+[Give your agent the skill](/docs/skill/) has both files for download if you
+would rather install one yourself.
 
-## Why the block has markers
+## The markers
 
 Everything appended to an existing file sits between two ownership comments, and
-every file Kaleidoscope owns outright gets a receipt beside it. That pair is what
-makes a second `kscope init` idempotent instead of duplicating, what makes an
-exact removal possible, and what is read before the file is touched at all. If
-you have edited the text between the markers, that one step stops and hands the
-file back rather than overwriting your work — and the remaining steps still run,
-because a Cursor rule that cannot be written must not cost you your Claude Code
-registration.
+every file Kaleidoscope owns outright gets a
+`.kaleidoscope-instruction-owner.json` receipt beside it.
+
+That pair is read before the file is touched. It is what makes a second
+`kscope init` update the block instead of duplicating it, and what makes an
+exact removal possible.
+
+Edit the text between the markers and that one step stops and hands the file
+back rather than overwriting your work. The remaining steps still run.
+
+## Installing or removing one on its own
+
+Not on `kscope`. Installing is what `kscope init` does; removing is by hand, and
+[connect an editor or agent](/docs/cli/connect/#removing-it) lists the files to
+delete.

@@ -1,45 +1,68 @@
 ---
 title: MCP reference
-description: Write a correct search or remember call — the two tools Kaleidoscope gives an agent, their fields, worked examples, and how the session works.
+description: The two tools an agent sees — search and remember — with their fields and a worked call for each.
 ---
 
-Your editor or agent sees exactly two tools from Kaleidoscope: `search` and
-`remember`. Nothing else is callable by a model. This page is what you need to
-write a correct call to either one.
+Kaleidoscope publishes two MCP tools. `search` reads memory, `remember` writes
+it. Nothing else is callable by a model.
 
-To connect a host of your own you need the package and a key — see
-[Install](/docs/packages/) — and then `kscope init` in the project, which
-registers the server with every editor and agent it finds. The contract below is
-the one that runs locally, against the vault that command created.
+`kscope init` registers the server with every editor it finds. Each one starts
+`kscope mcp --profile default` and talks to it over stdio at MCP protocol
+revision `2025-11-25`.
 
-[Read the machine-readable tool reference](/reference/kaleidoscope-mcp.json).
+[Machine-readable tool reference](/reference/kaleidoscope-mcp.json) ·
+[Install](/docs/packages/)
 
-## `search`
+## search
 
-Send exactly one of `query` or `memory_id`. A `query` ranks your memories and
-returns them under `selected_hits`. A `memory_id` is an addressed read: it
-returns that one memory at the top level and refuses ranking controls. Keep
-`top_k` small — about 5 is normal — and set a bounded `maximum_context_bytes`.
-`ledger` accepts only `true`.
+Send exactly one of `query` or `memory_id`. Every other field applies to a
+ranked `query` and is refused alongside `memory_id`.
+
+| field | notes |
+|---|---|
+| `query` | Ranked selection. Hits come back under `selected_hits`. |
+| `memory_id` | Addressed read of one `mem_...` record. No ranking, no filtering. |
+| `top_k` | Memories served, in rank order. Five is a normal value. |
+| `candidate_pool` | How many results each retrieval channel may propose before the final cut. Independent of `top_k`. |
+| `maximum_context_bytes` | The byte budget the served set is bounded to. |
+| `ledger` | Only `true` is accepted. |
+| `as_of` | RFC 3339 instant validity is evaluated at. Omitted means now. |
+| `scope` | `project`, `branch`, `artifact`. An omitted axis matches every memory. |
+| `channels` | Restrict which retrieval channels contribute. |
 
 ```json
-{"query": "how do we handle database migrations", "top_k": 5, "ledger": true}
+{"query": "how do we handle database migrations", "top_k": 5}
 ```
 
-A query also writes down what it returned. That record goes into your vault on
-your machine, next to the memories themselves, and it stays there — it is what a
-later authenticated tool would use to tell which memories actually helped.
+Omit a knob and you get its published default. A value above its ceiling is
+refused rather than clamped.
 
-## `remember`
+A ranked query writes an exposure row into your vault, recording what it
+returned. That is why `ledger: false` is refused: to measure a search without
+writing, clone the vault first.
 
-`mode` is required and is `create`, `update`, or `delete`. For a create or an
-update, `content_md` is the memory as you want to read it back and must begin
-with an H1, and `semantic_delta` carries the structure: a title and at least one
-fact. Every endpoint a fact names is declared with `n`, the surface the fact
-refers to it by; `kind`; and `is`, a short gloss. Predicates are snake_case. An
-update or a delete needs `memory_id` and `expected_version_id`. Batching through
-`items` accepts at most 20 creates, and items do not share structure with each
-other.
+## remember
+
+| field | when | notes |
+|---|---|---|
+| `mode` | always | `create`, `update`, or `delete`. |
+| `content_md` | create, update | The memory as you want to read it back. Must begin with `# `. |
+| `semantic_delta` | create, update | The structure committed with it. Fields below. |
+| `memory_id` | update, delete | Which memory. |
+| `expected_version_id` | update, delete | The active version you are allowed to replace. |
+| `items` | instead of the pair above | Up to 20 creates in one call, applied in order. |
+
+Inside `semantic_delta`:
+
+| key | notes |
+|---|---|
+| `title` | Required. Your words — nothing scrapes it out of `content_md`. |
+| `memory_type` | Required. Reuse an accepted name; types are append-only. |
+| `facts` | Required, at least one. Each is `subject`, `predicate`, `object`; predicates are snake_case. |
+| `entities` | Every surface your facts name, each with `n`, `kind` and `is`. Declare all of them or none. |
+| `occurred_at` | When the facts are about, as `{t, grain}`. Kaleidoscope parses no date out of prose. |
+| `scope` | `project`, `branch`, `artifact`. |
+| `evidence`, `corrections`, `propose`, `temporal`, `context` | Optional. |
 
 ```json
 {
@@ -57,33 +80,32 @@ other.
 }
 ```
 
-Write the `is` gloss properly. It is not documentation — it is what the engine
-matches on when it decides whether two mentions of a name are the same thing, so
-`Ana | person | backend engineer on my team` finds far more than `Ana` alone
-does.
+Write the `is` gloss properly. It is what the engine matches on when it decides
+whether two mentions of a name are the same thing, so
+`Ana | person | backend engineer on my team` finds far more than `Ana` alone.
 
-`remember` infers nothing from what you wrote. The entities, facts,
-relationships, and dates it stores are the ones you state explicitly. Treat the
-tool schema your host discovered as the authority for which memory types and
-fields a build accepts, rather than copying a vocabulary out of prose.
+`remember` infers nothing. The entities, facts and dates it stores are the ones
+you state.
 
-## Lifecycle
+A refusal names the field and what to change it to. Fix it and resend.
 
-Your host keeps one long-lived process alive across calls and talks to it over
-stdio at MCP protocol revision `2025-11-25`. It negotiates once, enforces a
-startup deadline, cancels cleanly, bounds what it reads from stderr, and shuts
-the process down without leaving an orphan behind. A framework integration will
-not run a second retrieval behind your back.
+## Reading the full contract
+
+The tool schema your host discovered is the authority for the values a build
+accepts. Print the same contract from the shell:
+
+```bash
+kscope schema remember
+kscope schema
+```
 
 ## What a model never sees
 
-Feedback, lifecycle and import, maintenance, ontology, and diagnostics are
-operator commands, not tools. They are absent from the list your agent
-discovers. Search results do not carry the handle those commands need either, so
-there is no path from a model to them and nothing to reconstruct.
+Feedback, lifecycle and import, maintenance, ontology and diagnostics are
+operator commands. They are absent from the tool list an agent discovers, and
+search results carry no handle that would reach them.
 
-## Telling your agent to use them
+## Next
 
-Discovering the two tools is not the same as using them well. The skill file
-that tells an agent when to retrieve and what is worth writing is published at
-[give your agent the skill](/docs/skill/).
+Discovering the two tools is not the same as using them well.
+[Give your agent the skill](/docs/skill/).

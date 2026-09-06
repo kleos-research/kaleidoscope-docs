@@ -1,80 +1,68 @@
 ---
-title: Privacy and data boundary
-description: What stays on your machine, what signing in could send, where a credential would be kept, and what this website itself does.
+title: Privacy
+description: What stays on your machine, what the one network request sends, and what this documentation site does.
 ---
 
-Your memory and your account identity are separate systems. Signing in does not
-authorize upload, sync, analysis, training on, or deletion of your memory.
+Your memory stays on your machine. One request leaves it, and your memory is
+not in it.
 
-## Your memory stays local
+## What never leaves your machine
 
-Signing in never carries your memory with it. Memory content, the queries you
-ran, the results you got back, memory IDs, graph data, local paths, vault
-locations, the internal identifiers Kaleidoscope uses to organise a vault, and
-any credentials you have stored locally are all excluded from the account
-protocol. The account client rejects those fields — and any absolute local path
-— before anything would leave your machine.
+Storing, searching and reading your memory all work offline. The embedding
+model is bundled and runs locally, so nothing in that path calls a model
+provider.
 
-## What signing in would send
+None of this goes anywhere: memory content, the queries you ran, the results
+you got back, memory IDs, graph data, local paths, vault locations, and any
+credentials you have stored locally.
 
-Signing in would send a narrow set of account and device fields — enough to log
-in, keep you logged in, show your account status, link or unlink another sign-in
-provider, log out, and manage the devices attached to your account. Nothing
-else. You cannot sign in today, and the terms that would govern it — who runs
-the sign-in service, how long anything is kept, how you recover an account, and
-how you delete one — are not settled. That is one of the reasons sign-in is
-switched off.
+## The one network request
 
-## Where a sign-in credential would be kept
+Kaleidoscope checks that your key is still valid. The check sends three things.
 
-Signing in is not built yet, so nothing is stored anywhere today. When it is,
-the refresh credential goes to the operating system's own credential store — the
-login Keychain on macOS, Credential Manager on Windows, the Secret Service on
-Linux — and never into a file we write, into an editor's configuration, or into
-a profile. On Linux, if no secret service is running, signing in stops and tells
-you rather than falling back to something weaker.
+| Sent | Where it travels |
+|---|---|
+| Your key | the request's authorization header |
+| The platform you are running on | the request body |
+| The version of the component that makes the check | the request body |
 
-There is a caveat about unsigned software and macOS credential prompts, and one
-about alpha keys, which do not use a credential store at all. Both are on
-[Account and devices](/docs/account/#where-a-sign-in-credential-would-be-kept).
+The body is those two fields and no more: no memory content, no queries, no
+results, no file paths. The check runs in the background and caches its answer.
 
-## Network use
-
-The part that stores and searches your memory needs no network access and makes
-no calls to any model provider. Storing, searching and reading your memory all
-work with your machine offline.
-
-One thing does reach the network: checking that your key is still valid. That
-check sends three things — your key, the platform you are running on, and the
-version of the component that makes the check. Nothing else goes with it: no memory
-content, no queries, no results, no file paths. The key travels in the
-request's authorization header, and the body is those other two fields and no
-more. A test in the engine holds the body to exactly those two fields and fails
-if anything about your memory is added to it. That test is the positive half:
-it proves what this build sends, and the enforcement that a future build cannot
-quietly send more lives in the service that receives it. The check runs in the background and caches its
-answer, so it is not on the path of anything you do.
+## Sign-in
 
 There is no account to create and no sign-in.
 
+If sign-in ships, it manages your account and your devices. Memory content,
+queries, results, memory IDs, graph data, local paths and vault locations are
+excluded from the account protocol, and the account client rejects those
+fields — and any absolute local path — before anything would leave your
+machine.
+
+The refresh credential goes to the operating system's own credential store: the
+login Keychain on macOS, Credential Manager on Windows, the Secret Service on
+Linux.
+
+[Account and devices](/docs/account/) has the rest, including why an unsigned
+build can re-prompt for your login password on macOS.
+
 ## This documentation site
 
-These pages are static files served by GitHub Pages. They set no cookies. They do
-keep two things in your own browser, both functional and neither sent anywhere:
-your light-or-dark theme choice, in local storage, and the navigation sidebar's
-state — which groups you left open, where you had scrolled, and a short check
-value — in session storage, which your browser discards when you close the tab. The only scripts on them are the small ones that make the
-navigation work; there is no analytics, no behavioural tracking, and nothing
-that reports your reading anywhere. They do make one
-third-party request: the three typefaces are fetched from Google Fonts
+These pages are static files served by GitHub Pages. They set no cookies and
+carry no analytics, and the only scripts on them make the navigation work.
+Nothing here reads a vault, a profile, or any local memory.
+
+Your browser keeps two things, neither of them sent anywhere: your
+light-or-dark theme choice, in local storage, and the navigation sidebar's
+state, in session storage, which your browser discards when you close the tab.
+
+The pages make one third-party request. The typefaces come from Google Fonts
 (`fonts.googleapis.com` and `fonts.gstatic.com`), so Google receives the request
-metadata a font fetch carries, including your IP address. Blocking it costs only
-the typefaces. Nothing on this site reads a vault, a profile, or any local
-memory.
+metadata a font fetch carries, including your IP address. Block it and you lose
+the typefaces.
 
 ## Hosted memory
 
-There is no hosted service. Kaleidoscope does not sync your memory anywhere,
-there is no endpoint or API to send it to, and there is no waitlist for one. If
-that ever changes it will be a separate product with its own terms, and it will
-not be something a local profile or a sign-in quietly opts you into.
+There is no hosted service, no endpoint or API to send your memory to, and no
+waitlist. If that changes it will be a separate product with its own terms, and
+no local profile or sign-in will opt you into it.

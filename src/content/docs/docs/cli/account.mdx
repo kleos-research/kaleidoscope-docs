@@ -1,42 +1,34 @@
 ---
 title: Account commands
-description: login, status, logout, account, devices — an account surface that is not shipped yet, and the key command that is.
+description: kscope activate, the key command that ships, and the account surface planned for a second executable.
 ---
 
-None of the commands on this page ships. Every one of them belongs to
-`kaleidoscope`, the manager executable, which is built from source and published
-on no channel — so they are not commands that fail for you, they are commands you
-cannot obtain. Even built from source they would go no further: each one that
-reaches the account service answers `provider not configured`, because no sign-in
-service is configured or published either.
+None of the commands on this page runs today. They belong to `kaleidoscope`, a
+second executable built from source and published on no channel, and the account
+service they would reach answers `provider not configured`. They are written
+down so you can see the shape of signing in before it arrives.
 
-They are written down here so you can see the shape of what signing in will and
-will not do when it arrives.
+`kscope`, the command you have, carries no account commands at all.
 
 ## What there is instead
 
 The alpha is opened by a key, not by an account. Email
-[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz) for one, and then:
+[contact@kleosresearch.xyz](mailto:contact@kleosresearch.xyz) for one, then:
 
 ```bash
 kscope activate
 ```
 
-`activate` takes the key from `KALEIDOSCOPE_API_KEY`, from the key file, or from
-standard input; stores it at the path `kscope gate` reports, so an engine your
-editor starts with an empty environment still finds it; and waits for the verdict
-rather than leaving the next command to discover an empty cache. It is the whole
-of the account-shaped surface on the executable you installed.
+`activate` takes the key as an argument, from `KALEIDOSCOPE_API_KEY`, from the
+key file, or from standard input. It stores the key at the path `kscope gate`
+prints, so an engine your editor starts with an empty environment still finds
+it, and it waits for the verdict rather than leaving the next command to
+discover an empty cache.
 
-You do not need an account to use Kaleidoscope. Your memory lives on your machine
-and has never needed one.
+You do not need an account to use Kaleidoscope. Your memory lives on your
+machine and has never needed one.
 
-## The surface, when it arrives
-
-Everything from here down is `kaleidoscope`, not `kscope`. None of it runs on the
-command you have.
-
-### Sign in and out
+## Sign in and out
 
 {/* not-yet-shipped */}
 ```bash
@@ -48,19 +40,19 @@ kaleidoscope logout --all-devices
 kaleidoscope logout --local-only
 ```
 
-`login` is an ordinary browser sign-in; `--device` is the code-based path for a
-machine with no browser.
+| Command | What it would do |
+|---|---|
+| `login` | Ordinary browser sign-in. |
+| `login --device` | Code-based sign-in, for a machine with no browser. |
+| `status --json` | Report your account session on this machine. Unrelated to the [status page](/status/), which is about what is available. |
+| `logout` | Remove the credential here and revoke it. |
+| `logout --all-devices` | End every session on the account. |
+| `logout --local-only` | Remove the local credential and warn you that nothing was revoked remotely. |
 
-`logout` removes or revokes your credentials according to the scope you chose.
-`--all-devices` ends every session on the account; `--local-only` removes the
-credential from this machine and warns you that it has not revoked anything
-remotely. Neither changes which profile a command resolves to, and neither alters
-a byte of your vault.
+No form of `logout` changes which profile a command resolves to, or a byte of
+your vault.
 
-`kaleidoscope status` reports your account session on this machine. It is not
-related to the [status page](/status/), which is about what is available.
-
-### Linked sign-in providers
+## Linked sign-in providers
 
 {/* not-yet-shipped */}
 ```bash
@@ -70,13 +62,14 @@ kaleidoscope account unlink EXTERNAL_IDENTITY_UUID
 kaleidoscope account revoke-session
 ```
 
-`account identities` is where you get the opaque UUID that `account unlink`
-needs; it lists those IDs and nothing else.
+| Command | What it would do |
+|---|---|
+| `account link PROVIDER` | Attach a sign-in provider to the account. |
+| `account identities` | List the opaque IDs, which is where `unlink` gets its argument. |
+| `account unlink UUID` | Detach one of them. |
+| `account revoke-session` | Revoke the session you are using. It does not deactivate an account. |
 
-`account revoke-session` has the deliberately narrow meaning of revoking the
-session you are currently using. It does not deactivate an account.
-
-### Devices
+## Devices
 
 {/* not-yet-shipped */}
 ```bash
@@ -84,32 +77,27 @@ kaleidoscope devices list
 kaleidoscope devices revoke DEVICE_UUID
 ```
 
-The devices attached to your account, and how to detach one. Revoking a device is
-an account operation; the vault on that device is untouched.
+The devices attached to your account, and how to detach one. Revoking a device
+is an account operation; the vault on that device is untouched.
 
-### Local account reference
+## Local account reference
 
 {/* not-yet-shipped */}
 ```bash
-kaleidoscope profile account show [NAME]
-kaleidoscope profile account bind ACCOUNT_UUID [NAME]
-kaleidoscope profile account unbind [NAME]
+kaleidoscope profile account show
+kaleidoscope profile account bind ACCOUNT_UUID
+kaleidoscope profile account unbind
 ```
 
-These three would work offline, because they never leave your machine: they write
-a non-secret account ID into a local profile and nothing more — no engine
-started, no service contacted, no vault touched, no credential stored. They are
-still manager commands, so they are still not commands you can run.
+These three write a non-secret account ID into a local profile and nothing more:
+no engine started, no service contacted, no vault touched, no credential stored.
+Each takes an optional profile name and defaults to the one you are in.
 
 ## The boundary
 
-On the executable that ships there is no boundary to police, because there is no
-account traffic: `kscope` carries no account commands at all, and `activate`
-speaks only about your key.
+Account traffic goes to a closed list of account-only routes and never touches
+the memory engine. A guard rejects memory fields, profile fields and absolute
+local paths before anything is sent.
 
-In the manager, account traffic goes to a closed list of account-only routes and
-never touches the memory engine. A guard rejects memory fields, profile fields
-and absolute local paths before anything is sent.
-
-What signing in would mean, and where a credential would be kept:
-[Account and devices](/docs/account/).
+[Account and devices](/docs/account/) covers what signing in would mean and
+where a credential would be kept.

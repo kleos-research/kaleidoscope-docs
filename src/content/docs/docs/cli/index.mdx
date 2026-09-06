@@ -1,109 +1,83 @@
 ---
 title: CLI reference
-description: The one command that ships, what each group of subcommands is for, and which of the verbs written about elsewhere belong to an executable nobody can install.
+description: Every kscope verb grouped by what you are trying to do, the flags each one takes, and what init writes.
 ---
 
-The command you will run is `kscope`. It sets up your local memory,
-connects your editor or agent to it, and tells you what is wrong when something
-does not work. Read this as the reference for the
-command surface rather than a set of steps to follow now.
+`kscope` is the command. It creates a vault, wires your editor to it, and
+answers questions about both.
 
-`kscope` is the whole of Kaleidoscope you can install: the engine that stores
-and searches your memory, with the setup half of the manager compiled into the
-same executable. There is no second command to install beside it, and nothing
-here asks you to run one.
+```bash
+npm install -g @kleos-research/kaleidoscope
+kscope --help
+```
 
-There is a second executable, `kaleidoscope`, and it is where several verbs you
-may have seen written down actually live: `connect`, `disconnect`, `config`,
-`doctor`, `teardown`, `profile use`, `instructions install` and the whole
-account surface. It is built only from source and is published on no channel, so
-those are commands you cannot obtain rather than commands you can run. Where a
-page here describes one, it says so.
+[The full help text](/reference/kscope-cli.txt) is the authority on every
+argument.
 
-[Read the full `kscope` help text](/reference/kscope-cli.txt).
+## The verbs
 
-## The commands, by what they are for
+| To do this | Run | Page |
+|---|---|---|
+| Create a vault and wire your editor | `init` | [Connect an editor](/docs/cli/connect/) |
+| Write the instruction file and skill | `init` | [Agent instructions](/docs/cli/instructions/) |
+| Name a vault so an editor can start with it | `init-profile`, `profile create`, `profile import` | [Profiles and vaults](/docs/cli/profiles/) |
+| See, inspect or forget a profile | `profile list`, `profile show`, `profile launch`, `profile remove` | [Profiles and vaults](/docs/cli/profiles/) |
+| Find out which vault you are talking to | `where` | [Diagnostics](/docs/cli/diagnostics/) |
+| Check the key, the model, the vault | `gate`, `activate`, `model`, `vault-verify` | [Diagnostics](/docs/cli/diagnostics/) |
+| Run an engine for an agent | `mcp`, `serve`, `context`, `call` | [MCP reference](/docs/mcp/) |
+| Migrate, preview or delete a vault | `vault-migrate`, `vault-preview`, `vault-delete` | [Operations](/docs/operations/) |
+| Read the tool contract | `schema` | [MCP reference](/docs/mcp/) |
+| Read the third-party notices | `licences` | — |
 
-| | |
-|---|---|
-| [Profiles and vaults](/docs/cli/profiles/) | `init`, `init-profile`, `profile create`, `import`, `list`, `show`, `remove`, `launch`, `where` |
-| [Connect an editor](/docs/cli/connect/) | `init` |
-| [Agent instructions](/docs/cli/instructions/) | `init` |
-| [Diagnostics](/docs/cli/diagnostics/) | `where`, `gate`, `model`, `vault-verify`, `call doctor` |
-| [Account and devices](/docs/cli/account/) | nothing that ships; `activate` is what there is |
+`kscope init` appears twice because one run does both jobs: it creates the
+vault, then tells every agent on this machine that the vault exists.
 
-`kscope init` is the command that sets you up, which is why it appears three
-times: it creates the vault, and then it tells every agent on this
-machine that the vault exists — the memory server, the instruction file, and the
-skill, once per agent.
+## The flags
 
-Two groups have no page of their own. The vault lifecycle commands —
-`vault-migrate`, `vault-verify`, `vault-preview`, `vault-delete`, and the frozen
-macOS preview of encrypted repository vaults — belong with
-[Operations](/docs/operations/). The four commands that address a vault
-directly, `mcp`, `serve`, `context` and `call`, belong with the
-[MCP reference](/docs/mcp/); the help text is exhaustive about how each of them
-decides which vault it means.
+| Flag | On | Effect |
+|---|---|---|
+| `--profile NAME` | `mcp`, `serve`, `context`, `call` | Work in the vault that profile names. Nothing else accepts it. |
+| `--no-wire` | `init` | Create the vault and write no editor configuration. Real, though `--help` does not list it. |
+| `--root-only` | `where` | Print only the vault root and the project it came from. |
+| `--cross-backend` | `vault-verify` | Widen the check. |
+| `--help`, `-h` | any invocation | Print the command surface. |
+| `--version`, `-V` | any invocation | Print the version. |
 
-## The flags there are
+`kscope init` takes no `--profile`. It works on the directory you are in, or on
+a root you name as a positional argument.
 
-`--profile NAME` names the vault to work in. `mcp`, `serve`, `context` and
-`call` take it, it is what an editor or agent is started with, and nothing
-else accepts it. `kscope init` does not: it works on the directory you are in,
-or on a root you name as a positional argument.
+There is no `--engine`, no `--dry-run` and no `--yes`. An unknown verb prints
+the help text; an unknown argument to `init` is refused by name, and nothing is
+created.
 
-`--no-wire` makes `kscope init` create the vault and stop, for someone who keeps
-host configuration under their own control. It works on the build that ships,
-although `--help` does not list it.
+## Where the wiring goes
 
-`--root-only` narrows `kscope where` to the vault root and the project it was
-resolved from. `--cross-backend` widens `kscope vault-verify`.
+| What | Where | Why |
+|---|---|---|
+| MCP server entry | your home directory | An agent runs your work in a worktree or a temporary clone, and an entry inside one project directory is never read from there. |
+| Instruction file and skill | the project | Git carries them into that worktree or clone. |
 
-`--help` and `--version` print the surface and the version; `-h` and `-V` are
-accepted for both.
+## What init writes, and what it leaves alone
 
-There is no `--engine`, no `--dry-run` and no `--yes` on this executable, and no
-`--profile`, `--root`, `--host`, `--scope` or `--project` on `kscope init`.
-Those are flags of the unpublished manager. An unrecognised argument is not an
-error you can act on: `kscope` prints its help text and leaves everything alone.
+- Kaleidoscope writes only the block it owns, between ownership comments
+  wherever the file format has room for them.
+- Every file it writes gets a receipt beside it:
+  `config.toml.kaleidoscope-owner.json` beside a host configuration,
+  `CLAUDE.md.kaleidoscope-instruction-owner.json` beside an instruction file.
+- A file it changes rather than creates is copied to
+  `<name>.kaleidoscope-backup` first. The rest of the file is untouched.
+- If what it finds no longer matches the receipt, it stops at that file and
+  reports that step as failed. The other steps still run.
+- The configuration it writes carries no token, no provider key and no vault
+  location. It names this executable, a profile, and the tools `search` and
+  `remember`.
+- Running `kscope init` again is safe. An existing vault is left as it is and
+  the wiring is re-checked.
 
-## Where the wiring goes, and why
+## The second executable
 
-The memory server entry goes in your home directory — `~/.claude.json`,
-`~/.codex/config.toml`, `~/.cursor/mcp.json`,
-`~/.config/opencode/opencode.json`. That is not a default you can change on the
-shipped build; it is the only behaviour it has. The reason is that an agent
-agent usually runs your work in a git worktree or a temporary clone, and an
-entry stored inside one project directory is not read from there at all.
-
-The instruction file and the skill go the other way, always into the project:
-git is what carries them into that worktree or clone, and a `CLAUDE.md` in your
-home directory would inject Kaleidoscope into every unrelated project you ever
-open.
-
-## What holds for everything that writes
-
-These hold for every file `kscope init` touches, not just one of them.
-
-- Kaleidoscope writes only the block it owns, marked by an ownership comment on
-  either side wherever the file format has room for comments, and it leaves a
-  receipt beside every file it wrote — `config.toml.kaleidoscope-owner.json`
-  beside a host configuration, `CLAUDE.md.kaleidoscope-instruction-owner.json`
-  beside an instruction file.
-- If what it finds no longer matches that receipt — because you edited inside
-  the markers, or wrote an entry of your own by hand — it stops at that file,
-  changes nothing there, and reports that one step as failed by name. The other
-  steps still happen: a Cursor rule it cannot write must not cost you your
-  Claude Code registration.
-- A file it changes rather than creates is copied first, to
-  `<name>.kaleidoscope-backup` beside it, and the rest of the file is left
-  exactly as it was.
-- The configuration written for your editor or agent contains no tokens, no
-  provider keys, and no vault location. It names this executable, a profile, and
-  the two tools `search` and `remember`.
-- Running `kscope init` again is safe. A root that is already a vault is left
-  exactly as it is — it says so, and touches nothing inside it — while the
-  wiring is re-checked and repaired.
-- The account boundary other pages describe needs no policing here. This
-  executable carries no account commands, so there is no account traffic to keep
-  away from your memory in the first place.
+Some verbs written about elsewhere — `connect`, `disconnect`, `config`,
+`doctor`, `teardown`, `profile use`, `instructions install`, and the whole
+account surface — belong to `kaleidoscope`, a second executable built from
+source and published on no channel. Nothing on this site asks you to run one.
+[Account commands](/docs/cli/account/) lists them.

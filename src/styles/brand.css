@@ -333,3 +333,104 @@ mobile-starlight-toc nav .display-current { color: var(--k-ink); }
   .k-hero { padding-top: 44px; }
   .k-hero h1 { font-size: 32px; }
 }
+
+/* ── The contact sheet, /docs/brand/ ──────────────────────────────────────
+ *
+ * One page renders every mark in `brand/`, and a mark drawn for paper is
+ * invisible on ink. So this block paints two grounds, and it is the one place
+ * on the site where a colour outside the nine is allowed to reach a pixel.
+ *
+ * The rule it keeps instead: every value below is copied from
+ * `brand/tokens/tokens.json` and nothing is derived. They are declared on the
+ * two containers the brand sheet is built from and inherited by their children
+ * only, so they reach no other route, and they colour BACKGROUNDS ONLY — every
+ * character on that page is still one of the nine, with --k-muted the dimmest,
+ * exactly as everywhere else.
+ *
+ * One of them is not new at all. --t-kleos-raised is #EAE7E0, which this site
+ * already ships as --k-ink: one hex doing both jobs, which is why a bone-stock
+ * mark can be shown here on a real bone surface rather than an approximation.
+ */
+.brand-grid,
+.swatch-grid {
+  /* kleos-light — the bone stock this site never uses */
+  --t-kleos-bg:      #F4F2EC;
+  --t-kleos-raised:  #EAE7E0;
+  --t-kleos-rule:    #D8D4C9;
+  --t-kleos-muted:   #6A675F;
+  --t-kleos-ink:     #141310;
+  --t-kleos-brass:   #8A6A22;
+  /* fixed — constant across both stocks, never re-themed */
+  --t-icon-tile:     #0E0D0C;
+  --t-copilot-tile:  #17161C;
+  --t-copilot-sky:   #5FB2EC;
+  --t-copilot-hi:    #9BD4FF;
+  --t-copilot-lo:    #4593D8;
+  --t-copilot-text:  #2F79B5;
+}
+
+.brand-grid { display: flex; flex-wrap: wrap; gap: 20px; margin-block: 22px; align-items: flex-start; }
+.brand-cell > *, .swatch > * { margin-top: 0; }
+.brand-cell { display: flex; flex-direction: column; gap: 9px; max-width: 190px; }
+.brand-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 104px;
+  min-height: 104px;
+  padding: 16px;
+  border: 1px solid var(--k-rule);
+}
+.brand-tile img { display: block; height: auto; max-width: 100%; }
+/* bone stock — for marks drawn in ink, and for anything that must survive on
+   paper. The hairline is the kleos-light rule, not ours. */
+.on-bone { background: var(--t-kleos-raised); border-color: var(--t-kleos-rule); }
+/* ink stock — the ground this whole site is painted on */
+.on-ink { background: var(--k-bg); }
+/* neither: a self-tiled asset carries its own ground, so the cell only has to
+   show where the tile ends */
+.on-raised { background: var(--k-raised); }
+/* the 0xCopilot fixed tile — the mark is never placed on anything else */
+.on-copilot { background: var(--t-copilot-tile); border-color: var(--k-rule-2); }
+
+.brand-name { font: 500 11px/1.5 var(--sl-font-mono); color: var(--k-ink); overflow-wrap: anywhere; }
+.brand-note { font: 400 11px/1.5 var(--sl-font); color: var(--k-muted); }
+
+.s16 img  { width: 16px; }
+.s32 img  { width: 32px; }
+.s40 img  { width: 40px; }
+.s56 img  { width: 56px; }
+.s64 img  { width: 64px; }
+.s72 img  { width: 72px; }
+.s96 img  { width: 96px; }
+.s128 img { width: 128px; }
+.s180 img { width: 180px; }
+.s180 { max-width: 214px; }
+
+/* colour swatches — the chip is the only painted thing; the name and the hex
+   beside it are set in the nine, like the rest of the page */
+.swatch-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-block: 22px; }
+.swatch { width: 154px; }
+.swatch .chip { height: 54px; border: 1px solid var(--k-rule); }
+.swatch .n { font: 500 11px/1.5 var(--sl-font-mono); color: var(--k-ink); margin-top: 8px; }
+.swatch .h { font: 400 11px/1.5 var(--sl-font-mono); color: var(--k-muted); text-transform: uppercase; }
+
+.c-k-bg      { background: var(--k-bg); }
+.c-k-raised  { background: var(--k-raised); }
+.c-k-rule    { background: var(--k-rule); }
+.c-k-muted   { background: var(--k-muted); }
+.c-k-ink     { background: var(--k-ink); }
+.c-k-brass   { background: var(--k-brass); }
+.c-l-bg      { background: var(--t-kleos-bg); }
+.c-l-raised  { background: var(--t-kleos-raised); }
+.c-l-rule    { background: var(--t-kleos-rule); }
+.c-l-muted   { background: var(--t-kleos-muted); }
+.c-l-ink     { background: var(--t-kleos-ink); }
+.c-l-brass   { background: var(--t-kleos-brass); }
+.c-f-tile    { background: var(--t-icon-tile); }
+.c-f-copilot { background: var(--t-copilot-tile); }
+.c-f-sky     { background: var(--t-copilot-sky); }
+.c-f-sky-hi  { background: var(--t-copilot-hi); }
+.c-f-sky-lo  { background: var(--t-copilot-lo); }
+.c-f-sky-tx  { background: var(--t-copilot-text); }

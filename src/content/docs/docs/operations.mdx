@@ -1,105 +1,102 @@
 ---
 title: Operations
-description: Where your memory lives, how to back it up and restore it, and how disconnecting, uninstalling, logging out and deleting a vault differ.
+description: Back up a vault, move it to another machine, delete it, and update or remove the package.
 ---
 
-Your memory lives in one place on your machine — a vault directory you chose.
-Everything else Kaleidoscope touches (editor configuration, agent instructions,
-account credentials, the installed executables) has its own lifecycle, and
-removing any of them does not remove your memory.
+Your memory is one directory: `.kaleidoscope`, inside your project. Everything
+on this page works on that directory, and none of it needs an account.
 
-## Find your profile first
+To find out which vault a project resolves to, run `kscope where` — see
+[Diagnostics](/docs/cli/diagnostics/).
 
-You named a vault root when you initialized a profile. To see which profile is
-active and where it points, without printing credentials or any memory content:
+## Back it up
 
-```bash
-kscope profile list
-kscope where
-echo '{"mode":"inspect"}' | kscope call --profile default doctor
-```
-
-`where` answers the narrower question: which vault a command that names none
-would resolve to from here, and where that answer came from. `doctor` in
-`inspect` mode reads health and writes nothing, and what it prints on stdout is
-counts and status fields — no memory content and no absolute paths. The line
-beside it on stderr is not part of that report: it names the resolved vault, by
-absolute path.
-
-## Back up and restore
-
-Back up by copying the whole vault directory while nothing is connected to it —
-close the editors and agents you have connected first, so nothing is writing to
-it mid-copy. Copy the directory as a whole; a partial copy is not a vault. To
-restore, or to move your memory to another machine or another path, put the
-directory back and point a profile at it:
+Close the editors and agents using the vault, then copy the directory whole.
 
 ```bash
-kscope profile import restored /absolute/path/to/the/vault
+cp -a ~/your-project/.kaleidoscope ~/backups/your-project-vault
 ```
 
-`profile import` reads the vault's own identity out of the vault and writes a
-profile pointing at it. It creates no vault and moves no canonical data, which
-is why it is the command for a directory you have put back rather than `init`,
-which will not initialise over a root that is already a vault: it leaves that
-directory exactly as it is and tells you so.
+A partial copy is not a vault.
 
-## Disconnect and uninstall
+## Move it to another machine
 
-These are four separate operations, and it matters that you know which one you
-are doing.
+Put the directory where you want it, then name it and check it.
 
-- Removing an editor's connection means removing the Kaleidoscope entry from
-  that editor's configuration. `kscope init` wrote that entry and left a receipt
-  marking it as its own, so it is clear which block is yours to delete and which
-  settings in the same file to leave alone. There is no shipped command that
-  does the removal for you: `disconnect` and `teardown` are verbs of the
-  separate manager executable, which is published on no channel.
-- Removing the agent guidance — the instruction file and the skill that `init`
-  installed — is a separate act from removing the connection, and today it is
-  also done by hand.
-- Uninstalling the package removes the executables:
-  `npm uninstall -g @kleos-research/kaleidoscope`.
-- Removing account credentials would be the fourth. There is nothing to remove
-  today: there is no account to sign in to, and the commands that would sign you
-  out are in the unpublished manager.
+```bash
+kscope profile import restored ~/your-project/.kaleidoscope
+kscope vault-verify ~/your-project/.kaleidoscope
+```
 
-None of the four deletes a vault. Your memory survives all of them.
+`profile import` reads the identity out of the vault and writes a profile called
+`restored`. Start an agent against it with `--profile restored`. `vault-verify`
+prints `"status":"complete"` when the copy is whole.
+
+Do not run `kscope init` on a vault you moved. It leaves the vault alone, but it
+rewrites that project's editor wiring.
 
 ## Delete a vault
 
-Deleting a vault is deliberately its own operation: it previews what it will
-delete, asks you to confirm, and acts on exactly one fully resolved path. A
-broad path, an unresolved variable, or an ambiguous target is refused rather
-than guessed at. Deleting a memory and deleting the vault that holds it are
-different acts — the first is something you ask the engine to do, the second
-removes the files.
+Two commands. Preview first.
 
-## Install, update, and roll back
+```bash
+kscope vault-preview ~/your-project/.kaleidoscope
+```
 
-Installing, updating, rolling back to the previous version, and uninstalling
-have each been run on a Mac with Apple Silicon and behaved correctly, and a
-vault kept alongside was byte-for-byte identical afterwards. That is the whole
-of what has been established. npm is the channel, and naming a version —
-`npm install -g @kleos-research/kaleidoscope@<version>` — is how you pin one and
-how you go back to one. Nothing is signed for production, and the sequence above
-has been run once, on one machine, so read it as a mechanism we have tried
-rather than a supported update path.
+You get an inventory — entries, bytes, what is canonical and what is rebuildable
+— and a `confirmation_token`. Pass that token back:
 
-## What gets installed
+```bash
+echo '{"confirmation_token":"TOKEN"}' | kscope vault-delete ~/your-project/.kaleidoscope
+```
 
-Two things: the npm package `@kleos-research/kaleidoscope`, and a second package
-built for your platform. The npm package holds the client library and the
-`kscope` command; the platform package holds one program — the engine as object
-code, with the setup half of the manager compiled into it. There is no install
-hook, runtime download, compiler, or source-build fallback — nothing is fetched
-or built on your machine after the download. The engine source is not in the
-package. There is no Python package to install: `kscope-memory` on PyPI is a
-0.0.0 placeholder, and nothing else of ours is registered there.
+The token belongs to the root you previewed. Point it at another vault and you
+get `confirmation token does not match this vault root and path`, and nothing is
+deleted.
 
-## Encrypted vaults, on a Mac
+Deleting the vault deletes the memories in it. `CLAUDE.md`, `AGENTS.md`, the
+Cursor rule and the skill directories stay where they are; remove those
+separately.
 
-On a Mac you can choose to keep a vault inside an encrypted disk image. Its
-password is generated by macOS, kept in your login Keychain, and shown to you
-once as a recovery key — write that down, it is the only copy. This is macOS
-only; elsewhere the command refuses.
+## Update, pin, or roll back
+
+| What you want | Command |
+|---|---|
+| the current release | `npm install -g @kleos-research/kaleidoscope` |
+| a version you name | `npm install -g @kleos-research/kaleidoscope@<version>` |
+| the version you had before | the same command, naming the older version |
+
+[Release notes](/docs/release-notes/) list what is current.
+
+## Remove Kaleidoscope
+
+Four separate things. Removing any of them leaves your memory where it is.
+
+| What | How |
+|---|---|
+| the package | `npm uninstall -g @kleos-research/kaleidoscope` |
+| an editor's connection | delete the Kaleidoscope entry from that editor's configuration file |
+| the agent instructions | delete the marked block from `CLAUDE.md` or `AGENTS.md`, then `.cursor/rules/kaleidoscope.mdc` and the `use-kaleidoscope` skill directories |
+| the vault | preview and delete it, above |
+
+Every block `kscope init` writes sits between `kaleidoscope-manager` markers,
+with a receipt file beside it. Removal is by hand: `kscope` has no disconnect
+verb.
+
+## Encrypted vaults on macOS
+
+A vault can live inside an encrypted disk image. This is a frozen macOS preview.
+
+macOS generates the password, keeps it in your login Keychain, and shows you a
+recovery key once. Write the recovery key down. It is the only copy.
+
+| Task | Command |
+|---|---|
+| create one | `kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>` |
+| open, close | `kscope vault-open`, `kscope vault-close` |
+| recover with the key | `kscope vault-recover` |
+| move the device package | `kscope vault-export-device`, `kscope vault-import-device` |
+| inventory, delete | `kscope vault-encrypted-preview`, `kscope vault-encrypted-delete` |
+
+Each takes a repository path. [The help text](/reference/kscope-cli.txt) has the
+arguments.

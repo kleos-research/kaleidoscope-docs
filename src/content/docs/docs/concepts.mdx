@@ -1,63 +1,68 @@
 ---
-title: Concepts and boundaries
-description: "What a profile, a vault, and an account are in Kaleidoscope, and the boundary that matters: your local memory versus your account metadata."
+title: Concepts
+description: The five words this documentation uses — vault, profile, engine, manager, account — and where your memory actually lives.
 ---
 
-The boundary that matters is your local memory versus your account metadata —
-not merely whether you are signed in.
+Five words carry most of these pages.
 
-## Local engine
+| term | what it is |
+|---|---|
+| vault | The `.kaleidoscope` folder holding your memories, the graph, and the exposure ledger. One per project, on your disk. |
+| profile | A named pointer to one vault. Editors are registered against `default`. |
+| engine | The native program that stores, ranks and serves memory, and speaks MCP over stdio. |
+| manager | The setup half — creating a vault, editing editor configuration, installing agent guidance. Compiled into `kscope`. |
+| account | A product account a device could be bound to. Not something you can create today. |
 
-The proprietary native engine owns the memory algorithm, the canonical vault on
-your machine, the graph, ranking, and the stdio MCP behavior. Its source is not
-part of the public CLI, client, integration, or skill surfaces.
+## Where your memory lives
 
-## Manager and profile
+Your memories are files in the vault, on the machine that wrote them. Nothing is
+uploaded, and there is no service behind the engine to upload to.
 
-The manager is the half of Kaleidoscope that sets things up rather than storing
-anything, and most of it is compiled into the `kscope` command you install.
-`kscope init` creates a vault, edits host configuration safely, and installs
-agent guidance; `kscope profile create`, `import`, `list`, `show` and `remove`
-manage profiles; `kscope profile launch` prints the engine launch descriptor a
-host is started with; and `kscope call doctor` is the offline diagnostic.
+Deleting `.kaleidoscope` deletes that project's memory and nothing else.
+[Operations](/docs/operations/) covers moving, inspecting and verifying a vault.
 
-The account and device half is not in that command. Signing in, binding a
-profile to an account, and listing or revoking devices belong to a separate
-`kaleidoscope` executable, which is published on no channel — so those are
-commands you cannot obtain, rather than commands you can run. A profile may hold
-one explicit account UUID reference locally; that changes neither its vault
-identity nor its credentials.
+## One vault, every agent
 
-## What gets installed
+Claude Code, Codex, Cursor, OpenCode, the framework SDKs and any generic MCP
+client read the same profile. They see the same memories because they resolve
+the same vault.
 
-You install one package, `@kleos-research/kaleidoscope` from npm, and it brings
-in a second package built for your platform. The npm package holds the full
-public client, the typed resolver that finds the installed payload, and the
-`kscope` command. The platform package holds a single program: the proprietary
-engine as object code, with the setup half of the manager compiled into it.
-Neither one contains engine source, and neither downloads anything at install
-time.
+Each editor stores its MCP configuration in a different format. `kscope init`
+writes each one and starts every server the same way:
 
-A Python package is intended and not published. `kscope-memory` on PyPI is a
-0.0.0 placeholder that says so itself, so there is no Python route in today.
+```bash
+kscope mcp --profile default
+```
 
-## One profile, every tool
+Which vault a command resolves to, when it names no profile, comes from the
+project directory:
 
-Codex, Claude Code, Cursor, OpenCode, framework clients, and generic MCP clients
-are consumers of the same profile. They do not become separate memory stores
-merely because their configuration formats differ.
+```bash
+kscope where
+```
 
-## Account identity
+## What ships
 
-Signing in is designed to link a product account and a device. None of it is
-something you can do today: there is no service to sign in to, and the commands
-that would do it are in the manager executable that is published on no channel.
-The account protocol rejects memory fields and absolute local paths before
-transport. Signing out or unlinking is not a vault operation, and must not be
-read as consent to upload memory.
+You install one npm package, `@kleos-research/kaleidoscope`. It pulls in a
+second package built for your platform.
 
-## Hosted memory
+| package | carries |
+|---|---|
+| `@kleos-research/kaleidoscope` | the `kscope` command, the client, and the resolver that finds the platform payload |
+| the platform package | the engine, as object code, with the manager's setup half compiled in |
 
-A hosted service is a later product requiring separate authorization, tenant
-isolation, retention, residency, deletion, sync, billing, and incident-response
-contracts. It does not exist, and signing in does not opt you into it.
+Neither contains engine source, and neither downloads anything at install time.
+[Install](/docs/packages/) has the machine requirements.
+
+## What does not ship yet
+
+Signing in, binding a profile to an account, and listing or revoking devices
+belong to a second executable named `kaleidoscope`, published on no channel.
+Pages that show its commands mark them as not shipped.
+
+A profile can record one account UUID locally. That changes neither its vault
+nor its credentials.
+
+There is no hosted memory service, and no Python package you can use —
+`kscope-memory` on PyPI is a 0.0.0 placeholder. See
+[Privacy](/docs/privacy/) for the boundary in full.

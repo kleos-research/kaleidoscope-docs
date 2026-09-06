@@ -1,12 +1,11 @@
 ---
 title: Profiles and vaults
-description: init, init-profile and the profile commands — creating a vault, naming one so an editor can be started with it, and how a command that names none finds one.
+description: Create a vault, name it as a profile, and check which vault a command that names none resolves to.
 ---
 
-A vault is one memory store on your machine: a directory at a path you chose. A
-profile is a name for one of them — an absolute root, the three identifiers
-inside it, and the durability, written where this executable can find them again.
-An editor or agent is started with a profile name; nothing else is.
+A vault is one memory store: a directory at a path you chose. A profile is a
+name for one — an absolute root, the three identifiers inside it, and the
+durability. An editor or agent is started with a profile name; nothing else is.
 
 ## Create a vault
 
@@ -15,63 +14,52 @@ cd ~/your-project
 kscope init
 ```
 
-`init` with nothing after it resolves the root — `KSCOPE_ROOT`, else
-`.kaleidoscope/` under the repository's main checkout, else `.kaleidoscope/`
-under the working directory — creates the vault there, and prints the path it
-chose along with where the path came from, so a default you did not type is
-never silent. A root that is already a vault is left exactly as it is, and told
-about rather than initialised over. Add `--no-wire` to create the vault and stop
-there, without touching any editor's configuration.
+`init` resolves the root, creates the vault there, and prints the path along
+with where the path came from. Resolution order:
+
+| Order | Root |
+|---|---|
+| 1 | `KSCOPE_ROOT` |
+| 2 | `.kaleidoscope/` under the repository's main checkout |
+| 3 | `.kaleidoscope/` under the working directory |
+
+A root that is already a vault is reported and left exactly as it is. Add
+`--no-wire` to create the vault and touch no editor configuration.
+
+To control the moment a vault records as its creation, name the root and an
+RFC 3339 instant. This form creates the vault and wires nothing:
 
 ```bash
 kscope init /absolute/path/to/vault 2026-08-30T09:00:00Z
 ```
 
-Naming the root and an RFC 3339 timestamp is the form for a program that has to
-control the moment a vault records as its creation. It makes the vault and stops;
-it wires nothing.
+Durability is the last word on either form. `process-local` is the default and
+the only value any release accepts, so `kscope init durable-local` is refused
+before anything is written. What `process-local` promises is that a vault stays
+complete-or-absent across a process crash or a hard kill.
 
-Durability is the last word on either form, and `process-local` is both the
-default and the only value any release has accepted. Asking for the other one:
-
-```bash
-kscope init durable-local
-```
-
-is refused, and the refusal is worth reading rather than working around:
-`durable-local is not available in this build, so nothing was created`. It is a
-property of the build and not of your machine or your disk, and the engine says
-so — it refuses before writing anything rather than quietly giving you
-`process-local` under a stronger name. What `process-local` promises is that a
-vault stays complete-or-absent across a process crash or a hard kill; it makes
-no promise about a write acknowledged in the moment before the machine loses
-power.
-
-## Name a vault, so an editor can be started with it
+## Name a vault
 
 ```bash
 kscope profile import default ~/your-project/.kaleidoscope
-kscope init-profile work /absolute/path/to/vault 2026-08-30T09:00:00Z
-kscope profile create work /absolute/path/to/vault WORKSPACE_ID PRINCIPAL_ID JOURNAL
 ```
 
-`profile import` reads the identity out of a vault that already exists and writes
-it under the name you give. It is the one to run after `kscope init`, and it is
-how the profile called `default` comes to exist: the wiring `init` writes names
-that profile, and creating a vault does not create it. Until it does exist,
-anything started with `--profile default` refuses with `profile does not exist`.
+| Command | Use it when |
+|---|---|
+| `profile import NAME ROOT` | The vault exists. Reads its identity and writes the profile. This is the one to run after `kscope init`. |
+| `init-profile NAME ROOT CREATED_AT` | You want the vault and the profile in one step. |
+| `profile create NAME ROOT WORKSPACE_ID PRINCIPAL_ID JOURNAL` | You already hold the identifiers. They are verified against the vault. |
 
-`init-profile` is the same two things in the other order — it initialises the root
-you name and then writes the profile. If the second step fails it does not delete
-the vault it has just committed; the refusal reports the exact root and the
-`kscope profile import` command that finishes the job.
+`default` is the profile the wiring starts your agent with, and `kscope init`
+does not create it. Until it exists, anything started with `--profile default`
+refuses with `profile does not exist`.
 
-`profile create` takes the identifiers explicitly and verifies them against the
-vault, for a caller that already holds them. `kscope where` is where they come
-from for a vault you have.
+If `init-profile` commits the vault and then fails to write the profile, it
+keeps the vault and prints the `kscope profile import` command that finishes the
+job.
 
-Neither one creates or relocates canonical vault data, and none of the three
-stores a secret. A profile is a pointer.
+None of the three creates or relocates vault data, and none stores a secret. A
+profile is a pointer.
 
 ## List, inspect, remove
 
@@ -82,41 +70,32 @@ kscope profile launch default
 kscope profile remove work
 ```
 
-`profile list` shows the profiles this machine knows, each validated against its
-vault as it is read. `profile show` prints one of them. `profile launch` prints
-the launch descriptor an editor entry is made of: this executable's absolute
-path, `mcp --profile NAME`, and the two tool names `search` and `remember`. It
-carries no vault coordinates and no key.
+| Command | Prints |
+|---|---|
+| `profile list` | Every profile on this machine, each validated against its vault as it is read. |
+| `profile show NAME` | One profile: root, workspace, principal, journal, durability. |
+| `profile launch NAME` | The launch descriptor an editor entry is made of — this executable's absolute path, `mcp --profile NAME`, and the tools `search` and `remember`. No vault coordinates, no key. |
+| `profile remove NAME` | The removal. The vault the profile pointed at stays on your disk. |
 
-`profile remove` forgets a profile. It does not delete the vault the profile
-pointed at — your memory is a directory on your disk and it stays there. Getting
-rid of the memory itself is a separate, deliberate act; see
-[Operations](/docs/operations/).
+Deleting a profile, naming a different one, or reinstalling Kaleidoscope leaves
+every byte of every vault where it was. Getting rid of the memory itself is a
+separate act; see [Operations](/docs/operations/).
 
-## There is no active profile
+## When no profile is named
 
-Nothing on this executable makes one profile current. `profile use` is a
-manager command, and the manager is published on no channel, so there is neither
-a `kscope profile use` to run nor anything that would remember the answer.
-
-A command that names no profile is not lost, though. `mcp`, `serve`, `context`
-and `call` resolve a vault from where you are, by the same rules `init` uses, and
-`where` prints the address they will arrive at before you rely on it.
+There is no active profile and no `kscope profile use`. `mcp`, `serve`,
+`context` and `call` resolve a vault by the same three rules `init` uses. Print
+the address they will arrive at before you rely on it:
 
 ```bash
 kscope where
 ```
 
+A resolved root that is not a vault is refused by all four, naming the path and
+where the path came from. They never create one.
+
 ## Binding a profile to an account
 
-`profile account show`, `bind` and `unbind` write a local, non-secret account
-reference into a profile and nothing more. They are manager commands too, so they
-are not on the executable you installed. The command that ships carries nothing
-account-shaped except `kscope activate`, which stores your key; the rest is on
-[the account page](/docs/cli/account/).
-
-## What a profile is not
-
-It is not a copy of your memory, and it is not a credential store. Deleting a
-profile, naming a different one, or reinstalling Kaleidoscope leaves every byte
-of every vault exactly where it was.
+`profile account show`, `bind` and `unbind` are not on this executable. The only
+account-shaped command that ships is `kscope activate`, which stores your key;
+the rest is on [the account page](/docs/cli/account/).

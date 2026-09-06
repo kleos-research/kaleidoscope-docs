@@ -1,40 +1,89 @@
 ---
 title: Platforms
-description: The platforms Kaleidoscope is for, what is available today, and the one thing Windows does differently.
+description: The machines Kaleidoscope is built for, the one we have run it on, and what Windows does differently.
 ---
+import platforms from '../../../data/platform-support.json';
 
-Kaleidoscope targets macOS on Apple Silicon and Intel, Linux on x86_64 and
-arm64, and Windows on x86_64 and arm64.
+`npm install -g @kleos-research/kaleidoscope` brings down the package built for
+your machine. You need a key to run it, and nothing is signed for release.
 
-**Four of those six are published today**, and `npm install -g
-@kleos-research/kaleidoscope` brings down the one built for your machine. You
-need a key to run it, and nothing is signed for release. Windows is the platform
-on the list you cannot install on yet. [What is available today](/status/).
+## Built and published
 
-| platform | architectures | today |
-|---|---|---|
-| macOS | Apple Silicon, Intel | published on npm |
-| Linux | x86_64, arm64 | published on npm |
-| Windows | x86_64, arm64 | no package published |
+<div class="table-scroll" tabindex="0">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Platform</th>
+        <th scope="col">Architecture</th>
+        <th scope="col">On npm</th>
+        <th scope="col">Run by us</th>
+      </tr>
+    </thead>
+    <tbody>
+      {platforms['built and published'].platforms.map((row) => (
+        <tr>
+          <td>{row.platform}</td>
+          <td>{row.architecture}</td>
+          <td>yes</td>
+          <td>{platforms['run on'].includes(row.platform + ', ' + row.architecture) ? 'yes' : 'not yet'}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
-## Windows creates no vault
+Install and run any of them. We have run it by hand on one machine, and the
+[status page](/status/) says what that covered.
 
-On Windows, creating a new vault is refused on purpose. Windows needs its own
-filesystem work first — file locking, link handling, and flushing writes all the
-way to the disk — and until that lands Kaleidoscope stops rather than writing
-memory it cannot stand behind.
+## Compiler checks
 
-This is a deliberate refusal in the code, not a gap, and it is the one platform
-fact worth knowing before you plan around it. There is no Windows package
-published for the install to bring down in the first place, and the rest of the
-Windows work is outstanding too, so do not read the refusal as the only thing
-between you and a working install there.
+A compiler check is not a build: nothing was assembled, linked or run. Three of
+the platforms below were built and published afterwards, and appear in the table
+above.
 
-## What has actually been run
+<div class="table-scroll" tabindex="0">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Platform</th>
+        <th scope="col">Architecture</th>
+        <th scope="col">Compiler check</th>
+      </tr>
+    </thead>
+    <tbody>
+      {platforms['compiler checked only'].platforms.map((row) => (
+        <tr>
+          <td>{row.platform}</td>
+          <td>{row.architecture}</td>
+          <td>{row.result}</td>
+        </tr>
+      ))}
+      {platforms['not checked at all'].map((row) => (
+        <tr>
+          <td>{row.platform}</td>
+          <td>{row.architecture}</td>
+          <td>not run</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
-Kaleidoscope is built and published for four platforms — macOS on Apple Silicon
-and x86_64, and Linux on arm64 and x86_64 — and you can install and run it on
-any of them. We have run it ourselves on one: a Mac with Apple Silicon. Built
-and published is not the same as tried by hand, and the difference is worth
-knowing.
-[The full account is on the status page](/status/).
+The check covers the memory engine's source only, not the client libraries, and
+it was run from {platforms['compiler checked only']['checked from']}.
+
+## Windows
+
+Windows is not supported yet.
+
+| | |
+|---|---|
+| Package | not published |
+| Creating a vault | refused on purpose |
+| What is missing | file locking, link handling, and flushing writes to the disk |
+
+Until that filesystem work lands, `kscope` stops rather than writing memory it
+cannot stand behind.
+
+The same matrix, machine-readable:
+[platform-support.json](/platform-support.json).

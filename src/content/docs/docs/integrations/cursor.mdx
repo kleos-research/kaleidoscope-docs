@@ -1,56 +1,82 @@
 ---
 title: Cursor
-description: What kscope init writes for Cursor — the MCP entry in ~/.cursor/mcp.json, the project rule, and why Cursor gets no skill.
+description: Wire Cursor with kscope init — the MCP entry in ~/.cursor/mcp.json and the always-applied project rule that stands in for a skill.
 ---
 
-Cursor uses the same local command and the same two tools as every other editor.
-`kscope init` wires it when it can see it, and what it writes for Cursor differs
-from every other editor in one way worth knowing about.
+Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
+key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
+starts it.
+
+`kscope init` wires Cursor when `~/.cursor` exists. Cursor gets a rule file and
+no skill.
 
 ## Wire it
 
 ```bash
 cd ~/your-project
 kscope init
+kscope profile import default ~/your-project/.kaleidoscope
 ```
 
-Cursor counts as present when `~/.cursor` exists. Cursor creates that directory
-itself; this command does not create it in order to find it.
+Run both, in that order. Skip the import and Cursor reports
+`profile does not exist`.
 
-## What it writes
+Restart Cursor, then ask it to search your memory.
 
-The MCP server entry goes in `~/.cursor/mcp.json`, under `mcpServers` as
-`kaleidoscope`: this executable's absolute path and the arguments
-`mcp --profile default`. Entries you added yourself are left untouched, and a
-receipt is written beside the file. A tampered marker, a name that conflicts, a
-malformed file, a symlink, or a file being edited at the same time is refused
-and handed back to you rather than overwritten.
+## What init writes
 
-The instructions go in `.cursor/rules/kaleidoscope.mdc` in the project, a rule
-file whose frontmatter carries `alwaysApply: true`, so Cursor reads it on every
-turn rather than when it happens to look.
+| What | Where |
+|---|---|
+| MCP entry | `~/.cursor/mcp.json`, under `mcpServers` as `kaleidoscope` |
+| Instructions | `.cursor/rules/kaleidoscope.mdc` |
+| Skill | none |
+| Receipt | `~/.cursor/mcp.json.kaleidoscope-owner.json`, and `.cursor/rules/kaleidoscope.mdc.kaleidoscope-instruction-owner.json` |
+| Backup | `~/.cursor/mcp.json.kaleidoscope-backup`, when the file was already there |
 
-The entry carries no vault location, provider key or account credential.
+```json
+{
+  "mcpServers": {
+    "kaleidoscope": {
+      "command": "/absolute/path/to/kscope",
+      "args": ["mcp", "--profile", "default"]
+    }
+  }
+}
+```
 
-## The one thing that is different here
+Cursor's entry carries no `type` field.
 
-Cursor is the only one that gets no skill. It has no skill directory to
-install one into, so `kscope init` does not attempt it, and the rule file is
-the whole of what tells Cursor how to use the memory it can now reach — where
-Claude Code, Codex and OpenCode get an instruction file *and* a
-`use-kaleidoscope` skill beside it.
+## The rule instead of a skill
 
-That makes the rule the thing to check first. If Cursor can see the tools but
-never uses them, it is usually `.cursor/rules/kaleidoscope.mdc` that is missing
-or has been edited — see [give your agent the skill](/docs/skill/).
+Cursor has no skill directory, so the rule file carries the instructions. Its
+frontmatter sets `alwaysApply: true`, and Cursor reads it every turn.
 
-## Removing it
+```yaml
+---
+description: Apply Kaleidoscope memory policy safely
+alwaysApply: true
+---
+```
 
-There is no `disconnect` on the command you have: the verb exists only in
-`kaleidoscope`, the manager executable, which is built from source and published
-on no channel. Take the two pieces out by hand — the `kaleidoscope` entry in
-`~/.cursor/mcp.json` and `.cursor/rules/kaleidoscope.mdc` — each with the
-receipt written beside it. They were installed independently and they come out
-independently, so removing one leaves the other in place.
-[Connect an editor or agent](/docs/cli/connect/) has the whole list in one
-place.
+If Cursor lists the tools but never calls them, check that file first.
+[Give your agent the skill](/docs/skill/) has the text it should hold.
+
+## Check it
+
+```bash
+kscope profile list
+kscope profile launch default
+```
+
+`launch` prints the command, the arguments and the tool list — `search` and
+`remember` — that the entry in `~/.cursor/mcp.json` should match.
+
+## Remove it
+
+Delete each of these, and the receipt beside it:
+
+- the `kaleidoscope` entry under `mcpServers` in `~/.cursor/mcp.json`
+- `.cursor/rules/kaleidoscope.mdc`
+
+Either one can go without the other. Your memory stays.
+[Connect an editor or agent](/docs/cli/connect/) covers every editor at once.

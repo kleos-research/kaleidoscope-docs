@@ -1,40 +1,55 @@
 ---
 title: Any other MCP client
-description: Read Kaleidoscope's launch descriptor with kscope profile launch and run it as one long-lived stdio MCP server from any standard client.
+description: Get Kaleidoscope's launch descriptor with kscope profile launch and run it as one long-lived stdio MCP server.
 ---
 
-Any standard MCP client can ask Kaleidoscope for its launch descriptor and keep
-one initialized session open for the whole run. You do not have to hand-write
-the command.
+Any standard MCP client runs Kaleidoscope from the descriptor the engine prints.
+You do not hand-write the command.
 
 ## Get the descriptor
 
 ```bash
+cd ~/your-project
+kscope init --no-wire
+kscope profile import default ~/your-project/.kaleidoscope
 kscope profile launch default
 ```
 
-`default` there is a profile name, and the profile has to exist before it can be
-printed — see [profiles and vaults](/docs/cli/profiles/).
+`--no-wire` creates the vault and leaves every editor configuration alone. Drop
+it to wire Claude Code, Codex, Cursor and OpenCode as well.
 
-What comes back is deliberately closed: an absolute command,
-`mcp --profile NAME`, `stdio`, exactly two tools, and an empty environment. Give
-that to your client as its server definition.
+The last command prints this:
 
-## What it writes
+```json
+{
+  "version": 1,
+  "transport": "stdio",
+  "command": "/absolute/path/to/kscope",
+  "args": ["mcp", "--profile", "default"],
+  "tools": ["search", "remember"],
+  "environment": {}
+}
+```
 
-Nothing. `kscope init` knows four editors by name — Claude Code, Codex, Cursor
-and OpenCode — and wires only those; if it recognises none of them it writes an
-`AGENTS.md` and leaves your configuration alone. So you place the descriptor in
-your own file, and you own that file. Do not add your vault location or a token
-to it.
+| Field | What to do with it |
+|---|---|
+| `command`, `args` | the server definition in your own configuration |
+| `transport` | stdio, one long-lived process |
+| `tools` | the whole model-facing surface; allow exactly these two |
+| `environment` | empty — pass no vault path, key or token |
 
-## The one thing that is different here
+## Wire it in
 
-One descriptor, one long-lived stdio process. Initialize once, check that you
-see exactly `search` and `remember`, then reuse that session for the rest of the
-run. Starting a new process per tool call is slower and gains you nothing.
+Put `command` and `args` into your client's server definition. Start the server
+once and reuse the session, rather than one process per tool call.
 
-## Disconnect
+## Check it
 
-Remove the server definition from your own configuration. Kaleidoscope wrote
-nothing, so there is nothing for it to take back out.
+Your client's tool list should hold exactly `search` and `remember`. If
+`kscope profile launch default` prints `profile does not exist`, run the
+`profile import` above.
+
+## Remove it
+
+Delete the server definition from your own configuration. This route writes
+nothing else.
