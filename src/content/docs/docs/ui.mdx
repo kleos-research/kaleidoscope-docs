@@ -1,0 +1,66 @@
+---
+title: See what your agent remembers
+description: A local browser app for reading, fixing and removing the memories in a vault — separate from the engine, run with one command.
+---
+
+Your agent's memories live in a vault on your own machine. Kaleidoscope UI opens
+them in your browser so you can read them, fix the ones that are wrong, and
+remove the ones that should never have been written. Nothing leaves your
+computer.
+
+It is a separate program from the engine. The engine stores and reads memory;
+the UI is a window onto it, and it needs the engine installed and activated
+first.
+
+## Run it
+
+```bash
+npx @kleos-research/kaleidoscope-ui
+```
+
+It prints a link. Open the link. If you started it inside a project folder, it
+opens that project's memories; you can switch vaults from the top of the screen.
+
+If something is not set up yet, the app still opens — on a setup screen that
+says which of the two things is missing, shows the one command that fixes it,
+and re-checks without a restart. That covers both first runs: the engine not
+being installed, and the folder you started in not having a vault in it yet.
+
+## What you can do
+
+- **Read** every memory, grouped by when it was written, filtered by project.
+- **Ask** a question the way your agent does, and see exactly which memories it
+  would have been handed. If the answer looks wrong, you have found the memory
+  to fix.
+- **Fix** a memory — the wording, a fact, or where it applies. A copy is kept
+  before every change.
+- **Remove** one. It is hidden from your agent; the text stays in your vault
+  folder, and a copy is kept outside it — see below.
+- **Browse names** — the things your memories talk about, and which look like
+  the same thing spelled two ways.
+
+## What it does not do
+
+- **Undo a removal.** Removing hides a memory for good. The app says so before
+  you press.
+- **Read without a trace, when you Ask.** Browsing changes nothing. Ask uses the
+  same door your agent does, so each question — including the words you typed —
+  is recorded in the vault.
+- **Work without the engine.** It reads and writes only through `kscope`, so a
+  vault the installed engine cannot open, it cannot open either.
+
+## Where it keeps things
+
+Before every change — including a removal — the app keeps a copy of the memory.
+Those copies are stored **outside** the vault, in the app's own state directory
+on your machine, so its bookkeeping never appears in your memory list.
+
+That matters for one case in particular. If you are removing a memory *because*
+it contains a secret, an ordinary removal is the wrong tool: it leaves a
+plaintext copy in a place that deleting the vault will not reach. Use the app's
+**What removal cannot do** screen instead — it removes the memory without
+keeping a copy, and records that it kept none — and then rotate the secret. The
+app prints where the copies live each time it starts.
+
+[Source and licence](https://github.com/kleos-research/kaleidoscope-ui) ·
+[Install the engine](/docs/packages/) · [Activate it](/docs/cli/account/)

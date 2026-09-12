@@ -266,6 +266,7 @@ export default defineConfig({
             { slug: 'docs/getting-started' },
             { slug: 'docs/skill' },
             { slug: 'docs/packages' },
+            { slug: 'docs/ui' },
             { slug: 'docs/concepts' },
           ],
         },
