@@ -40,19 +40,25 @@ complete-or-absent across a process crash or a hard kill.
 
 ## Name a vault
 
+`kscope init` already writes the `default` profile for the vault it creates, so
+a project set up that way needs nothing here. Reach for these when you want a
+*second* name — a vault you created with `--no-wire`, or one you want to address
+under a name of your own:
+
 ```bash
-kscope profile import default ~/your-project/.kaleidoscope
+kscope profile import work ~/your-project/.kaleidoscope
 ```
 
 | Command | Use it when |
 |---|---|
-| `profile import NAME ROOT` | The vault exists. Reads its identity and writes the profile. This is the one to run after `kscope init`. |
+| `profile import NAME ROOT` | The vault exists. Reads its identity and writes the profile. |
 | `init-profile NAME ROOT CREATED_AT` | You want the vault and the profile in one step. |
 | `profile create NAME ROOT WORKSPACE_ID PRINCIPAL_ID JOURNAL` | You already hold the identifiers. They are verified against the vault. |
 
-`default` is the profile the wiring starts your agent with, and `kscope init`
-does not create it. Until it exists, anything started with `--profile default`
-refuses with `profile does not exist`.
+`default` is the profile the wiring starts your agent with. `kscope init`
+creates it; `kscope init --no-wire` does not, because it wires no editor to
+name it. Until it exists, anything started with `--profile default` refuses
+with `profile does not exist`.
 
 If `init-profile` commits the vault and then fails to write the profile, it
 keeps the vault and prints the `kscope profile import` command that finishes the
