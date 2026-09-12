@@ -29,7 +29,10 @@ are exactly `search` and `remember` — anything else is another server.
 
 ## Your editor says `profile does not exist`
 
-Creating a vault does not create the profile the editor's entry names. Write it:
+`kscope init` creates the `default` profile along with the vault, so a project
+set up that way does not hit this. You will see it when the vault was created
+with `kscope init --no-wire`, which writes no profile because it wires no
+editor. Write one:
 
 ```bash
 kscope profile import default ~/your-project/.kaleidoscope

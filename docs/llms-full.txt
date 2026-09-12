@@ -920,7 +920,6 @@ needs to find it. Run both commands:
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 The entry `init` writes starts the engine with `--profile default`, and creating
@@ -936,6 +935,7 @@ started with.
 kscope: created vault ~/your-project/.kaleidoscope (repository default)
 kscope: wrote /.kaleidoscope/ to a new ~/your-project/.gitignore
 kscope: wired codex, claude-code, cursor, opencode
+kscope:   create the default profile, which the host entries name
 kscope:   register the MCP server with codex
 kscope:   agents for codex
 kscope:   skill for codex
@@ -1188,19 +1188,25 @@ complete-or-absent across a process crash or a hard kill.
 
 ## Name a vault
 
+`kscope init` already writes the `default` profile for the vault it creates, so
+a project set up that way needs nothing here. Reach for these when you want a
+*second* name — a vault you created with `--no-wire`, or one you want to address
+under a name of your own:
+
 ```bash
-kscope profile import default ~/your-project/.kaleidoscope
+kscope profile import work ~/your-project/.kaleidoscope
 ```
 
 | Command | Use it when |
 |---|---|
-| `profile import NAME ROOT` | The vault exists. Reads its identity and writes the profile. This is the one to run after `kscope init`. |
+| `profile import NAME ROOT` | The vault exists. Reads its identity and writes the profile. |
 | `init-profile NAME ROOT CREATED_AT` | You want the vault and the profile in one step. |
 | `profile create NAME ROOT WORKSPACE_ID PRINCIPAL_ID JOURNAL` | You already hold the identifiers. They are verified against the vault. |
 
-`default` is the profile the wiring starts your agent with, and `kscope init`
-does not create it. Until it exists, anything started with `--profile default`
-refuses with `profile does not exist`.
+`default` is the profile the wiring starts your agent with. `kscope init`
+creates it; `kscope init --no-wire` does not, because it wires no editor to
+name it. Until it exists, anything started with `--profile default` refuses
+with `profile does not exist`.
 
 If `init-profile` commits the vault and then fails to write the profile, it
 keeps the vault and prints the `kscope profile import` command that finishes the
@@ -1406,7 +1412,6 @@ out of your shell, write it instead into the `api-key` file at the path
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 Expect output like this:
@@ -1415,6 +1420,7 @@ Expect output like this:
 kscope: created vault ~/your-project/.kaleidoscope (repository default)
 kscope: wrote /.kaleidoscope/ to a new ~/your-project/.gitignore
 kscope: wired codex, claude-code, cursor, opencode
+kscope:   create the default profile, which the host entries name
 kscope:   register the MCP server with codex
 kscope:   agents for codex
 ...
@@ -1422,8 +1428,9 @@ kscope: restart your agent, then ask it to search your memory.
 ```
 
 The `wired` line names the editors `init` found on this machine; it skips any
-whose configuration directory does not exist. `profile import` names the new
-vault `default`, which is the profile the wiring starts each editor with.
+whose configuration directory does not exist. The first step under it names the
+new vault `default`, which is the profile the wiring starts each editor with —
+`init` writes it for you, so there is nothing to run afterwards.
 
 To create the vault and write no configuration, run `kscope init --no-wire`.
 Connect an editor lists what lands where, per editor.
@@ -1466,7 +1473,6 @@ tools, `search` and `remember`.
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 Restart the editor, then ask it to search your memory.
@@ -1572,7 +1578,6 @@ starts it.
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 Run both, in that order. Skip the import and Claude Code reports
@@ -1647,7 +1652,6 @@ starts it.
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 Run both, in that order. Skip the import and Codex reports
@@ -1771,7 +1775,6 @@ no skill.
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 Run both, in that order. Skip the import and Cursor reports
@@ -2041,7 +2044,6 @@ starts it.
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 Run both, in that order. Skip the import and OpenCode reports
@@ -2642,6 +2644,7 @@ You should see the agents it wired, then a line per step:
 
 ```text
 kscope: wired codex, claude-code, cursor, opencode
+kscope:   create the default profile, which the host entries name
 kscope:   register the MCP server with claude-code
 kscope:   claude for claude-code
 kscope:   skill for claude-code
@@ -2802,7 +2805,10 @@ are exactly `search` and `remember` — anything else is another server.
 
 ## Your editor says `profile does not exist`
 
-Creating a vault does not create the profile the editor's entry names. Write it:
+`kscope init` creates the `default` profile along with the vault, so a project
+set up that way does not hit this. You will see it when the vault was created
+with `kscope init --no-wire`, which writes no profile because it wires no
+editor. Write one:
 
 ```bash
 kscope profile import default ~/your-project/.kaleidoscope
@@ -2908,6 +2914,75 @@ and memory content out of anything you send.
 
 A command that resolved a vault rather than being told one prints that absolute
 path on stderr, unprompted. Cut that line too.
+
+---
+
+# See what your agent remembers
+
+URL: https://memory.kleosresearch.xyz/docs/ui/
+Updated: 2026-08-30
+
+Your agent's memories live in a vault on your own machine. Kaleidoscope UI opens
+them in your browser so you can read them, fix the ones that are wrong, and
+remove the ones that should never have been written. Nothing leaves your
+computer.
+
+It is a separate program from the engine. The engine stores and reads memory;
+the UI is a window onto it, and it needs the engine installed and activated
+first.
+
+## Run it
+
+```bash
+npx @kleos-research/kaleidoscope-ui
+```
+
+It prints a link. Open the link. If you started it inside a project folder, it
+opens that project's memories; you can switch vaults from the top of the screen.
+
+If something is not set up yet, the app still opens — on a setup screen that
+says which of the two things is missing, shows the one command that fixes it,
+and re-checks without a restart. That covers both first runs: the engine not
+being installed, and the folder you started in not having a vault in it yet.
+
+## What you can do
+
+- **Read** every memory, grouped by when it was written, filtered by project.
+- **Ask** a question the way your agent does, and see exactly which memories it
+  would have been handed. If the answer looks wrong, you have found the memory
+  to fix.
+- **Fix** a memory — the wording, a fact, or where it applies. A copy is kept
+  before every change.
+- **Remove** one. It is hidden from your agent; the text stays in your vault
+  folder, and a copy is kept outside it — see below.
+- **Browse names** — the things your memories talk about, and which look like
+  the same thing spelled two ways.
+
+## What it does not do
+
+- **Undo a removal.** Removing hides a memory for good. The app says so before
+  you press.
+- **Read without a trace, when you Ask.** Browsing changes nothing. Ask uses the
+  same door your agent does, so each question — including the words you typed —
+  is recorded in the vault.
+- **Work without the engine.** It reads and writes only through `kscope`, so a
+  vault the installed engine cannot open, it cannot open either.
+
+## Where it keeps things
+
+Before every change — including a removal — the app keeps a copy of the memory.
+Those copies are stored **outside** the vault, in the app's own state directory
+on your machine, so its bookkeeping never appears in your memory list.
+
+That matters for one case in particular. If you are removing a memory *because*
+it contains a secret, an ordinary removal is the wrong tool: it leaves a
+plaintext copy in a place that deleting the vault will not reach. Use the app's
+**What removal cannot do** screen instead — it removes the memory without
+keeping a copy, and records that it kept none — and then rotate the secret. The
+app prints where the copies live each time it starts.
+
+Source and licence ·
+Install the engine · Activate it
 
 ---
 

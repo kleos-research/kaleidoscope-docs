@@ -33,7 +33,6 @@ out of your shell, write it instead into the `api-key` file at the path
 ```bash
 cd ~/your-project
 kscope init
-kscope profile import default ~/your-project/.kaleidoscope
 ```
 
 Expect output like this:
@@ -42,6 +41,7 @@ Expect output like this:
 kscope: created vault ~/your-project/.kaleidoscope (repository default)
 kscope: wrote /.kaleidoscope/ to a new ~/your-project/.gitignore
 kscope: wired codex, claude-code, cursor, opencode
+kscope:   create the default profile, which the host entries name
 kscope:   register the MCP server with codex
 kscope:   agents for codex
 ...
@@ -49,8 +49,9 @@ kscope: restart your agent, then ask it to search your memory.
 ```
 
 The `wired` line names the editors `init` found on this machine; it skips any
-whose configuration directory does not exist. `profile import` names the new
-vault `default`, which is the profile the wiring starts each editor with.
+whose configuration directory does not exist. The first step under it names the
+new vault `default`, which is the profile the wiring starts each editor with —
+`init` writes it for you, so there is nothing to run afterwards.
 
 To create the vault and write no configuration, run `kscope init --no-wire`.
 [Connect an editor](/docs/cli/connect/) lists what lands where, per editor.

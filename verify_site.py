@@ -252,6 +252,7 @@ EXPECTED_HTML = {
     "docs/getting-started/index.html",
     "docs/skill/index.html",
     "docs/packages/index.html",
+    "docs/ui/index.html",
     "docs/concepts/index.html",
     # CLI
     "docs/cli/index.html",
@@ -314,6 +315,7 @@ NOINDEX_HTML = {
 PROVENANCE_ROUTES = {
     "status/index.html",
     "docs/packages/index.html",
+    "docs/ui/index.html",
     "docs/release-notes/index.html",
     "docs/mcp/index.html",
     "docs/getting-started/index.html",
