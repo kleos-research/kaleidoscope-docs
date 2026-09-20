@@ -3,17 +3,16 @@ title: Connect an editor or agent
 description: kscope init — create a project's memory and wire it into Claude Code, Codex, Cursor or OpenCode.
 ---
 
-`kscope init` creates the project's memory and writes the entry your editor
-needs to find it. Run both commands:
+`kscope init` creates the project's memory, names it `default`, and writes the
+entry each editor needs to find it. One command:
 
 ```bash
 cd ~/your-project
 kscope init
 ```
 
-The entry `init` writes starts the engine with `--profile default`, and creating
-the vault does not create that profile. The second command writes it. Skip it
-and your editor shows `profile does not exist` and nothing else.
+Each entry starts the engine with `--profile default`. `init` writes that
+profile along with the vault, so there is nothing to run afterwards.
 
 Restart your editor. Until you do it is still running with the configuration it
 started with.
@@ -72,6 +71,11 @@ To create the vault and write no editor configuration at all:
 ```bash
 kscope init --no-wire
 ```
+
+`--no-wire` writes no `default` profile either, because it wires no editor to
+name it. If you wire one by hand later,
+[Troubleshooting](/docs/troubleshooting/#your-editor-says-profile-does-not-exist)
+has the command that writes it.
 
 ## Removing it
 
