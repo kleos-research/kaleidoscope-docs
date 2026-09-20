@@ -437,8 +437,8 @@
     },
     {
       "path": "docs/cli/connect/index.html",
-      "sha256": "ad7a8fcdaf35b2b3c0dcb082b1c37316013c95b787ec5b3ca93f4e2966206c8b",
-      "size_bytes": 40889
+      "sha256": "7da3f7cf751e8b3beab1a7c5c4589e5210ac98f2de13f3443afc3df96fc6e29b",
+      "size_bytes": 41117
     },
     {
       "path": "docs/cli/diagnostics/index.html",
@@ -667,8 +667,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "62ef178e342439084585c919a91829bd70917eb692a37695637db490f6ccaaac",
-      "size_bytes": 140018
+      "sha256": "4da17d7d4d1c8c5e63b1685086060d1bdfca2a5d0548bc7291864ad643fdeff1",
+      "size_bytes": 140119
     },
     {
       "path": "llms.txt",
