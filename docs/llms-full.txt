@@ -788,7 +788,7 @@ created.
   `config.toml.kaleidoscope-owner.json` beside a host configuration,
   `CLAUDE.md.kaleidoscope-instruction-owner.json` beside an instruction file.
 - A file it changes rather than creates is copied to
-  `.kaleidoscope-backup` first. The rest of the file is untouched.
+  `<name>.kaleidoscope-backup` first. The rest of the file is untouched.
 - If what it finds no longer matches the receipt, it stops at that file and
   reports that step as failed. The other steps still run.
 - The configuration it writes carries no token, no provider key and no vault
@@ -961,7 +961,7 @@ project, where git carries them into the worktree or clone your agent works in.
 
 Each file gets a receipt beside it — `.kaleidoscope-owner.json` for a host
 configuration, `.kaleidoscope-instruction-owner.json` for an instruction file or
-skill. A file that already existed is copied to `.kaleidoscope-backup`
+skill. A file that already existed is copied to `<name>.kaleidoscope-backup`
 first.
 
 Nothing written carries a vault path, a provider key or an account credential.
@@ -2362,7 +2362,7 @@ separately.
 | What you want | Command |
 |---|---|
 | the current release | `npm install -g @kleos-research/kaleidoscope` |
-| a version you name | `npm install -g @kleos-research/kaleidoscope@` |
+| a version you name | `npm install -g @kleos-research/kaleidoscope@<version>` |
 | the version you had before | the same command, naming the older version |
 
 Release notes list what is current.
@@ -2391,7 +2391,7 @@ recovery key once. Write the recovery key down. It is the only copy.
 
 | Task | Command |
 |---|---|
-| create one | `kscope vault-create  ` |
+| create one | `kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>` |
 | open, close | `kscope vault-open`, `kscope vault-close` |
 | recover with the key | `kscope vault-recover` |
 | move the device package | `kscope vault-export-device`, `kscope vault-import-device` |
