@@ -86,6 +86,11 @@ function stripExpressions(text: string): string {
  * Fenced code survives untouched — a marker comment inside a fence is the point
  * of the skill page, and a tag-stripping pass would eat it. Everything outside a
  * fence loses its imports, its component tags and its expressions.
+ *
+ * Inline code survives the tag strip too. A placeholder such as `<version>` is
+ * literal text on the page, and stripping it as if it were a tag turned
+ * `npm install -g @kleos-research/kaleidoscope@<version>` into a command that
+ * installs the latest release instead of the one the reader names.
  */
 function plainText(source: string): string {
   return source
@@ -102,10 +107,13 @@ function plainText(source: string): string {
         /<DownloadCard\s+href="([^"]+)"\s+name="([^"]+)"\s*>/g,
         (_match, href, name) => `${name} — ${DOMAIN}${href}`,
       );
+      const inlineCode: string[] = [];
       return stripExpressions(text)
+        .replace(/`[^`\n]+`/g, (span) => `\uE000${inlineCode.push(span) - 1}\uE001`)
         .replace(/<\/?[A-Za-z][^>]*>/g, '')
         .replace(/^:::[^\n]*$/gm, '')
-        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/\uE000(\d+)\uE001/g, (_match, slot) => inlineCode[Number(slot)]);
     })
     .join('')
     .replace(/[ \t]+$/gm, '')

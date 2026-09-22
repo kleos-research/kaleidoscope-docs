@@ -667,8 +667,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "4da17d7d4d1c8c5e63b1685086060d1bdfca2a5d0548bc7291864ad643fdeff1",
-      "size_bytes": 140119
+      "sha256": "ae22c434b7a8cf8c0bfbf0293206ce95afecac9d776160356a5e257a9323c9c1",
+      "size_bytes": 140172
     },
     {
       "path": "llms.txt",
