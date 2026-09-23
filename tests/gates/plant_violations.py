@@ -9,6 +9,11 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 WORK = Path(tempfile.mkdtemp(prefix="kdocs-plant-")) / "work"
+# The release these plants are anchored to, read from the record the verifier
+# itself compares against. The version plants used to spell 0.0.5 out, so the
+# sync to 0.0.7 left one plant stating a version that was no longer the release
+# (MISSED) and another looking for an anchor that no longer existed (BROKEN).
+RELEASE = json.loads((REPO / "public-docs-release.json").read_text(encoding="utf-8"))["release_version"]
 
 def fresh():
     if WORK.exists(): shutil.rmtree(WORK)
@@ -301,7 +306,7 @@ def _(): (WORK/"public-docs-release.json").unlink()
 @plant("(k) NEW — a second authored file states the release version",
        expect="states the release version")
 def _(): append("src/content/docs/docs/security.mdx",
-                "\nThe version this page was written against is 0.0.5.\n")
+                f"\nThe version this page was written against is {RELEASE}.\n")
 
 @plant("(k) NEW — a package pin left behind at the previous version",
        expect="names Kaleidoscope at version '0.0.4'")
@@ -309,7 +314,7 @@ def _(): append(PAGE, "\nInstall @kleos-research/kaleidoscope@0.0.4 to reproduce
 
 @plant("(k) NEW — the file of record stops stating the version at all",
        expect="does not state the release version")
-def _(): sub("src/data/status.json", '"version": "0.0.5"', '"version": "9.9.9"', 1)
+def _(): sub("src/data/status.json", f'"version": "{RELEASE}"', '"version": "9.9.9"', 1)
 
 def main():
     print("=" * 74)
