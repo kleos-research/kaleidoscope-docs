@@ -9,8 +9,10 @@ inspectable.
 
 ## What the engine can reach
 
-The engine keeps your memory in a local vault, speaks stdio to your editor,
-declares no required network access, and makes no external model calls.
+The engine keeps your memory in a local vault, speaks stdio to your editor, and
+makes no external model calls. It needs the network for one thing, the
+[licence check](/docs/privacy/#the-one-network-request): after about 20 minutes
+without a successful check, `mcp`, `call`, `context` and `serve` refuse to run.
 
 The manager starts it with a closed, non-secret environment rather than passing
 along yours. Your model-provider keys, account tokens, cloud credentials and

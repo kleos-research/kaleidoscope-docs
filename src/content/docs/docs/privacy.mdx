@@ -8,17 +8,25 @@ not in it.
 
 ## What never leaves your machine
 
-Storing, searching and reading your memory all work offline. The embedding
-model is bundled and runs locally, so nothing in that path calls a model
-provider.
+Storing, searching and reading your memory happen on your machine, but they do
+not work offline for more than about 20 minutes: `mcp`, `call`, `context` and
+`serve` refuse to run once that long has passed without a successful
+[licence check](#the-one-network-request), and work again as soon as one
+succeeds. The embedding model is bundled and runs locally, so nothing in that
+path calls a model provider.
 
 None of this goes anywhere: memory content, the queries you ran, the results
 you got back, memory IDs, graph data, local paths, vault locations, and any
-credentials you have stored locally.
+credentials you have stored locally other than your Kaleidoscope key, which the
+licence check sends.
 
 ## The one network request
 
-Kaleidoscope checks that your key is still valid. The check sends three things.
+Kaleidoscope checks that your key is still valid. The check is one HTTPS
+request to Kleos Research's licence server,
+`POST https://account.kleosresearch.xyz/v1/alpha-keys/validate`. That address
+is fixed when `kscope` is built, and the request follows no redirects. It sends
+three things.
 
 | Sent | Where it travels |
 |---|---|
@@ -27,7 +35,38 @@ Kaleidoscope checks that your key is still valid. The check sends three things.
 | The version of the component that makes the check | the request body |
 
 The body is those two fields and no more: no memory content, no queries, no
-results, no file paths. The check runs in the background and caches its answer.
+results, no file paths. Like any HTTP request, it also carries standard
+headers, among them a `User-Agent` that names the HTTP library sending it, and
+the server necessarily sees the IP address it comes from.
+
+Every check sends your key. It is the one in `KALEIDOSCOPE_API_KEY` if that is
+set, and otherwise the one in the key file that `kscope activate` writes, which
+only your user account can read.
+
+`kscope activate` makes the check and waits for the answer, so it needs the
+network. After that, `mcp`, `call`, `context` and `serve` decide whether to run
+from the last answer, which is kept in a file on your machine, and `mcp` and
+`serve` decide again for every call they handle. Once that answer is five
+minutes old they start a new check in the background, so while you use
+Kaleidoscope the check runs about once every five minutes. Until the server has
+answered for your key on this machine, they check on every call instead. When
+there is no answer yet, or the last one is more than about 20 minutes old, a
+call waits up to a second and a half for a new one before it refuses.
+`kscope entitlement-refresh`, which some error messages suggest, runs the check
+directly. Nothing else starts it: no other command, no timer and no background
+service.
+
+The server keeps one thing from a check: for a key it recognises, the time of
+the check, which replaces the time of the one before. It does not store your
+key itself; it looks up the key's record by a one-way digest of it. It does not
+record your IP address, the platform, the version or the headers, and its code
+writes no log of the request.
+
+The server runs on Fly.io, in its Singapore region, and keeps that record in a
+Supabase database in the same region. Fly.io's network ends the HTTPS
+connection and hands the request to the server, so Fly.io handles all of it,
+key included. What Fly.io and Supabase themselves record about the traffic they
+carry is set by them, not by our code.
 
 ## Sign-in
 
