@@ -467,8 +467,8 @@
     },
     {
       "path": "docs/concepts/index.html",
-      "sha256": "59e03b30bc32543b6768bf37ab77d85d1231ade8600b35cbb527f69a26732ee7",
-      "size_bytes": 37747
+      "sha256": "163e3c4c7749eb125602c43e5922486c3dcc1babe20f4aba8dde6eab020f48b4",
+      "size_bytes": 37895
     },
     {
       "path": "docs/getting-started/index.html",
@@ -582,8 +582,8 @@
     },
     {
       "path": "docs/privacy/index.html",
-      "sha256": "7cc1dbfecff7eea41d504983a6d7ee79fcf3c8c30a2e26f7a5cd2075ef1f028c",
-      "size_bytes": 37350
+      "sha256": "f8d5534bb56cfabecab9050ffcdaec3c6037fa24b141aeb20bc1e287192cf797",
+      "size_bytes": 40151
     },
     {
       "path": "docs/release-notes/index.html",
@@ -592,8 +592,8 @@
     },
     {
       "path": "docs/security/index.html",
-      "sha256": "18ff231905e610535d54c7a1f120a44fe62b4806d113b1cf0530906e196e6bb4",
-      "size_bytes": 37224
+      "sha256": "81d656397d83ec9cbe411f628a948a6f0bb0a302297b458a633bbe7dfaccb9a8",
+      "size_bytes": 37486
     },
     {
       "path": "docs/skill/index.html",
@@ -612,8 +612,8 @@
     },
     {
       "path": "docs/ui/index.html",
-      "sha256": "e1cb7c100a52cf582a5f31ef40037e36f237343435ac52a0202c6a6fa52d96ee",
-      "size_bytes": 37025
+      "sha256": "1f43dd3fe1f8eeabf7caec64517ed88d2ccdc14799155779d634a24390bcd370",
+      "size_bytes": 37172
     },
     {
       "path": "documentation-license.txt",
@@ -637,8 +637,8 @@
     },
     {
       "path": "index.html",
-      "sha256": "ce2fba42a6df809fc5b960397e6abab12201e3e90685385190dc072407c0e712",
-      "size_bytes": 16313
+      "sha256": "53beb4da92e91c82cdba8a554b87b138b37b5a8d0bf2ff1106f915aa1c84595d",
+      "size_bytes": 16316
     },
     {
       "path": "legal/CC-BY-4.0.txt",
@@ -667,8 +667,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "a93d36ea43769610eb53de6ad1058e32be3d1c0a944fd8d0627481e480eb5d11",
-      "size_bytes": 137007
+      "sha256": "df2e5406ffe6a68a7e20c1131cbaa4fdfa38c0ac90f56ea726a7c853cb018029",
+      "size_bytes": 139678
     },
     {
       "path": "llms.txt",
