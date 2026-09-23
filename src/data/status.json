@@ -1,5 +1,5 @@
 {
-  "as of": "2026-08-30",
+  "as of": "2026-09-21",
   "hosts": {
     "hosts": [
       {
@@ -66,7 +66,7 @@
     ],
     "there are no account or sign-in commands": "Signing in, linking an account, listing devices and revoking a session are verbs of a second program, which is not published on any channel. Nothing you can install carries them. A key is all Kaleidoscope asks for, and your vault has never depended on an account.",
     "there is no Python package": "kscope-memory is registered on PyPI, but only as a 0.0.0 placeholder that ships no working code; its own summary says it is not yet released. kaleidoscope-memory was planned and never registered.",
-    "version": "0.0.5"
+    "version": "0.0.7"
   },
   "publicly available": true,
   "released": true,

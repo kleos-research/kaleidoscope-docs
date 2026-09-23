@@ -84,7 +84,7 @@ EXPECTED_CNAME = "memory.kleosresearch.xyz"
 #     shasum -a 256 .claude/skills/use-kaleidoscope/SKILL.md
 #
 PUBLIC_SKILL_SHA256 = (
-    "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e"
+    "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77"
 )
 
 # ---------------------------------------------------------------- gate (a)

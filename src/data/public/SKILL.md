@@ -149,6 +149,10 @@ Four things are worth knowing, because they are easy to get wrong:
 - **Dates are not entities.** Put them in `occurred_at`, or a fact's
   `from`/`until`. Work out the actual date yourself; the store does not read
   "last Tuesday".
+- **One name, one entity.** An entity's `n` is its name, not a description of
+  it: keep it to the short phrase your facts actually use, and declare it once.
+  Declare the same name twice and the first `kind` and `is` are the ones that
+  count — the response says how many were dropped.
 - **To change your mind, revise the memory** rather than writing a second one
   that contradicts the first. Use `mode: "update"`, or `corrections` and
   `contradicts`.
