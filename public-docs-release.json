@@ -1,6 +1,6 @@
 {
   "availability": "available_with_key",
-  "public_contract_sha256": "23bf8bd4d2e95c81cba721e1f8616458a2a7a016f2e92645f26dd0d036ce627e",
-  "release_version": "0.0.5",
-  "updated_at": "2026-08-30"
+  "public_contract_sha256": "9f8bd50328dd5116473662e1f43db7d6a7d4b45f497c58ce4d6901d850a1de0d",
+  "release_version": "0.0.7",
+  "updated_at": "2026-09-21"
 }

@@ -13,20 +13,20 @@
   },
   "executables": {
     "darwin-arm64": {
-      "bytes": 22993280,
-      "sha256": "24fc3a87f6007f3f0092172b89c01caf554ff32def4f388680d4d8d55c085d3e"
+      "bytes": 23290992,
+      "sha256": "0f36d17105201fc823317ea62e64b93fd4b4c4663419511a036be105304f341d"
     },
     "darwin-x64": {
-      "bytes": 25340056,
-      "sha256": "d2bc528dc01c6ee747da80fd674f5f13a760ae3afc96257918a29e2aae6fa03c"
+      "bytes": 25717544,
+      "sha256": "a797c5cb2de8d09fcdf8dab441086ac872f218cd8065f9d55407307f7765ecea"
     },
     "linux-arm64": {
-      "bytes": 23149400,
-      "sha256": "c24f15514792ccb8b8e9b8217ec37bb173b7eecc102d565990248f957d9c8139"
+      "bytes": 23477160,
+      "sha256": "1ee3b79d33f1a6e1e599a87a19f71a6053bf4e1fe256eb890158fa3a2df5d478"
     },
     "linux-x64": {
-      "bytes": 26384144,
-      "sha256": "dad7da1aa63b5643c917a428f4e52cf2f8b6180b29b7f82afda88957b51cd76c"
+      "bytes": 26772184,
+      "sha256": "f8975f717f3f9d09ff2a6d5e1a7db941b2d9a31150f4b660f130d8d85b7d727c"
     }
   },
   "platforms": [
@@ -88,15 +88,15 @@
   "public_contract": {
     "mcp_protocol_revision": "2025-11-25",
     "schema_version": "kaleidoscope.public-contract.v1",
-    "sha256": "23bf8bd4d2e95c81cba721e1f8616458a2a7a016f2e92645f26dd0d036ce627e"
+    "sha256": "9f8bd50328dd5116473662e1f43db7d6a7d4b45f497c58ce4d6901d850a1de0d"
   },
-  "release_version": "0.0.5",
-  "released_on": "2026-08-30",
+  "release_version": "0.0.7",
+  "released_on": "2026-09-21",
   "schema_version": "kaleidoscope.docs-release-pin.v1",
-  "source_commit": "a26de88dfee9a6d18fe0cfe59cc01fd7c8f77f9c",
+  "source_commit": "d660e79a5e2eb5879fa770e19241a5ab71a04ed8",
   "vendored": {
-    "src/data/kaleidoscope-cli.txt": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
-    "src/data/public/SKILL.md": "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e",
+    "src/data/kaleidoscope-cli.txt": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
+    "src/data/public/SKILL.md": "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77",
     "src/data/public/snippets/AGENTS.md": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
     "src/data/public/snippets/CLAUDE.md": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
     "src/data/public/snippets/cursor-kaleidoscope.mdc": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc"

@@ -81,7 +81,7 @@ PUBLIC_UPSTREAM_SOURCES = {
             "use-kaleidoscope/SKILL.md"
         ),
         "what": "the skill file `kscope init` installs",
-        "sha256": "ec3a59d62887c0839e59caf072abfebf14ad150536f51087fb3d0321ee33096e",
+        "sha256": "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77",
     },
     "src/data/public/snippets/AGENTS.md": {
         "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/AGENTS.md",
@@ -102,9 +102,9 @@ PUBLIC_UPSTREAM_SOURCES = {
         "sha256": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc",
     },
     "src/data/kaleidoscope-cli.txt": {
-        "where": "@kleos-research/kaleidoscope@0.0.5: `kscope --help`",
+        "where": "@kleos-research/kaleidoscope@0.0.7: `kscope --help`",
         "what": "the help text of the executable the package installs",
-        "sha256": "e3b2e40b0680d8468af78ab156a888252b3d5607e223e65e0679e076aa2db0c5",
+        "sha256": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
     },
 }
 
