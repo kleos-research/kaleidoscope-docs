@@ -44,7 +44,11 @@ PLATFORMS = (
     ("win32-x64", "Windows", "x86_64", "x86_64-pc-windows-msvc", False, False),
 )
 ENTRY_PACKAGE = "@kleos-research/kaleidoscope"
-CONTRACT_SCHEMA = "kaleidoscope.public-contract.v1"
+# The public-contract versions an engine release may carry. v2 renamed the
+# version and corrected lists this repository does not read; the sync reads the
+# same three fields of either, so the whole gate runs once per version.
+CONTRACT_V1 = "kaleidoscope.public-contract.v1"
+CONTRACT_V2 = "kaleidoscope.public-contract.v2"
 MCP_PROTOCOL_REVISION = "2025-11-25"
 
 # Manifest path -> the repository file whose bytes it carries.
@@ -69,6 +73,7 @@ def build_release_assets(
     source_commit: str = "a26de88dfee9a6d18fe0cfe59cc01fd7c8f77f9c",
     released_on: str = "2026-08-30",
     contract: bytes | None = None,
+    contract_schema: str = CONTRACT_V1,
 ) -> Path:
     """Assemble a release-assets directory from a tree's own vendored files.
 
@@ -90,7 +95,7 @@ def build_release_assets(
         contract = (
             json.dumps(
                 {
-                    "schema_version": CONTRACT_SCHEMA,
+                    "schema_version": contract_schema,
                     "mcp": {"protocol": {"maximum": MCP_PROTOCOL_REVISION, "minimum": MCP_PROTOCOL_REVISION}},
                     "product": {"executable": "kscope", "name": "Kaleidoscope", "version": version},
                 },
@@ -151,7 +156,7 @@ def build_release_assets(
         "public_contract": {
             "path": "kaleidoscope-public-contract.json",
             "sha256": digest(contract),
-            "schema_version": CONTRACT_SCHEMA,
+            "schema_version": contract_schema,
             "mcp_protocol_revision": MCP_PROTOCOL_REVISION,
         },
         "cli_help": entries["kscope-help.txt"],
@@ -171,6 +176,8 @@ def build_release_assets(
 class ReleaseSyncGateTest(unittest.TestCase):
     """--apply against a fixture, then --check with one thing broken at a time."""
 
+    contract_schema = CONTRACT_V1
+
     def setUp(self) -> None:
         work = Path(tempfile.mkdtemp(prefix="kdocs-sync-"))
         self.addCleanup(shutil.rmtree, work, True)
@@ -180,7 +187,9 @@ class ReleaseSyncGateTest(unittest.TestCase):
             shutil.copytree(ROOT / directory, self.tree / directory)
         for name in ("verify_site.py", "public-docs-release.json"):
             shutil.copy2(ROOT / name, self.tree / name)
-        self.release = build_release_assets(self.tree, work / "release-assets")
+        self.release = build_release_assets(
+            self.tree, work / "release-assets", contract_schema=self.contract_schema
+        )
 
     def sync(self, *argv: str) -> tuple[int, str]:
         result = subprocess.run(
@@ -208,6 +217,8 @@ class ReleaseSyncGateTest(unittest.TestCase):
         status, out = self.sync("--check")
         self.assertEqual(status, 0, out)
         self.assertIn("agrees with every derived file", out)
+        pin = json.loads((self.tree / "release-pin.json").read_text(encoding="utf-8"))
+        self.assertEqual(pin["public_contract"]["schema_version"], self.contract_schema)
 
     def test_apply_is_deterministic(self) -> None:
         # A generated file with the same inputs is byte-identical every time,
@@ -299,6 +310,18 @@ class ReleaseSyncGateTest(unittest.TestCase):
         self.assertIn("instruction_assets.agents", out)
         self.assertEqual(self.snapshot(), before, "a refused --apply must leave the tree as it found it")
 
+    def test_a_manifest_that_misnames_its_contract_version_writes_nothing(self) -> None:
+        other = CONTRACT_V2 if self.contract_schema == CONTRACT_V1 else CONTRACT_V1
+        before = self.snapshot()
+        manifest_path = self.release / "release.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["public_contract"]["schema_version"] = other
+        manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        status, out = self.sync("--apply", "--release", str(self.release))
+        self.assertNotEqual(status, 0)
+        self.assertIn(f"public_contract.schema_version is {other!r}", out)
+        self.assertEqual(self.snapshot(), before)
+
     def test_an_asset_carrying_a_developer_path_is_refused_before_it_is_written(self) -> None:
         # Gate (a) has no exemption anywhere, and neither does this script.
         agents = self.release / "instructions/AGENTS.md"
@@ -313,6 +336,12 @@ class ReleaseSyncGateTest(unittest.TestCase):
         self.assertNotEqual(status, 0)
         self.assertIn("private marker", out)
         self.assertEqual(self.snapshot(), before)
+
+
+class ReleaseSyncGateV2Test(ReleaseSyncGateTest):
+    """The same gate, driven by a release whose public contract is v2."""
+
+    contract_schema = CONTRACT_V2
 
 
 if __name__ == "__main__":
