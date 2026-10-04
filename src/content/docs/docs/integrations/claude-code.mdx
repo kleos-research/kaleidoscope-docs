@@ -1,6 +1,6 @@
 ---
 title: Claude Code
-description: Wire Claude Code with kscope init — the MCP entry in ~/.claude.json, the CLAUDE.md block, and the project skill.
+description: Wire Claude Code with kscope init — the project's MCP entry in ~/.claude.json, the CLAUDE.md block, and the project skill.
 ---
 
 Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
@@ -16,54 +16,70 @@ cd ~/your-project
 kscope init
 ```
 
-Run both, in that order. Skip the import and Claude Code reports
-`profile does not exist`.
-
 Restart Claude Code, then ask it to search your memory.
 
 ## What init writes
 
 | What | Where |
 |---|---|
-| MCP entry | `~/.claude.json`, under `mcpServers` as `kaleidoscope` |
+| MCP entry | `~/.claude.json`, under `projects`, then the project's absolute path, then `mcpServers`, as `kaleidoscope` |
 | Instructions | `CLAUDE.md`, between `kaleidoscope-manager` markers |
 | Skill | `.claude/skills/use-kaleidoscope/SKILL.md` |
-| Receipt | `~/.claude.json.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
+| Receipt | `~/.claude.json.kaleidoscope-owner.local-<code>.json`, one per project, and a `.kaleidoscope-instruction-owner.json` beside each instruction file and skill |
 | Backup | `~/.claude.json.kaleidoscope-backup`, when the file was already there |
 
 ```json
 {
-  "mcpServers": {
-    "kaleidoscope": {
-      "type": "stdio",
-      "command": "/absolute/path/to/kscope",
-      "args": ["mcp", "--profile", "default"]
+  "projects": {
+    "/absolute/path/to/your-project": {
+      "mcpServers": {
+        "kaleidoscope": {
+          "type": "stdio",
+          "command": "/absolute/path/to/kscope",
+          "args": ["mcp", "--profile", "your-project"]
+        }
+      }
     }
   }
 }
 ```
+
+This is Claude Code's local scope: the entry applies to this project only.
+`init` writes it for every existing checkout of the repository, the main one and
+each worktree, and for the folder you ran it in. In a worktree you make later,
+`kscope where` says to run `kscope init` there.
+
+`your-project` is the profile `init` creates for the project, named after its
+folder. With an npm install, the command is `~/.kaleidoscope/bin/kscope`, a copy
+of `kscope` that updates itself when you update `kscope`.
+
+A project set up by an earlier version keeps its user-wide entry, under
+`mcpServers` at the top of `~/.claude.json`, and the `default` profile.
+`kscope init` says so, and names the command that gives the project its own
+vault.
 
 Skills go to `.claude/skills/` here. Codex and OpenCode read `.agents/skills/`.
 
 ## Check it
 
 ```bash
-kscope profile launch default
+kscope profile launch your-project
 ```
 
 ```json
-{"version":1,"transport":"stdio","command":"/absolute/path/to/kscope","args":["mcp","--profile","default"],"tools":["search","remember"],"environment":{}}
+{"version":1,"transport":"stdio","command":"/absolute/path/to/kscope","args":["mcp","--profile","your-project"],"tools":["search","remember"],"environment":{}}
 ```
 
-Match `command` and `args` against the entry in `~/.claude.json`. Claude Code's
-tool list should hold `search` and `remember` under `kaleidoscope`, and nothing
-else.
+Match `args` against the project's entry in `~/.claude.json`. `command` is the
+`kscope` you ran, which is not the copy the entry names after an npm install.
+Claude Code's tool list should hold `search` and `remember` under
+`kaleidoscope`, and nothing else.
 
 ## Remove it
 
 Delete each of these, and the receipt beside it:
 
-- the `kaleidoscope` entry under `mcpServers` in `~/.claude.json`
+- the `kaleidoscope` entry under your project's `mcpServers` in `~/.claude.json`
 - the marked block in `CLAUDE.md`
 - `.claude/skills/use-kaleidoscope/`
 

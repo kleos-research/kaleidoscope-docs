@@ -1,6 +1,6 @@
 ---
 title: Cursor
-description: Wire Cursor with kscope init — the MCP entry in ~/.cursor/mcp.json and the always-applied project rule that stands in for a skill.
+description: Wire Cursor with kscope init — the MCP entry in the project's .cursor/mcp.json and the always-applied project rule that stands in for a skill.
 ---
 
 Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
@@ -17,33 +17,41 @@ cd ~/your-project
 kscope init
 ```
 
-Run both, in that order. Skip the import and Cursor reports
-`profile does not exist`.
-
 Restart Cursor, then ask it to search your memory.
 
 ## What init writes
 
 | What | Where |
 |---|---|
-| MCP entry | `~/.cursor/mcp.json`, under `mcpServers` as `kaleidoscope` |
+| MCP entry | `.cursor/mcp.json` in the project, under `mcpServers` as `kaleidoscope` |
 | Instructions | `.cursor/rules/kaleidoscope.mdc` |
 | Skill | none |
-| Receipt | `~/.cursor/mcp.json.kaleidoscope-owner.json`, and `.cursor/rules/kaleidoscope.mdc.kaleidoscope-instruction-owner.json` |
-| Backup | `~/.cursor/mcp.json.kaleidoscope-backup`, when the file was already there |
+| Receipt | `.cursor/mcp.json.kaleidoscope-owner.json`, and `.cursor/rules/kaleidoscope.mdc.kaleidoscope-instruction-owner.json` |
+| Backup | `.cursor/mcp.json.kaleidoscope-backup`, when the file was already there |
 
 ```json
 {
   "mcpServers": {
     "kaleidoscope": {
       "command": "/absolute/path/to/kscope",
-      "args": ["mcp", "--profile", "default"]
+      "args": ["mcp", "--profile", "your-project"]
     }
   }
 }
 ```
 
 Cursor's entry carries no `type` field.
+
+`your-project` is the profile `init` creates for the project, named after its
+folder. With an npm install, the command is `~/.kaleidoscope/bin/kscope`, a copy
+of `kscope` that updates itself when you update `kscope`.
+
+A project set up by an earlier version keeps its entry in `~/.cursor/mcp.json` and
+the `default` profile. `kscope init` says so, and names the command that gives
+the project its own vault.
+
+`.cursor/mcp.json` names this machine's `kscope`, so `init` adds it to the
+project's `.gitignore`, with its receipt and backup.
 
 ## The rule instead of a skill
 
@@ -64,17 +72,18 @@ If Cursor lists the tools but never calls them, check that file first.
 
 ```bash
 kscope profile list
-kscope profile launch default
+kscope profile launch your-project
 ```
 
-`launch` prints the command, the arguments and the tool list — `search` and
-`remember` — that the entry in `~/.cursor/mcp.json` should match.
+`launch` prints the arguments and the tool list — `search` and `remember` —
+that the entry in `.cursor/mcp.json` should match. Its `command` is the `kscope`
+you ran, which is not the copy the entry names after an npm install.
 
 ## Remove it
 
 Delete each of these, and the receipt beside it:
 
-- the `kaleidoscope` entry under `mcpServers` in `~/.cursor/mcp.json`
+- the `kaleidoscope` entry under `mcpServers` in `.cursor/mcp.json`
 - `.cursor/rules/kaleidoscope.mdc`
 
 Either one can go without the other. Your memory stays.

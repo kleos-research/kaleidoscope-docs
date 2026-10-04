@@ -23,10 +23,14 @@ Restart the editor, then ask it to search your memory.
 
 | Editor | MCP entry | Instructions | Skill |
 |---|---|---|---|
-| [Claude Code](/docs/integrations/claude-code/) | `~/.claude.json` | `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
-| [Codex](/docs/integrations/codex/) | `~/.codex/config.toml` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
-| [Cursor](/docs/integrations/cursor/) | `~/.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
-| [OpenCode](/docs/integrations/opencode/) | `~/.config/opencode/opencode.json` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| [Claude Code](/docs/integrations/claude-code/) | `~/.claude.json`, for this project only | `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
+| [Codex](/docs/integrations/codex/) | `.codex/config.toml` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| [Cursor](/docs/integrations/cursor/) | `.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
+| [OpenCode](/docs/integrations/opencode/) | `opencode.json` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+
+Every path without `~/` is in the project. Each project gets its own vault and
+its own profile, named after the project folder. `kscope init --shared` wires the
+project to one vault in your home folder instead.
 
 Cursor gets a rule file and no skill.
 

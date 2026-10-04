@@ -23,6 +23,10 @@ Prints the vault this directory resolves to, the workspace, principal and
 journal inside it, and where each of those came from. Run it when you are not
 sure which project's memory your agent is talking to.
 
+It also reports the vault's format, how long an upgrade can still be undone,
+the version of the `kscope` you ran, and the version of the copy your agents
+run, under `registered_copy`.
+
 `--root-only` narrows the output to the root and the project it was resolved
 from.
 
@@ -47,7 +51,7 @@ Installs a key and waits for the verdict. It takes the key as an argument, from
 
 | | Commands |
 |---|---|
-| Need a key | `mcp`, `serve`, `context`, `call` |
+| Need a key | `mcp`, `call` |
 | Work without one | `where`, `schema`, `model`, `gate`, `vault-preview`, `vault-verify`, `vault-migrate` |
 
 ## Is the engine complete?

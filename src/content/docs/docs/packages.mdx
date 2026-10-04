@@ -61,6 +61,11 @@ three.
 There is no install hook, no download at install time, no compiler step and no
 source build. Installing puts files on your disk and does nothing else.
 
+`kscope init` from an npm install copies `kscope` to `.kaleidoscope/bin` in your
+home folder, and your editors run that copy, because npm may delete its own. A
+newer `kscope` replaces the copy the next time it runs `mcp` or `call`, so your
+agents and your terminal run the same version. `kscope where` reports both.
+
 ## Licences
 
 The memory engine is proprietary object code, and its source is not in the

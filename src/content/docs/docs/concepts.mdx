@@ -7,8 +7,8 @@ Five words carry most of these pages.
 
 | term | what it is |
 |---|---|
-| vault | The `.kaleidoscope` folder holding your memories, the graph, and the exposure ledger. One per project, on your disk. |
-| profile | A named pointer to one vault. Editors are registered against `default`. |
+| vault | The `.kaleidoscope` folder holding your memories and the graph. One per project, on your disk, unless you choose one shared vault. |
+| profile | A named pointer to one vault. A project's editors are registered against a profile named after the project folder. |
 | engine | The native program that stores, ranks and serves memory, and speaks MCP over stdio. |
 | manager | The setup half — creating a vault, editing editor configuration, installing agent guidance. Compiled into `kscope`. |
 | account | A product account a device could be bound to. Not something you can create today. |
@@ -26,16 +26,20 @@ Deleting `.kaleidoscope` deletes that project's memory and nothing else.
 
 ## One vault, every agent
 
-Claude Code, Codex, Cursor, OpenCode, the framework SDKs and any generic MCP
-client read the same profile. They see the same memories because they resolve
-the same vault.
+Within a project, Claude Code, Codex, Cursor, OpenCode, the framework SDKs and
+any generic MCP client read the same profile. They see the same memories because
+they resolve the same vault.
 
 Each editor stores its MCP configuration in a different format. `kscope init`
-writes each one and starts every server the same way:
+writes each one and starts every server the same way, with the project's
+profile:
 
 ```bash
-kscope mcp --profile default
+kscope mcp --profile your-project
 ```
+
+To give every project one vault instead, run `kscope init --shared` in each. It
+uses `.kaleidoscope` in your home folder.
 
 Which vault a command resolves to, when it names no profile, comes from the
 project directory:
