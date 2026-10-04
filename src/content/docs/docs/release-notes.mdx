@@ -1,6 +1,6 @@
 ---
 title: Release notes
-description: Which version is current, where the versions after it will be listed, and what each entry will contain.
+description: Which version is current, and for each version, newest first, what changed, what broke, and what you need to do.
 ---
 import release from '../../../../public-docs-release.json';
 
@@ -11,14 +11,116 @@ and x86_64. It gives you the `kscope` command, it needs a key to run, and
 nothing in it is signed for release. [Install](/docs/packages/) is how you get
 it.
 
-There is no entry below for it, and none for the versions before it. Notes begin
-with the next version, and from there every version will be listed here, newest
-first.
+Every version from 0.0.8 on is listed below, newest first. There are no entries
+for the versions before it.
 
-Each entry will say which platforms that version runs on, which editor and agent
+Each entry says which platforms that version runs on, which editor and agent
 versions it was checked against, what changed, what broke or was removed, whether
 anything you already have needs to be moved or reconfigured, and any security
 fixes it carries.
 
-Until the second one, [Status](/status/) is the current picture: what is
-available, what is not, and what has actually been run.
+[Status](/status/) is the current picture: what is available, what is not, and
+what has actually been run.
+
+## 0.0.8
+
+**Restart your agents after you update.** An agent that is already running
+keeps the old version until it restarts. See "What you need to do" below.
+
+### Platforms
+
+macOS on Apple Silicon and x86_64, and Linux on arm64 and x86_64, the same as
+0.0.7. Windows is still not supported.
+
+### Checked against
+
+The release checks set up and connect these tools against this version:
+
+- Codex 0.149.0
+- Claude Code 2.1.239
+- OpenCode 1.18.21
+
+Cursor's configuration is written the same way as before, but no Cursor version
+was part of the release checks.
+
+### What changed
+
+- **Your memory takes far less space.**
+  - Searching no longer stores anything: no copy of the answer, and no log of
+    the question.
+  - The first time 0.0.8 saves a memory, it rewrites the vault in a new,
+    compact format (format 2) and drops what earlier versions kept but never
+    needed.
+  - On a real vault of about 1,650 memories, the database went from 177 MB
+    (132 MB on disk) to 38.5 MB.
+  - Each new memory also takes about a fifth less room than before.
+  - The database no longer grows with every search.
+- **Searching never waits for other agents, or holds them up.** A search only
+  reads, so many agents can search one vault at once while others save.
+- **Saving is faster, and one call can save up to 50 memories** (it was 20). In
+  our measurements, saving was 21–30% faster than in 0.0.7.
+- **Each project can have its own memory.**
+  - `kscope init` in a project folder gives that project its own vault.
+  - `kscope init --shared` uses one shared vault for everything.
+  - A machine that already has a shared setup keeps it, and `init` tells you so.
+- **The copy of kscope your agents run now updates itself** when you update
+  kscope, so your agents and your terminal no longer run different versions.
+- **Two new commands:**
+  - `kscope vault-upgrade <vault>` upgrades a vault yourself.
+  - `kscope vault-rollback <vault>` undoes the upgrade (see below).
+- **Many fixes found by testing real day-to-day use,** among them:
+  - several agents saving at the same moment no longer lose or mix up memories;
+  - a deleted memory no longer lingers in what other memories link to;
+  - an interrupted save, upgrade or rollback leaves the vault either as it was
+    or complete, never half-written;
+  - a search that cannot read the vault because another agent is mid-save says
+    so and asks to be retried. It never answers that nothing is stored;
+  - clearer messages when a vault is busy, missing or moved;
+  - project folders given by a relative path, and the agent configuration files
+    in a project, are handled correctly.
+
+### What broke or was removed
+
+- **A vault 0.0.8 has upgraded cannot be opened by 0.0.7 or older.** An older
+  version that tries reports that the "on-disk vault format" is unsupported.
+  Restart your agents so they run 0.0.8.
+- **Removed commands:**
+  - `kscope serve`, `kscope context`, and the encrypted-vault commands that
+    create, import, list or delete one (`vault-create`, `vault-import-device`,
+    `vault-encrypted-preview`, `vault-encrypted-delete`). `vault-open`,
+    `vault-close`, `vault-recover` and `vault-export-device` remain, marked
+    deprecated, so an encrypted vault can still be moved to a plain one;
+  - the operator calls `feedback` and `address_maintenance`, which went with
+    the learning feature they served.
+- **Search answers no longer carry an exposure id,** because nothing is
+  recorded any more. Tools that read it should treat it as absent.
+
+### What you need to do
+
+1. Update kscope the way you installed it (npm or Homebrew).
+2. **Restart every agent that uses memory** (Claude Code, Codex, Cursor,
+   OpenCode). An agent still running 0.0.7 cannot use a vault that 0.0.8 has
+   upgraded.
+3. That's it. The first save upgrades the vault, and kscope tells you so, with
+   the old and new sizes. Searching alone never upgrades a vault.
+
+**If you need to go back to 0.0.7,** kscope keeps your vault as it was, as one
+file beside the new one.
+
+- `kscope vault-rollback <vault>` shows what undoing the upgrade would drop, and
+  changes nothing.
+- It then prints the `--confirm` command that does it.
+- After that, reinstall 0.0.7.
+- Memories saved since the upgrade are dropped by a rollback, and the first
+  command lists them.
+- You can undo the upgrade until the 10th save, or 3 days after the first save,
+  whichever comes first. Then kscope deletes the copy, together with 0.0.7's old
+  index files. `kscope where` shows how long is left.
+
+If kscope says it did not upgrade because your agents run an older kscope,
+update kscope and restart your agents. You can also run
+`kscope vault-upgrade <vault>` yourself.
+
+### Security fixes
+
+None in this release.
