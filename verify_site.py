@@ -42,7 +42,9 @@ source rather than the artifact, because each names a file somebody has to edit:
   (j) the availability gate — no page may tell a reader the product cannot be
       had while public-docs-release.json says it can.
   (k) the version gate — the release version is stated as a fact in exactly one
-      authored file, and every pin that names Kaleidoscope must match it.
+      authored file, and every pin that names Kaleidoscope must match it. The
+      entries on the release-notes page, below its intro, may state versions;
+      their pins are still checked.
 
 Scope note, and it is deliberate: gates (a) and (b) now scan the SOURCE tree as
 well as the artifact, so a leak is caught before it is built rather than after
@@ -520,6 +522,17 @@ UNAVAILABILITY_PHRASINGS = (
 # file under src/ that is allowed to carry the literal — and the failure below
 # fires if it ever stops carrying it, so the pin cannot quietly go missing.
 RELEASE_VERSION_FILE_OF_RECORD = "src/data/status.json"
+# One page has to name versions to do its job: the release notes. An entry is
+# headed by the version it describes and says what to do about the ones before
+# it ("an agent still running 0.0.7", "reinstall 0.0.7"), and those are history,
+# true for good once written, not a claim about which version is current. So
+# half 1 reads that page only up to its first `## ` heading. The intro above it
+# is checked like any other page, and it is the part that rots: it must keep
+# taking the current version from the release metadata, and hard-coding it
+# there still fails. Half 2 is not relaxed anywhere: a pin or a "kscope 0.0.7"
+# in an entry is still refused, so an entry names an older version bare.
+RELEASE_NOTES_PAGE = "src/content/docs/docs/release-notes.mdx"
+RELEASE_NOTES_FIRST_ENTRY = re.compile(r"^## ", re.MULTILINE)
 VERSION_SHAPED = r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.]+)?"
 BOUND_VERSION = re.compile(
     r"\b(?:kscope|kaleidoscope)@?\s*v?(" + VERSION_SHAPED + r")\b"
@@ -910,6 +923,16 @@ def scan_unavailability(
             )
 
 
+def stated_version_scope(relative: str, text: str) -> str:
+    """The part of an authored file half 1 of gate (k) reads: all of it, except
+    on the release-notes page, where it reads the intro above the first entry.
+    Half 2, the pin check, always reads the whole file."""
+    if relative != RELEASE_NOTES_PAGE:
+        return text
+    first_entry = RELEASE_NOTES_FIRST_ENTRY.search(text)
+    return text if first_entry is None else text[: first_entry.start()]
+
+
 def scan_release_version(
     relative: str, text: str, release_version: str, failures: list[str]
 ) -> bool:
@@ -921,8 +944,8 @@ def scan_release_version(
                 f"{RELEASE_RECORD} says {release_version!r} — a pin that has gone "
                 "stale is worse than no pin, because a reader will use it"
             )
-    bare = text
-    for found in reversed(list(BOUND_VERSION.finditer(text))):
+    bare = stated_version_scope(relative, text)
+    for found in reversed(list(BOUND_VERSION.finditer(bare))):
         bare = bare[: found.start()] + bare[found.end() :]
     return bool(re.search(r"\b" + re.escape(release_version) + r"\b", bare))
 

@@ -308,6 +308,17 @@ def _(): (WORK/"public-docs-release.json").unlink()
 def _(): append("src/content/docs/docs/security.mdx",
                 f"\nThe version this page was written against is {RELEASE}.\n")
 
+@plant("(k) NEW — the release-notes intro hard-codes the current version",
+       expect="release-notes.mdx: states the release version")
+def _(): sub("src/content/docs/docs/release-notes.mdx",
+             "The current version is {release.release_version}.",
+             f"The current version is {RELEASE}.", 1)
+
+@plant("(k) NEW — a stale pin in a release-notes entry, where versions may be named",
+       expect="release-notes.mdx: names Kaleidoscope at version '0.0.4'")
+def _(): append("src/content/docs/docs/release-notes.mdx",
+                "\nTo go back, install @kleos-research/kaleidoscope@0.0.4.\n")
+
 @plant("(k) NEW — a package pin left behind at the previous version",
        expect="names Kaleidoscope at version '0.0.4'")
 def _(): append(PAGE, "\nInstall @kleos-research/kaleidoscope@0.0.4 to reproduce this.\n")

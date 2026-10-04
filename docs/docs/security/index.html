@@ -62,7 +62,7 @@ inspectable.</p>
 <p>The engine keeps your memory in a local vault, speaks stdio to your editor, and
 makes no external model calls. It needs the network for one thing, the
 <a href="/docs/privacy/#the-one-network-request">licence check</a>: after about 20 minutes
-without a successful check, <code dir="auto">mcp</code>, <code dir="auto">call</code>, <code dir="auto">context</code> and <code dir="auto">serve</code> refuse to run.</p>
+without a successful check, <code dir="auto">mcp</code> and <code dir="auto">call</code> refuse to run.</p>
 <p>The manager starts it with a closed, non-secret environment rather than passing
 along yours. Your model-provider keys, account tokens, cloud credentials and
 the vault’s location are not in what the engine process receives.</p>

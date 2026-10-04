@@ -289,5 +289,87 @@ class VersionGateTest(unittest.TestCase):
         self.assertTrue((ROOT / verify_site.RELEASE_VERSION_FILE_OF_RECORD).is_file())
 
 
+class ReleaseNotesVersionTest(unittest.TestCase):
+    """Gate (k)'s one exemption: release-notes entries name versions."""
+
+    NOTES = verify_site.RELEASE_NOTES_PAGE
+    INTRO = "The current version is {release.release_version}.\n\n"
+    ENTRIES = (
+        "## 0.0.5\n\n"
+        "A vault 0.0.5 has upgraded cannot be opened by 0.0.4 or older.\n"
+        "To go back, reinstall 0.0.4.\n\n"
+        "## 0.0.4\n\nThe first entry.\n"
+    )
+
+    def scan(self, relative: str, body: str, version: str = "0.0.5") -> tuple[bool, list[str]]:
+        failures: list[str] = []
+        stated = verify_site.scan_release_version(relative, body, version, failures)
+        return stated, failures
+
+    def test_release_notes_entries_may_name_versions(self) -> None:
+        stated, failures = self.scan(self.NOTES, self.INTRO + self.ENTRIES)
+        self.assertFalse(stated)
+        self.assertEqual(failures, [])
+
+    def test_the_same_entries_on_another_page_state_the_version(self) -> None:
+        stated, failures = self.scan(
+            "src/content/docs/docs/security.mdx", self.INTRO + self.ENTRIES
+        )
+        self.assertTrue(stated)
+        self.assertEqual(failures, [])
+
+    def test_a_stale_pin_in_a_release_notes_entry_is_still_refused(self) -> None:
+        # The exemption is half 1 only. A pin is a command a reader will run,
+        # and an entry is no safer a place to leave a stale one.
+        for line in (
+            "Pin @kleos-research/kaleidoscope@0.0.4 to go back.\n",
+            "Measured on kscope 0.0.4 before the change.\n",
+        ):
+            with self.subTest(line=line):
+                stated, failures = self.scan(self.NOTES, self.INTRO + self.ENTRIES + line)
+                self.assertFalse(stated)
+                self.assertEqual(len(failures), 1, failures)
+                self.assertIn("0.0.4", failures[0])
+
+    def test_the_release_notes_intro_may_not_hard_code_the_version(self) -> None:
+        stated, failures = self.scan(
+            self.NOTES, "The current version is 0.0.5.\n\n" + self.ENTRIES
+        )
+        self.assertTrue(stated)
+        self.assertEqual(failures, [])
+
+    def test_a_stale_pin_in_the_release_notes_intro_is_refused(self) -> None:
+        _, failures = self.scan(
+            self.NOTES, "Pin @kleos-research/kaleidoscope@0.0.4.\n\n" + self.ENTRIES
+        )
+        self.assertEqual(len(failures), 1, failures)
+        self.assertIn("0.0.4", failures[0])
+
+    def test_release_notes_with_no_entry_are_read_whole(self) -> None:
+        stated, _ = self.scan(self.NOTES, "The current version is 0.0.5.\n")
+        self.assertTrue(stated)
+
+    def test_a_level_three_heading_does_not_end_the_intro(self) -> None:
+        stated, _ = self.scan(
+            self.NOTES, "### Notes\n\nThe current version is 0.0.5.\n\n" + self.ENTRIES
+        )
+        self.assertTrue(stated)
+
+    def test_the_exempt_page_is_a_file_that_exists(self) -> None:
+        self.assertTrue((ROOT / verify_site.RELEASE_NOTES_PAGE).is_file())
+
+    def test_the_real_release_notes_page_passes(self) -> None:
+        version = json.loads((ROOT / "public-docs-release.json").read_text("utf-8"))[
+            "release_version"
+        ]
+        text = (ROOT / self.NOTES).read_text(encoding="utf-8")
+        stated, failures = self.scan(self.NOTES, text, version)
+        self.assertFalse(stated)
+        self.assertEqual(failures, [])
+        # And it does name the version, below the intro: the exemption is doing
+        # work, not covering a page that never needed it.
+        self.assertIn(f"## {version}", text)
+
+
 if __name__ == "__main__":
     unittest.main()

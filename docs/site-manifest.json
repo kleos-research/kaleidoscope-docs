@@ -437,18 +437,18 @@
     },
     {
       "path": "docs/cli/connect/index.html",
-      "sha256": "7da3f7cf751e8b3beab1a7c5c4589e5210ac98f2de13f3443afc3df96fc6e29b",
-      "size_bytes": 41117
+      "sha256": "177e1162e90a02cf0162e86de8fc99a87e56ab9ba20aed49eabca125b455a213",
+      "size_bytes": 43086
     },
     {
       "path": "docs/cli/diagnostics/index.html",
-      "sha256": "12bfe5f8d22a58c9a1393a38cbf9c8644a654e44cd4e3291e658e955afca8c5b",
-      "size_bytes": 40251
+      "sha256": "61bba7ff5ddfbb10bbf8e9ff34a55e7ca28b80675ebeac2c72dd85b6e9b310a2",
+      "size_bytes": 40424
     },
     {
       "path": "docs/cli/index.html",
-      "sha256": "ed48149fe8b441d682605e7024c0081b7cb28e209dd5f5b287379da2aa8804e8",
-      "size_bytes": 41802
+      "sha256": "bcb3024cbd6b2c31a93ae39153d1e0ec77112f02440e0c38bf2ebb0fac69303f",
+      "size_bytes": 42678
     },
     {
       "path": "docs/cli/instructions/index.html",
@@ -457,8 +457,8 @@
     },
     {
       "path": "docs/cli/profiles/index.html",
-      "sha256": "8b38dac5c3f6abcc4a8de127d82cfd142e829af7a3a85047aceceeba4a7001de",
-      "size_bytes": 44311
+      "sha256": "8e9a0675c2b5ba1f48ff3d549853ff7d6460f69da26f01a0d496848edaed96d0",
+      "size_bytes": 44829
     },
     {
       "path": "docs/compatibility/index.html",
@@ -467,13 +467,13 @@
     },
     {
       "path": "docs/concepts/index.html",
-      "sha256": "163e3c4c7749eb125602c43e5922486c3dcc1babe20f4aba8dde6eab020f48b4",
-      "size_bytes": 37895
+      "sha256": "60cf6400772c4cd082f5c479cc11a5bea9141732b21264d3cda0cb09060312ce",
+      "size_bytes": 38163
     },
     {
       "path": "docs/getting-started/index.html",
-      "sha256": "65045b84a75ac1c34aa222ac8134aa7d90d9686368dd3402c754836843eac5a9",
-      "size_bytes": 40835
+      "sha256": "bb6a55d386ed47bceab37a3caebea632ed3f03aad02ec98cc64a16853fd3f490",
+      "size_bytes": 41297
     },
     {
       "path": "docs/hosted/index.html",
@@ -482,8 +482,8 @@
     },
     {
       "path": "docs/index.html",
-      "sha256": "8ae9f80fc00e6497c4a49f1692428fde415090ed61ce703111796624aa60617a",
-      "size_bytes": 41747
+      "sha256": "d9dd6b231997a2675c1b0837492640c8e00ebc8ee638fdab11779b37bb1f87eb",
+      "size_bytes": 41767
     },
     {
       "path": "docs/integrations/claude-agent-sdk/index.html",
@@ -492,13 +492,13 @@
     },
     {
       "path": "docs/integrations/claude-code/index.html",
-      "sha256": "080c40c9f8200742277ca3f00cdf553aaf1be48759d8bc846a01e975e9e547b2",
-      "size_bytes": 42081
+      "sha256": "dc3200520bf618a8156fc6e1e69811d3ae7772dad041d7493420030f21896d2f",
+      "size_bytes": 44274
     },
     {
       "path": "docs/integrations/codex/index.html",
-      "sha256": "504e75372dddb067431443ecd5e5068d8657b2b8418eb7af9c744d8b9b75fd1b",
-      "size_bytes": 41383
+      "sha256": "a32ddb1923afadce077733e81ee898f8234a28c08711d4fc3dbeaf325ce6c9eb",
+      "size_bytes": 42299
     },
     {
       "path": "docs/integrations/crewai/index.html",
@@ -507,8 +507,8 @@
     },
     {
       "path": "docs/integrations/cursor/index.html",
-      "sha256": "6bb8ac9a6fb574d070e9822e2f43603637ad7ecbe47eb3a91fc2a984aeb8a1d2",
-      "size_bytes": 42251
+      "sha256": "7adb869047cec2bf2786e2dd29aaed799e6a29305cba4aadd38dc6c416ab1fa1",
+      "size_bytes": 43150
     },
     {
       "path": "docs/integrations/generic-mcp/index.html",
@@ -517,8 +517,8 @@
     },
     {
       "path": "docs/integrations/index.html",
-      "sha256": "f5896ce707ace7386bdee89126cd0ebc2e5b0a257a60c8236e4d56b9cf5efe78",
-      "size_bytes": 36402
+      "sha256": "42d4f30e9cf4cb26725c3c7ca9dc15c27eb0d4c56b3793c3fa7e506e96ae2fb8",
+      "size_bytes": 36664
     },
     {
       "path": "docs/integrations/langchain/index.html",
@@ -537,8 +537,8 @@
     },
     {
       "path": "docs/integrations/opencode/index.html",
-      "sha256": "f30b2c8f834223f0116ed1a0c7626494fb90afebfb0d0eef0cbac7c0dae621b6",
-      "size_bytes": 42812
+      "sha256": "76e251c7bdead279a950fbd7a6d11dd6bdf08778f598acda6fb256858e1f16b9",
+      "size_bytes": 43948
     },
     {
       "path": "docs/legal/engine-eula/index.html",
@@ -567,38 +567,38 @@
     },
     {
       "path": "docs/mcp/index.html",
-      "sha256": "5a2f212f162c17868c07f0b6660ae15ff17d806d6ff06488820a2a0a8ae625bd",
-      "size_bytes": 48707
+      "sha256": "631869122fc0c792e25d45f2873d33755ca39cdfba80354961d29b8885843826",
+      "size_bytes": 48865
     },
     {
       "path": "docs/operations/index.html",
-      "sha256": "95ff0c849f89da354b39856ad31e2250ad3bac332dcb8304dd2748392a669e44",
-      "size_bytes": 43800
+      "sha256": "27c3eef732def45dc10c1b954bdf2dc77ff77208390c3272b20d65a474bfd8ab",
+      "size_bytes": 47049
     },
     {
       "path": "docs/packages/index.html",
-      "sha256": "1adaba2dee5b378fd53dd0af1abcfcc05eab0768f614285fcf7be61392124140",
-      "size_bytes": 38053
+      "sha256": "2218dd67cddc02a17fcd47e59d5dda9d57fb23f79891d87cc2bae345dcc74e24",
+      "size_bytes": 38530
     },
     {
       "path": "docs/privacy/index.html",
-      "sha256": "f8d5534bb56cfabecab9050ffcdaec3c6037fa24b141aeb20bc1e287192cf797",
-      "size_bytes": 40151
+      "sha256": "dc164f512f6cc4f7efe837823c2a0d9cbd215f5916fbb03697ce359fce75495d",
+      "size_bytes": 39989
     },
     {
       "path": "docs/release-notes/index.html",
-      "sha256": "e4faa888a54aefde0ccc8b12ae8847d944a9d2dc3bb6455dd8796dae3caf720d",
-      "size_bytes": 29241
+      "sha256": "baa5faa20a7bc94a4f3a9d3e5caab2c19eee0f78093e6ec13733699b679051f0",
+      "size_bytes": 43600
     },
     {
       "path": "docs/security/index.html",
-      "sha256": "81d656397d83ec9cbe411f628a948a6f0bb0a302297b458a633bbe7dfaccb9a8",
-      "size_bytes": 37486
+      "sha256": "180140d9843b89e8df9c7be1c06a42b070ee790e67baf25e694e58a251fcc4e7",
+      "size_bytes": 37422
     },
     {
       "path": "docs/skill/index.html",
-      "sha256": "8c84c3c0a76a7cf1a0eda2026f8d4be991191f8316936426f6f0194cba0bfc22",
-      "size_bytes": 54933
+      "sha256": "bd31695ca1494c6ef2ae82b246cf969d9c59d24d7c2ede370184bfb5cb96d08e",
+      "size_bytes": 55271
     },
     {
       "path": "docs/status/index.html",
@@ -607,7 +607,7 @@
     },
     {
       "path": "docs/troubleshooting/index.html",
-      "sha256": "c3f26afe8e996966f349df9ec9860e63b984cbb78041aa404339c61e056d6ad1",
+      "sha256": "7408eeb7cca01bb523dc402d68de00a7042db56fe18aa4c828f4081800e5d77b",
       "size_bytes": 53962
     },
     {
@@ -667,8 +667,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "7c785725e65eb2a04e37d1d25ed790e0d499d969f58b92cfba14a0208c40c4dd",
-      "size_bytes": 143282
+      "sha256": "1f0345f2f8ec0a05ca82786bc3b1d380ae5289170a8c0aed33c14ae5296addf3",
+      "size_bytes": 155815
     },
     {
       "path": "llms.txt",

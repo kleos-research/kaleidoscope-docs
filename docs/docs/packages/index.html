@@ -109,6 +109,10 @@ three.</p>
 <div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Machine</th><th scope="col">Platform package</th></tr></thead><tbody><tr><td>macOS, Apple Silicon</td><td><code>@kleos-research/kaleidoscope-darwin-arm64</code></td></tr><tr><td>macOS, x86_64</td><td><code>@kleos-research/kaleidoscope-darwin-x64</code></td></tr><tr><td>Linux, arm64</td><td><code>@kleos-research/kaleidoscope-linux-arm64</code></td></tr><tr><td>Linux, x86_64</td><td><code>@kleos-research/kaleidoscope-linux-x64</code></td></tr></tbody></table></div>
 <p>There is no install hook, no download at install time, no compiler step and no
 source build. Installing puts files on your disk and does nothing else.</p>
+<p><code dir="auto">kscope init</code> from an npm install copies <code dir="auto">kscope</code> to <code dir="auto">.kaleidoscope/bin</code> in your
+home folder, and your editors run that copy, because npm may delete its own. A
+newer <code dir="auto">kscope</code> replaces the copy the next time it runs <code dir="auto">mcp</code> or <code dir="auto">call</code>, so your
+agents and your terminal run the same version. <code dir="auto">kscope where</code> reports both.</p>
 <div class="sl-heading-wrapper level-h2"><h2 id="licences">Licences</h2><a class="sl-anchor-link" href="#licences"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Licences”</span></a></div>
 <p>The memory engine is proprietary object code, and its source is not in the
 package. Everything around it is Apache-2.0: the command-line tool, both SDKs,

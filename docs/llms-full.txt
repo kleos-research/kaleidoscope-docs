@@ -146,7 +146,7 @@ their place.
 
 | | |
 |---|---|
-| Operations | Back up, restore, move, and remove |
+| Operations | Back up, restore, move, upgrade, roll back, and remove |
 | Account and devices | What an account would be for |
 | Troubleshooting | The failures that actually happen |
 
@@ -747,8 +747,9 @@ argument.
 | See, inspect or forget a profile | `profile list`, `profile show`, `profile launch`, `profile remove` | Profiles and vaults |
 | Find out which vault you are talking to | `where` | Diagnostics |
 | Check the key, the model, the vault | `gate`, `activate`, `model`, `vault-verify` | Diagnostics |
-| Run an engine for an agent | `mcp`, `serve`, `context`, `call` | MCP reference |
+| Run an engine for an agent | `mcp`, `call` | MCP reference |
 | Migrate, preview or delete a vault | `vault-migrate`, `vault-preview`, `vault-delete` | Operations |
+| Upgrade a vault, or undo the upgrade | `vault-upgrade`, `vault-rollback` | Operations |
 | Read the tool contract | `schema` | MCP reference |
 | Read the third-party notices | `licences` | — |
 
@@ -759,8 +760,11 @@ vault, then tells every agent on this machine that the vault exists.
 
 | Flag | On | Effect |
 |---|---|---|
-| `--profile NAME` | `mcp`, `serve`, `context`, `call` | Work in the vault that profile names. Nothing else accepts it. |
-| `--no-wire` | `init` | Create the vault and write no editor configuration. Real, though `--help` does not list it. |
+| `--profile NAME` | `mcp`, `call` | Work in the vault that profile names. Nothing else accepts it. |
+| `--no-wire` | `init` | Create the vault and write no editor configuration. |
+| `--shared` | `init` | Wire this project's agents to the shared vault in your home folder instead of giving the project its own. |
+| `--vault PROFILE` | `init` | Wire this project's agents to the vault an existing profile names, and create none. |
+| `--confirm HEAD` | `vault-rollback` | Undo the upgrade. Take the exact command the dry run prints. |
 | `--root-only` | `where` | Print only the vault root and the project it came from. |
 | `--cross-backend` | `vault-verify` | Widen the check. |
 | `--help`, `-h` | any invocation | Print the command surface. |
@@ -777,8 +781,8 @@ created.
 
 | What | Where | Why |
 |---|---|---|
-| MCP server entry | your home directory | An agent runs your work in a worktree or a temporary clone, and an entry inside one project directory is never read from there. |
-| Instruction file and skill | the project | Git carries them into that worktree or clone. |
+| MCP server entry | the project, or for Claude Code, that project's entry in `~/.claude.json` | Each project's agents open that project's own vault. `init` writes the entry in every existing checkout of the repository, and `kscope where` says when a newer worktree needs one. |
+| Instruction file and skill | the project | Git carries them into a worktree or clone. |
 
 ## What init writes, and what it leaves alone
 
@@ -787,6 +791,8 @@ created.
 - Every file it writes gets a receipt beside it:
   `config.toml.kaleidoscope-owner.json` beside a host configuration,
   `CLAUDE.md.kaleidoscope-instruction-owner.json` beside an instruction file.
+  Claude Code's receipt for a project's entry sits beside `~/.claude.json`, one
+  per project.
 - A file it changes rather than creates is copied to
   `<name>.kaleidoscope-backup` first. The rest of the file is untouched.
 - If what it finds no longer matches the receipt, it stops at that file and
@@ -914,16 +920,23 @@ where a credential would be kept.
 URL: https://memory.kleosresearch.xyz/docs/cli/connect/
 Updated: 2026-10-04
 
-`kscope init` creates the project's memory, names it `default`, and writes the
-entry each editor needs to find it. One command:
+`kscope init` creates the project's memory, names it after the project folder,
+and writes the entry each editor needs to find it. One command:
 
 ```bash
 cd ~/your-project
 kscope init
 ```
 
-Each entry starts the engine with `--profile default`. `init` writes that
-profile along with the vault, so there is nothing to run afterwards.
+Each entry starts the engine with `--profile your-project`, the profile named
+after the folder. `init` writes that profile along with the vault, so there is
+nothing to run afterwards. The first `init` on a machine also writes a `default`
+profile naming the same vault, for commands that name `default`.
+
+To use one vault for every project instead, run `kscope init --shared`. It wires
+the project to `.kaleidoscope` in your home folder, under the `shared` profile,
+and creates no vault in the project. `kscope init --vault NAME` wires it to the
+vault an existing profile names. A later `kscope init` keeps either choice.
 
 Restart your editor. Until you do it is still running with the configuration it
 started with.
@@ -934,7 +947,8 @@ started with.
 kscope: created vault ~/your-project/.kaleidoscope (repository default)
 kscope: wrote /.kaleidoscope/ to a new ~/your-project/.gitignore
 kscope: wired codex, claude-code, cursor, opencode
-kscope:   create the default profile, which the host entries name
+kscope:   create the default profile, which names this vault, for the commands and older entries that name default
+kscope:   create the your-project profile, which this project's agents open
 kscope:   register the MCP server with codex
 kscope:   agents for codex
 kscope:   skill for codex
@@ -951,13 +965,25 @@ other agents read, and says so.
 
 | Agent | MCP entry | Instructions | Skill |
 |---|---|---|---|
-| Claude Code | `~/.claude.json` | a marked block in `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
-| Codex | `~/.codex/config.toml` | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
-| Cursor | `~/.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
-| OpenCode | `~/.config/opencode/opencode.json` | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| Claude Code | `~/.claude.json`, under this project | a marked block in `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
+| Codex | `.codex/config.toml` | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| Cursor | `.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
+| OpenCode | `opencode.json` | a marked block in `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
 
-MCP entries go in your home directory; instructions and skills go in the
-project, where git carries them into the worktree or clone your agent works in.
+Every MCP entry applies to this project only. Claude Code keeps its entry for a
+project in `~/.claude.json`; the others are files in the project. Instructions
+and skills go in the project too, where git carries them into the worktree or
+clone your agent works in.
+
+The entries are written for every existing checkout of the repository, the main
+one and each worktree. In a worktree you make later, `kscope where` says to run
+`kscope init` there. `.codex/config.toml`, `.cursor/mcp.json` and
+`opencode.json` name this machine's `kscope`, so `init` adds each to the
+project's `.gitignore`, with its receipt and backup.
+
+A project set up by an earlier version keeps its user-wide entries and the
+`default` profile. `kscope init` says so, and names the command that gives the
+project its own vault.
 
 Each file gets a receipt beside it — `.kaleidoscope-owner.json` for a host
 configuration, `.kaleidoscope-instruction-owner.json` for an instruction file or
@@ -983,8 +1009,8 @@ To create the vault and write no editor configuration at all:
 kscope init --no-wire
 ```
 
-`--no-wire` writes no `default` profile either, because it wires no editor to
-name it. If you wire one by hand later,
+`--no-wire` writes no profile for the project either, because it wires no
+editor to name it. If you wire one by hand later,
 Troubleshooting
 has the command that writes it.
 
@@ -993,9 +1019,10 @@ has the command that writes it.
 There is no `disconnect` verb on `kscope`, so remove the wiring by hand. Delete
 each of these with the receipt beside it:
 
-- the `kaleidoscope` entry under `mcpServers` in `~/.claude.json`,
-  `~/.cursor/mcp.json` and `~/.config/opencode/opencode.json`
-- the block between the `kaleidoscope-manager` markers in `~/.codex/config.toml`
+- the `kaleidoscope` entry under your project's `mcpServers` in
+  `~/.claude.json`, and under `mcpServers` in `.cursor/mcp.json`
+- the `kaleidoscope` entry in `opencode.json`
+- the block between the `kaleidoscope-manager` markers in `.codex/config.toml`
 - the marked block in `CLAUDE.md` or `AGENTS.md`
 - `.claude/skills/use-kaleidoscope/`, `.agents/skills/use-kaleidoscope/` and
   `.cursor/rules/kaleidoscope.mdc`
@@ -1033,6 +1060,10 @@ Prints the vault this directory resolves to, the workspace, principal and
 journal inside it, and where each of those came from. Run it when you are not
 sure which project's memory your agent is talking to.
 
+It also reports the vault's format, how long an upgrade can still be undone,
+the version of the `kscope` you ran, and the version of the copy your agents
+run, under `registered_copy`.
+
 `--root-only` narrows the output to the root and the project it was resolved
 from.
 
@@ -1057,7 +1088,7 @@ Installs a key and waits for the verdict. It takes the key as an argument, from
 
 | | Commands |
 |---|---|
-| Need a key | `mcp`, `serve`, `context`, `call` |
+| Need a key | `mcp`, `call` |
 | Work without one | `where`, `schema`, `model`, `gate`, `vault-preview`, `vault-verify`, `vault-migrate` |
 
 ## Is the engine complete?
@@ -1192,8 +1223,8 @@ complete-or-absent across a process crash or a hard kill.
 
 ## Name a vault
 
-`kscope init` already writes the `default` profile for the vault it creates, so
-a project set up that way needs nothing here. Reach for these when you want a
+`kscope init` already writes a profile for the vault it creates, named after
+the project folder, so a project set up that way needs nothing here. Reach for these when you want a
 *second* name — a vault you created with `--no-wire`, or one you want to address
 under a name of your own:
 
@@ -1207,10 +1238,16 @@ kscope profile import work ~/your-project/.kaleidoscope
 | `init-profile NAME ROOT CREATED_AT` | You want the vault and the profile in one step. |
 | `profile create NAME ROOT WORKSPACE_ID PRINCIPAL_ID JOURNAL` | You already hold the identifiers. They are verified against the vault. |
 
-`default` is the profile the wiring starts your agent with. `kscope init`
+The profile named after the project folder, `your-project` for
+`~/your-project`, is the one the wiring starts your agent with. `kscope init`
 creates it; `kscope init --no-wire` does not, because it wires no editor to
-name it. Until it exists, anything started with `--profile default` refuses
+name it. Until it exists, anything started with `--profile your-project` refuses
 with `profile does not exist`.
+
+The first `kscope init` on a machine also writes `default`, naming that first
+vault, for commands and older editor entries that name `default`. A project set
+up by an earlier version stays on `default` until you move it. `kscope init
+--shared` uses a `shared` profile, naming `.kaleidoscope` in your home folder.
 
 If `init-profile` commits the vault and then fails to write the profile, it
 keeps the vault and prints the `kscope profile import` command that finishes the
@@ -1223,8 +1260,8 @@ profile is a pointer.
 
 ```bash
 kscope profile list
-kscope profile show default
-kscope profile launch default
+kscope profile show your-project
+kscope profile launch your-project
 kscope profile remove work
 ```
 
@@ -1241,15 +1278,15 @@ separate act; see Operations.
 
 ## When no profile is named
 
-There is no active profile and no `kscope profile use`. `mcp`, `serve`,
-`context` and `call` resolve a vault by the same three rules `init` uses. Print
+There is no active profile and no `kscope profile use`. `mcp` and `call`
+resolve a vault by the same three rules `init` uses. Print
 the address they will arrive at before you rely on it:
 
 ```bash
 kscope where
 ```
 
-A resolved root that is not a vault is refused by all four, naming the path and
+A resolved root that is not a vault is refused by both, naming the path and
 where the path came from. They never create one.
 
 ## Binding a profile to an account
@@ -1318,8 +1355,8 @@ Five words carry most of these pages.
 
 | term | what it is |
 |---|---|
-| vault | The `.kaleidoscope` folder holding your memories, the graph, and the exposure ledger. One per project, on your disk. |
-| profile | A named pointer to one vault. Editors are registered against `default`. |
+| vault | The `.kaleidoscope` folder holding your memories and the graph. One per project, on your disk, unless you choose one shared vault. |
+| profile | A named pointer to one vault. A project's editors are registered against a profile named after the project folder. |
 | engine | The native program that stores, ranks and serves memory, and speaks MCP over stdio. |
 | manager | The setup half — creating a vault, editing editor configuration, installing agent guidance. Compiled into `kscope`. |
 | account | A product account a device could be bound to. Not something you can create today. |
@@ -1337,16 +1374,20 @@ Operations covers moving, inspecting and verifying a vault.
 
 ## One vault, every agent
 
-Claude Code, Codex, Cursor, OpenCode, the framework SDKs and any generic MCP
-client read the same profile. They see the same memories because they resolve
-the same vault.
+Within a project, Claude Code, Codex, Cursor, OpenCode, the framework SDKs and
+any generic MCP client read the same profile. They see the same memories because
+they resolve the same vault.
 
 Each editor stores its MCP configuration in a different format. `kscope init`
-writes each one and starts every server the same way:
+writes each one and starts every server the same way, with the project's
+profile:
 
 ```bash
-kscope mcp --profile default
+kscope mcp --profile your-project
 ```
+
+To give every project one vault instead, run `kscope init --shared` in each. It
+uses `.kaleidoscope` in your home folder.
 
 Which vault a command resolves to, when it names no profile, comes from the
 project directory:
@@ -1427,7 +1468,8 @@ Expect output like this:
 kscope: created vault ~/your-project/.kaleidoscope (repository default)
 kscope: wrote /.kaleidoscope/ to a new ~/your-project/.gitignore
 kscope: wired codex, claude-code, cursor, opencode
-kscope:   create the default profile, which the host entries name
+kscope:   create the default profile, which names this vault, for the commands and older entries that name default
+kscope:   create the your-project profile, which this project's agents open
 kscope:   register the MCP server with codex
 kscope:   agents for codex
 ...
@@ -1435,9 +1477,10 @@ kscope: restart your agent, then ask it to search your memory.
 ```
 
 The `wired` line names the editors `init` found on this machine; it skips any
-whose configuration directory does not exist. The first step under it names the
-new vault `default`, which is the profile the wiring starts each editor with —
-`init` writes it for you, so there is nothing to run afterwards.
+whose configuration directory does not exist. The steps under it name the new
+vault `your-project`, after the project folder, which is the profile the wiring
+starts each editor with — `init` writes it for you, so there is nothing to run
+afterwards. The first `init` on a machine also names it `default`.
 
 To create the vault and write no configuration, run `kscope init --no-wire`.
 Connect an editor lists what lands where, per editor.
@@ -1489,10 +1532,14 @@ Restart the editor, then ask it to search your memory.
 
 | Editor | MCP entry | Instructions | Skill |
 |---|---|---|---|
-| Claude Code | `~/.claude.json` | `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
-| Codex | `~/.codex/config.toml` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
-| Cursor | `~/.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
-| OpenCode | `~/.config/opencode/opencode.json` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| Claude Code | `~/.claude.json`, for this project only | `CLAUDE.md` | `.claude/skills/use-kaleidoscope/` |
+| Codex | `.codex/config.toml` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+| Cursor | `.cursor/mcp.json` | `.cursor/rules/kaleidoscope.mdc` | none |
+| OpenCode | `opencode.json` | `AGENTS.md` | `.agents/skills/use-kaleidoscope/` |
+
+Every path without `~/` is in the project. Each project gets its own vault and
+its own profile, named after the project folder. `kscope init --shared` wires the
+project to one vault in your home folder instead.
 
 Cursor gets a rule file and no skill.
 
@@ -1587,54 +1634,70 @@ cd ~/your-project
 kscope init
 ```
 
-Run both, in that order. Skip the import and Claude Code reports
-`profile does not exist`.
-
 Restart Claude Code, then ask it to search your memory.
 
 ## What init writes
 
 | What | Where |
 |---|---|
-| MCP entry | `~/.claude.json`, under `mcpServers` as `kaleidoscope` |
+| MCP entry | `~/.claude.json`, under `projects`, then the project's absolute path, then `mcpServers`, as `kaleidoscope` |
 | Instructions | `CLAUDE.md`, between `kaleidoscope-manager` markers |
 | Skill | `.claude/skills/use-kaleidoscope/SKILL.md` |
-| Receipt | `~/.claude.json.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
+| Receipt | `~/.claude.json.kaleidoscope-owner.local-<code>.json`, one per project, and a `.kaleidoscope-instruction-owner.json` beside each instruction file and skill |
 | Backup | `~/.claude.json.kaleidoscope-backup`, when the file was already there |
 
 ```json
 {
-  "mcpServers": {
-    "kaleidoscope": {
-      "type": "stdio",
-      "command": "/absolute/path/to/kscope",
-      "args": ["mcp", "--profile", "default"]
+  "projects": {
+    "/absolute/path/to/your-project": {
+      "mcpServers": {
+        "kaleidoscope": {
+          "type": "stdio",
+          "command": "/absolute/path/to/kscope",
+          "args": ["mcp", "--profile", "your-project"]
+        }
+      }
     }
   }
 }
 ```
+
+This is Claude Code's local scope: the entry applies to this project only.
+`init` writes it for every existing checkout of the repository, the main one and
+each worktree, and for the folder you ran it in. In a worktree you make later,
+`kscope where` says to run `kscope init` there.
+
+`your-project` is the profile `init` creates for the project, named after its
+folder. With an npm install, the command is `~/.kaleidoscope/bin/kscope`, a copy
+of `kscope` that updates itself when you update `kscope`.
+
+A project set up by an earlier version keeps its user-wide entry, under
+`mcpServers` at the top of `~/.claude.json`, and the `default` profile.
+`kscope init` says so, and names the command that gives the project its own
+vault.
 
 Skills go to `.claude/skills/` here. Codex and OpenCode read `.agents/skills/`.
 
 ## Check it
 
 ```bash
-kscope profile launch default
+kscope profile launch your-project
 ```
 
 ```json
-{"version":1,"transport":"stdio","command":"/absolute/path/to/kscope","args":["mcp","--profile","default"],"tools":["search","remember"],"environment":{}}
+{"version":1,"transport":"stdio","command":"/absolute/path/to/kscope","args":["mcp","--profile","your-project"],"tools":["search","remember"],"environment":{}}
 ```
 
-Match `command` and `args` against the entry in `~/.claude.json`. Claude Code's
-tool list should hold `search` and `remember` under `kaleidoscope`, and nothing
-else.
+Match `args` against the project's entry in `~/.claude.json`. `command` is the
+`kscope` you ran, which is not the copy the entry names after an npm install.
+Claude Code's tool list should hold `search` and `remember` under
+`kaleidoscope`, and nothing else.
 
 ## Remove it
 
 Delete each of these, and the receipt beside it:
 
-- the `kaleidoscope` entry under `mcpServers` in `~/.claude.json`
+- the `kaleidoscope` entry under your project's `mcpServers` in `~/.claude.json`
 - the marked block in `CLAUDE.md`
 - `.claude/skills/use-kaleidoscope/`
 
@@ -1661,26 +1724,23 @@ cd ~/your-project
 kscope init
 ```
 
-Run both, in that order. Skip the import and Codex reports
-`profile does not exist`.
-
 Restart Codex, then ask it to search your memory.
 
 ## What init writes
 
 | What | Where |
 |---|---|
-| MCP entry | `~/.codex/config.toml`, inside a `kaleidoscope-manager` marker block |
+| MCP entry | `.codex/config.toml` in the project, inside a `kaleidoscope-manager` marker block |
 | Instructions | `AGENTS.md`, between marker comments |
 | Skill | `.agents/skills/use-kaleidoscope/SKILL.md` |
-| Receipt | `~/.codex/config.toml.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
-| Backup | `~/.codex/config.toml.kaleidoscope-backup`, when the file was already there |
+| Receipt | `.codex/config.toml.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each instruction file and skill |
+| Backup | `.codex/config.toml.kaleidoscope-backup`, when the file was already there |
 
 ```toml
 # >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 host=codex
 [mcp_servers.kaleidoscope]
 command = "/absolute/path/to/kscope"
-args = ["mcp", "--profile", "default"]
+args = ["mcp", "--profile", "your-project"]
 enabled = true
 required = false
 startup_timeout_sec = 10
@@ -1697,7 +1757,18 @@ approval_mode = "approve"
 `.agents/skills/` here, the same path OpenCode reads; Claude Code reads
 `.claude/skills/`.
 
-If `~/.codex/config.toml` already holds an `[mcp_servers.kaleidoscope]` table
+`your-project` is the profile `init` creates for the project, named after its
+folder. With an npm install, the command is `~/.kaleidoscope/bin/kscope`, a copy
+of `kscope` that updates itself when you update `kscope`.
+
+A project set up by an earlier version keeps its entry in `~/.codex/config.toml` and
+the `default` profile. `kscope init` says so, and names the command that gives
+the project its own vault.
+
+`.codex/config.toml` names this machine's `kscope`, so `init` adds it to the
+project's `.gitignore`, with its receipt and backup.
+
+If `.codex/config.toml` already holds an `[mcp_servers.kaleidoscope]` table
 outside a marker block, that step fails and the file is not changed. Delete the
 table by hand and run `kscope init` again.
 
@@ -1705,17 +1776,18 @@ table by hand and run `kscope init` again.
 
 ```bash
 kscope profile list
-kscope profile launch default
+kscope profile launch your-project
 ```
 
-`launch` prints the command, the arguments and the tool list — `search` and
-`remember` — that the table in `~/.codex/config.toml` should match.
+`launch` prints the arguments and the tool list — `search` and `remember` —
+that the entry in `.codex/config.toml` should match. Its `command` is the `kscope`
+you ran, which is not the copy the entry names after an npm install.
 
 ## Remove it
 
 Delete each of these, and the receipt beside it:
 
-- the marker block in `~/.codex/config.toml`
+- the marker block in `.codex/config.toml`
 - the marked block in `AGENTS.md`
 - `.agents/skills/use-kaleidoscope/`
 
@@ -1784,33 +1856,41 @@ cd ~/your-project
 kscope init
 ```
 
-Run both, in that order. Skip the import and Cursor reports
-`profile does not exist`.
-
 Restart Cursor, then ask it to search your memory.
 
 ## What init writes
 
 | What | Where |
 |---|---|
-| MCP entry | `~/.cursor/mcp.json`, under `mcpServers` as `kaleidoscope` |
+| MCP entry | `.cursor/mcp.json` in the project, under `mcpServers` as `kaleidoscope` |
 | Instructions | `.cursor/rules/kaleidoscope.mdc` |
 | Skill | none |
-| Receipt | `~/.cursor/mcp.json.kaleidoscope-owner.json`, and `.cursor/rules/kaleidoscope.mdc.kaleidoscope-instruction-owner.json` |
-| Backup | `~/.cursor/mcp.json.kaleidoscope-backup`, when the file was already there |
+| Receipt | `.cursor/mcp.json.kaleidoscope-owner.json`, and `.cursor/rules/kaleidoscope.mdc.kaleidoscope-instruction-owner.json` |
+| Backup | `.cursor/mcp.json.kaleidoscope-backup`, when the file was already there |
 
 ```json
 {
   "mcpServers": {
     "kaleidoscope": {
       "command": "/absolute/path/to/kscope",
-      "args": ["mcp", "--profile", "default"]
+      "args": ["mcp", "--profile", "your-project"]
     }
   }
 }
 ```
 
 Cursor's entry carries no `type` field.
+
+`your-project` is the profile `init` creates for the project, named after its
+folder. With an npm install, the command is `~/.kaleidoscope/bin/kscope`, a copy
+of `kscope` that updates itself when you update `kscope`.
+
+A project set up by an earlier version keeps its entry in `~/.cursor/mcp.json` and
+the `default` profile. `kscope init` says so, and names the command that gives
+the project its own vault.
+
+`.cursor/mcp.json` names this machine's `kscope`, so `init` adds it to the
+project's `.gitignore`, with its receipt and backup.
 
 ## The rule instead of a skill
 
@@ -1831,17 +1911,18 @@ Give your agent the skill has the text it should hold.
 
 ```bash
 kscope profile list
-kscope profile launch default
+kscope profile launch your-project
 ```
 
-`launch` prints the command, the arguments and the tool list — `search` and
-`remember` — that the entry in `~/.cursor/mcp.json` should match.
+`launch` prints the arguments and the tool list — `search` and `remember` —
+that the entry in `.cursor/mcp.json` should match. Its `command` is the `kscope`
+you ran, which is not the copy the entry names after an npm install.
 
 ## Remove it
 
 Delete each of these, and the receipt beside it:
 
-- the `kaleidoscope` entry under `mcpServers` in `~/.cursor/mcp.json`
+- the `kaleidoscope` entry under `mcpServers` in `.cursor/mcp.json`
 - `.cursor/rules/kaleidoscope.mdc`
 
 Either one can go without the other. Your memory stays.
@@ -2053,35 +2134,34 @@ cd ~/your-project
 kscope init
 ```
 
-Run both, in that order. Skip the import and OpenCode reports
-`profile does not exist`.
-
 Restart OpenCode, then ask it to search your memory.
 
 ## What init writes
 
 | What | Where |
 |---|---|
-| MCP entry | `~/.config/opencode/opencode.json` |
+| MCP entry | `opencode.json` in the project |
 | Instructions | `AGENTS.md`, between marker comments |
 | Skill | `.agents/skills/use-kaleidoscope/SKILL.md` |
-| Receipt | `~/.config/opencode/opencode.json.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
-| Backup | `~/.config/opencode/opencode.json.kaleidoscope-backup`, when the file was already there |
+| Receipt | `opencode.json.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each instruction file and skill |
+| Backup | `opencode.json.kaleidoscope-backup`, when the file was already there |
 
 Skills go to `.agents/skills/` here, the same path Codex reads; Claude Code
 reads `.claude/skills/`.
 
 ## Which shape you get
 
-OpenCode has two configuration shapes. `init` reads yours and follows it.
+OpenCode has two configuration shapes. `init` reads the project's
+`opencode.json` and follows it. When that file has no `mcp` of its own, `init`
+follows the shape of your `~/.config/opencode/opencode.json`.
 
-| Your `opencode.json` | Entry goes to | Fields |
+| The `opencode.json` it follows | Entry goes to | Fields |
 |---|---|---|
 | no `mcp.servers` object | `mcp.kaleidoscope` | `type`, `enabled`, `command` |
 | has an `mcp.servers` object | `mcp.servers.kaleidoscope` | `type`, `command`, `codemode: false` |
 
 Both carry `"type": "local"` and a `command` array of the engine's absolute path
-followed by `mcp`, `--profile`, `default`. `"codemode": false` keeps `search`
+followed by `mcp`, `--profile`, `your-project`. `"codemode": false` keeps `search`
 and `remember` visible to the model as tools.
 
 ```json
@@ -2090,7 +2170,7 @@ and `remember` visible to the model as tools.
     "kaleidoscope": {
       "type": "local",
       "enabled": true,
-      "command": ["/absolute/path/to/kscope", "mcp", "--profile", "default"]
+      "command": ["/absolute/path/to/kscope", "mcp", "--profile", "your-project"]
     }
   }
 }
@@ -2100,21 +2180,33 @@ If both shapes are present, or your file conflicts with the shape Kaleidoscope
 already owns, that step fails and the file is not changed. There is no flag to
 override it.
 
+`your-project` is the profile `init` creates for the project, named after its
+folder. With an npm install, the engine path is `~/.kaleidoscope/bin/kscope`, a
+copy of `kscope` that updates itself when you update `kscope`.
+
+A project set up by an earlier version keeps its entry in
+`~/.config/opencode/opencode.json` and the `default` profile. `kscope init` says
+so, and names the command that gives the project its own vault.
+
+The project's `opencode.json` names this machine's `kscope`, so `init` adds it to
+the project's `.gitignore`, with its receipt and backup.
+
 ## Check it
 
 ```bash
 kscope profile list
-kscope profile launch default
+kscope profile launch your-project
 ```
 
-`launch` prints the command, the arguments and the tool list — `search` and
-`remember` — that the entry in `opencode.json` should match.
+`launch` prints the arguments and the tool list — `search` and `remember` —
+that the entry in `opencode.json` should match. Its `command` is the `kscope`
+you ran, which is not the copy the entry names after an npm install.
 
 ## Remove it
 
 Delete each of these, and the receipt beside it:
 
-- the `kaleidoscope` entry in `~/.config/opencode/opencode.json`
+- the `kaleidoscope` entry in the project's `opencode.json`
 - the marked block in `AGENTS.md`
 - `.agents/skills/use-kaleidoscope/`
 
@@ -2195,8 +2287,8 @@ Kaleidoscope publishes two MCP tools. `search` reads memory, `remember` writes
 it. Nothing else is callable by a model.
 
 `kscope init` registers the server with every editor it finds. Each one starts
-`kscope mcp --profile default` and talks to it over stdio at MCP protocol
-revision `2025-11-25`.
+`kscope mcp --profile` with the project's profile and talks to it over stdio at
+MCP protocol revision `2025-11-25`.
 
 Machine-readable tool reference ·
 Install
@@ -2225,9 +2317,10 @@ ranked `query` and is refused alongside `memory_id`.
 Omit a knob and you get its published default. A value above its ceiling is
 refused rather than clamped.
 
-A ranked query writes an exposure row into your vault, recording what it
-returned. That is why `ledger: false` is refused: to measure a search without
-writing, clone the vault first.
+A search writes nothing to your vault. It ranks, bounds and returns, so
+repeating it is safe, and many agents can search one vault at once. `ledger` is
+still accepted as `true` so callers that send it keep working; `false` is
+refused, because a ranked search is always the bounded one.
 
 ## remember
 
@@ -2238,7 +2331,7 @@ writing, clone the vault first.
 | `semantic_delta` | create, update | The structure committed with it. Fields below. |
 | `memory_id` | update, delete | Which memory. |
 | `expected_version_id` | update, delete | The active version you are allowed to replace. |
-| `items` | instead of the pair above | Up to 20 creates in one call, applied in order. |
+| `items` | instead of the pair above | Up to 50 creates in one call, applied in order. |
 
 Inside `semantic_delta`:
 
@@ -2289,8 +2382,8 @@ kscope schema
 
 ## What a model never sees
 
-Feedback, lifecycle and import, maintenance, ontology and diagnostics are
-operator commands. They are absent from the tool list an agent discovers, and
+Lifecycle and import, maintenance, ontology and diagnostics are operator
+commands. They are absent from the tool list an agent discovers, and
 search results carry no handle that would reach them.
 
 ## Next
@@ -2305,8 +2398,9 @@ Give your agent the skill.
 URL: https://memory.kleosresearch.xyz/docs/operations/
 Updated: 2026-10-04
 
-Your memory is one directory: `.kaleidoscope`, inside your project. Everything
-on this page works on that directory, and none of it needs an account.
+Your memory is one directory: `.kaleidoscope`, inside your project, or in your
+home folder if you set the project up with `kscope init --shared`. Everything on
+this page works on that directory, and none of it needs an account.
 
 To find out which vault a project resolves to, run `kscope where` — see
 Diagnostics.
@@ -2366,9 +2460,38 @@ separately.
 |---|---|
 | the current release | `npm install -g @kleos-research/kaleidoscope` |
 | a version you name | `npm install -g @kleos-research/kaleidoscope@<version>` |
-| the version you had before | the same command, naming the older version |
+| the version you had before | undo the vault upgrade first, below, then the same command, naming the older version |
+
+Restart your agents after you update. An agent that is already running keeps
+the old version until it restarts.
 
 Release notes list what is current.
+
+## Upgrade a vault, or undo the upgrade
+
+The first time `kscope` saves a memory into a vault in the older format, it
+first rewrites the vault in a newer, smaller one. If the copy of `kscope` your
+agents run is older, it saves nothing and says so instead: update, restart your
+agents, and save again. Searching never upgrades a vault. A vault in the new
+format cannot be opened by an older version, so going back to one takes a step
+of its own.
+
+| What you want | Command |
+|---|---|
+| upgrade a vault now, without saving | `kscope vault-upgrade <ROOT>` |
+| see what undoing the upgrade would drop | `kscope vault-rollback <ROOT>` |
+| undo it | the `--confirm` command that `kscope vault-rollback <ROOT>` prints |
+
+`kscope vault-rollback <ROOT>` changes nothing. It lists the memories that
+changed since the upgrade and what undoing it does to each, and prints the exact
+command that does it.
+That command refuses if anything was saved in between. It also lists your other
+vaults, because every project on the machine runs the same `kscope`, and the
+steps that follow.
+
+The upgrade keeps the old vault as one file beside the new one until the 10th
+save, or 3 days after the first save, whichever comes first. After that the
+upgrade cannot be undone. `kscope where` shows how long is left.
 
 ## Remove Kaleidoscope
 
@@ -2376,7 +2499,7 @@ Four separate things. Removing any of them leaves your memory where it is.
 
 | What | How |
 |---|---|
-| the package | `npm uninstall -g @kleos-research/kaleidoscope` |
+| the package | `npm uninstall -g @kleos-research/kaleidoscope`, then delete the copy your editors run, `~/.kaleidoscope/bin/kscope` |
 | an editor's connection | delete the Kaleidoscope entry from that editor's configuration file |
 | the agent instructions | delete the marked block from `CLAUDE.md` or `AGENTS.md`, then `.cursor/rules/kaleidoscope.mdc` and the `use-kaleidoscope` skill directories |
 | the vault | preview and delete it, above |
@@ -2387,21 +2510,18 @@ verb.
 
 ## Encrypted vaults on macOS
 
-A vault can live inside an encrypted disk image. This is a frozen macOS preview.
-
-macOS generates the password, keeps it in your login Keychain, and shows you a
-recovery key once. Write the recovery key down. It is the only copy.
+Encrypted vaults, kept inside an encrypted disk image, are deprecated. `kscope`
+can no longer create, import, list or delete one. What remains is there so you
+can move an encrypted vault you already have to a plain one.
 
 | Task | Command |
 |---|---|
-| create one | `kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>` |
 | open, close | `kscope vault-open`, `kscope vault-close` |
 | recover with the key | `kscope vault-recover` |
-| move the device package | `kscope vault-export-device`, `kscope vault-import-device` |
-| inventory, delete | `kscope vault-encrypted-preview`, `kscope vault-encrypted-delete` |
+| export the device package | `kscope vault-export-device` |
 
 Each takes a repository path. The help text has the
-arguments.
+arguments, and the steps to move an encrypted vault to a plain one.
 
 ---
 
@@ -2447,6 +2567,11 @@ three.
 There is no install hook, no download at install time, no compiler step and no
 source build. Installing puts files on your disk and does nothing else.
 
+`kscope init` from an npm install copies `kscope` to `.kaleidoscope/bin` in your
+home folder, and your editors run that copy, because npm may delete its own. A
+newer `kscope` replaces the copy the next time it runs `mcp` or `call`, so your
+agents and your terminal run the same version. `kscope where` reports both.
+
 ## Licences
 
 The memory engine is proprietary object code, and its source is not in the
@@ -2482,8 +2607,8 @@ not in it.
 ## What never leaves your machine
 
 Storing, searching and reading your memory happen on your machine, but they do
-not work offline for more than about 20 minutes: `mcp`, `call`, `context` and
-`serve` refuse to run once that long has passed without a successful
+not work offline for more than about 20 minutes: `mcp` and `call` refuse to
+run once that long has passed without a successful
 licence check, and work again as soon as one
 succeeds. The embedding model is bundled and runs locally, so nothing in that
 path calls a model provider.
@@ -2517,9 +2642,9 @@ set, and otherwise the one in the key file that `kscope activate` writes, which
 only your user account can read.
 
 `kscope activate` makes the check and waits for the answer, so it needs the
-network. After that, `mcp`, `call`, `context` and `serve` decide whether to run
-from the last answer, which is kept in a file on your machine, and `mcp` and
-`serve` decide again for every call they handle. Once that answer is five
+network. After that, `mcp` and `call` decide whether to run from the last
+answer, which is kept in a file on your machine, and `mcp` decides again for
+every call it handles. Once that answer is five
 minutes old they start a new check in the background, so while you use
 Kaleidoscope the check runs about once every five minutes. Until the server has
 answered for your key on this machine, they check on every call instead. When
@@ -2594,17 +2719,120 @@ and x86_64. It gives you the `kscope` command, it needs a key to run, and
 nothing in it is signed for release. Install is how you get
 it.
 
-There is no entry below for it, and none for the versions before it. Notes begin
-with the next version, and from there every version will be listed here, newest
-first.
+Every version is listed below, newest first, back to the oldest entry, which is
+the first version these notes cover. There are no entries for the versions
+before it.
 
-Each entry will say which platforms that version runs on, which editor and agent
+Each entry says which platforms that version runs on, which editor and agent
 versions it was checked against, what changed, what broke or was removed, whether
 anything you already have needs to be moved or reconfigured, and any security
 fixes it carries.
 
-Until the second one, Status is the current picture: what is
-available, what is not, and what has actually been run.
+Status is the current picture: what is available, what is not, and
+what has actually been run.
+
+## 0.0.8
+
+**Restart your agents after you update.** An agent that is already running
+keeps the old version until it restarts. See "What you need to do" below.
+
+### Platforms
+
+macOS on Apple Silicon and x86_64, and Linux on arm64 and x86_64, the same as
+0.0.7. Windows is still not supported.
+
+### Checked against
+
+The release checks set up and connect these tools against this version:
+
+- Codex 0.149.0
+- Claude Code 2.1.239
+- OpenCode 1.18.21
+
+Cursor's configuration is written the same way as before, but no Cursor version
+was part of the release checks.
+
+### What changed
+
+- **Your memory takes far less space.**
+  - Searching no longer stores anything: no copy of the answer, and no log of
+    the question.
+  - The first time 0.0.8 saves a memory, it rewrites the vault in a new,
+    compact format (format 2) and drops what earlier versions kept but never
+    needed.
+  - On a real vault of about 1,650 memories, the database went from 177 MB
+    (132 MB on disk) to 38.5 MB.
+  - Each new memory also takes about a fifth less room than before.
+  - The database no longer grows with every search.
+- **Searching never waits for other agents, or holds them up.** A search only
+  reads, so many agents can search one vault at once while others save.
+- **Saving is faster, and one call can save up to 50 memories** (it was 20). In
+  our measurements, saving was 21–30% faster than in 0.0.7.
+- **Each project can have its own memory.**
+  - `kscope init` in a project folder gives that project its own vault.
+  - `kscope init --shared` uses one shared vault for everything.
+  - A machine that already has a shared setup keeps it, and `init` tells you so.
+- **The copy of kscope your agents run now updates itself** when you update
+  kscope, so your agents and your terminal no longer run different versions.
+- **Two new commands:**
+  - `kscope vault-upgrade <vault>` upgrades a vault yourself.
+  - `kscope vault-rollback <vault>` undoes the upgrade (see below).
+- **Many fixes found by testing real day-to-day use,** among them:
+  - several agents saving at the same moment no longer lose or mix up memories;
+  - a deleted memory no longer lingers in what other memories link to;
+  - an interrupted save, upgrade or rollback leaves the vault either as it was
+    or complete, never half-written;
+  - a search that cannot read the vault because another agent is mid-save says
+    so and asks to be retried. It never answers that nothing is stored;
+  - clearer messages when a vault is busy, missing or moved;
+  - project folders given by a relative path, and the agent configuration files
+    in a project, are handled correctly.
+
+### What broke or was removed
+
+- **A vault 0.0.8 has upgraded cannot be opened by 0.0.7 or older.** An older
+  version that tries reports that the "on-disk vault format" is unsupported.
+  Restart your agents so they run 0.0.8.
+- **Removed commands:**
+  - `kscope serve`, `kscope context`, and the encrypted-vault commands that
+    create, import, list or delete one (`vault-create`, `vault-import-device`,
+    `vault-encrypted-preview`, `vault-encrypted-delete`). `vault-open`,
+    `vault-close`, `vault-recover` and `vault-export-device` remain, marked
+    deprecated, so an encrypted vault can still be moved to a plain one;
+  - the operator calls `feedback` and `address_maintenance`, which went with
+    the learning feature they served.
+- **Search answers no longer carry an exposure id,** because nothing is
+  recorded any more. Tools that read it should treat it as absent.
+
+### What you need to do
+
+1. Update kscope the way you installed it (npm or Homebrew).
+2. **Restart every agent that uses memory** (Claude Code, Codex, Cursor,
+   OpenCode). An agent still running 0.0.7 cannot use a vault that 0.0.8 has
+   upgraded.
+3. That's it. The first save upgrades the vault, and kscope tells you so, with
+   the old and new sizes. Searching alone never upgrades a vault.
+
+**If you need to go back to 0.0.7,** kscope keeps your vault as it was, as one
+file beside the new one.
+
+- `kscope vault-rollback <vault>` shows what undoing the upgrade would drop, and
+  changes nothing.
+- It then prints the `--confirm` command that does it.
+- After that, reinstall 0.0.7.
+- Memories saved since the upgrade are dropped by a rollback, and the first
+  command lists them.
+- You can undo the upgrade until the 10th save, or 3 days after the first save,
+  whichever comes first. Then kscope deletes the copy, together with 0.0.7's old
+  index files. `kscope where` shows how long is left.
+
+If kscope says it did not upgrade because your agents run an older kscope,
+update kscope and restart your agents. You can also run
+`kscope vault-upgrade <vault>` yourself.
+
+### Security fixes
+
+None in this release.
 
 ---
 
@@ -2622,7 +2850,7 @@ inspectable.
 The engine keeps your memory in a local vault, speaks stdio to your editor, and
 makes no external model calls. It needs the network for one thing, the
 licence check: after about 20 minutes
-without a successful check, `mcp`, `call`, `context` and `serve` refuse to run.
+without a successful check, `mcp` and `call` refuse to run.
 
 The manager starts it with a closed, non-secret environment rather than passing
 along yours. Your model-provider keys, account tokens, cloud credentials and
@@ -2692,7 +2920,8 @@ You should see the agents it wired, then a line per step:
 
 ```text
 kscope: wired codex, claude-code, cursor, opencode
-kscope:   create the default profile, which the host entries name
+kscope:   create the default profile, which names this vault, for the commands and older entries that name default
+kscope:   create the your-project profile, which this project's agents open
 kscope:   register the MCP server with claude-code
 kscope:   claude for claude-code
 kscope:   skill for claude-code
@@ -2848,18 +3077,20 @@ kscope where
 kscope profile list
 ```
 
-`profile list` must show `default` with `"valid":true`. The tools an agent sees
+`profile list` must show the profile the editor starts with `"valid":true`:
+the one named after the project folder, or `default` for a project set up by an
+earlier version. The tools an agent sees
 are exactly `search` and `remember` — anything else is another server.
 
 ## Your editor says `profile does not exist`
 
-`kscope init` creates the `default` profile along with the vault, so a project
+`kscope init` creates the project's profile along with the vault, so a project
 set up that way does not hit this. You will see it when the vault was created
 with `kscope init --no-wire`, which writes no profile because it wires no
-editor. Write one:
+editor. Write the one your editor's entry names, here `your-project`:
 
 ```bash
-kscope profile import default ~/your-project/.kaleidoscope
+kscope profile import your-project ~/your-project/.kaleidoscope
 ```
 
 Restart the editor.
@@ -2881,7 +3112,7 @@ contact@kleosresearch.xyz.
 
 | | Commands |
 |---|---|
-| Need a key | `mcp`, `serve`, `context`, `call` |
+| Need a key | `mcp`, `call` |
 | Work without one | `where`, `schema`, `model`, `gate`, `vault-preview`, `vault-verify`, `vault-migrate` |
 
 ## Your agent is reading the wrong project's memory
@@ -2919,9 +3150,7 @@ owner receipt
 ```
 
 Something inside a marked block changed after `kscope init` wrote it. The other
-steps still ran. Either delete that block and run `kscope init` again, or
-overwrite it with `kscope init --force`, which prints the bytes it discards
-first.
+steps still ran. Delete that block and run `kscope init` again.
 
 ## OpenCode configuration is refused
 
@@ -2929,7 +3158,7 @@ OpenCode has two configuration shapes, `stable-v1` and `beta-v2`. `kscope init`
 adopts the one already in your file and never rewrites stable into beta. When
 both are present it stops and asks for manual review.
 
-Remove the duplicate Kaleidoscope entry from `~/.config/opencode/opencode.json`,
+Remove the duplicate Kaleidoscope entry from the project's `opencode.json`,
 then run `kscope init` again.
 
 ## There is no `kscope login`
