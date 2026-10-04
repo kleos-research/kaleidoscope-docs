@@ -13,20 +13,20 @@
   },
   "executables": {
     "darwin-arm64": {
-      "bytes": 23290992,
-      "sha256": "0f36d17105201fc823317ea62e64b93fd4b4c4663419511a036be105304f341d"
+      "bytes": 21388400,
+      "sha256": "376da7316981a777fe17e45726d547a34ab5fa03eff2c640a44e8b5d58ae77a3"
     },
     "darwin-x64": {
-      "bytes": 25717544,
-      "sha256": "a797c5cb2de8d09fcdf8dab441086ac872f218cd8065f9d55407307f7765ecea"
+      "bytes": 23513032,
+      "sha256": "4ae7958fe037c10ba397b34b59bb39691b5efd6f6f4169bd2a7540cc3ac208a3"
     },
     "linux-arm64": {
-      "bytes": 23477160,
-      "sha256": "1ee3b79d33f1a6e1e599a87a19f71a6053bf4e1fe256eb890158fa3a2df5d478"
+      "bytes": 21568472,
+      "sha256": "4b75decf36f25708e729afa624a4221b7c8201b1ceb9c6886df9d2cd42093901"
     },
     "linux-x64": {
-      "bytes": 26772184,
-      "sha256": "f8975f717f3f9d09ff2a6d5e1a7db941b2d9a31150f4b660f130d8d85b7d727c"
+      "bytes": 24404504,
+      "sha256": "17871bd47948b127706e8d3a9ca0ad4a8379d5e3f5a2cb721b3c8d95d8926042"
     }
   },
   "platforms": [
@@ -87,19 +87,19 @@
   ],
   "public_contract": {
     "mcp_protocol_revision": "2025-11-25",
-    "schema_version": "kaleidoscope.public-contract.v1",
-    "sha256": "9f8bd50328dd5116473662e1f43db7d6a7d4b45f497c58ce4d6901d850a1de0d"
+    "schema_version": "kaleidoscope.public-contract.v2",
+    "sha256": "2aa8d4e92a31c954fec13c915adf7f77ccb0a56b91a082cb05eca25ebd381de8"
   },
-  "release_version": "0.0.7",
-  "released_on": "2026-09-21",
+  "release_version": "0.0.8",
+  "released_on": "2026-10-04",
   "schema_version": "kaleidoscope.docs-release-pin.v1",
-  "source_commit": "d660e79a5e2eb5879fa770e19241a5ab71a04ed8",
+  "source_commit": "86b4784ecd696343b83b3d4af6c13928e9735d37",
   "vendored": {
-    "src/data/kaleidoscope-cli.txt": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
-    "src/data/public/SKILL.md": "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77",
-    "src/data/public/snippets/AGENTS.md": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
-    "src/data/public/snippets/CLAUDE.md": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
-    "src/data/public/snippets/cursor-kaleidoscope.mdc": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc"
+    "src/data/kaleidoscope-cli.txt": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
+    "src/data/public/SKILL.md": "825bd92b809f4ce3cdbb23dc2c2a6125dd84596f5154c329444bd9d98f3c78a6",
+    "src/data/public/snippets/AGENTS.md": "74b944830ed1c16fa865f5928f977d4097166edc6b44729bf026dbbbd2a99fc0",
+    "src/data/public/snippets/CLAUDE.md": "33974aa855e011f04f4ed237e37ea373fe689874742308dd4412f2d354b880a8",
+    "src/data/public/snippets/cursor-kaleidoscope.mdc": "46b6e3c3da20fa42763842b8b82be039e8d28a3fe7c73881e6eb90f7bb3e372f"
   },
   "what_this_is": "The one engine release this site describes, as its release job stated it. Written only by scripts/sync_from_release.py --apply, from the release manifest; every derived file under src/data and the release record beside this file are recomputed from it by --check on every push. Edit the engine, not this file."
 }

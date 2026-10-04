@@ -22,8 +22,8 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77",
-      "size_bytes": 9136
+      "sha256": "825bd92b809f4ce3cdbb23dc2c2a6125dd84596f5154c329444bd9d98f3c78a6",
+      "size_bytes": 9342
     },
     {
       "path": "_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.BcSo_yiZ.js",
@@ -577,7 +577,7 @@
     },
     {
       "path": "docs/packages/index.html",
-      "sha256": "fe54fec8546fc4a1cfcb89dd39b1f38092b0f47563f67adea9e34c2d133fc0f1",
+      "sha256": "1adaba2dee5b378fd53dd0af1abcfcc05eab0768f614285fcf7be61392124140",
       "size_bytes": 38053
     },
     {
@@ -587,7 +587,7 @@
     },
     {
       "path": "docs/release-notes/index.html",
-      "sha256": "1655af4f0ee405512a581f0d04051406eb7b1378195a62221de1d312d5669c7f",
+      "sha256": "e4faa888a54aefde0ccc8b12ae8847d944a9d2dc3bb6455dd8796dae3caf720d",
       "size_bytes": 29241
     },
     {
@@ -597,8 +597,8 @@
     },
     {
       "path": "docs/skill/index.html",
-      "sha256": "1728f0acf7a8cf0b9200439bbdc09bc5b698e27e695389c83208df0eecc27acc",
-      "size_bytes": 54638
+      "sha256": "8c84c3c0a76a7cf1a0eda2026f8d4be991191f8316936426f6f0194cba0bfc22",
+      "size_bytes": 54933
     },
     {
       "path": "docs/status/index.html",
@@ -667,8 +667,8 @@
     },
     {
       "path": "llms-full.txt",
-      "sha256": "df2e5406ffe6a68a7e20c1131cbaa4fdfa38c0ac90f56ea726a7c853cb018029",
-      "size_bytes": 139678
+      "sha256": "7c785725e65eb2a04e37d1d25ed790e0d499d969f58b92cfba14a0208c40c4dd",
+      "size_bytes": 143282
     },
     {
       "path": "llms.txt",
@@ -682,8 +682,8 @@
     },
     {
       "path": "reference/kaleidoscope-cli.txt",
-      "sha256": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
-      "size_bytes": 8733
+      "sha256": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
+      "size_bytes": 11986
     },
     {
       "path": "reference/kaleidoscope-mcp.json",
@@ -692,8 +692,8 @@
     },
     {
       "path": "reference/kscope-cli.txt",
-      "sha256": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
-      "size_bytes": 8733
+      "sha256": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
+      "size_bytes": 11986
     },
     {
       "path": "robots.txt",
@@ -707,33 +707,33 @@
     },
     {
       "path": "snippets/AGENTS.md",
-      "sha256": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
-      "size_bytes": 2258
+      "sha256": "74b944830ed1c16fa865f5928f977d4097166edc6b44729bf026dbbbd2a99fc0",
+      "size_bytes": 2403
     },
     {
       "path": "snippets/CLAUDE.md",
-      "sha256": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
-      "size_bytes": 2276
+      "sha256": "33974aa855e011f04f4ed237e37ea373fe689874742308dd4412f2d354b880a8",
+      "size_bytes": 2421
     },
     {
       "path": "snippets/cursor-kaleidoscope.mdc",
-      "sha256": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc",
-      "size_bytes": 2350
+      "sha256": "46b6e3c3da20fa42763842b8b82be039e8d28a3fe7c73881e6eb90f7bb3e372f",
+      "size_bytes": 2495
     },
     {
       "path": "status/index.html",
-      "sha256": "8ce706094d02e14169710e4f5ed0229a81ecefe3d70e3ee7bce983713f9a72fb",
+      "sha256": "8cb0d3422eb043ed17a4c0b05be6dc16aaa5dd033769930b838ddc163d1de1a7",
       "size_bytes": 38764
     },
     {
       "path": "status.json",
-      "sha256": "14a641c3ee9ef59611ae1c886e5afdf54c5905b61b7532b0c574bc3029a271f8",
+      "sha256": "0c46929294dfb45f370efc6462224eacef2a34e57139b7e5e450cc3492dc5a88",
       "size_bytes": 5508
     }
   ],
   "mode": "public_docs",
   "public_source_sha256": {
-    "SKILL.md": "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77",
+    "SKILL.md": "825bd92b809f4ce3cdbb23dc2c2a6125dd84596f5154c329444bd9d98f3c78a6",
     "agent-instructions.md": "3c4d99aee28ed5ecd7ab7cda1310967d6b6c95282da4bd96f61c8eee9ac66e36",
     "documentation-license.txt": "9990924724715776775d1f5c4147fae3efa70f7d409cdfbf5eadf498a8376eb4",
     "legal/CC-BY-4.0.txt": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411",
@@ -741,49 +741,49 @@
     "legal/PRIVACY-NOTICE.txt": "2532e57e649d62e147aef79e8dc3fa6026c2f2644a74283d32d0d6cb937f40ec",
     "legal/SECURITY-POLICY.txt": "b05e2170adf7ca9690553ba065527f4192d3ea0ad8b4d188c70b7d85f11acaee",
     "legal/SUPPORT-POLICY.txt": "67f784785e2abb09fa2fc5de905b0cf5f8b55a267b0e9bfb3b63ff7e16f78ebb",
-    "reference/kaleidoscope-cli.txt": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
-    "reference/kscope-cli.txt": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
-    "snippets/AGENTS.md": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
-    "snippets/CLAUDE.md": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
-    "snippets/cursor-kaleidoscope.mdc": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc"
+    "reference/kaleidoscope-cli.txt": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
+    "reference/kscope-cli.txt": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
+    "snippets/AGENTS.md": "74b944830ed1c16fa865f5928f977d4097166edc6b44729bf026dbbbd2a99fc0",
+    "snippets/CLAUDE.md": "33974aa855e011f04f4ed237e37ea373fe689874742308dd4412f2d354b880a8",
+    "snippets/cursor-kaleidoscope.mdc": "46b6e3c3da20fa42763842b8b82be039e8d28a3fe7c73881e6eb90f7bb3e372f"
   },
   "public_upstream_sha256": {
     "SKILL.md": {
-      "sha256": "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77",
+      "sha256": "825bd92b809f4ce3cdbb23dc2c2a6125dd84596f5154c329444bd9d98f3c78a6",
       "what": "the skill file `kscope init` installs",
       "where": "kaleidoscope: crates/kaleidoscope-manager/skills/use-kaleidoscope/SKILL.md"
     },
     "reference/kaleidoscope-cli.txt": {
-      "sha256": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
+      "sha256": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
       "what": "the help text of the executable the package installs",
-      "where": "@kleos-research/kaleidoscope@0.0.7: `kscope --help`"
+      "where": "@kleos-research/kaleidoscope@0.0.8: `kscope --help`"
     },
     "reference/kscope-cli.txt": {
-      "sha256": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
+      "sha256": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
       "what": "the help text of the executable the package installs",
-      "where": "@kleos-research/kaleidoscope@0.0.7: `kscope --help`"
+      "where": "@kleos-research/kaleidoscope@0.0.8: `kscope --help`"
     },
     "snippets/AGENTS.md": {
-      "sha256": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
+      "sha256": "74b944830ed1c16fa865f5928f977d4097166edc6b44729bf026dbbbd2a99fc0",
       "what": "the block `kscope init` appends to AGENTS.md",
       "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/AGENTS.md"
     },
     "snippets/CLAUDE.md": {
-      "sha256": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
+      "sha256": "33974aa855e011f04f4ed237e37ea373fe689874742308dd4412f2d354b880a8",
       "what": "the block `kscope init` appends to CLAUDE.md",
       "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/CLAUDE.md"
     },
     "snippets/cursor-kaleidoscope.mdc": {
-      "sha256": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc",
+      "sha256": "46b6e3c3da20fa42763842b8b82be039e8d28a3fe7c73881e6eb90f7bb3e372f",
       "what": "the rule file `kscope init` writes for Cursor",
       "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/cursor-kaleidoscope.mdc"
     }
   },
   "release": {
     "availability": "available_with_key",
-    "public_contract_sha256": "9f8bd50328dd5116473662e1f43db7d6a7d4b45f497c58ce4d6901d850a1de0d",
-    "release_version": "0.0.7",
-    "updated_at": "2026-09-21"
+    "public_contract_sha256": "2aa8d4e92a31c954fec13c915adf7f77ccb0a56b91a082cb05eca25ebd381de8",
+    "release_version": "0.0.8",
+    "updated_at": "2026-10-04"
   },
   "schema_version": "kaleidoscope.docs-artifact.v1"
 }

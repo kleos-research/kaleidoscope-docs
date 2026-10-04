@@ -38,7 +38,7 @@ What is not here: hosted memory does not exist -- there is no service, endpoint,
 # Kaleidoscope
 
 URL: https://memory.kleosresearch.xyz/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Local memory for agents · one vault · every tool
 
@@ -94,7 +94,7 @@ write.
 # Kaleidoscope documentation
 
 URL: https://memory.kleosresearch.xyz/docs/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Kaleidoscope is local memory for agents. Memories live in a vault on your
 machine, and every editor you connect reads that vault through one command,
@@ -176,7 +176,7 @@ Read llms.txt, or the expanded llms-full.txt.
 # Account and devices
 
 URL: https://memory.kleosresearch.xyz/docs/account/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 You do not need an account to use Kaleidoscope — your memory lives on your
 machine and works without one. You also could not sign in today if you wanted
@@ -242,8 +242,8 @@ the account command page.
 # Benchmarks
 
 URL: https://memory.kleosresearch.xyz/docs/benchmarks/
-Release: 0.0.7
-Updated: 2026-09-21
+Release: 0.0.8
+Updated: 2026-10-04
 
 Kaleidoscope is measured on BEAM, a public benchmark for long-term memory in
 conversation. The results below are ours: we ran them, on our machines, against
@@ -328,7 +328,7 @@ first release.
 # Brand assets
 
 URL: https://memory.kleosresearch.xyz/docs/brand/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Three marks belong to one system, and all of them are generated from a single
 geometry table in the `brand/` folder. This page renders every file in that
@@ -724,7 +724,7 @@ of any rounded corner — so it cannot drift back without the build refusing.
 # CLI reference
 
 URL: https://memory.kleosresearch.xyz/docs/cli/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 `kscope` is the command. It creates a vault, wires your editor to it, and
 answers questions about both.
@@ -810,7 +810,7 @@ Account commands lists them.
 # Account commands
 
 URL: https://memory.kleosresearch.xyz/docs/cli/account/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 None of the commands on this page runs today. They belong to `kaleidoscope`, a
 second executable built from source and published on no channel, and the account
@@ -912,7 +912,7 @@ where a credential would be kept.
 # Connect an editor or agent
 
 URL: https://memory.kleosresearch.xyz/docs/cli/connect/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 `kscope init` creates the project's memory, names it `default`, and writes the
 entry each editor needs to find it. One command:
@@ -1011,7 +1011,7 @@ Operations covers moving, backing up and deleting a vault.
 # Diagnostics
 
 URL: https://memory.kleosresearch.xyz/docs/cli/diagnostics/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Four commands answer the four questions that come up when something looks
 wrong. None of them reads or changes a memory.
@@ -1094,7 +1094,7 @@ it.
 # Agent instructions
 
 URL: https://memory.kleosresearch.xyz/docs/cli/instructions/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 An agent uses memory only if something told it to. `kscope init` writes two
 things into your project for that: a marked block in the instruction file your
@@ -1153,7 +1153,7 @@ delete.
 # Profiles and vaults
 
 URL: https://memory.kleosresearch.xyz/docs/cli/profiles/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 A vault is one memory store: a directory at a path you chose. A profile is a
 name for one — an absolute root, the three identifiers inside it, and the
@@ -1263,7 +1263,7 @@ the rest is on the account page.
 # Platforms
 
 URL: https://memory.kleosresearch.xyz/docs/compatibility/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 `npm install -g @kleos-research/kaleidoscope` brings down the package built for
 your machine. You need a key to run it, and nothing is signed for release.
@@ -1312,7 +1312,7 @@ platform-support.json.
 # Concepts
 
 URL: https://memory.kleosresearch.xyz/docs/concepts/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Five words carry most of these pages.
 
@@ -1386,8 +1386,8 @@ Privacy for the boundary in full.
 # Getting started
 
 URL: https://memory.kleosresearch.xyz/docs/getting-started/
-Release: 0.0.7
-Updated: 2026-09-21
+Release: 0.0.8
+Updated: 2026-10-04
 
 Four steps, about two minutes. You need macOS or Linux and Node.js 18 or newer.
 
@@ -1467,7 +1467,7 @@ a vault.
 # Editors, agents and frameworks
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Every page here assumes `kscope` is installed and activated —
 Getting started covers both.
@@ -1525,7 +1525,7 @@ read its memory and when to write to it.
 # Claude Agent SDK
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/claude-agent-sdk/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -1572,7 +1572,7 @@ Delete the server from your SDK configuration.
 # Claude Code
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/claude-code/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -1646,7 +1646,7 @@ editor at once.
 # Codex
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/codex/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -1727,7 +1727,7 @@ editor at once.
 # CrewAI
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/crewai/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -1768,7 +1768,7 @@ from your own configuration.
 # Cursor
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/cursor/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -1852,7 +1852,7 @@ Connect an editor or agent covers every editor at once.
 # Any other MCP client
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/generic-mcp/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Any standard MCP client runs Kaleidoscope from the descriptor the engine prints.
 You do not hand-write the command.
@@ -1910,7 +1910,7 @@ nothing else.
 # LangChain
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/langchain/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -1953,7 +1953,7 @@ configuration.
 # LangGraph
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/langgraph/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -1996,7 +1996,7 @@ your own configuration.
 # OpenAI Agents SDK
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/openai-agents-sdk/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -2038,7 +2038,7 @@ Delete the server definition from your own configuration.
 # OpenCode
 
 URL: https://memory.kleosresearch.xyz/docs/integrations/opencode/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Install and activate first — Getting started covers both. Without a
 key the wiring below succeeds and the server refuses with `E_NO_KEY` the moment your editor
@@ -2126,7 +2126,7 @@ editor at once.
 # Licenses and product terms
 
 URL: https://memory.kleosresearch.xyz/docs/legal/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Reviewed drafts — not yet in force.
 The product terms below have been reviewed by legal counsel for Kleos Research Private Limited. Apache-2.0 and CC BY 4.0 are authorized license selections and are in force for the material they cover. The engine EULA, privacy notice, security policy, and support policy have been reviewed but have not yet been adopted: they are not in force, are not offers or contracts, and do not describe terms that govern anything today. They will take effect when the company formally adopts them.
@@ -2188,8 +2188,8 @@ CC BY 4.0 legal code.
 # MCP reference
 
 URL: https://memory.kleosresearch.xyz/docs/mcp/
-Release: 0.0.7
-Updated: 2026-09-21
+Release: 0.0.8
+Updated: 2026-10-04
 
 Kaleidoscope publishes two MCP tools. `search` reads memory, `remember` writes
 it. Nothing else is callable by a model.
@@ -2303,7 +2303,7 @@ Give your agent the skill.
 # Operations
 
 URL: https://memory.kleosresearch.xyz/docs/operations/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Your memory is one directory: `.kaleidoscope`, inside your project. Everything
 on this page works on that directory, and none of it needs an account.
@@ -2408,8 +2408,8 @@ arguments.
 # Install
 
 URL: https://memory.kleosresearch.xyz/docs/packages/
-Release: 0.0.7
-Updated: 2026-09-21
+Release: 0.0.8
+Updated: 2026-10-04
 
 ```bash
 npm install -g @kleos-research/kaleidoscope
@@ -2432,7 +2432,7 @@ matrix.
 
 ## What lands on your disk
 
-Two packages, both at version 0.0.7.
+Two packages, both at version 0.0.8.
 
 | Package | Carries |
 |---|---|
@@ -2474,7 +2474,7 @@ Release notes
 # Privacy
 
 URL: https://memory.kleosresearch.xyz/docs/privacy/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Your memory stays on your machine. One request leaves it, and your memory is
 not in it.
@@ -2584,10 +2584,10 @@ no local profile or sign-in will opt you into it.
 # Release notes
 
 URL: https://memory.kleosresearch.xyz/docs/release-notes/
-Release: 0.0.7
-Updated: 2026-09-21
+Release: 0.0.8
+Updated: 2026-10-04
 
-The current version is 0.0.7. It was published to npm as
+The current version is 0.0.8. It was published to npm as
 `@kleos-research/kaleidoscope`, alongside a package for each of the four
 platforms it is built for — macOS on Apple Silicon and x86_64, Linux on arm64
 and x86_64. It gives you the `kscope` command, it needs a key to run, and
@@ -2611,7 +2611,7 @@ available, what is not, and what has actually been run.
 # Security
 
 URL: https://memory.kleosresearch.xyz/docs/security/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 The engine ships as object code rather than source. That is a distribution
 choice, not a security guarantee: a native binary on your machine is still
@@ -2674,7 +2674,7 @@ says what those commitments will be.
 # Give your agent the skill
 
 URL: https://memory.kleosresearch.xyz/docs/skill/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 An agent uses memory only if something told it to. `kscope init` installs that
 something: one skill file, and a short marked block in whichever instruction
@@ -2759,7 +2759,7 @@ and stops.
 <!-- >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 instruction=claude -->
 ## Kaleidoscope memory
 
-This project's memory across sessions: decisions made, preferences stated, constraints, corrections, and what past work produced. `search` reads it, `remember` writes it. All local -- no network, nothing leaves this machine.
+This project's memory across sessions: decisions made, preferences stated, constraints, corrections, and what past work produced. `search` reads it, `remember` writes it. Memories, queries and results stay on this machine; the one network request is a licence check that sends Kleos's licence server the key, the platform and the kscope version, nothing from the vault.
 
 **Prefer the CLI when you have a shell.** One invocation costs a couple of dozen tokens; the MCP tool definitions sit in your context all session (~1,800) whether or not you call them. Use the MCP `search`/`remember` tools only when you have no shell -- same engine, same vault.
 
@@ -2825,7 +2825,7 @@ agent-instructions.md.
 # Troubleshooting
 
 URL: https://memory.kleosresearch.xyz/docs/troubleshooting/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Every heading below is a symptom. Find the one that matches what you saw.
 
@@ -2968,7 +2968,7 @@ path on stderr, unprompted. Cut that line too.
 # See what your agent remembers
 
 URL: https://memory.kleosresearch.xyz/docs/ui/
-Updated: 2026-09-21
+Updated: 2026-10-04
 
 Your agent's memories live in a vault on your own machine. Kaleidoscope UI opens
 them in your browser so you can read them, fix the ones that are wrong, and
@@ -3039,10 +3039,10 @@ Install the engine · Activate it
 # Status
 
 URL: https://memory.kleosresearch.xyz/status/
-Release: 0.0.7
-Updated: 2026-09-21
+Release: 0.0.8
+Updated: 2026-10-04
 
-As of 2026-09-21
+As of 2026-10-04
 
 Kaleidoscope installs from npm and runs on your machine. It needs a key.
 Nothing is signed for release, and there is no account to sign in to.
@@ -3062,8 +3062,8 @@ then follow Getting started.
 
 | | |
 |---|---|
-| Package | 0.0.7 on npm |
-| Documentation | updated 2026-09-21 |
+| Package | 0.0.8 on npm |
+| Documentation | updated 2026-10-04 |
 | Signed builds | none, so what you install is unsigned software |
 | Accounts | none, and none to create |
 | Python package | none — `kscope-memory` on PyPI is a 0.0.0 placeholder with no working code, and `kaleidoscope-memory` was never registered |
@@ -3125,7 +3125,10 @@ already been tried and rejected, what a past piece of work actually produced.
 Two things you can do. **Read it** with `search`. **Write to it** with
 `remember`. That is the whole surface.
 
-Everything is local. No network call, nothing leaves this machine.
+Memories, queries and search results stay on this machine, and no external model
+is called. The one network request is the licence check: `kscope` sends Kleos's
+licence server (`account.kleosresearch.xyz`) the key, the platform and its
+version, and nothing from the vault.
 
 ## How to call it
 
@@ -3348,6 +3351,8 @@ OPERATOR -- what this build is
 OPERATOR -- bring a vault into existence, and wire this machine's agents to it
 
   kscope init [process-local|durable-local] [--no-wire]
+  kscope init --shared
+  kscope init --vault <PROFILE>
   kscope init <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
   kscope init-profile <NAME> <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
 
@@ -3368,39 +3373,42 @@ OPERATOR -- which vault a command that names none resolves to
 OPERATOR -- maintain a local vault
 
   kscope vault-migrate <ROOT>
+  kscope vault-upgrade <ROOT>
+  kscope vault-rollback <ROOT> [--confirm <HEAD>]
   kscope vault-verify <ROOT> [--cross-backend]
   kscope vault-preview <ROOT>
   kscope vault-delete <ROOT>
 
-OPERATOR -- encrypted repository vaults, a frozen macOS-preview feature
+OPERATOR -- encrypted repository vaults, deprecated: removed in the next release
 
-  kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>
   kscope vault-open <REPOSITORY>
   kscope vault-close <REPOSITORY>
   kscope vault-recover <REPOSITORY>
   kscope vault-export-device <REPOSITORY> <NEW_PACKAGE_DIRECTORY>
-  kscope vault-import-device <PACKAGE_DIRECTORY> <REPOSITORY>
-  kscope vault-encrypted-preview <REPOSITORY>
-  kscope vault-encrypted-delete <REPOSITORY>
+
+  To move an encrypted vault to a plain one: stop the agents that use it; open
+  it with vault-open, or with vault-recover on a machine whose Keychain lacks
+  it; copy the entries of the .kaleidoscope folder in <REPOSITORY> to a new
+  folder, leaving out volume metadata such as .fseventsd, .Spotlight-V100 and
+  .Trashes; close it with vault-close; the copy is not encrypted, so make git
+  ignore it before it enters <REPOSITORY>: add the line .kaleidoscope/ to the
+  .gitignore in <REPOSITORY> unless it is already there; move the copy into
+  <REPOSITORY> as its .kaleidoscope folder; check that folder with kscope
+  vault-verify; then remove .kaleidoscope.sparsebundle, .kaleidoscope.vault.json
+  and the Keychain item com.kleos.kaleidoscope.vault.
 
 OPERATOR -- run an engine for an agent, addressed three ways
 
   kscope mcp --profile <NAME>
-  kscope serve --profile <NAME>
-  kscope context --profile <NAME>
   kscope call --profile <NAME> <OPERATION>
   kscope mcp [process-local|durable-local]
-  kscope serve [process-local|durable-local]
-  kscope context [process-local|durable-local]
   kscope call <OPERATION> [process-local|durable-local]
   kscope mcp <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
-  kscope serve <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
-  kscope context <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
   kscope call <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> <OPERATION> [process-local|durable-local]
 
 NOTES
 
-  Addressing. The four engine commands take the four ids or none. Naming none
+  Addressing. The two engine commands take the four ids or none. Naming none
   resolves KSCOPE_ROOT, else `.kaleidoscope/` under the repository's main
   checkout, else under the working directory; the vault's own workspace record
   supplies the rest, and KSCOPE_WORKSPACE, KSCOPE_PRINCIPAL and KSCOPE_JOURNAL
@@ -3412,16 +3420,18 @@ NOTES
   there is touched, because a second init would mint a second workspace inside
   it; durable-local on a fresh root is refused before any effect, so it is asked
   for rather than defaulted to. Init also ensures the repository ignores the
-  vault: `git check-ignore` decides whether a rule already covers it, and
-  otherwise one commented rule is APPENDED, never reordering or rewriting the
-  file.
+  vault: unless the repository's .gitignore already holds the vault's own rule,
+  anchored or not, one commented rule is APPENDED, never reordering or rewriting
+  the file. A different rule that happens to cover the vault is not recognised,
+  so the file can gain one redundant line.
 
   Wiring. The resolved form does not stop at the vault. A harness counts as
   present only when the configuration directory the harness itself creates is
   already there, so nothing is written for a tool this machine does not run. For
   codex, claude-code, cursor and
-  opencode it registers this executable as an MCP server in that harness's
-  user-scope configuration, writes the instruction file that
+  opencode it registers this executable as an MCP server for this project only
+  (Claude Code's local scope in .claude.json; the project's .codex/config.toml,
+  .cursor/mcp.json and opencode.json), writes the instruction file that
 harness reads, and installs the memory skill. Cursor has no skill directory and
   gets its rule file alone. When no harness
 is detected AGENTS.md is written anyway, because it is the one convention every
@@ -3431,6 +3441,47 @@ is detected AGENTS.md is written anyway, because it is the one convention every
   non-zero exit would send the reader to look at the wrong thing. Re-running
   init is how a harness installed later gets registered, so an init refused for
   an existing vault still wires and still exits 0.
+
+  Which vault the agents open. Each project's agents open that project's own
+  vault, through a profile named after the project folder, which init creates
+  (and repoints, when the vault it named was deleted and made again). The
+  first init on a machine also creates the default profile, naming that first
+  vault, for the commands and older entries that name it. `--shared` wires
+  this project's agents to the shared vault instead: .kaleidoscope in your
+  home folder, a vault of its own under the shared profile, made on first
+  use. `--vault <PROFILE>` wires them to any existing profile's vault. Neither
+  creates a vault in the project, and a later init keeps that choice. A
+  project whose agents already use the vault the default profile names,
+  through the user-wide entry an earlier kscope wrote, stays on it, and init
+  names the command that moves it. Every harness is registered in every
+  existing checkout of the repository, the main one and each worktree, since
+  they share one vault, and Claude Code also in the subfolder init ran in; in
+  a worktree made later, `kscope where` says to run init there. The project's
+  .codex/config.toml, .cursor/mcp.json and opencode.json name this machine's
+  engine, so init appends a .gitignore rule for each, covering its receipt and
+  backup too, and a teammate never receives them. A user-wide entry an
+  earlier kscope wrote is kept, and init and `kscope where` warn which folders
+  still open its vault: every folder with no entry of its own. `kscope init`
+  in a folder gives it its own.
+
+  An npm install registers a copy of itself, kscope in .kaleidoscope/bin under
+  your home directory, rather than its own path, which npm may delete. A newer
+  release of kscope, however it was installed, replaces an older copy when it
+  runs one of the two engine commands; a build from source never does. init
+  from npm installs its own engine there even over a newer one, which is how to
+  roll the agents back. `kscope where` reports both versions. The copy is not
+  part of the home vault: vault-preview does not count it and vault-delete
+  leaves it where it is.
+
+  The way back. The upgrade to format 2 keeps the vault's old database as
+  one file beside it, until 10 saves or 3 days after the first save, whichever
+  comes first; the save that makes it due deletes it. `kscope vault-rollback
+  <ROOT>` changes nothing: it says whether the vault can go back, which
+  memories that drops (titles are the vault's own text, shown as data), and
+  the exact command that does it, `--confirm <HEAD>` with the vault's head
+  commit, which refuses if any save landed since. Ask the person before
+  confirming. kscope is one engine per Mac, so going back affects every
+  project's agents; the dry run lists the other vaults and the next steps.
 
   `--no-wire` creates the vault and stops. It belongs to the resolved form
   alone: `kscope init --no-wire` and `kscope init <DURABILITY> --no-wire`.
@@ -3443,38 +3494,34 @@ is detected AGENTS.md is written anyway, because it is the one convention every
 The call command reads one JSON request from stdin. OPERATION is one of:
 
   AGENT     search | remember
-  OPERATOR  feedback | memory_lifecycle | memory_import | address_maintenance
-            maintenance | ontology | doctor
+  OPERATOR  memory_lifecycle | memory_import | maintenance | ontology | doctor
 
-Only the two agent verbs are published as MCP tools. A ranked search always
-writes the exposure row and bounds the served set -- `ledger: false` is refused,
-so a measurement that must not write to a vault has to clone it first.
+Only the two agent verbs are published as MCP tools. A search is a read: it
+ranks, bounds and returns the served set and writes nothing to the vault, so
+repeating it is safe. `ledger: true` is accepted and `ledger: false` refused.
 
 Output. `call search` and `call remember` print a short text receipt. Add
 `--json` anywhere on the line for the full response object, which is what a
 script or a benchmark parses.
-The context command reads one search JSON request from stdin and prints only
-the concise model-visible memory text.
 
 Exit codes. 0 means applied: everything asked for happened. 2 means refused:
 nothing was applied and stdout carries a refusal envelope, so fix the request and
 re-send it whole. 3 means applied in part: the response says status partial and
 stdout carries results -- one entry per submitted item, in submission order --
-so re-send only the items whose status is not a write.
+so re-send only the items whose status is not a write. 141 means stdout was
+closed before kscope finished writing, as in `kscope licences | head`: nothing
+is printed about it, and whatever was already applied stays applied. `kscope mcp`
+exits 0 instead, because a closed stdout is its client leaving.
 
-What a model never sees. call search returns the bounded public result. The
-signed decision payload, the private policy and ranker feature vectors and
-engine diagnostics are withheld on every public channel, on both doors.
+What a model never sees. call search returns the bounded public result. How
+that result was scored, the signed decision payload and engine diagnostics are
+withheld on every public channel, on both doors.
 
-The optional serve command uses a Unix-domain socket and is unavailable on
-non-Unix platforms. The stdio mcp command and process-scoped call command do
-not depend on it.
-
-The model command names the embedding model this executable carries, and a
-release must report one. The gate command reports the alpha entitlement gate
+The model command reports the embedding model built into this executable, and
+a release must carry one. The gate command reports the alpha entitlement gate
 without reading a key or opening a vault. The licences command prints the
-notices this one-file binary redistributes, MinishLab's embedding table among
-them; `licenses`
+notices for the third-party components this one-file binary redistributes;
+`licenses`
 is accepted as a spelling.
 
 The schema command prints one OPERATION's full descriptive parameters and
@@ -3562,7 +3609,7 @@ URL: https://memory.kleosresearch.xyz/reference/kaleidoscope-mcp.json
 URL: https://memory.kleosresearch.xyz/status.json
 
 {
-  "as of": "2026-09-21",
+  "as of": "2026-10-04",
   "hosts": {
     "hosts": [
       {
@@ -3629,7 +3676,7 @@ URL: https://memory.kleosresearch.xyz/status.json
     ],
     "there are no account or sign-in commands": "Signing in, linking an account, listing devices and revoking a session are verbs of a second program, which is not published on any channel. Nothing you can install carries them. A key is all Kaleidoscope asks for, and your vault has never depended on an account.",
     "there is no Python package": "kscope-memory is registered on PyPI, but only as a 0.0.0 placeholder that ships no working code; its own summary says it is not yet released. kaleidoscope-memory was planned and never registered.",
-    "version": "0.0.7"
+    "version": "0.0.8"
   },
   "publicly available": true,
   "released": true,
