@@ -5,7 +5,7 @@ alwaysApply: true
 ---
 ## Kaleidoscope memory
 
-This project's memory across sessions: decisions made, preferences stated, constraints, corrections, and what past work produced. `search` reads it, `remember` writes it. All local -- no network, nothing leaves this machine.
+This project's memory across sessions: decisions made, preferences stated, constraints, corrections, and what past work produced. `search` reads it, `remember` writes it. Memories, queries and results stay on this machine; the one network request is a licence check that sends Kleos's licence server the key, the platform and the kscope version, nothing from the vault.
 
 **Prefer the CLI when you have a shell.** One invocation costs a couple of dozen tokens; the MCP tool definitions sit in your context all session (~1,800) whether or not you call them. Use the MCP `search`/`remember` tools only when you have no shell -- same engine, same vault.
 

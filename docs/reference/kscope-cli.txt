@@ -32,6 +32,8 @@ OPERATOR -- what this build is
 OPERATOR -- bring a vault into existence, and wire this machine's agents to it
 
   kscope init [process-local|durable-local] [--no-wire]
+  kscope init --shared
+  kscope init --vault <PROFILE>
   kscope init <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
   kscope init-profile <NAME> <ROOT> <RFC3339_CREATED_AT> [process-local|durable-local]
 
@@ -52,39 +54,42 @@ OPERATOR -- which vault a command that names none resolves to
 OPERATOR -- maintain a local vault
 
   kscope vault-migrate <ROOT>
+  kscope vault-upgrade <ROOT>
+  kscope vault-rollback <ROOT> [--confirm <HEAD>]
   kscope vault-verify <ROOT> [--cross-backend]
   kscope vault-preview <ROOT>
   kscope vault-delete <ROOT>
 
-OPERATOR -- encrypted repository vaults, a frozen macOS-preview feature
+OPERATOR -- encrypted repository vaults, deprecated: removed in the next release
 
-  kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>
   kscope vault-open <REPOSITORY>
   kscope vault-close <REPOSITORY>
   kscope vault-recover <REPOSITORY>
   kscope vault-export-device <REPOSITORY> <NEW_PACKAGE_DIRECTORY>
-  kscope vault-import-device <PACKAGE_DIRECTORY> <REPOSITORY>
-  kscope vault-encrypted-preview <REPOSITORY>
-  kscope vault-encrypted-delete <REPOSITORY>
+
+  To move an encrypted vault to a plain one: stop the agents that use it; open
+  it with vault-open, or with vault-recover on a machine whose Keychain lacks
+  it; copy the entries of the .kaleidoscope folder in <REPOSITORY> to a new
+  folder, leaving out volume metadata such as .fseventsd, .Spotlight-V100 and
+  .Trashes; close it with vault-close; the copy is not encrypted, so make git
+  ignore it before it enters <REPOSITORY>: add the line .kaleidoscope/ to the
+  .gitignore in <REPOSITORY> unless it is already there; move the copy into
+  <REPOSITORY> as its .kaleidoscope folder; check that folder with kscope
+  vault-verify; then remove .kaleidoscope.sparsebundle, .kaleidoscope.vault.json
+  and the Keychain item com.kleos.kaleidoscope.vault.
 
 OPERATOR -- run an engine for an agent, addressed three ways
 
   kscope mcp --profile <NAME>
-  kscope serve --profile <NAME>
-  kscope context --profile <NAME>
   kscope call --profile <NAME> <OPERATION>
   kscope mcp [process-local|durable-local]
-  kscope serve [process-local|durable-local]
-  kscope context [process-local|durable-local]
   kscope call <OPERATION> [process-local|durable-local]
   kscope mcp <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
-  kscope serve <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
-  kscope context <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> [process-local|durable-local]
   kscope call <ROOT> <WORKSPACE_ID> <PRINCIPAL_ID> <JOURNAL> <OPERATION> [process-local|durable-local]
 
 NOTES
 
-  Addressing. The four engine commands take the four ids or none. Naming none
+  Addressing. The two engine commands take the four ids or none. Naming none
   resolves KSCOPE_ROOT, else `.kaleidoscope/` under the repository's main
   checkout, else under the working directory; the vault's own workspace record
   supplies the rest, and KSCOPE_WORKSPACE, KSCOPE_PRINCIPAL and KSCOPE_JOURNAL
@@ -96,16 +101,18 @@ NOTES
   there is touched, because a second init would mint a second workspace inside
   it; durable-local on a fresh root is refused before any effect, so it is asked
   for rather than defaulted to. Init also ensures the repository ignores the
-  vault: `git check-ignore` decides whether a rule already covers it, and
-  otherwise one commented rule is APPENDED, never reordering or rewriting the
-  file.
+  vault: unless the repository's .gitignore already holds the vault's own rule,
+  anchored or not, one commented rule is APPENDED, never reordering or rewriting
+  the file. A different rule that happens to cover the vault is not recognised,
+  so the file can gain one redundant line.
 
   Wiring. The resolved form does not stop at the vault. A harness counts as
   present only when the configuration directory the harness itself creates is
   already there, so nothing is written for a tool this machine does not run. For
   codex, claude-code, cursor and
-  opencode it registers this executable as an MCP server in that harness's
-  user-scope configuration, writes the instruction file that
+  opencode it registers this executable as an MCP server for this project only
+  (Claude Code's local scope in .claude.json; the project's .codex/config.toml,
+  .cursor/mcp.json and opencode.json), writes the instruction file that
 harness reads, and installs the memory skill. Cursor has no skill directory and
   gets its rule file alone. When no harness
 is detected AGENTS.md is written anyway, because it is the one convention every
@@ -115,6 +122,47 @@ is detected AGENTS.md is written anyway, because it is the one convention every
   non-zero exit would send the reader to look at the wrong thing. Re-running
   init is how a harness installed later gets registered, so an init refused for
   an existing vault still wires and still exits 0.
+
+  Which vault the agents open. Each project's agents open that project's own
+  vault, through a profile named after the project folder, which init creates
+  (and repoints, when the vault it named was deleted and made again). The
+  first init on a machine also creates the default profile, naming that first
+  vault, for the commands and older entries that name it. `--shared` wires
+  this project's agents to the shared vault instead: .kaleidoscope in your
+  home folder, a vault of its own under the shared profile, made on first
+  use. `--vault <PROFILE>` wires them to any existing profile's vault. Neither
+  creates a vault in the project, and a later init keeps that choice. A
+  project whose agents already use the vault the default profile names,
+  through the user-wide entry an earlier kscope wrote, stays on it, and init
+  names the command that moves it. Every harness is registered in every
+  existing checkout of the repository, the main one and each worktree, since
+  they share one vault, and Claude Code also in the subfolder init ran in; in
+  a worktree made later, `kscope where` says to run init there. The project's
+  .codex/config.toml, .cursor/mcp.json and opencode.json name this machine's
+  engine, so init appends a .gitignore rule for each, covering its receipt and
+  backup too, and a teammate never receives them. A user-wide entry an
+  earlier kscope wrote is kept, and init and `kscope where` warn which folders
+  still open its vault: every folder with no entry of its own. `kscope init`
+  in a folder gives it its own.
+
+  An npm install registers a copy of itself, kscope in .kaleidoscope/bin under
+  your home directory, rather than its own path, which npm may delete. A newer
+  release of kscope, however it was installed, replaces an older copy when it
+  runs one of the two engine commands; a build from source never does. init
+  from npm installs its own engine there even over a newer one, which is how to
+  roll the agents back. `kscope where` reports both versions. The copy is not
+  part of the home vault: vault-preview does not count it and vault-delete
+  leaves it where it is.
+
+  The way back. The upgrade to format 2 keeps the vault's old database as
+  one file beside it, until 10 saves or 3 days after the first save, whichever
+  comes first; the save that makes it due deletes it. `kscope vault-rollback
+  <ROOT>` changes nothing: it says whether the vault can go back, which
+  memories that drops (titles are the vault's own text, shown as data), and
+  the exact command that does it, `--confirm <HEAD>` with the vault's head
+  commit, which refuses if any save landed since. Ask the person before
+  confirming. kscope is one engine per Mac, so going back affects every
+  project's agents; the dry run lists the other vaults and the next steps.
 
   `--no-wire` creates the vault and stops. It belongs to the resolved form
   alone: `kscope init --no-wire` and `kscope init <DURABILITY> --no-wire`.
@@ -127,38 +175,34 @@ is detected AGENTS.md is written anyway, because it is the one convention every
 The call command reads one JSON request from stdin. OPERATION is one of:
 
   AGENT     search | remember
-  OPERATOR  feedback | memory_lifecycle | memory_import | address_maintenance
-            maintenance | ontology | doctor
+  OPERATOR  memory_lifecycle | memory_import | maintenance | ontology | doctor
 
-Only the two agent verbs are published as MCP tools. A ranked search always
-writes the exposure row and bounds the served set -- `ledger: false` is refused,
-so a measurement that must not write to a vault has to clone it first.
+Only the two agent verbs are published as MCP tools. A search is a read: it
+ranks, bounds and returns the served set and writes nothing to the vault, so
+repeating it is safe. `ledger: true` is accepted and `ledger: false` refused.
 
 Output. `call search` and `call remember` print a short text receipt. Add
 `--json` anywhere on the line for the full response object, which is what a
 script or a benchmark parses.
-The context command reads one search JSON request from stdin and prints only
-the concise model-visible memory text.
 
 Exit codes. 0 means applied: everything asked for happened. 2 means refused:
 nothing was applied and stdout carries a refusal envelope, so fix the request and
 re-send it whole. 3 means applied in part: the response says status partial and
 stdout carries results -- one entry per submitted item, in submission order --
-so re-send only the items whose status is not a write.
+so re-send only the items whose status is not a write. 141 means stdout was
+closed before kscope finished writing, as in `kscope licences | head`: nothing
+is printed about it, and whatever was already applied stays applied. `kscope mcp`
+exits 0 instead, because a closed stdout is its client leaving.
 
-What a model never sees. call search returns the bounded public result. The
-signed decision payload, the private policy and ranker feature vectors and
-engine diagnostics are withheld on every public channel, on both doors.
+What a model never sees. call search returns the bounded public result. How
+that result was scored, the signed decision payload and engine diagnostics are
+withheld on every public channel, on both doors.
 
-The optional serve command uses a Unix-domain socket and is unavailable on
-non-Unix platforms. The stdio mcp command and process-scoped call command do
-not depend on it.
-
-The model command names the embedding model this executable carries, and a
-release must report one. The gate command reports the alpha entitlement gate
+The model command reports the embedding model built into this executable, and
+a release must carry one. The gate command reports the alpha entitlement gate
 without reading a key or opening a vault. The licences command prints the
-notices this one-file binary redistributes, MinishLab's embedding table among
-them; `licenses`
+notices for the third-party components this one-file binary redistributes;
+`licenses`
 is accepted as a spelling.
 
 The schema command prints one OPERATION's full descriptive parameters and

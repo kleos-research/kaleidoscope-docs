@@ -81,17 +81,17 @@ PUBLIC_UPSTREAM_SOURCES = {
             "use-kaleidoscope/SKILL.md"
         ),
         "what": "the skill file `kscope init` installs",
-        "sha256": "f84f24e612920229fc8883f2b7dc4c67b9f33cf6595e93241a98a68993973c77",
+        "sha256": "825bd92b809f4ce3cdbb23dc2c2a6125dd84596f5154c329444bd9d98f3c78a6",
     },
     "src/data/public/snippets/AGENTS.md": {
         "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/AGENTS.md",
         "what": "the block `kscope init` appends to AGENTS.md",
-        "sha256": "252091b601ea27da5317a4265d28739bfdcf894318d15f27e1bf1bcdf97f11bf",
+        "sha256": "74b944830ed1c16fa865f5928f977d4097166edc6b44729bf026dbbbd2a99fc0",
     },
     "src/data/public/snippets/CLAUDE.md": {
         "where": "kaleidoscope: crates/kaleidoscope-manager/snippets/CLAUDE.md",
         "what": "the block `kscope init` appends to CLAUDE.md",
-        "sha256": "ab8e49389f1bb6d3e4f41703600df7de0abb3ff3b90678ec1bea76e67112b4a2",
+        "sha256": "33974aa855e011f04f4ed237e37ea373fe689874742308dd4412f2d354b880a8",
     },
     "src/data/public/snippets/cursor-kaleidoscope.mdc": {
         "where": (
@@ -99,12 +99,12 @@ PUBLIC_UPSTREAM_SOURCES = {
             "cursor-kaleidoscope.mdc"
         ),
         "what": "the rule file `kscope init` writes for Cursor",
-        "sha256": "452d17ab59f5a826de697974d602d62f01ebe3f57d788a14291842b51e7f3cbc",
+        "sha256": "46b6e3c3da20fa42763842b8b82be039e8d28a3fe7c73881e6eb90f7bb3e372f",
     },
     "src/data/kaleidoscope-cli.txt": {
-        "where": "@kleos-research/kaleidoscope@0.0.7: `kscope --help`",
+        "where": "@kleos-research/kaleidoscope@0.0.8: `kscope --help`",
         "what": "the help text of the executable the package installs",
-        "sha256": "69bb90a4d95dd47aaf75ff4f5ec0f7ca9f0aa73d22a3fc6f5d140bf8d920e05e",
+        "sha256": "64d2476950098ecba75cc79a2d8627f3305c02c284b2c29cd891eb49628142f7",
     },
 }
 

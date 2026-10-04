@@ -12,7 +12,10 @@ already been tried and rejected, what a past piece of work actually produced.
 Two things you can do. **Read it** with `search`. **Write to it** with
 `remember`. That is the whole surface.
 
-Everything is local. No network call, nothing leaves this machine.
+Memories, queries and search results stay on this machine, and no external model
+is called. The one network request is the licence check: `kscope` sends Kleos's
+licence server (`account.kleosresearch.xyz`) the key, the platform and its
+version, and nothing from the vault.
 
 ## How to call it
 

@@ -49,7 +49,6 @@ class RecordedSurfaceTest(unittest.TestCase):
         for shipped in (
             "activate",
             "call",
-            "context",
             "gate",
             "init",
             "init-profile",
@@ -59,7 +58,6 @@ class RecordedSurfaceTest(unittest.TestCase):
             "profile",
             "public-contract",
             "schema",
-            "serve",
             "vault-verify",
             "where",
         ):
