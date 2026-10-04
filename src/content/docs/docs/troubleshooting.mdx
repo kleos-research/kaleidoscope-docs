@@ -24,18 +24,20 @@ kscope where
 kscope profile list
 ```
 
-`profile list` must show `default` with `"valid":true`. The tools an agent sees
+`profile list` must show the profile the editor starts with `"valid":true`:
+the one named after the project folder, or `default` for a project set up by an
+earlier version. The tools an agent sees
 are exactly `search` and `remember` — anything else is another server.
 
 ## Your editor says `profile does not exist`
 
-`kscope init` creates the `default` profile along with the vault, so a project
+`kscope init` creates the project's profile along with the vault, so a project
 set up that way does not hit this. You will see it when the vault was created
 with `kscope init --no-wire`, which writes no profile because it wires no
-editor. Write one:
+editor. Write the one your editor's entry names, here `your-project`:
 
 ```bash
-kscope profile import default ~/your-project/.kaleidoscope
+kscope profile import your-project ~/your-project/.kaleidoscope
 ```
 
 Restart the editor.
@@ -57,7 +59,7 @@ Your vault is untouched by the refusal. No key yet? Email
 
 | | Commands |
 |---|---|
-| Need a key | `mcp`, `serve`, `context`, `call` |
+| Need a key | `mcp`, `call` |
 | Work without one | `where`, `schema`, `model`, `gate`, `vault-preview`, `vault-verify`, `vault-migrate` |
 
 ## Your agent is reading the wrong project's memory
@@ -95,9 +97,7 @@ owner receipt
 ```
 
 Something inside a marked block changed after `kscope init` wrote it. The other
-steps still ran. Either delete that block and run `kscope init` again, or
-overwrite it with `kscope init --force`, which prints the bytes it discards
-first.
+steps still ran. Delete that block and run `kscope init` again.
 
 ## OpenCode configuration is refused
 
@@ -105,7 +105,7 @@ OpenCode has two configuration shapes, `stable-v1` and `beta-v2`. `kscope init`
 adopts the one already in your file and never rewrites stable into beta. When
 both are present it stops and asks for manual review.
 
-Remove the duplicate Kaleidoscope entry from `~/.config/opencode/opencode.json`,
+Remove the duplicate Kaleidoscope entry from the project's `opencode.json`,
 then run `kscope init` again.
 
 ## There is no `kscope login`

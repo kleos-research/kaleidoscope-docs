@@ -121,7 +121,12 @@ argument.</p>
 
 
 
-<div class="table-scroll" tabindex="0"><table><thead><tr><th>To do this</th><th>Run</th><th>Page</th></tr></thead><tbody><tr><td>Create a vault and wire your editor</td><td><code dir="auto">init</code></td><td><a href="/docs/cli/connect/">Connect an editor</a></td></tr><tr><td>Write the instruction file and skill</td><td><code dir="auto">init</code></td><td><a href="/docs/cli/instructions/">Agent instructions</a></td></tr><tr><td>Name a vault so an editor can start with it</td><td><code dir="auto">init-profile</code>, <code dir="auto">profile create</code>, <code dir="auto">profile import</code></td><td><a href="/docs/cli/profiles/">Profiles and vaults</a></td></tr><tr><td>See, inspect or forget a profile</td><td><code dir="auto">profile list</code>, <code dir="auto">profile show</code>, <code dir="auto">profile launch</code>, <code dir="auto">profile remove</code></td><td><a href="/docs/cli/profiles/">Profiles and vaults</a></td></tr><tr><td>Find out which vault you are talking to</td><td><code dir="auto">where</code></td><td><a href="/docs/cli/diagnostics/">Diagnostics</a></td></tr><tr><td>Check the key, the model, the vault</td><td><code dir="auto">gate</code>, <code dir="auto">activate</code>, <code dir="auto">model</code>, <code dir="auto">vault-verify</code></td><td><a href="/docs/cli/diagnostics/">Diagnostics</a></td></tr><tr><td>Run an engine for an agent</td><td><code dir="auto">mcp</code>, <code dir="auto">serve</code>, <code dir="auto">context</code>, <code dir="auto">call</code></td><td><a href="/docs/mcp/">MCP reference</a></td></tr><tr><td>Migrate, preview or delete a vault</td><td><code dir="auto">vault-migrate</code>, <code dir="auto">vault-preview</code>, <code dir="auto">vault-delete</code></td><td><a href="/docs/operations/">Operations</a></td></tr><tr><td>Read the tool contract</td><td><code dir="auto">schema</code></td><td><a href="/docs/mcp/">MCP reference</a></td></tr><tr><td>Read the third-party notices</td><td><code dir="auto">licences</code></td><td>—</td></tr></tbody></table></div>
+
+
+
+
+
+<div class="table-scroll" tabindex="0"><table><thead><tr><th>To do this</th><th>Run</th><th>Page</th></tr></thead><tbody><tr><td>Create a vault and wire your editor</td><td><code dir="auto">init</code></td><td><a href="/docs/cli/connect/">Connect an editor</a></td></tr><tr><td>Write the instruction file and skill</td><td><code dir="auto">init</code></td><td><a href="/docs/cli/instructions/">Agent instructions</a></td></tr><tr><td>Name a vault so an editor can start with it</td><td><code dir="auto">init-profile</code>, <code dir="auto">profile create</code>, <code dir="auto">profile import</code></td><td><a href="/docs/cli/profiles/">Profiles and vaults</a></td></tr><tr><td>See, inspect or forget a profile</td><td><code dir="auto">profile list</code>, <code dir="auto">profile show</code>, <code dir="auto">profile launch</code>, <code dir="auto">profile remove</code></td><td><a href="/docs/cli/profiles/">Profiles and vaults</a></td></tr><tr><td>Find out which vault you are talking to</td><td><code dir="auto">where</code></td><td><a href="/docs/cli/diagnostics/">Diagnostics</a></td></tr><tr><td>Check the key, the model, the vault</td><td><code dir="auto">gate</code>, <code dir="auto">activate</code>, <code dir="auto">model</code>, <code dir="auto">vault-verify</code></td><td><a href="/docs/cli/diagnostics/">Diagnostics</a></td></tr><tr><td>Run an engine for an agent</td><td><code dir="auto">mcp</code>, <code dir="auto">call</code></td><td><a href="/docs/mcp/">MCP reference</a></td></tr><tr><td>Migrate, preview or delete a vault</td><td><code dir="auto">vault-migrate</code>, <code dir="auto">vault-preview</code>, <code dir="auto">vault-delete</code></td><td><a href="/docs/operations/">Operations</a></td></tr><tr><td>Upgrade a vault, or undo the upgrade</td><td><code dir="auto">vault-upgrade</code>, <code dir="auto">vault-rollback</code></td><td><a href="/docs/operations/">Operations</a></td></tr><tr><td>Read the tool contract</td><td><code dir="auto">schema</code></td><td><a href="/docs/mcp/">MCP reference</a></td></tr><tr><td>Read the third-party notices</td><td><code dir="auto">licences</code></td><td>—</td></tr></tbody></table></div>
 <p><code dir="auto">kscope init</code> appears twice because one run does both jobs: it creates the
 vault, then tells every agent on this machine that the vault exists.</p>
 <div class="sl-heading-wrapper level-h2"><h2 id="the-flags">The flags</h2><a class="sl-anchor-link" href="#the-flags"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The flags”</span></a></div>
@@ -165,7 +170,22 @@ vault, then tells every agent on this machine that the vault exists.</p>
 
 
 
-<div class="table-scroll" tabindex="0"><table><thead><tr><th>Flag</th><th>On</th><th>Effect</th></tr></thead><tbody><tr><td><code dir="auto">--profile NAME</code></td><td><code dir="auto">mcp</code>, <code dir="auto">serve</code>, <code dir="auto">context</code>, <code dir="auto">call</code></td><td>Work in the vault that profile names. Nothing else accepts it.</td></tr><tr><td><code dir="auto">--no-wire</code></td><td><code dir="auto">init</code></td><td>Create the vault and write no editor configuration. Real, though <code dir="auto">--help</code> does not list it.</td></tr><tr><td><code dir="auto">--root-only</code></td><td><code dir="auto">where</code></td><td>Print only the vault root and the project it came from.</td></tr><tr><td><code dir="auto">--cross-backend</code></td><td><code dir="auto">vault-verify</code></td><td>Widen the check.</td></tr><tr><td><code dir="auto">--help</code>, <code dir="auto">-h</code></td><td>any invocation</td><td>Print the command surface.</td></tr><tr><td><code dir="auto">--version</code>, <code dir="auto">-V</code></td><td>any invocation</td><td>Print the version.</td></tr></tbody></table></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-scroll" tabindex="0"><table><thead><tr><th>Flag</th><th>On</th><th>Effect</th></tr></thead><tbody><tr><td><code dir="auto">--profile NAME</code></td><td><code dir="auto">mcp</code>, <code dir="auto">call</code></td><td>Work in the vault that profile names. Nothing else accepts it.</td></tr><tr><td><code dir="auto">--no-wire</code></td><td><code dir="auto">init</code></td><td>Create the vault and write no editor configuration.</td></tr><tr><td><code dir="auto">--shared</code></td><td><code dir="auto">init</code></td><td>Wire this project’s agents to the shared vault in your home folder instead of giving the project its own.</td></tr><tr><td><code dir="auto">--vault PROFILE</code></td><td><code dir="auto">init</code></td><td>Wire this project’s agents to the vault an existing profile names, and create none.</td></tr><tr><td><code dir="auto">--confirm HEAD</code></td><td><code dir="auto">vault-rollback</code></td><td>Undo the upgrade. Take the exact command the dry run prints.</td></tr><tr><td><code dir="auto">--root-only</code></td><td><code dir="auto">where</code></td><td>Print only the vault root and the project it came from.</td></tr><tr><td><code dir="auto">--cross-backend</code></td><td><code dir="auto">vault-verify</code></td><td>Widen the check.</td></tr><tr><td><code dir="auto">--help</code>, <code dir="auto">-h</code></td><td>any invocation</td><td>Print the command surface.</td></tr><tr><td><code dir="auto">--version</code>, <code dir="auto">-V</code></td><td>any invocation</td><td>Print the version.</td></tr></tbody></table></div>
 <p><code dir="auto">kscope init</code> takes no <code dir="auto">--profile</code>. It works on the directory you are in, or on
 a root you name as a positional argument.</p>
 <p>There is no <code dir="auto">--engine</code>, no <code dir="auto">--dry-run</code> and no <code dir="auto">--yes</code>. An unknown verb prints
@@ -192,14 +212,16 @@ created.</p>
 
 
 
-<div class="table-scroll" tabindex="0"><table><thead><tr><th>What</th><th>Where</th><th>Why</th></tr></thead><tbody><tr><td>MCP server entry</td><td>your home directory</td><td>An agent runs your work in a worktree or a temporary clone, and an entry inside one project directory is never read from there.</td></tr><tr><td>Instruction file and skill</td><td>the project</td><td>Git carries them into that worktree or clone.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th>What</th><th>Where</th><th>Why</th></tr></thead><tbody><tr><td>MCP server entry</td><td>the project, or for Claude Code, that project’s entry in <code dir="auto">~/.claude.json</code></td><td>Each project’s agents open that project’s own vault. <code dir="auto">init</code> writes the entry in every existing checkout of the repository, and <code dir="auto">kscope where</code> says when a newer worktree needs one.</td></tr><tr><td>Instruction file and skill</td><td>the project</td><td>Git carries them into a worktree or clone.</td></tr></tbody></table></div>
 <div class="sl-heading-wrapper level-h2"><h2 id="what-init-writes-and-what-it-leaves-alone">What init writes, and what it leaves alone</h2><a class="sl-anchor-link" href="#what-init-writes-and-what-it-leaves-alone"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What init writes, and what it leaves alone”</span></a></div>
 <ul>
 <li>Kaleidoscope writes only the block it owns, between ownership comments
 wherever the file format has room for them.</li>
 <li>Every file it writes gets a receipt beside it:
 <code dir="auto">config.toml.kaleidoscope-owner.json</code> beside a host configuration,
-<code dir="auto">CLAUDE.md.kaleidoscope-instruction-owner.json</code> beside an instruction file.</li>
+<code dir="auto">CLAUDE.md.kaleidoscope-instruction-owner.json</code> beside an instruction file.
+Claude Code’s receipt for a project’s entry sits beside <code dir="auto">~/.claude.json</code>, one
+per project.</li>
 <li>A file it changes rather than creates is copied to
 <code dir="auto">&#x3C;name>.kaleidoscope-backup</code> first. The rest of the file is untouched.</li>
 <li>If what it finds no longer matches the receipt, it stops at that file and

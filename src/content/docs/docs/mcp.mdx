@@ -7,8 +7,8 @@ Kaleidoscope publishes two MCP tools. `search` reads memory, `remember` writes
 it. Nothing else is callable by a model.
 
 `kscope init` registers the server with every editor it finds. Each one starts
-`kscope mcp --profile default` and talks to it over stdio at MCP protocol
-revision `2025-11-25`.
+`kscope mcp --profile` with the project's profile and talks to it over stdio at
+MCP protocol revision `2025-11-25`.
 
 [Machine-readable tool reference](/reference/kaleidoscope-mcp.json) ·
 [Install](/docs/packages/)
@@ -37,9 +37,10 @@ ranked `query` and is refused alongside `memory_id`.
 Omit a knob and you get its published default. A value above its ceiling is
 refused rather than clamped.
 
-A ranked query writes an exposure row into your vault, recording what it
-returned. That is why `ledger: false` is refused: to measure a search without
-writing, clone the vault first.
+A search writes nothing to your vault. It ranks, bounds and returns, so
+repeating it is safe, and many agents can search one vault at once. `ledger` is
+still accepted as `true` so callers that send it keep working; `false` is
+refused, because a ranked search is always the bounded one.
 
 ## remember
 
@@ -50,7 +51,7 @@ writing, clone the vault first.
 | `semantic_delta` | create, update | The structure committed with it. Fields below. |
 | `memory_id` | update, delete | Which memory. |
 | `expected_version_id` | update, delete | The active version you are allowed to replace. |
-| `items` | instead of the pair above | Up to 20 creates in one call, applied in order. |
+| `items` | instead of the pair above | Up to 50 creates in one call, applied in order. |
 
 Inside `semantic_delta`:
 
@@ -101,8 +102,8 @@ kscope schema
 
 ## What a model never sees
 
-Feedback, lifecycle and import, maintenance, ontology and diagnostics are
-operator commands. They are absent from the tool list an agent discovers, and
+Lifecycle and import, maintenance, ontology and diagnostics are operator
+commands. They are absent from the tool list an agent discovers, and
 search results carry no handle that would reach them.
 
 ## Next

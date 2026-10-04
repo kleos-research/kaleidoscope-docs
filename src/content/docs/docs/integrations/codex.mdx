@@ -1,6 +1,6 @@
 ---
 title: Codex
-description: Wire Codex with kscope init — the marked block in ~/.codex/config.toml, the AGENTS.md block, and the .agents skill.
+description: Wire Codex with kscope init — the marked block in the project's .codex/config.toml, the AGENTS.md block, and the .agents skill.
 ---
 
 Install and activate first — [Getting started](/docs/getting-started/) covers both. Without a
@@ -16,26 +16,23 @@ cd ~/your-project
 kscope init
 ```
 
-Run both, in that order. Skip the import and Codex reports
-`profile does not exist`.
-
 Restart Codex, then ask it to search your memory.
 
 ## What init writes
 
 | What | Where |
 |---|---|
-| MCP entry | `~/.codex/config.toml`, inside a `kaleidoscope-manager` marker block |
+| MCP entry | `.codex/config.toml` in the project, inside a `kaleidoscope-manager` marker block |
 | Instructions | `AGENTS.md`, between marker comments |
 | Skill | `.agents/skills/use-kaleidoscope/SKILL.md` |
-| Receipt | `~/.codex/config.toml.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each project file |
-| Backup | `~/.codex/config.toml.kaleidoscope-backup`, when the file was already there |
+| Receipt | `.codex/config.toml.kaleidoscope-owner.json`, and a `.kaleidoscope-instruction-owner.json` beside each instruction file and skill |
+| Backup | `.codex/config.toml.kaleidoscope-backup`, when the file was already there |
 
 ```toml
 # >>> kaleidoscope-manager owner=kaleidoscope-manager-v1 host=codex
 [mcp_servers.kaleidoscope]
 command = "/absolute/path/to/kscope"
-args = ["mcp", "--profile", "default"]
+args = ["mcp", "--profile", "your-project"]
 enabled = true
 required = false
 startup_timeout_sec = 10
@@ -52,7 +49,18 @@ approval_mode = "approve"
 `.agents/skills/` here, the same path OpenCode reads; Claude Code reads
 `.claude/skills/`.
 
-If `~/.codex/config.toml` already holds an `[mcp_servers.kaleidoscope]` table
+`your-project` is the profile `init` creates for the project, named after its
+folder. With an npm install, the command is `~/.kaleidoscope/bin/kscope`, a copy
+of `kscope` that updates itself when you update `kscope`.
+
+A project set up by an earlier version keeps its entry in `~/.codex/config.toml` and
+the `default` profile. `kscope init` says so, and names the command that gives
+the project its own vault.
+
+`.codex/config.toml` names this machine's `kscope`, so `init` adds it to the
+project's `.gitignore`, with its receipt and backup.
+
+If `.codex/config.toml` already holds an `[mcp_servers.kaleidoscope]` table
 outside a marker block, that step fails and the file is not changed. Delete the
 table by hand and run `kscope init` again.
 
@@ -60,17 +68,18 @@ table by hand and run `kscope init` again.
 
 ```bash
 kscope profile list
-kscope profile launch default
+kscope profile launch your-project
 ```
 
-`launch` prints the command, the arguments and the tool list — `search` and
-`remember` — that the table in `~/.codex/config.toml` should match.
+`launch` prints the arguments and the tool list — `search` and `remember` —
+that the entry in `.codex/config.toml` should match. Its `command` is the `kscope`
+you ran, which is not the copy the entry names after an npm install.
 
 ## Remove it
 
 Delete each of these, and the receipt beside it:
 
-- the marker block in `~/.codex/config.toml`
+- the marker block in `.codex/config.toml`
 - the marked block in `AGENTS.md`
 - `.agents/skills/use-kaleidoscope/`
 

@@ -73,7 +73,9 @@ has to open.
   a smoke alarm, not a proof — read the comment above it in `verify_site.py`.
 - **(k) the version gate.** The release version is stated as a fact in exactly
   one authored file, and any pin that names Kaleidoscope must match the release
-  record wherever it stands.
+  record wherever it stands. On the release-notes page the first half reads only
+  the intro above the first `## ` entry: entries name versions, the intro must
+  not, and pins are checked on the whole page.
 
 `test_new_gates.py` drives all three directly, with a scrap of authored text
 rather than a whole tree, and asserts both halves: what each gate refuses and

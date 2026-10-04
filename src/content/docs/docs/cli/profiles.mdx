@@ -40,8 +40,8 @@ complete-or-absent across a process crash or a hard kill.
 
 ## Name a vault
 
-`kscope init` already writes the `default` profile for the vault it creates, so
-a project set up that way needs nothing here. Reach for these when you want a
+`kscope init` already writes a profile for the vault it creates, named after
+the project folder, so a project set up that way needs nothing here. Reach for these when you want a
 *second* name — a vault you created with `--no-wire`, or one you want to address
 under a name of your own:
 
@@ -55,10 +55,16 @@ kscope profile import work ~/your-project/.kaleidoscope
 | `init-profile NAME ROOT CREATED_AT` | You want the vault and the profile in one step. |
 | `profile create NAME ROOT WORKSPACE_ID PRINCIPAL_ID JOURNAL` | You already hold the identifiers. They are verified against the vault. |
 
-`default` is the profile the wiring starts your agent with. `kscope init`
+The profile named after the project folder, `your-project` for
+`~/your-project`, is the one the wiring starts your agent with. `kscope init`
 creates it; `kscope init --no-wire` does not, because it wires no editor to
-name it. Until it exists, anything started with `--profile default` refuses
+name it. Until it exists, anything started with `--profile your-project` refuses
 with `profile does not exist`.
+
+The first `kscope init` on a machine also writes `default`, naming that first
+vault, for commands and older editor entries that name `default`. A project set
+up by an earlier version stays on `default` until you move it. `kscope init
+--shared` uses a `shared` profile, naming `.kaleidoscope` in your home folder.
 
 If `init-profile` commits the vault and then fails to write the profile, it
 keeps the vault and prints the `kscope profile import` command that finishes the
@@ -71,8 +77,8 @@ profile is a pointer.
 
 ```bash
 kscope profile list
-kscope profile show default
-kscope profile launch default
+kscope profile show your-project
+kscope profile launch your-project
 kscope profile remove work
 ```
 
@@ -89,15 +95,15 @@ separate act; see [Operations](/docs/operations/).
 
 ## When no profile is named
 
-There is no active profile and no `kscope profile use`. `mcp`, `serve`,
-`context` and `call` resolve a vault by the same three rules `init` uses. Print
+There is no active profile and no `kscope profile use`. `mcp` and `call`
+resolve a vault by the same three rules `init` uses. Print
 the address they will arrive at before you rely on it:
 
 ```bash
 kscope where
 ```
 
-A resolved root that is not a vault is refused by all four, naming the path and
+A resolved root that is not a vault is refused by both, naming the path and
 where the path came from. They never create one.
 
 ## Binding a profile to an account

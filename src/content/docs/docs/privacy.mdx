@@ -9,8 +9,8 @@ not in it.
 ## What never leaves your machine
 
 Storing, searching and reading your memory happen on your machine, but they do
-not work offline for more than about 20 minutes: `mcp`, `call`, `context` and
-`serve` refuse to run once that long has passed without a successful
+not work offline for more than about 20 minutes: `mcp` and `call` refuse to
+run once that long has passed without a successful
 [licence check](#the-one-network-request), and work again as soon as one
 succeeds. The embedding model is bundled and runs locally, so nothing in that
 path calls a model provider.
@@ -44,9 +44,9 @@ set, and otherwise the one in the key file that `kscope activate` writes, which
 only your user account can read.
 
 `kscope activate` makes the check and waits for the answer, so it needs the
-network. After that, `mcp`, `call`, `context` and `serve` decide whether to run
-from the last answer, which is kept in a file on your machine, and `mcp` and
-`serve` decide again for every call they handle. Once that answer is five
+network. After that, `mcp` and `call` decide whether to run from the last
+answer, which is kept in a file on your machine, and `mcp` decides again for
+every call it handles. Once that answer is five
 minutes old they start a new check in the background, so while you use
 Kaleidoscope the check runs about once every five minutes. Until the server has
 answered for your key on this machine, they check on every call instead. When

@@ -1,10 +1,11 @@
 ---
 title: Operations
-description: Back up a vault, move it to another machine, delete it, and update or remove the package.
+description: Back up a vault, move it to another machine, delete it, upgrade it or undo the upgrade, and update or remove the package.
 ---
 
-Your memory is one directory: `.kaleidoscope`, inside your project. Everything
-on this page works on that directory, and none of it needs an account.
+Your memory is one directory: `.kaleidoscope`, inside your project, or in your
+home folder if you set the project up with `kscope init --shared`. Everything on
+this page works on that directory, and none of it needs an account.
 
 To find out which vault a project resolves to, run `kscope where` — see
 [Diagnostics](/docs/cli/diagnostics/).
@@ -64,9 +65,38 @@ separately.
 |---|---|
 | the current release | `npm install -g @kleos-research/kaleidoscope` |
 | a version you name | `npm install -g @kleos-research/kaleidoscope@<version>` |
-| the version you had before | the same command, naming the older version |
+| the version you had before | undo the vault upgrade first, below, then the same command, naming the older version |
+
+Restart your agents after you update. An agent that is already running keeps
+the old version until it restarts.
 
 [Release notes](/docs/release-notes/) list what is current.
+
+## Upgrade a vault, or undo the upgrade
+
+The first time `kscope` saves a memory into a vault in the older format, it
+first rewrites the vault in a newer, smaller one. If the copy of `kscope` your
+agents run is older, it saves nothing and says so instead: update, restart your
+agents, and save again. Searching never upgrades a vault. A vault in the new
+format cannot be opened by an older version, so going back to one takes a step
+of its own.
+
+| What you want | Command |
+|---|---|
+| upgrade a vault now, without saving | `kscope vault-upgrade <ROOT>` |
+| see what undoing the upgrade would drop | `kscope vault-rollback <ROOT>` |
+| undo it | the `--confirm` command that `kscope vault-rollback <ROOT>` prints |
+
+`kscope vault-rollback <ROOT>` changes nothing. It lists the memories that
+changed since the upgrade and what undoing it does to each, and prints the exact
+command that does it.
+That command refuses if anything was saved in between. It also lists your other
+vaults, because every project on the machine runs the same `kscope`, and the
+steps that follow.
+
+The upgrade keeps the old vault as one file beside the new one until the 10th
+save, or 3 days after the first save, whichever comes first. After that the
+upgrade cannot be undone. `kscope where` shows how long is left.
 
 ## Remove Kaleidoscope
 
@@ -74,7 +104,7 @@ Four separate things. Removing any of them leaves your memory where it is.
 
 | What | How |
 |---|---|
-| the package | `npm uninstall -g @kleos-research/kaleidoscope` |
+| the package | `npm uninstall -g @kleos-research/kaleidoscope`, then delete the copy your editors run, `~/.kaleidoscope/bin/kscope` |
 | an editor's connection | delete the Kaleidoscope entry from that editor's configuration file |
 | the agent instructions | delete the marked block from `CLAUDE.md` or `AGENTS.md`, then `.cursor/rules/kaleidoscope.mdc` and the `use-kaleidoscope` skill directories |
 | the vault | preview and delete it, above |
@@ -85,18 +115,15 @@ verb.
 
 ## Encrypted vaults on macOS
 
-A vault can live inside an encrypted disk image. This is a frozen macOS preview.
-
-macOS generates the password, keeps it in your login Keychain, and shows you a
-recovery key once. Write the recovery key down. It is the only copy.
+Encrypted vaults, kept inside an encrypted disk image, are deprecated. `kscope`
+can no longer create, import, list or delete one. What remains is there so you
+can move an encrypted vault you already have to a plain one.
 
 | Task | Command |
 |---|---|
-| create one | `kscope vault-create <REPOSITORY> <RFC3339_CREATED_AT>` |
 | open, close | `kscope vault-open`, `kscope vault-close` |
 | recover with the key | `kscope vault-recover` |
-| move the device package | `kscope vault-export-device`, `kscope vault-import-device` |
-| inventory, delete | `kscope vault-encrypted-preview`, `kscope vault-encrypted-delete` |
+| export the device package | `kscope vault-export-device` |
 
 Each takes a repository path. [The help text](/reference/kscope-cli.txt) has the
-arguments.
+arguments, and the steps to move an encrypted vault to a plain one.
